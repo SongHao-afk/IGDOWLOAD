@@ -8,5 +8,8 @@ class AppConstants {
   static const String prefsServerBaseUrl = 'serverBaseUrl';
   static const String prefsThemeMode = 'themeMode';
 
+  static const String prefsPrivateMode = 'privateMode';
+  static const String prefsPrivateIgCookie = 'privateIgCookie';
+
   static const String albumName = 'IG Downloader';
 }

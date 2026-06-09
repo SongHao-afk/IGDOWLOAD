@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import '../cubit/downloader_cubit.dart';
 import '../cubit/downloader_state.dart';
 import '../widgets/glass_card.dart';
 import '../widgets/media_card.dart';
 import '../widgets/server_settings_sheet.dart';
+import '../widgets/session_mode_card.dart';
 import '../widgets/theme_picker_sheet.dart';
+import 'instagram_login_page.dart';
 
 class DownloaderPage extends StatefulWidget {
   const DownloaderPage({super.key});
@@ -42,6 +45,21 @@ class _DownloaderPageState extends State<DownloaderPage> {
       showDragHandle: false,
       builder: (_) => const ThemePickerSheet(),
     );
+  }
+
+  Future<void> openPrivateLogin(DownloaderCubit cubit) async {
+    final cookie = await Navigator.of(context).push<String?>(
+      MaterialPageRoute(builder: (_) => const InstagramLoginPage()),
+    );
+
+    if (cookie == null || cookie.trim().isEmpty) return;
+
+    await cubit.savePrivateCookie(cookie);
+  }
+
+  Future<void> logoutPrivate(DownloaderCubit cubit) async {
+    await CookieManager.instance().deleteAllCookies();
+    await cubit.logoutPrivateCookie();
   }
 
   @override
@@ -139,10 +157,21 @@ class _DownloaderPageState extends State<DownloaderPage> {
                                     const SizedBox(width: 10),
                                     Expanded(
                                       child: FilledButton.tonal(
-                                        onPressed: state.media.isEmpty
+                                        onPressed:
+                                            state.media.isEmpty ||
+                                                state.isAnyDownloading
                                             ? null
                                             : cubit.downloadAll,
-                                        child: const Text('Tải tất cả'),
+                                        child: state.downloadingAll
+                                            ? const SizedBox(
+                                                width: 18,
+                                                height: 18,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                      strokeWidth: 2,
+                                                    ),
+                                              )
+                                            : const Text('Tải tất cả'),
                                       ),
                                     ),
                                   ],
@@ -176,10 +205,24 @@ class _DownloaderPageState extends State<DownloaderPage> {
 
                                 return MediaCard(
                                   item: item,
-                                  onDownload: () => cubit.downloadMedia(item),
+                                  isDownloading: state.downloadingIds.contains(
+                                    item.id,
+                                  ),
+                                  errorText: state.downloadErrors[item.id],
+                                  onDownload: state.downloadingAll
+                                      ? null
+                                      : () => cubit.downloadMedia(item),
                                 );
                               },
                             ),
+                          SessionModeCard(
+                            privateMode: state.privateMode,
+                            hasPrivateCookie: state.hasPrivateCookie,
+                            sessionBusy: state.sessionBusy,
+                            onModeChanged: cubit.setPrivateMode,
+                            onLogin: () => openPrivateLogin(cubit),
+                            onLogout: () => logoutPrivate(cubit),
+                          ),
                         ],
                       ),
                     ),
@@ -231,7 +274,9 @@ class _DownloaderPageState extends State<DownloaderPage> {
               ),
               const SizedBox(height: 8),
               Text(
-                'Lưu media vào album IG Downloader',
+                state.privateMode
+                    ? 'Private mode: dùng đăng nhập Instagram trên máy này'
+                    : 'Public mode: dùng session mặc định',
                 style: TextStyle(
                   color: Colors.white.withOpacity(0.88),
                   fontWeight: FontWeight.w600,

@@ -25,7 +25,16 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         prefs.getString(AppConstants.prefsServerBaseUrl) ??
         AppConstants.defaultServerBaseUrl;
 
-    emit(state.copyWith(serverBaseUrl: server));
+    final privateMode = prefs.getBool(AppConstants.prefsPrivateMode) ?? false;
+    final privateIgCookie = prefs.getString(AppConstants.prefsPrivateIgCookie);
+
+    emit(
+      state.copyWith(
+        serverBaseUrl: server,
+        privateMode: privateMode,
+        privateIgCookie: privateIgCookie,
+      ),
+    );
   }
 
   Future<void> saveServer(String serverUrl) async {
@@ -38,6 +47,73 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     emit(state.copyWith(serverBaseUrl: clean, status: 'Đã lưu server: $clean'));
   }
 
+  Future<void> setPrivateMode(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(AppConstants.prefsPrivateMode, value);
+
+    emit(
+      state.copyWith(
+        privateMode: value,
+        status: value
+            ? 'Đã bật chế độ Private.'
+            : 'Đã chuyển về chế độ Public.',
+      ),
+    );
+  }
+
+  Future<void> savePrivateCookie(String cookie) async {
+    final clean = cookie.trim();
+
+    if (clean.isEmpty || !clean.contains('sessionid=')) {
+      emit(
+        state.copyWith(
+          status: 'Không lấy được session Instagram. Hãy đăng nhập lại.',
+        ),
+      );
+      return;
+    }
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(AppConstants.prefsPrivateMode, true);
+    await prefs.setString(AppConstants.prefsPrivateIgCookie, clean);
+
+    emit(
+      state.copyWith(
+        privateMode: true,
+        privateIgCookie: clean,
+        status: 'Đã lưu phiên đăng nhập Instagram trên máy này.',
+      ),
+    );
+  }
+
+  Future<void> logoutPrivateCookie() async {
+    if (state.sessionBusy) return;
+
+    emit(
+      state.copyWith(
+        sessionBusy: true,
+        status: 'Đang đăng xuất Private mode...',
+      ),
+    );
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(AppConstants.prefsPrivateMode, false);
+    await prefs.remove(AppConstants.prefsPrivateIgCookie);
+
+    emit(
+      state.copyWith(
+        privateMode: false,
+        clearPrivateIgCookie: true,
+        sessionBusy: false,
+        media: [],
+        downloadingIds: <int>{},
+        downloadErrors: <int, String>{},
+        downloadingAll: false,
+        status: 'Đã đăng xuất Private mode. Quay về Public.',
+      ),
+    );
+  }
+
   Future<void> resolveMedia(String inputUrl) async {
     final url = inputUrl.trim();
 
@@ -46,10 +122,17 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       return;
     }
 
+    if (state.privateMode && !state.hasPrivateCookie) {
+      emit(state.copyWith(status: 'Private mode cần bấm Đăng nhập trước.'));
+      return;
+    }
+
     emit(
       state.copyWith(
         loading: true,
-        status: 'Chờ đợi là hạnh phúc 😏😼...',
+        status: state.activeIgCookie == null
+            ? 'Đang bú link bằng Public mode...'
+            : 'Đang bú link bằng Private mode...',
         media: [],
         downloadingIds: <int>{},
         downloadErrors: <int, String>{},
@@ -58,10 +141,19 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     );
 
     try {
+      final body = <String, dynamic>{'url': url};
+
+      final headers = <String, String>{'Content-Type': 'application/json'};
+
+      if (state.activeIgCookie != null) {
+        body['igCookie'] = state.activeIgCookie;
+        headers['x-ig-cookie'] = state.activeIgCookie!;
+      }
+
       final res = await http.post(
         Uri.parse('${state.serverBaseUrl}/resolve'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'url': url}),
+        headers: headers,
+        body: jsonEncode(body),
       );
 
       dynamic decoded;
@@ -97,7 +189,9 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       emit(
         state.copyWith(
           loading: false,
-          status: 'Lỗi lấy media. Kiểm tra link hoặc thử lại.',
+          status: state.activeIgCookie == null
+              ? 'Lỗi lấy media. Kiểm tra link hoặc thử lại.'
+              : 'Lỗi lấy media bằng Private mode. Kiểm tra quyền xem hoặc đăng nhập lại.',
           downloadingIds: <int>{},
           downloadingAll: false,
         ),
@@ -143,8 +237,15 @@ class DownloaderCubit extends Cubit<DownloaderState> {
 
     final tempPath = '${tempDir.path}/$filename';
 
-    final proxyUrl =
-        '${state.serverBaseUrl}/download?url=${Uri.encodeComponent(item.downloadUrl)}';
+    final proxyUrl = Uri.parse(
+      '${state.serverBaseUrl}/download',
+    ).replace(queryParameters: {'url': item.downloadUrl}).toString();
+
+    final headers = <String, dynamic>{};
+
+    if (state.activeIgCookie != null) {
+      headers['x-ig-cookie'] = state.activeIgCookie!;
+    }
 
     await dio.download(
       proxyUrl,
@@ -152,6 +253,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       options: Options(
         responseType: ResponseType.bytes,
         followRedirects: true,
+        headers: headers,
         validateStatus: (status) {
           return status != null && status >= 200 && status < 300;
         },
@@ -196,9 +298,13 @@ class DownloaderCubit extends Cubit<DownloaderState> {
   }
 
   Future<void> downloadMedia(IgMediaItem item) async {
-    // Chặn double click / spam nút tải
     if (state.downloadingIds.contains(item.id)) return;
     if (state.downloadingAll) return;
+
+    if (state.privateMode && !state.hasPrivateCookie) {
+      emit(state.copyWith(status: 'Private mode cần bấm Đăng nhập trước.'));
+      return;
+    }
 
     final nextDownloading = {...state.downloadingIds, item.id};
     final nextErrors = Map<int, String>.from(state.downloadErrors)
@@ -247,6 +353,11 @@ class DownloaderCubit extends Cubit<DownloaderState> {
   Future<void> downloadAll() async {
     if (state.media.isEmpty) return;
     if (state.downloadingAll || state.downloadingIds.isNotEmpty) return;
+
+    if (state.privateMode && !state.hasPrivateCookie) {
+      emit(state.copyWith(status: 'Private mode cần bấm Đăng nhập trước.'));
+      return;
+    }
 
     emit(
       state.copyWith(
