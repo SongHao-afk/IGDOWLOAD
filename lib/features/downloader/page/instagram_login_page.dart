@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
+import '../../../core/utils/instagram_webview_cleaner.dart';
+
 class InstagramLoginPage extends StatefulWidget {
   const InstagramLoginPage({super.key});
 
@@ -16,8 +18,30 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
   static final WebUri instagramUri = WebUri('https://www.instagram.com/');
 
   InAppWebViewController? controller;
+
   bool saving = false;
-  String status = 'Đăng nhập Instagram, xong bấm "Lưu đăng nhập".';
+  bool webViewReady = false;
+
+  String status = 'Đang reset WebView Instagram...';
+
+  @override
+  void initState() {
+    super.initState();
+    _prepareFreshWebView();
+  }
+
+  Future<void> _prepareFreshWebView() async {
+    // Mỗi lần mở màn login thì xoá sạch cookie/storage/cache cũ trước.
+    // Mục tiêu: tránh WebView bị kẹt session/captcha/scraping_warning cũ.
+    await InstagramWebViewCleaner.clearAll();
+
+    if (!mounted) return;
+
+    setState(() {
+      webViewReady = true;
+      status = 'Đăng nhập Instagram, xong bấm "Lưu đăng nhập".';
+    });
+  }
 
   Future<void> saveLoginCookie() async {
     if (saving) return;
@@ -76,12 +100,18 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
   }
 
   Future<void> clearCookies() async {
-    await CookieManager.instance().deleteAllCookies();
+    if (saving) return;
+
+    setState(() {
+      status = 'Đang xoá sạch cookie/cache WebView...';
+    });
+
+    await InstagramWebViewCleaner.clearAll(controller: controller);
 
     if (!mounted) return;
 
     setState(() {
-      status = 'Đã xóa cookie WebView. Hãy đăng nhập lại.';
+      status = 'Đã xoá sạch cookie/cache WebView. Hãy đăng nhập lại.';
     });
 
     await controller?.loadUrl(urlRequest: URLRequest(url: loginUri));
@@ -99,8 +129,9 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
         ),
         actions: [
           IconButton(
-            onPressed: saving ? null : clearCookies,
+            onPressed: saving || !webViewReady ? null : clearCookies,
             icon: const Icon(Icons.cleaning_services_rounded),
+            tooltip: 'Xoá sạch WebView Instagram',
           ),
         ],
       ),
@@ -116,31 +147,46 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
             ),
           ),
           Expanded(
-            child: InAppWebView(
-              initialUrlRequest: URLRequest(url: loginUri),
-              initialSettings: InAppWebViewSettings(
-                javaScriptEnabled: true,
-                thirdPartyCookiesEnabled: true,
-                sharedCookiesEnabled: true,
-                domStorageEnabled: true,
-                databaseEnabled: true,
-                cacheEnabled: true,
-                mediaPlaybackRequiresUserGesture: false,
-              ),
-              onWebViewCreated: (webController) {
-                controller = webController;
-              },
-              onLoadStop: (webController, url) async {
-                final host = url?.host ?? '';
+            child: webViewReady
+                ? InAppWebView(
+                    initialUrlRequest: URLRequest(url: loginUri),
+                    initialSettings: InAppWebViewSettings(
+                      javaScriptEnabled: true,
+                      thirdPartyCookiesEnabled: true,
+                      sharedCookiesEnabled: true,
 
-                if (host.contains('instagram.com')) {
-                  setState(() {
-                    status =
-                        'Nếu đã vào được Instagram, bấm "Lưu đăng nhập" bên dưới.';
-                  });
-                }
-              },
-            ),
+                      // Instagram cần DOM storage để login chạy ổn.
+                      domStorageEnabled: true,
+
+                      // Không để WebView giữ cache bẩn.
+                      cacheEnabled: false,
+                      clearCache: true,
+
+                      // Hạn chế database cũ.
+                      databaseEnabled: false,
+
+                      // Mỗi lần mở login page cố gắng dùng phiên sạch hơn.
+                      incognito: true,
+
+                      mediaPlaybackRequiresUserGesture: false,
+                    ),
+                    onWebViewCreated: (webController) {
+                      controller = webController;
+                    },
+                    onLoadStop: (webController, url) async {
+                      final host = url?.host ?? '';
+
+                      if (host.contains('instagram.com')) {
+                        if (!mounted) return;
+
+                        setState(() {
+                          status =
+                              'Nếu đã vào được Instagram, bấm "Lưu đăng nhập" bên dưới.';
+                        });
+                      }
+                    },
+                  )
+                : const Center(child: CircularProgressIndicator()),
           ),
           SafeArea(
             top: false,
@@ -159,7 +205,9 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
                   const SizedBox(width: 10),
                   Expanded(
                     child: FilledButton.icon(
-                      onPressed: saving ? null : saveLoginCookie,
+                      onPressed: saving || !webViewReady
+                          ? null
+                          : saveLoginCookie,
                       icon: saving
                           ? SizedBox(
                               width: 16,

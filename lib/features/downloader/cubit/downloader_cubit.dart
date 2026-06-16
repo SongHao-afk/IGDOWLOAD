@@ -10,11 +10,13 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/constants/app_constants.dart';
+import '../../../core/utils/instagram_webview_cleaner.dart';
 import '../models/ig_media_item.dart';
 import '../models/profile_feed_item.dart';
 import '../models/profile_media_item.dart';
 import '../models/profile_story_group.dart';
 import '../models/profile_story_item.dart';
+import '../repository/download_history_repository.dart';
 import '../repository/profile_feed_repository.dart';
 import '../repository/profile_story_repository.dart';
 import 'downloader_state.dart';
@@ -30,6 +32,41 @@ class DownloaderCubit extends Cubit<DownloaderState> {
   final ProfileFeedRepository profileFeedRepository =
       const ProfileFeedRepository();
 
+  final DownloadHistoryRepository downloadHistoryRepository =
+      const DownloadHistoryRepository();
+
+  String _profileText(Map<String, dynamic>? profile, String key) {
+    return (profile?[key] ?? '').toString().trim();
+  }
+
+  String _firstNonEmpty(List<String?> values) {
+    for (final value in values) {
+      final clean = value?.trim() ?? '';
+
+      if (clean.isNotEmpty) {
+        return clean;
+      }
+    }
+
+    return '';
+  }
+
+  String _feedIdentityKey(ProfileFeedItem item) {
+    final shortcode = item.shortcode.trim();
+
+    if (shortcode.isNotEmpty) {
+      return shortcode;
+    }
+
+    final id = item.id.trim();
+
+    if (id.isNotEmpty) {
+      return id;
+    }
+
+    return item.url.trim();
+  }
+
   Future<void> loadSettings() async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -40,11 +77,20 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     final privateMode = prefs.getBool(AppConstants.prefsPrivateMode) ?? false;
     final privateIgCookie = prefs.getString(AppConstants.prefsPrivateIgCookie);
 
+    final history = await downloadHistoryRepository.getItems();
+
+    final downloadedKeys = history
+        .map((x) => x.key.trim())
+        .where((x) => x.isNotEmpty)
+        .toSet();
+
     emit(
       state.copyWith(
         serverBaseUrl: server,
         privateMode: privateMode,
         privateIgCookie: privateIgCookie,
+        downloadHistory: history,
+        downloadedProfileMediaKeys: downloadedKeys,
       ),
     );
   }
@@ -104,49 +150,88 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     emit(
       state.copyWith(
         sessionBusy: true,
-        status: 'Đang đăng xuất Private mode...',
+        status: 'Đang đăng xuất và xoá sạch phiên Instagram...',
       ),
     );
 
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(AppConstants.prefsPrivateMode, false);
-    await prefs.remove(AppConstants.prefsPrivateIgCookie);
+    try {
+      final prefs = await SharedPreferences.getInstance();
 
-    emit(
-      state.copyWith(
-        privateMode: false,
-        clearPrivateIgCookie: true,
-        sessionBusy: false,
-        media: <IgMediaItem>[],
-        downloadingIds: <int>{},
-        downloadErrors: <int, String>{},
-        downloadingAll: false,
+      // 1. Tắt Private mode trong app.
+      await prefs.setBool(AppConstants.prefsPrivateMode, false);
 
-        profileMode: '',
-        profileUrl: '',
+      // 2. Xoá cookie string mà app lưu để gửi lên server.
+      await prefs.remove(AppConstants.prefsPrivateIgCookie);
 
-        profileGroupsLoading: false,
-        profileItemsLoading: false,
-        profileGroups: <ProfileStoryGroup>[],
-        profileItems: <ProfileStoryItem>[],
-        clearSelectedProfileGroup: true,
-        downloadingProfileKeys: <String>{},
+      // 3. Xoá sạch cookie/storage của WebView.
+      // Đây là phần trước đó thiếu, nên logout xong WebView vẫn còn ám cookie cũ.
+      await InstagramWebViewCleaner.clearAll();
 
-        profileFeedLoading: false,
-        profileFeedLoadingMore: false,
-        profileFeedHasNextPage: false,
-        clearProfileFeedNextCursor: true,
-        profileFeedItems: <ProfileFeedItem>[],
-        clearSelectedProfileFeedItem: true,
-
-        profileMediaLoading: false,
-        profileMediaItems: <ProfileMediaItem>[],
-        downloadingProfileMediaUrls: <String>{},
-
-        clearProfileError: true,
-        status: 'Đã đăng xuất Private mode. Quay về Public.',
-      ),
-    );
+      emit(
+        state.copyWith(
+          privateMode: false,
+          clearPrivateIgCookie: true,
+          sessionBusy: false,
+          media: <IgMediaItem>[],
+          downloadingIds: <int>{},
+          downloadErrors: <int, String>{},
+          downloadingAll: false,
+          profileMode: '',
+          profileUrl: '',
+          clearProfileIdentity: true,
+          profileGroupsLoading: false,
+          profileItemsLoading: false,
+          profileGroups: <ProfileStoryGroup>[],
+          profileItems: <ProfileStoryItem>[],
+          clearSelectedProfileGroup: true,
+          downloadingProfileKeys: <String>{},
+          profileFeedLoading: false,
+          profileFeedLoadingMore: false,
+          profileFeedHasNextPage: false,
+          clearProfileFeedNextCursor: true,
+          profileFeedItems: <ProfileFeedItem>[],
+          clearSelectedProfileFeedItem: true,
+          profileMediaLoading: false,
+          profileMediaItems: <ProfileMediaItem>[],
+          downloadingProfileMediaUrls: <String>{},
+          clearProfileError: true,
+          status:
+              'Đã đăng xuất Private mode và xoá sạch WebView Instagram. Quay về Public.',
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          privateMode: false,
+          clearPrivateIgCookie: true,
+          sessionBusy: false,
+          media: <IgMediaItem>[],
+          downloadingIds: <int>{},
+          downloadErrors: <int, String>{},
+          downloadingAll: false,
+          profileMode: '',
+          profileUrl: '',
+          clearProfileIdentity: true,
+          profileGroupsLoading: false,
+          profileItemsLoading: false,
+          profileGroups: <ProfileStoryGroup>[],
+          profileItems: <ProfileStoryItem>[],
+          clearSelectedProfileGroup: true,
+          downloadingProfileKeys: <String>{},
+          profileFeedLoading: false,
+          profileFeedLoadingMore: false,
+          profileFeedHasNextPage: false,
+          clearProfileFeedNextCursor: true,
+          profileFeedItems: <ProfileFeedItem>[],
+          clearSelectedProfileFeedItem: true,
+          profileMediaLoading: false,
+          profileMediaItems: <ProfileMediaItem>[],
+          downloadingProfileMediaUrls: <String>{},
+          clearProfileError: true,
+          status: 'Đã đăng xuất Private mode, nhưng xoá WebView có lỗi: $e',
+        ),
+      );
+    }
   }
 
   Future<void> resolveMedia(String inputUrl) async {
@@ -296,18 +381,16 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         profileItems: <ProfileStoryItem>[],
         clearSelectedProfileGroup: true,
         downloadingProfileKeys: <String>{},
-
         profileFeedLoading: false,
         profileFeedLoadingMore: false,
         profileFeedHasNextPage: false,
         clearProfileFeedNextCursor: true,
         profileFeedItems: <ProfileFeedItem>[],
         clearSelectedProfileFeedItem: true,
-
         profileMediaLoading: false,
         profileMediaItems: <ProfileMediaItem>[],
         downloadingProfileMediaUrls: <String>{},
-
+        clearProfileIdentity: true,
         clearProfileError: true,
         status: state.activeIgCookie == null
             ? 'Đang lấy story/highlight bằng Public mode...'
@@ -530,25 +613,22 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       state.copyWith(
         profileMode: 'reels',
         profileUrl: profileUrl,
-
         profileFeedLoading: true,
         profileFeedLoadingMore: false,
         profileFeedHasNextPage: false,
         clearProfileFeedNextCursor: true,
         profileFeedItems: <ProfileFeedItem>[],
         clearSelectedProfileFeedItem: true,
-
         profileMediaLoading: false,
         profileMediaItems: <ProfileMediaItem>[],
         downloadingProfileMediaUrls: <String>{},
-
         profileGroupsLoading: false,
         profileItemsLoading: false,
         profileGroups: <ProfileStoryGroup>[],
         profileItems: <ProfileStoryItem>[],
         clearSelectedProfileGroup: true,
         downloadingProfileKeys: <String>{},
-
+        clearProfileIdentity: true,
         clearProfileError: true,
         status: state.activeIgCookie == null
             ? 'Đang lấy reels bằng Public mode...'
@@ -574,6 +654,9 @@ class DownloaderCubit extends Cubit<DownloaderState> {
           profileFeedHasNextPage: page.hasNextPage,
           profileFeedNextCursor: page.nextCursor,
           clearProfileFeedNextCursor: page.nextCursor == null,
+          profileUsername: _profileText(page.profile, 'username'),
+          profileFullName: _profileText(page.profile, 'fullName'),
+          profileAvatarUrl: _profileText(page.profile, 'avatarUrl'),
           status: items.isEmpty
               ? 'Profile này chưa có reel hoặc session không có quyền xem.'
               : 'Bắt được ${items.length} video reel.',
@@ -615,25 +698,22 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       state.copyWith(
         profileMode: 'posts',
         profileUrl: profileUrl,
-
         profileFeedLoading: true,
         profileFeedLoadingMore: false,
         profileFeedHasNextPage: false,
         clearProfileFeedNextCursor: true,
         profileFeedItems: <ProfileFeedItem>[],
         clearSelectedProfileFeedItem: true,
-
         profileMediaLoading: false,
         profileMediaItems: <ProfileMediaItem>[],
         downloadingProfileMediaUrls: <String>{},
-
         profileGroupsLoading: false,
         profileItemsLoading: false,
         profileGroups: <ProfileStoryGroup>[],
         profileItems: <ProfileStoryItem>[],
         clearSelectedProfileGroup: true,
         downloadingProfileKeys: <String>{},
-
+        clearProfileIdentity: true,
         clearProfileError: true,
         status: state.activeIgCookie == null
             ? 'Đang lấy ảnh/bài viết bằng Public mode...'
@@ -659,6 +739,9 @@ class DownloaderCubit extends Cubit<DownloaderState> {
           profileFeedHasNextPage: page.hasNextPage,
           profileFeedNextCursor: page.nextCursor,
           clearProfileFeedNextCursor: page.nextCursor == null,
+          profileUsername: _profileText(page.profile, 'username'),
+          profileFullName: _profileText(page.profile, 'fullName'),
+          profileAvatarUrl: _profileText(page.profile, 'avatarUrl'),
           status: items.isEmpty
               ? 'Profile này chưa có ảnh/bài viết hoặc session không có quyền xem.'
               : 'Bắt được ${items.length} ảnh/bài viết.',
@@ -745,7 +828,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
             );
 
       final existed = state.profileFeedItems
-          .map((x) => x.shortcode)
+          .map(_feedIdentityKey)
           .where((x) => x.trim().isNotEmpty)
           .toSet();
 
@@ -754,9 +837,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       int addedCount = 0;
 
       for (final item in page.items) {
-        final key = item.shortcode.trim().isNotEmpty
-            ? item.shortcode.trim()
-            : item.id.trim();
+        final key = _feedIdentityKey(item);
 
         if (key.isEmpty) {
           nextItems.add(item);
@@ -852,7 +933,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     }
   }
 
-  Future<void> _downloadProfileMediaItemOnce(ProfileMediaItem item) async {
+  Future<String> _downloadProfileMediaItemOnce(ProfileMediaItem item) async {
     final bytes = await profileFeedRepository.downloadProfileMediaItem(
       serverBaseUrl: state.serverBaseUrl,
       downloadUrl: item.downloadUrl,
@@ -879,15 +960,18 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     try {
       await file.delete();
     } catch (_) {}
+
+    return filename;
   }
 
-  Future<void> _downloadProfileMediaItemWithRetry(ProfileMediaItem item) async {
+  Future<String> _downloadProfileMediaItemWithRetry(
+    ProfileMediaItem item,
+  ) async {
     Object? lastError;
 
     for (int attempt = 1; attempt <= 2; attempt++) {
       try {
-        await _downloadProfileMediaItemOnce(item);
-        return;
+        return await _downloadProfileMediaItemOnce(item);
       } catch (e) {
         lastError = e;
 
@@ -929,7 +1013,43 @@ class DownloaderCubit extends Cubit<DownloaderState> {
 
     try {
       await requestSavePermission();
-      await _downloadProfileMediaItemWithRetry(item);
+
+      final filename = await _downloadProfileMediaItemWithRetry(item);
+
+      final selectedFeed = state.selectedProfileFeedItem;
+
+      final historyKey = downloadHistoryRepository.buildKeyFromDownloadUrl(
+        downloadUrl,
+      );
+
+      final historyItem = DownloadHistoryItem(
+        key: historyKey,
+        username: state.profileUsername,
+        fullName: state.profileFullName,
+        avatarUrl: state.profileAvatarUrl,
+        shortcode: selectedFeed?.shortcode ?? '',
+        type: item.type,
+        sourceUrl: selectedFeed?.url ?? '',
+        thumbnailUrl: _firstNonEmpty([
+          item.thumbnailUrl,
+          selectedFeed?.coverUrl,
+        ]),
+        downloadUrl: downloadUrl,
+        filename: filename,
+        savedAt: DateTime.now().toIso8601String(),
+      );
+
+      await downloadHistoryRepository.addItem(historyItem);
+
+      final nextHistory = <DownloadHistoryItem>[
+        historyItem,
+        ...state.downloadHistory.where((x) => x.key != historyItem.key),
+      ].take(300).toList();
+
+      final nextDownloadedKeys = {
+        ...state.downloadedProfileMediaKeys,
+        historyItem.key,
+      };
 
       final doneDownloading = {...state.downloadingProfileMediaUrls}
         ..remove(downloadUrl);
@@ -937,6 +1057,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       emit(
         state.copyWith(
           downloadingProfileMediaUrls: doneDownloading,
+          downloadHistory: nextHistory,
+          downloadedProfileMediaKeys: nextDownloadedKeys,
           status:
               'Đã lưu item ${item.index} vào album ${AppConstants.albumName}.',
         ),
@@ -953,6 +1075,18 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         ),
       );
     }
+  }
+
+  Future<void> clearDownloadHistory() async {
+    await downloadHistoryRepository.clear();
+
+    emit(
+      state.copyWith(
+        downloadHistory: <DownloadHistoryItem>[],
+        downloadedProfileMediaKeys: <String>{},
+        status: 'Đã xoá lịch sử tải.',
+      ),
+    );
   }
 
   // =========================

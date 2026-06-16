@@ -4,6 +4,7 @@ import '../models/profile_feed_item.dart';
 import '../models/profile_media_item.dart';
 import '../models/profile_story_group.dart';
 import '../models/profile_story_item.dart';
+import '../repository/download_history_repository.dart';
 
 class DownloaderState {
   final String serverBaseUrl;
@@ -20,6 +21,16 @@ class DownloaderState {
   final bool sessionBusy;
 
   // =========================
+  // DOWNLOAD HISTORY
+  // =========================
+
+  // Danh sách "Đã tải gần đây"
+  final List<DownloadHistoryItem> downloadHistory;
+
+  // Dùng để check nhanh item nào đã tải rồi
+  final Set<String> downloadedProfileMediaKeys;
+
+  // =========================
   // PROFILE COMMON
   // =========================
 
@@ -28,6 +39,11 @@ class DownloaderState {
 
   final String profileUrl;
   final String? profileError;
+
+  // Info profile hiện tại, dùng để hiện avatar/nick và lưu history
+  final String profileUsername;
+  final String profileFullName;
+  final String profileAvatarUrl;
 
   // =========================
   // PROFILE STORY / HIGHLIGHT
@@ -67,9 +83,14 @@ class DownloaderState {
     required this.privateMode,
     required this.privateIgCookie,
     required this.sessionBusy,
+    required this.downloadHistory,
+    required this.downloadedProfileMediaKeys,
     required this.profileMode,
     required this.profileUrl,
     required this.profileError,
+    required this.profileUsername,
+    required this.profileFullName,
+    required this.profileAvatarUrl,
     required this.profileGroupsLoading,
     required this.profileItemsLoading,
     required this.profileGroups,
@@ -99,9 +120,14 @@ class DownloaderState {
       privateMode: false,
       privateIgCookie: null,
       sessionBusy: false,
+      downloadHistory: <DownloadHistoryItem>[],
+      downloadedProfileMediaKeys: <String>{},
       profileMode: '',
       profileUrl: '',
       profileError: null,
+      profileUsername: '',
+      profileFullName: '',
+      profileAvatarUrl: '',
       profileGroupsLoading: false,
       profileItemsLoading: false,
       profileGroups: <ProfileStoryGroup>[],
@@ -139,6 +165,12 @@ class DownloaderState {
     return null;
   }
 
+  bool get hasProfileIdentity {
+    return profileUsername.trim().isNotEmpty ||
+        profileFullName.trim().isNotEmpty ||
+        profileAvatarUrl.trim().isNotEmpty;
+  }
+
   DownloaderState copyWith({
     String? serverBaseUrl,
     String? status,
@@ -152,11 +184,21 @@ class DownloaderState {
     bool clearPrivateIgCookie = false,
     bool? sessionBusy,
 
+    // Download history
+    List<DownloadHistoryItem>? downloadHistory,
+    Set<String>? downloadedProfileMediaKeys,
+
+    // Profile common
     String? profileMode,
     String? profileUrl,
     String? profileError,
     bool clearProfileError = false,
+    String? profileUsername,
+    String? profileFullName,
+    String? profileAvatarUrl,
+    bool clearProfileIdentity = false,
 
+    // Profile story/highlight
     bool? profileGroupsLoading,
     bool? profileItemsLoading,
     List<ProfileStoryGroup>? profileGroups,
@@ -165,6 +207,7 @@ class DownloaderState {
     List<ProfileStoryItem>? profileItems,
     Set<String>? downloadingProfileKeys,
 
+    // Profile reels/posts
     bool? profileFeedLoading,
     bool? profileFeedLoadingMore,
     bool? profileFeedHasNextPage,
@@ -191,11 +234,23 @@ class DownloaderState {
           ? null
           : privateIgCookie ?? this.privateIgCookie,
       sessionBusy: sessionBusy ?? this.sessionBusy,
+      downloadHistory: downloadHistory ?? this.downloadHistory,
+      downloadedProfileMediaKeys:
+          downloadedProfileMediaKeys ?? this.downloadedProfileMediaKeys,
       profileMode: profileMode ?? this.profileMode,
       profileUrl: profileUrl ?? this.profileUrl,
       profileError: clearProfileError
           ? null
           : profileError ?? this.profileError,
+      profileUsername: clearProfileIdentity
+          ? ''
+          : profileUsername ?? this.profileUsername,
+      profileFullName: clearProfileIdentity
+          ? ''
+          : profileFullName ?? this.profileFullName,
+      profileAvatarUrl: clearProfileIdentity
+          ? ''
+          : profileAvatarUrl ?? this.profileAvatarUrl,
       profileGroupsLoading: profileGroupsLoading ?? this.profileGroupsLoading,
       profileItemsLoading: profileItemsLoading ?? this.profileItemsLoading,
       profileGroups: profileGroups ?? this.profileGroups,

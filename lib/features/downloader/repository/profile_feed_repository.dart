@@ -11,10 +11,22 @@ class ProfileFeedPageResult {
   final bool hasNextPage;
   final String? nextCursor;
 
+  // Server trả:
+  // profile: {
+  //   username,
+  //   userId,
+  //   fullName,
+  //   avatarUrl,
+  //   isPrivate,
+  //   isVerified
+  // }
+  final Map<String, dynamic>? profile;
+
   const ProfileFeedPageResult({
     required this.items,
     required this.hasNextPage,
     required this.nextCursor,
+    required this.profile,
   });
 }
 
@@ -43,16 +55,36 @@ class ProfileFeedRepository {
               .toList()
         : <ProfileFeedItem>[];
 
-    final hasNextPage = decoded is Map && decoded['hasNextPage'] == true;
-    final rawCursor = decoded is Map ? decoded['nextCursor'] : null;
-    final nextCursor = rawCursor == null ? null : rawCursor.toString();
+    bool hasNextPage = false;
+
+    if (decoded is Map) {
+      hasNextPage =
+          decoded['hasNextPage'] == true ||
+          decoded['has_next_page'] == true ||
+          decoded['moreAvailable'] == true ||
+          decoded['more_available'] == true ||
+          decoded['hasMore'] == true ||
+          decoded['has_more'] == true;
+    }
+
+    final rawCursor = decoded is Map
+        ? decoded['nextCursor'] ??
+              decoded['next_cursor'] ??
+              decoded['nextMaxId'] ??
+              decoded['next_max_id'] ??
+              decoded['maxId'] ??
+              decoded['max_id']
+        : null;
+
+    final nextCursor = rawCursor == null ? null : rawCursor.toString().trim();
+
+    final rawProfile = decoded is Map ? decoded['profile'] : null;
 
     return ProfileFeedPageResult(
       items: items,
-      hasNextPage: hasNextPage,
-      nextCursor: nextCursor == null || nextCursor.trim().isEmpty
-          ? null
-          : nextCursor,
+      hasNextPage: hasNextPage && nextCursor != null && nextCursor.isNotEmpty,
+      nextCursor: nextCursor == null || nextCursor.isEmpty ? null : nextCursor,
+      profile: rawProfile is Map ? Map<String, dynamic>.from(rawProfile) : null,
     );
   }
 
@@ -77,9 +109,15 @@ class ProfileFeedRepository {
           headers: _headers(privateIgCookie: privateIgCookie),
           body: jsonEncode(body),
         )
-        .timeout(const Duration(seconds: 60));
+        .timeout(const Duration(seconds: 90));
 
-    final decoded = jsonDecode(response.body);
+    dynamic decoded;
+
+    try {
+      decoded = jsonDecode(response.body);
+    } catch (_) {
+      decoded = null;
+    }
 
     if (response.statusCode != 200 ||
         decoded is! Map ||
@@ -115,9 +153,15 @@ class ProfileFeedRepository {
           headers: _headers(privateIgCookie: privateIgCookie),
           body: jsonEncode(body),
         )
-        .timeout(const Duration(seconds: 60));
+        .timeout(const Duration(seconds: 90));
 
-    final decoded = jsonDecode(response.body);
+    dynamic decoded;
+
+    try {
+      decoded = jsonDecode(response.body);
+    } catch (_) {
+      decoded = null;
+    }
 
     if (response.statusCode != 200 ||
         decoded is! Map ||
@@ -141,19 +185,27 @@ class ProfileFeedRepository {
   }) async {
     final uri = Uri.parse('$serverBaseUrl/profile/media-items');
 
+    final body = <String, dynamic>{
+      'kind': kind,
+      'shortcode': shortcode,
+      if (url != null && url.trim().isNotEmpty) 'url': url.trim(),
+    };
+
     final response = await http
         .post(
           uri,
           headers: _headers(privateIgCookie: privateIgCookie),
-          body: jsonEncode({
-            'kind': kind,
-            'shortcode': shortcode,
-            if (url != null && url.trim().isNotEmpty) 'url': url.trim(),
-          }),
+          body: jsonEncode(body),
         )
-        .timeout(const Duration(seconds: 60));
+        .timeout(const Duration(seconds: 90));
 
-    final decoded = jsonDecode(response.body);
+    dynamic decoded;
+
+    try {
+      decoded = jsonDecode(response.body);
+    } catch (_) {
+      decoded = null;
+    }
 
     if (response.statusCode != 200 ||
         decoded is! Map ||
@@ -168,7 +220,7 @@ class ProfileFeedRepository {
     final items = decoded['items'];
 
     if (items is! List) {
-      return [];
+      return <ProfileMediaItem>[];
     }
 
     return items
@@ -190,7 +242,7 @@ class ProfileFeedRepository {
           headers: _headers(privateIgCookie: privateIgCookie),
           body: jsonEncode({'downloadUrl': downloadUrl}),
         )
-        .timeout(const Duration(seconds: 90));
+        .timeout(const Duration(seconds: 120));
 
     if (response.statusCode != 200) {
       throw Exception(
