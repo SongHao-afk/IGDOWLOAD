@@ -11,12 +11,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/constants/app_constants.dart';
 import '../models/ig_media_item.dart';
+import '../models/profile_feed_item.dart';
+import '../models/profile_media_item.dart';
+import '../models/profile_story_group.dart';
+import '../models/profile_story_item.dart';
+import '../repository/profile_feed_repository.dart';
+import '../repository/profile_story_repository.dart';
 import 'downloader_state.dart';
 
 class DownloaderCubit extends Cubit<DownloaderState> {
   DownloaderCubit() : super(DownloaderState.initial());
 
   final Dio dio = Dio();
+
+  final ProfileStoryRepository profileStoryRepository =
+      const ProfileStoryRepository();
+
+  final ProfileFeedRepository profileFeedRepository =
+      const ProfileFeedRepository();
 
   Future<void> loadSettings() async {
     final prefs = await SharedPreferences.getInstance();
@@ -105,10 +117,33 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         privateMode: false,
         clearPrivateIgCookie: true,
         sessionBusy: false,
-        media: [],
+        media: <IgMediaItem>[],
         downloadingIds: <int>{},
         downloadErrors: <int, String>{},
         downloadingAll: false,
+
+        profileMode: '',
+        profileUrl: '',
+
+        profileGroupsLoading: false,
+        profileItemsLoading: false,
+        profileGroups: <ProfileStoryGroup>[],
+        profileItems: <ProfileStoryItem>[],
+        clearSelectedProfileGroup: true,
+        downloadingProfileKeys: <String>{},
+
+        profileFeedLoading: false,
+        profileFeedLoadingMore: false,
+        profileFeedHasNextPage: false,
+        clearProfileFeedNextCursor: true,
+        profileFeedItems: <ProfileFeedItem>[],
+        clearSelectedProfileFeedItem: true,
+
+        profileMediaLoading: false,
+        profileMediaItems: <ProfileMediaItem>[],
+        downloadingProfileMediaUrls: <String>{},
+
+        clearProfileError: true,
         status: 'Đã đăng xuất Private mode. Quay về Public.',
       ),
     );
@@ -133,7 +168,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         status: state.activeIgCookie == null
             ? 'Đang bú link bằng Public mode...'
             : 'Đang bú link bằng Private mode...',
-        media: [],
+        media: <IgMediaItem>[],
         downloadingIds: <int>{},
         downloadErrors: <int, String>{},
         downloadingAll: false,
@@ -150,11 +185,13 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         headers['x-ig-cookie'] = state.activeIgCookie!;
       }
 
-      final res = await http.post(
-        Uri.parse('${state.serverBaseUrl}/resolve'),
-        headers: headers,
-        body: jsonEncode(body),
-      );
+      final res = await http
+          .post(
+            Uri.parse('${state.serverBaseUrl}/resolve'),
+            headers: headers,
+            body: jsonEncode(body),
+          )
+          .timeout(const Duration(seconds: 90));
 
       dynamic decoded;
 
@@ -198,6 +235,729 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       );
     }
   }
+
+  // =========================
+  // PROFILE COMMON
+  // =========================
+
+  void setProfileMode(String mode) {
+    emit(
+      state.copyWith(
+        profileMode: mode.trim().toLowerCase(),
+        clearProfileError: true,
+      ),
+    );
+  }
+
+  void updateProfileUrl(String value) {
+    emit(state.copyWith(profileUrl: value, clearProfileError: true));
+  }
+
+  bool _guardPrivateModeForProfile() {
+    if (state.privateMode && !state.hasPrivateCookie) {
+      emit(
+        state.copyWith(
+          profileError: 'Private mode cần bấm Đăng nhập trước.',
+          status: 'Private mode cần bấm Đăng nhập trước.',
+        ),
+      );
+      return false;
+    }
+
+    return true;
+  }
+
+  // =========================
+  // PROFILE STORY / HIGHLIGHT
+  // =========================
+
+  Future<void> loadProfileStoryGroups() async {
+    final profileUrl = state.profileUrl.trim();
+
+    if (profileUrl.isEmpty) {
+      emit(
+        state.copyWith(
+          profileMode: 'stories',
+          profileError: 'Dán link trang cá nhân trước đã.',
+          status: 'Dán link trang cá nhân trước đã.',
+        ),
+      );
+      return;
+    }
+
+    if (!_guardPrivateModeForProfile()) return;
+
+    emit(
+      state.copyWith(
+        profileMode: 'stories',
+        profileGroupsLoading: true,
+        profileItemsLoading: false,
+        profileGroups: <ProfileStoryGroup>[],
+        profileItems: <ProfileStoryItem>[],
+        clearSelectedProfileGroup: true,
+        downloadingProfileKeys: <String>{},
+
+        profileFeedLoading: false,
+        profileFeedLoadingMore: false,
+        profileFeedHasNextPage: false,
+        clearProfileFeedNextCursor: true,
+        profileFeedItems: <ProfileFeedItem>[],
+        clearSelectedProfileFeedItem: true,
+
+        profileMediaLoading: false,
+        profileMediaItems: <ProfileMediaItem>[],
+        downloadingProfileMediaUrls: <String>{},
+
+        clearProfileError: true,
+        status: state.activeIgCookie == null
+            ? 'Đang lấy story/highlight bằng Public mode...'
+            : 'Đang lấy story/highlight bằng Private mode...',
+      ),
+    );
+
+    try {
+      final groups = await profileStoryRepository.fetchStoryGroups(
+        serverBaseUrl: state.serverBaseUrl,
+        profileUrl: profileUrl,
+        privateIgCookie: state.activeIgCookie,
+      );
+
+      emit(
+        state.copyWith(
+          profileGroupsLoading: false,
+          profileGroups: groups,
+          status: groups.isEmpty
+              ? 'Không thấy story hiện tại hoặc tin nổi bật.'
+              : 'Bắt được ${groups.length} mục story/highlight.',
+        ),
+      );
+    } catch (_) {
+      final message = state.activeIgCookie == null
+          ? 'Lỗi lấy profile. Kiểm tra link hoặc default session.'
+          : 'Lỗi lấy profile bằng Private mode. Kiểm tra quyền xem hoặc đăng nhập lại.';
+
+      emit(
+        state.copyWith(
+          profileGroupsLoading: false,
+          profileError: message,
+          status: message,
+        ),
+      );
+    }
+  }
+
+  Future<void> loadProfileStoryGroupItems(ProfileStoryGroup group) async {
+    final username = (group.username ?? '').trim();
+
+    if (username.isEmpty) {
+      emit(
+        state.copyWith(
+          profileError: 'Group thiếu username.',
+          status: 'Group thiếu username.',
+        ),
+      );
+      return;
+    }
+
+    if (!_guardPrivateModeForProfile()) return;
+
+    emit(
+      state.copyWith(
+        selectedProfileGroup: group,
+        profileItemsLoading: true,
+        profileItems: <ProfileStoryItem>[],
+        downloadingProfileKeys: <String>{},
+        clearProfileError: true,
+        status: 'Đang mở "${group.title}"...',
+      ),
+    );
+
+    try {
+      final items = await profileStoryRepository.fetchStoryGroupItems(
+        serverBaseUrl: state.serverBaseUrl,
+        groupId: group.id,
+        username: username,
+        userId: group.userId,
+        privateIgCookie: state.activeIgCookie,
+      );
+
+      emit(
+        state.copyWith(
+          profileItemsLoading: false,
+          profileItems: items,
+          status: items.isEmpty
+              ? 'Mục "${group.title}" không có item hoặc session không có quyền xem.'
+              : 'Bắt được ${items.length} item trong "${group.title}".',
+        ),
+      );
+    } catch (_) {
+      final message = state.activeIgCookie == null
+          ? 'Lỗi mở highlight/story. Kiểm tra default session.'
+          : 'Lỗi mở highlight/story bằng Private mode. Kiểm tra quyền xem.';
+
+      emit(
+        state.copyWith(
+          profileItemsLoading: false,
+          profileError: message,
+          status: message,
+        ),
+      );
+    }
+  }
+
+  Future<void> _downloadProfileStoryItemOnce(ProfileStoryItem item) async {
+    final bytes = await profileStoryRepository.downloadStoryItem(
+      serverBaseUrl: state.serverBaseUrl,
+      downloadKey: item.downloadKey,
+      privateIgCookie: state.activeIgCookie,
+    );
+
+    final tempDir = await getTemporaryDirectory();
+
+    final ext = item.isVideo ? 'mp4' : 'jpg';
+    final filename =
+        'instagram_story_${DateTime.now().millisecondsSinceEpoch}_${item.index}.$ext';
+
+    final tempPath = '${tempDir.path}/$filename';
+    final file = File(tempPath);
+
+    await file.writeAsBytes(bytes);
+
+    if (item.isVideo) {
+      await Gal.putVideo(tempPath, album: AppConstants.albumName);
+    } else {
+      await Gal.putImage(tempPath, album: AppConstants.albumName);
+    }
+
+    try {
+      await file.delete();
+    } catch (_) {}
+  }
+
+  Future<void> _downloadProfileStoryItemWithRetry(ProfileStoryItem item) async {
+    Object? lastError;
+
+    for (int attempt = 1; attempt <= 2; attempt++) {
+      try {
+        await _downloadProfileStoryItemOnce(item);
+        return;
+      } catch (e) {
+        lastError = e;
+
+        if (attempt < 2) {
+          await Future.delayed(const Duration(milliseconds: 500));
+        }
+      }
+    }
+
+    throw lastError ?? Exception('profile_story_download_failed');
+  }
+
+  Future<void> downloadProfileStoryItem(ProfileStoryItem item) async {
+    if (item.downloadKey.trim().isEmpty) {
+      emit(
+        state.copyWith(
+          profileError: 'Item thiếu downloadKey.',
+          status: 'Item thiếu downloadKey.',
+        ),
+      );
+      return;
+    }
+
+    if (state.downloadingProfileKeys.contains(item.downloadKey)) return;
+    if (state.downloadingAll) return;
+    if (!_guardPrivateModeForProfile()) return;
+
+    final nextDownloading = {...state.downloadingProfileKeys, item.downloadKey};
+
+    emit(
+      state.copyWith(
+        downloadingProfileKeys: nextDownloading,
+        clearProfileError: true,
+        status: 'Đang tải story item ${item.index}...',
+      ),
+    );
+
+    try {
+      await requestSavePermission();
+      await _downloadProfileStoryItemWithRetry(item);
+
+      final doneDownloading = {...state.downloadingProfileKeys}
+        ..remove(item.downloadKey);
+
+      emit(
+        state.copyWith(
+          downloadingProfileKeys: doneDownloading,
+          status:
+              'Đã lưu story item ${item.index} vào album ${AppConstants.albumName}.',
+        ),
+      );
+    } catch (_) {
+      final doneDownloading = {...state.downloadingProfileKeys}
+        ..remove(item.downloadKey);
+
+      emit(
+        state.copyWith(
+          downloadingProfileKeys: doneDownloading,
+          profileError: 'Tải story item ${item.index} lỗi. Bấm thử lại.',
+          status: 'Tải story item ${item.index} lỗi. Bấm thử lại.',
+        ),
+      );
+    }
+  }
+
+  // =========================
+  // PROFILE REELS / POSTS
+  // =========================
+
+  Future<void> loadProfileReels(String inputProfileUrl) async {
+    final profileUrl = inputProfileUrl.trim();
+
+    if (profileUrl.isEmpty) {
+      emit(
+        state.copyWith(
+          profileMode: 'reels',
+          profileError: 'Dán link trang cá nhân trước đã.',
+          status: 'Dán link trang cá nhân trước đã.',
+        ),
+      );
+      return;
+    }
+
+    if (!_guardPrivateModeForProfile()) return;
+
+    emit(
+      state.copyWith(
+        profileMode: 'reels',
+        profileUrl: profileUrl,
+
+        profileFeedLoading: true,
+        profileFeedLoadingMore: false,
+        profileFeedHasNextPage: false,
+        clearProfileFeedNextCursor: true,
+        profileFeedItems: <ProfileFeedItem>[],
+        clearSelectedProfileFeedItem: true,
+
+        profileMediaLoading: false,
+        profileMediaItems: <ProfileMediaItem>[],
+        downloadingProfileMediaUrls: <String>{},
+
+        profileGroupsLoading: false,
+        profileItemsLoading: false,
+        profileGroups: <ProfileStoryGroup>[],
+        profileItems: <ProfileStoryItem>[],
+        clearSelectedProfileGroup: true,
+        downloadingProfileKeys: <String>{},
+
+        clearProfileError: true,
+        status: state.activeIgCookie == null
+            ? 'Đang lấy reels bằng Public mode...'
+            : 'Đang lấy reels bằng Private mode...',
+      ),
+    );
+
+    try {
+      final page = await profileFeedRepository.fetchProfileReels(
+        serverBaseUrl: state.serverBaseUrl,
+        profileUrl: profileUrl,
+        privateIgCookie: state.activeIgCookie,
+        limit: 30,
+      );
+
+      final items = page.items;
+
+      emit(
+        state.copyWith(
+          profileFeedLoading: false,
+          profileFeedLoadingMore: false,
+          profileFeedItems: items,
+          profileFeedHasNextPage: page.hasNextPage,
+          profileFeedNextCursor: page.nextCursor,
+          clearProfileFeedNextCursor: page.nextCursor == null,
+          status: items.isEmpty
+              ? 'Profile này chưa có reel hoặc session không có quyền xem.'
+              : 'Bắt được ${items.length} video reel.',
+        ),
+      );
+    } catch (_) {
+      final message = state.activeIgCookie == null
+          ? 'Lỗi lấy reels. Kiểm tra link hoặc default session.'
+          : 'Lỗi lấy reels bằng Private mode. Kiểm tra quyền xem.';
+
+      emit(
+        state.copyWith(
+          profileFeedLoading: false,
+          profileFeedLoadingMore: false,
+          profileError: message,
+          status: message,
+        ),
+      );
+    }
+  }
+
+  Future<void> loadProfilePosts(String inputProfileUrl) async {
+    final profileUrl = inputProfileUrl.trim();
+
+    if (profileUrl.isEmpty) {
+      emit(
+        state.copyWith(
+          profileMode: 'posts',
+          profileError: 'Dán link trang cá nhân trước đã.',
+          status: 'Dán link trang cá nhân trước đã.',
+        ),
+      );
+      return;
+    }
+
+    if (!_guardPrivateModeForProfile()) return;
+
+    emit(
+      state.copyWith(
+        profileMode: 'posts',
+        profileUrl: profileUrl,
+
+        profileFeedLoading: true,
+        profileFeedLoadingMore: false,
+        profileFeedHasNextPage: false,
+        clearProfileFeedNextCursor: true,
+        profileFeedItems: <ProfileFeedItem>[],
+        clearSelectedProfileFeedItem: true,
+
+        profileMediaLoading: false,
+        profileMediaItems: <ProfileMediaItem>[],
+        downloadingProfileMediaUrls: <String>{},
+
+        profileGroupsLoading: false,
+        profileItemsLoading: false,
+        profileGroups: <ProfileStoryGroup>[],
+        profileItems: <ProfileStoryItem>[],
+        clearSelectedProfileGroup: true,
+        downloadingProfileKeys: <String>{},
+
+        clearProfileError: true,
+        status: state.activeIgCookie == null
+            ? 'Đang lấy ảnh/bài viết bằng Public mode...'
+            : 'Đang lấy ảnh/bài viết bằng Private mode...',
+      ),
+    );
+
+    try {
+      final page = await profileFeedRepository.fetchProfilePosts(
+        serverBaseUrl: state.serverBaseUrl,
+        profileUrl: profileUrl,
+        privateIgCookie: state.activeIgCookie,
+        limit: 30,
+      );
+
+      final items = page.items;
+
+      emit(
+        state.copyWith(
+          profileFeedLoading: false,
+          profileFeedLoadingMore: false,
+          profileFeedItems: items,
+          profileFeedHasNextPage: page.hasNextPage,
+          profileFeedNextCursor: page.nextCursor,
+          clearProfileFeedNextCursor: page.nextCursor == null,
+          status: items.isEmpty
+              ? 'Profile này chưa có ảnh/bài viết hoặc session không có quyền xem.'
+              : 'Bắt được ${items.length} ảnh/bài viết.',
+        ),
+      );
+    } catch (_) {
+      final message = state.activeIgCookie == null
+          ? 'Lỗi lấy ảnh/bài viết. Kiểm tra link hoặc default session.'
+          : 'Lỗi lấy ảnh/bài viết bằng Private mode. Kiểm tra quyền xem.';
+
+      emit(
+        state.copyWith(
+          profileFeedLoading: false,
+          profileFeedLoadingMore: false,
+          profileError: message,
+          status: message,
+        ),
+      );
+    }
+  }
+
+  Future<void> loadMoreProfileFeed() async {
+    if (state.profileFeedLoading || state.profileFeedLoadingMore) return;
+
+    if (state.profileMode != 'reels' && state.profileMode != 'posts') {
+      return;
+    }
+
+    if (!state.profileFeedHasNextPage) {
+      emit(state.copyWith(status: 'Đã hết dữ liệu.'));
+      return;
+    }
+
+    final cursor = state.profileFeedNextCursor?.trim();
+
+    if (cursor == null || cursor.isEmpty) {
+      emit(
+        state.copyWith(
+          profileFeedHasNextPage: false,
+          clearProfileFeedNextCursor: true,
+          status: 'Không có cursor để tải tiếp.',
+        ),
+      );
+      return;
+    }
+
+    final profileUrl = state.profileUrl.trim();
+
+    if (profileUrl.isEmpty) {
+      emit(
+        state.copyWith(
+          profileError: 'Thiếu link profile để tải tiếp.',
+          status: 'Thiếu link profile để tải tiếp.',
+        ),
+      );
+      return;
+    }
+
+    if (!_guardPrivateModeForProfile()) return;
+
+    emit(
+      state.copyWith(
+        profileFeedLoadingMore: true,
+        clearProfileError: true,
+        status: 'Đang tải thêm...',
+      ),
+    );
+
+    try {
+      final page = state.profileMode == 'reels'
+          ? await profileFeedRepository.fetchProfileReels(
+              serverBaseUrl: state.serverBaseUrl,
+              profileUrl: profileUrl,
+              privateIgCookie: state.activeIgCookie,
+              limit: 30,
+              cursor: cursor,
+            )
+          : await profileFeedRepository.fetchProfilePosts(
+              serverBaseUrl: state.serverBaseUrl,
+              profileUrl: profileUrl,
+              privateIgCookie: state.activeIgCookie,
+              limit: 30,
+              cursor: cursor,
+            );
+
+      final existed = state.profileFeedItems
+          .map((x) => x.shortcode)
+          .where((x) => x.trim().isNotEmpty)
+          .toSet();
+
+      final nextItems = <ProfileFeedItem>[...state.profileFeedItems];
+
+      int addedCount = 0;
+
+      for (final item in page.items) {
+        final key = item.shortcode.trim().isNotEmpty
+            ? item.shortcode.trim()
+            : item.id.trim();
+
+        if (key.isEmpty) {
+          nextItems.add(item);
+          addedCount++;
+          continue;
+        }
+
+        if (!existed.contains(key)) {
+          existed.add(key);
+          nextItems.add(item);
+          addedCount++;
+        }
+      }
+
+      emit(
+        state.copyWith(
+          profileFeedLoadingMore: false,
+          profileFeedItems: nextItems,
+          profileFeedHasNextPage: page.hasNextPage,
+          profileFeedNextCursor: page.nextCursor,
+          clearProfileFeedNextCursor: page.nextCursor == null,
+          status: addedCount == 0
+              ? 'Không có thêm dữ liệu mới.'
+              : 'Đã tải thêm $addedCount mục. Tổng ${nextItems.length}.',
+        ),
+      );
+    } catch (_) {
+      emit(
+        state.copyWith(
+          profileFeedLoadingMore: false,
+          profileError: 'Tải thêm lỗi. Bấm thử lại.',
+          status: 'Tải thêm lỗi. Bấm thử lại.',
+        ),
+      );
+    }
+  }
+
+  Future<void> loadProfileMediaItems(ProfileFeedItem item) async {
+    if (item.shortcode.trim().isEmpty) {
+      emit(
+        state.copyWith(
+          profileError: 'Item thiếu shortcode.',
+          status: 'Item thiếu shortcode.',
+        ),
+      );
+      return;
+    }
+
+    if (!_guardPrivateModeForProfile()) return;
+
+    final kind = item.kind == 'reel' ? 'reel' : 'post';
+
+    emit(
+      state.copyWith(
+        selectedProfileFeedItem: item,
+        profileMediaLoading: true,
+        profileMediaItems: <ProfileMediaItem>[],
+        downloadingProfileMediaUrls: <String>{},
+        clearProfileError: true,
+        status:
+            'Đang mở ${kind == 'reel' ? 'reel' : 'bài viết'} ${item.shortcode}...',
+      ),
+    );
+
+    try {
+      final items = await profileFeedRepository.fetchProfileMediaItems(
+        serverBaseUrl: state.serverBaseUrl,
+        kind: kind,
+        shortcode: item.shortcode,
+        url: item.url,
+        privateIgCookie: state.activeIgCookie,
+      );
+
+      emit(
+        state.copyWith(
+          profileMediaLoading: false,
+          profileMediaItems: items,
+          status: items.isEmpty
+              ? 'Không lấy được item con.'
+              : 'Bắt được ${items.length} item con.',
+        ),
+      );
+    } catch (_) {
+      const message = 'Lỗi mở item. Kiểm tra quyền xem hoặc thử lại.';
+
+      emit(
+        state.copyWith(
+          profileMediaLoading: false,
+          profileError: message,
+          status: message,
+        ),
+      );
+    }
+  }
+
+  Future<void> _downloadProfileMediaItemOnce(ProfileMediaItem item) async {
+    final bytes = await profileFeedRepository.downloadProfileMediaItem(
+      serverBaseUrl: state.serverBaseUrl,
+      downloadUrl: item.downloadUrl,
+      privateIgCookie: state.activeIgCookie,
+    );
+
+    final tempDir = await getTemporaryDirectory();
+
+    final ext = item.isVideo ? 'mp4' : 'jpg';
+    final filename =
+        'instagram_profile_media_${DateTime.now().millisecondsSinceEpoch}_${item.index}.$ext';
+
+    final tempPath = '${tempDir.path}/$filename';
+    final file = File(tempPath);
+
+    await file.writeAsBytes(bytes);
+
+    if (item.isVideo) {
+      await Gal.putVideo(tempPath, album: AppConstants.albumName);
+    } else {
+      await Gal.putImage(tempPath, album: AppConstants.albumName);
+    }
+
+    try {
+      await file.delete();
+    } catch (_) {}
+  }
+
+  Future<void> _downloadProfileMediaItemWithRetry(ProfileMediaItem item) async {
+    Object? lastError;
+
+    for (int attempt = 1; attempt <= 2; attempt++) {
+      try {
+        await _downloadProfileMediaItemOnce(item);
+        return;
+      } catch (e) {
+        lastError = e;
+
+        if (attempt < 2) {
+          await Future.delayed(const Duration(milliseconds: 500));
+        }
+      }
+    }
+
+    throw lastError ?? Exception('profile_media_download_failed');
+  }
+
+  Future<void> downloadProfileMediaItem(ProfileMediaItem item) async {
+    final downloadUrl = item.downloadUrl.trim();
+
+    if (downloadUrl.isEmpty) {
+      emit(
+        state.copyWith(
+          profileError: 'Item thiếu downloadUrl.',
+          status: 'Item thiếu downloadUrl.',
+        ),
+      );
+      return;
+    }
+
+    if (state.downloadingProfileMediaUrls.contains(downloadUrl)) return;
+    if (state.downloadingAll) return;
+    if (!_guardPrivateModeForProfile()) return;
+
+    final nextDownloading = {...state.downloadingProfileMediaUrls, downloadUrl};
+
+    emit(
+      state.copyWith(
+        downloadingProfileMediaUrls: nextDownloading,
+        clearProfileError: true,
+        status: 'Đang tải item ${item.index}...',
+      ),
+    );
+
+    try {
+      await requestSavePermission();
+      await _downloadProfileMediaItemWithRetry(item);
+
+      final doneDownloading = {...state.downloadingProfileMediaUrls}
+        ..remove(downloadUrl);
+
+      emit(
+        state.copyWith(
+          downloadingProfileMediaUrls: doneDownloading,
+          status:
+              'Đã lưu item ${item.index} vào album ${AppConstants.albumName}.',
+        ),
+      );
+    } catch (_) {
+      final doneDownloading = {...state.downloadingProfileMediaUrls}
+        ..remove(downloadUrl);
+
+      emit(
+        state.copyWith(
+          downloadingProfileMediaUrls: doneDownloading,
+          profileError: 'Tải item ${item.index} lỗi. Bấm thử lại.',
+          status: 'Tải item ${item.index} lỗi. Bấm thử lại.',
+        ),
+      );
+    }
+  }
+
+  // =========================
+  // LINK LẺ DOWNLOAD
+  // =========================
 
   Future<void> requestSavePermission() async {
     if (!Platform.isAndroid) return;
@@ -307,6 +1067,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     }
 
     final nextDownloading = {...state.downloadingIds, item.id};
+
     final nextErrors = Map<int, String>.from(state.downloadErrors)
       ..remove(item.id);
 
@@ -320,10 +1081,10 @@ class DownloaderCubit extends Cubit<DownloaderState> {
 
     try {
       await requestSavePermission();
-
       await _downloadMediaWithRetry(item);
 
       final doneDownloading = {...state.downloadingIds}..remove(item.id);
+
       final doneErrors = Map<int, String>.from(state.downloadErrors)
         ..remove(item.id);
 
@@ -337,6 +1098,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       );
     } catch (e) {
       final doneDownloading = {...state.downloadingIds}..remove(item.id);
+
       final doneErrors = Map<int, String>.from(state.downloadErrors)
         ..[item.id] = _downloadErrorText(e);
 
@@ -352,7 +1114,13 @@ class DownloaderCubit extends Cubit<DownloaderState> {
 
   Future<void> downloadAll() async {
     if (state.media.isEmpty) return;
-    if (state.downloadingAll || state.downloadingIds.isNotEmpty) return;
+
+    if (state.downloadingAll ||
+        state.downloadingIds.isNotEmpty ||
+        state.downloadingProfileKeys.isNotEmpty ||
+        state.downloadingProfileMediaUrls.isNotEmpty) {
+      return;
+    }
 
     if (state.privateMode && !state.hasPrivateCookie) {
       emit(state.copyWith(status: 'Private mode cần bấm Đăng nhập trước.'));
@@ -389,6 +1157,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
           successCount++;
 
           final doneDownloading = {...state.downloadingIds}..remove(item.id);
+
           final doneErrors = Map<int, String>.from(state.downloadErrors)
             ..remove(item.id);
 
@@ -401,6 +1170,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
           );
         } catch (e) {
           final doneDownloading = {...state.downloadingIds}..remove(item.id);
+
           final doneErrors = Map<int, String>.from(state.downloadErrors)
             ..[item.id] = _downloadErrorText(e);
 
