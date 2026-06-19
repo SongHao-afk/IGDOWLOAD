@@ -22,12 +22,37 @@ class DownloadHistorySheet extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.72,
             child: Column(
               children: [
+                const SizedBox(height: 6),
+                Container(
+                  width: 42,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(999),
+                    color: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.color?.withOpacity(0.28),
+                  ),
+                ),
+                const SizedBox(height: 14),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 10),
+                  padding: const EdgeInsets.fromLTRB(18, 0, 18, 12),
                   child: Row(
                     children: [
-                      const Icon(Icons.history_rounded),
-                      const SizedBox(width: 8),
+                      Container(
+                        width: 38,
+                        height: 38,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.primary.withOpacity(0.12),
+                        ),
+                        child: Icon(
+                          Icons.history_rounded,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
                       Expanded(
                         child: Text(
                           'Đã tải gần đây',
@@ -44,28 +69,78 @@ class DownloadHistorySheet extends StatelessWidget {
                               Navigator.of(context).pop();
                             }
                           },
-                          icon: const Icon(Icons.delete_outline_rounded),
-                          label: const Text('Xoá'),
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.redAccent,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 8,
+                            ),
+                          ),
+                          icon: const Icon(
+                            Icons.delete_outline_rounded,
+                            size: 20,
+                          ),
+                          label: const Text(
+                            'Xoá',
+                            style: TextStyle(fontWeight: FontWeight.w800),
+                          ),
                         ),
                     ],
                   ),
                 ),
                 if (items.isEmpty)
-                  const Expanded(
+                  Expanded(
                     child: Center(
-                      child: Text(
-                        'Chưa tải gì cả.\nMột lịch sử trống trơn, rất thanh tịnh.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontWeight: FontWeight.w700),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: 82,
+                              height: 82,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.primary.withOpacity(0.10),
+                              ),
+                              child: Icon(
+                                Icons.history_toggle_off_rounded,
+                                size: 42,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'Chưa tải gì cả',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(fontWeight: FontWeight.w900),
+                            ),
+                            const SizedBox(height: 6),
+                            Text(
+                              'Một lịch sử trống trơn, rất thanh tịnh. Tải gì đó rồi quay lại đây.',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                height: 1.35,
+                                color: Theme.of(
+                                  context,
+                                ).textTheme.bodySmall?.color?.withOpacity(0.65),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   )
                 else
                   Expanded(
                     child: ListView.separated(
-                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 18),
                       itemCount: items.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: 10),
+                      separatorBuilder: (_, __) => const SizedBox(height: 12),
                       itemBuilder: (context, index) {
                         final item = items[index];
 
@@ -82,97 +157,248 @@ class DownloadHistorySheet extends StatelessWidget {
   }
 
   Widget _downloadHistoryTile(BuildContext context, DownloadHistoryItem item) {
+    final theme = Theme.of(context);
+
+    final username = item.username.trim();
+    final fullName = item.fullName.trim();
+    final avatarUrl = item.avatarUrl.trim();
+    final thumbnailUrl = item.thumbnailUrl.trim();
+    final shortcode = item.shortcode.trim();
+    final filename = item.filename.trim();
+
+    final cleanType = item.type.trim().toLowerCase();
+    final isVideo =
+        cleanType.contains('video') ||
+        cleanType.contains('reel') ||
+        cleanType == 'mp4';
+
+    final title = username.isNotEmpty ? '@$username' : 'Instagram media';
+
+    final subtitle = _firstNonEmptyLocal([
+      fullName,
+      shortcode.isNotEmpty ? 'Mã: $shortcode' : null,
+      filename,
+    ]);
+
+    final typeText = cleanType.isNotEmpty ? cleanType.toUpperCase() : 'MEDIA';
+
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Theme.of(context).cardColor.withOpacity(0.92),
-        border: Border.all(color: Colors.white.withOpacity(0.08)),
+        borderRadius: BorderRadius.circular(24),
+        color: theme.cardColor.withOpacity(0.96),
+        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.08)),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 18,
+            offset: const Offset(0, 8),
+            color: Colors.black.withOpacity(0.08),
+          ),
+        ],
       ),
       child: Row(
         children: [
-          CircleAvatar(
-            radius: 24,
-            backgroundImage: item.avatarUrl.isNotEmpty
-                ? NetworkImage(item.avatarUrl)
-                : null,
-            child: item.avatarUrl.isEmpty
-                ? const Icon(Icons.person_rounded)
-                : null,
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: thumbnailUrl.isNotEmpty
+                    ? Image.network(
+                        thumbnailUrl,
+                        width: 76,
+                        height: 76,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) {
+                          return _historyThumbFallback(context, item, size: 76);
+                        },
+                      )
+                    : _historyThumbFallback(context, item, size: 76),
+              ),
+              if (isVideo)
+                Positioned.fill(
+                  child: Center(
+                    child: Container(
+                      width: 34,
+                      height: 34,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.black.withOpacity(0.48),
+                      ),
+                      child: const Icon(
+                        Icons.play_arrow_rounded,
+                        color: Colors.white,
+                        size: 28,
+                      ),
+                    ),
+                  ),
+                ),
+              Positioned(
+                right: -7,
+                bottom: -7,
+                child: Container(
+                  padding: const EdgeInsets.all(2.4),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: theme.scaffoldBackgroundColor,
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
+                        color: Colors.black.withOpacity(0.12),
+                      ),
+                    ],
+                  ),
+                  child: CircleAvatar(
+                    radius: 17,
+                    backgroundColor: theme.colorScheme.primary.withOpacity(
+                      0.14,
+                    ),
+                    backgroundImage: avatarUrl.isNotEmpty
+                        ? NetworkImage(avatarUrl)
+                        : null,
+                    child: avatarUrl.isEmpty
+                        ? Icon(
+                            Icons.person_rounded,
+                            size: 19,
+                            color: theme.colorScheme.primary,
+                          )
+                        : null,
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: 10),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(14),
-            child: item.thumbnailUrl.isNotEmpty
-                ? Image.network(
-                    item.thumbnailUrl,
-                    width: 58,
-                    height: 58,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) {
-                      return _historyThumbFallback(item);
-                    },
-                  )
-                : _historyThumbFallback(item),
-          ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 16),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  item.username.isNotEmpty
-                      ? '@${item.username}'
-                      : 'Instagram media',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontWeight: FontWeight.w900),
-                ),
-                const SizedBox(height: 3),
-                Text(
-                  '${item.type.toUpperCase()} · ${item.shortcode}',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Theme.of(
-                      context,
-                    ).textTheme.bodySmall?.color?.withOpacity(0.7),
-                    fontWeight: FontWeight.w700,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w900,
+                      fontSize: 15,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 3),
-                Text(
-                  _historyTimeText(item.savedAt),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: Theme.of(
-                      context,
-                    ).textTheme.bodySmall?.color?.withOpacity(0.55),
-                    fontWeight: FontWeight.w600,
+                  const SizedBox(height: 4),
+                  if (subtitle.isNotEmpty)
+                    Text(
+                      subtitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 12,
+                        height: 1.2,
+                        color: theme.textTheme.bodySmall?.color?.withOpacity(
+                          0.72,
+                        ),
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 3,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(999),
+                          color: theme.colorScheme.primary.withOpacity(0.10),
+                        ),
+                        child: Text(
+                          typeText,
+                          style: TextStyle(
+                            fontSize: 10,
+                            letterSpacing: 0.2,
+                            fontWeight: FontWeight.w900,
+                            color: theme.colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          _historyTimeText(item.savedAt),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: theme.textTheme.bodySmall?.color
+                                ?.withOpacity(0.55),
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           const SizedBox(width: 8),
-          const Icon(Icons.check_circle_rounded, color: Colors.green),
+          Container(
+            width: 30,
+            height: 30,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.green.withOpacity(0.12),
+            ),
+            child: const Icon(
+              Icons.check_circle_rounded,
+              color: Colors.green,
+              size: 22,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _historyThumbFallback(DownloadHistoryItem item) {
+  Widget _historyThumbFallback(
+    BuildContext context,
+    DownloadHistoryItem item, {
+    double size = 58,
+  }) {
+    final theme = Theme.of(context);
+
+    final cleanType = item.type.trim().toLowerCase();
+    final isVideo =
+        cleanType.contains('video') ||
+        cleanType.contains('reel') ||
+        cleanType == 'mp4';
+
     return Container(
-      width: 58,
-      height: 58,
-      color: Colors.black.withOpacity(0.08),
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: theme.colorScheme.primary.withOpacity(0.08),
+      ),
       child: Icon(
-        item.type == 'video' ? Icons.play_arrow_rounded : Icons.image_rounded,
+        isVideo ? Icons.play_arrow_rounded : Icons.image_rounded,
+        size: size * 0.42,
+        color: theme.colorScheme.primary.withOpacity(0.85),
       ),
     );
+  }
+
+  String _firstNonEmptyLocal(List<String?> values) {
+    for (final value in values) {
+      final clean = value?.trim() ?? '';
+
+      if (clean.isNotEmpty && clean != 'null') {
+        return clean;
+      }
+    }
+
+    return '';
   }
 
   String _historyTimeText(String value) {

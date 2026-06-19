@@ -43,12 +43,185 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     for (final value in values) {
       final clean = value?.trim() ?? '';
 
-      if (clean.isNotEmpty) {
+      if (clean.isNotEmpty && clean != 'null') {
         return clean;
       }
     }
 
     return '';
+  }
+
+  Map<String, dynamic> _safeMap(dynamic value) {
+    if (value is Map) {
+      return Map<String, dynamic>.from(value);
+    }
+
+    return <String, dynamic>{};
+  }
+
+  String _mapFirstText(Map<String, dynamic> map, List<String> keys) {
+    for (final key in keys) {
+      final value = map[key];
+
+      if (value == null) {
+        continue;
+      }
+
+      final clean = value.toString().trim();
+
+      if (clean.isNotEmpty && clean != 'null') {
+        return clean;
+      }
+    }
+
+    return '';
+  }
+
+  Map<String, dynamic> _mergeResolveItemWithRootMetadata({
+    required dynamic rawItem,
+    required Map<String, dynamic> decoded,
+  }) {
+    final item = _safeMap(rawItem);
+    final profile = _safeMap(decoded['profile']);
+
+    void putIfEmpty(String key, String value) {
+      final oldValue = item[key]?.toString().trim() ?? '';
+
+      if (oldValue.isEmpty && value.trim().isNotEmpty) {
+        item[key] = value.trim();
+      }
+    }
+
+    final username = _firstNonEmpty([
+      _mapFirstText(item, [
+        'username',
+        'ownerUsername',
+        'owner_username',
+        'userName',
+        'user_name',
+      ]),
+      _mapFirstText(profile, [
+        'username',
+        'ownerUsername',
+        'owner_username',
+        'userName',
+        'user_name',
+      ]),
+    ]);
+
+    final fullName = _firstNonEmpty([
+      _mapFirstText(item, [
+        'fullName',
+        'full_name',
+        'ownerFullName',
+        'owner_full_name',
+        'name',
+      ]),
+      _mapFirstText(profile, [
+        'fullName',
+        'full_name',
+        'ownerFullName',
+        'owner_full_name',
+        'name',
+      ]),
+    ]);
+
+    final avatarUrl = _firstNonEmpty([
+      _mapFirstText(item, [
+        'avatarUrl',
+        'avatar_url',
+        'profilePicUrl',
+        'profile_pic_url',
+        'profilePicUrlHd',
+        'profile_pic_url_hd',
+        'ownerAvatarUrl',
+        'owner_avatar_url',
+      ]),
+      _mapFirstText(profile, [
+        'avatarUrl',
+        'avatar_url',
+        'profilePicUrl',
+        'profile_pic_url',
+        'profilePicUrlHd',
+        'profile_pic_url_hd',
+        'ownerAvatarUrl',
+        'owner_avatar_url',
+      ]),
+    ]);
+
+    final shortcode = _firstNonEmpty([
+      _mapFirstText(item, [
+        'shortcode',
+        'shortCode',
+        'code',
+        'mediaKey',
+        'media_key',
+      ]),
+      _mapFirstText(decoded, [
+        'mediaKey',
+        'media_key',
+        'shortcode',
+        'shortCode',
+        'code',
+      ]),
+    ]);
+
+    final sourceUrl = _firstNonEmpty([
+      _mapFirstText(item, [
+        'sourceUrl',
+        'source_url',
+        'source',
+        'normalizedSource',
+        'normalized_source',
+        'permalink',
+      ]),
+      _mapFirstText(decoded, [
+        'normalizedSource',
+        'normalized_source',
+        'source',
+        'sourceUrl',
+        'source_url',
+        'permalink',
+      ]),
+    ]);
+
+    final type = _mapFirstText(item, [
+      'type',
+      'mediaType',
+      'media_type',
+    ]).toLowerCase();
+
+    final downloadUrl = _mapFirstText(item, [
+      'downloadUrl',
+      'download_url',
+      'url',
+      'src',
+    ]);
+
+    final thumbnailUrl = _firstNonEmpty([
+      _mapFirstText(item, [
+        'thumbnailUrl',
+        'thumbnail_url',
+        'thumbnail',
+        'coverUrl',
+        'cover_url',
+        'displayUrl',
+        'display_url',
+        'imageUrl',
+        'image_url',
+        'poster',
+      ]),
+      type == 'image' ? downloadUrl : null,
+    ]);
+
+    putIfEmpty('username', username);
+    putIfEmpty('fullName', fullName);
+    putIfEmpty('avatarUrl', avatarUrl);
+    putIfEmpty('shortcode', shortcode);
+    putIfEmpty('sourceUrl', sourceUrl);
+    putIfEmpty('thumbnailUrl', thumbnailUrl);
+
+    return item;
   }
 
   String _feedIdentityKey(ProfileFeedItem item) {
@@ -65,6 +238,34 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     }
 
     return item.url.trim();
+  }
+
+  Future<void> _upsertDownloadHistoryItem(
+    DownloadHistoryItem historyItem,
+  ) async {
+    final cleanKey = historyItem.key.trim();
+
+    if (cleanKey.isEmpty) {
+      return;
+    }
+
+    final cleanItem = historyItem.copyWith(key: cleanKey);
+
+    await downloadHistoryRepository.addItem(cleanItem);
+
+    final nextHistory = <DownloadHistoryItem>[
+      cleanItem,
+      ...state.downloadHistory.where((x) => x.key.trim() != cleanKey),
+    ].take(300).toList();
+
+    final nextDownloadedKeys = {...state.downloadedProfileMediaKeys, cleanKey};
+
+    emit(
+      state.copyWith(
+        downloadHistory: nextHistory,
+        downloadedProfileMediaKeys: nextDownloadedKeys,
+      ),
+    );
   }
 
   Future<void> loadSettings() async {
@@ -157,14 +358,9 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     try {
       final prefs = await SharedPreferences.getInstance();
 
-      // 1. Tắt Private mode trong app.
       await prefs.setBool(AppConstants.prefsPrivateMode, false);
-
-      // 2. Xoá cookie string mà app lưu để gửi lên server.
       await prefs.remove(AppConstants.prefsPrivateIgCookie);
 
-      // 3. Xoá sạch cookie/storage của WebView.
-      // Đây là phần trước đó thiếu, nên logout xong WebView vẫn còn ám cookie cũ.
       await InstagramWebViewCleaner.clearAll();
 
       emit(
@@ -294,8 +490,19 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         throw Exception('resolve_failed');
       }
 
-      final List list = decoded['media'] ?? [];
-      final media = list.map((x) => IgMediaItem.fromJson(x)).toList();
+      final decodedMap = Map<String, dynamic>.from(decoded);
+      final List list = decodedMap['media'] ?? [];
+
+      final media = list
+          .map(
+            (x) => IgMediaItem.fromJson(
+              _mergeResolveItemWithRootMetadata(
+                rawItem: x,
+                decoded: decodedMap,
+              ),
+            ),
+          )
+          .toList();
 
       emit(
         state.copyWith(
@@ -488,7 +695,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     }
   }
 
-  Future<void> _downloadProfileStoryItemOnce(ProfileStoryItem item) async {
+  Future<String> _downloadProfileStoryItemOnce(ProfileStoryItem item) async {
     final bytes = await profileStoryRepository.downloadStoryItem(
       serverBaseUrl: state.serverBaseUrl,
       downloadKey: item.downloadKey,
@@ -515,15 +722,18 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     try {
       await file.delete();
     } catch (_) {}
+
+    return filename;
   }
 
-  Future<void> _downloadProfileStoryItemWithRetry(ProfileStoryItem item) async {
+  Future<String> _downloadProfileStoryItemWithRetry(
+    ProfileStoryItem item,
+  ) async {
     Object? lastError;
 
     for (int attempt = 1; attempt <= 2; attempt++) {
       try {
-        await _downloadProfileStoryItemOnce(item);
-        return;
+        return await _downloadProfileStoryItemOnce(item);
       } catch (e) {
         lastError = e;
 
@@ -563,7 +773,29 @@ class DownloaderCubit extends Cubit<DownloaderState> {
 
     try {
       await requestSavePermission();
-      await _downloadProfileStoryItemWithRetry(item);
+
+      final filename = await _downloadProfileStoryItemWithRetry(item);
+
+      final group = state.selectedProfileGroup;
+      final username = _firstNonEmpty([group?.username, state.profileUsername]);
+
+      final historyKey = item.downloadKey.trim();
+
+      await _upsertDownloadHistoryItem(
+        DownloadHistoryItem(
+          key: historyKey,
+          username: username,
+          fullName: state.profileFullName,
+          avatarUrl: state.profileAvatarUrl,
+          shortcode: historyKey,
+          type: item.isVideo ? 'video' : 'image',
+          sourceUrl: state.profileUrl,
+          thumbnailUrl: '',
+          downloadUrl: historyKey,
+          filename: filename,
+          savedAt: DateTime.now().toIso8601String(),
+        ),
+      );
 
       final doneDownloading = {...state.downloadingProfileKeys}
         ..remove(item.downloadKey);
@@ -1039,17 +1271,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         savedAt: DateTime.now().toIso8601String(),
       );
 
-      await downloadHistoryRepository.addItem(historyItem);
-
-      final nextHistory = <DownloadHistoryItem>[
-        historyItem,
-        ...state.downloadHistory.where((x) => x.key != historyItem.key),
-      ].take(300).toList();
-
-      final nextDownloadedKeys = {
-        ...state.downloadedProfileMediaKeys,
-        historyItem.key,
-      };
+      await _upsertDownloadHistoryItem(historyItem);
 
       final doneDownloading = {...state.downloadingProfileMediaUrls}
         ..remove(downloadUrl);
@@ -1057,8 +1279,6 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       emit(
         state.copyWith(
           downloadingProfileMediaUrls: doneDownloading,
-          downloadHistory: nextHistory,
-          downloadedProfileMediaKeys: nextDownloadedKeys,
           status:
               'Đã lưu item ${item.index} vào album ${AppConstants.albumName}.',
         ),
@@ -1122,7 +1342,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     return 'Tải lỗi. Bấm thử lại.';
   }
 
-  Future<void> _downloadMediaOnce(IgMediaItem item) async {
+  Future<String> _downloadMediaOnce(IgMediaItem item) async {
     final tempDir = await getTemporaryDirectory();
 
     final ext = item.isVideo ? 'mp4' : 'jpg';
@@ -1170,15 +1390,16 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     try {
       await File(tempPath).delete();
     } catch (_) {}
+
+    return filename;
   }
 
-  Future<void> _downloadMediaWithRetry(IgMediaItem item) async {
+  Future<String> _downloadMediaWithRetry(IgMediaItem item) async {
     Object? lastError;
 
     for (int attempt = 1; attempt <= 2; attempt++) {
       try {
-        await _downloadMediaOnce(item);
-        return;
+        return await _downloadMediaOnce(item);
       } catch (e) {
         lastError = e;
 
@@ -1189,6 +1410,46 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     }
 
     throw lastError ?? Exception('download_failed');
+  }
+
+  Future<void> _addNormalMediaToHistory({
+    required IgMediaItem item,
+    required String filename,
+  }) async {
+    final downloadUrl = item.downloadUrl.trim();
+
+    if (downloadUrl.isEmpty) {
+      return;
+    }
+
+    final historyKey = downloadHistoryRepository.buildKeyFromDownloadUrl(
+      downloadUrl,
+    );
+
+    final thumbnailUrl = _firstNonEmpty([
+      item.thumbnailUrl,
+      item.isVideo ? null : item.downloadUrl,
+    ]);
+
+    final shortcode = _firstNonEmpty([item.shortcode, item.id.toString()]);
+
+    final sourceUrl = _firstNonEmpty([item.sourceUrl, state.profileUrl]);
+
+    final historyItem = DownloadHistoryItem(
+      key: historyKey,
+      username: item.username,
+      fullName: item.fullName,
+      avatarUrl: item.avatarUrl,
+      shortcode: shortcode,
+      type: item.isVideo ? 'video' : 'image',
+      sourceUrl: sourceUrl,
+      thumbnailUrl: thumbnailUrl,
+      downloadUrl: downloadUrl,
+      filename: filename,
+      savedAt: DateTime.now().toIso8601String(),
+    );
+
+    await _upsertDownloadHistoryItem(historyItem);
   }
 
   Future<void> downloadMedia(IgMediaItem item) async {
@@ -1215,7 +1476,10 @@ class DownloaderCubit extends Cubit<DownloaderState> {
 
     try {
       await requestSavePermission();
-      await _downloadMediaWithRetry(item);
+
+      final filename = await _downloadMediaWithRetry(item);
+
+      await _addNormalMediaToHistory(item: item, filename: filename);
 
       final doneDownloading = {...state.downloadingIds}..remove(item.id);
 
@@ -1286,7 +1550,9 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         );
 
         try {
-          await _downloadMediaWithRetry(item);
+          final filename = await _downloadMediaWithRetry(item);
+
+          await _addNormalMediaToHistory(item: item, filename: filename);
 
           successCount++;
 
