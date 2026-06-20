@@ -1267,13 +1267,36 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     );
 
     try {
-      final items = await profileFeedRepository.fetchProfileMediaItems(
+      final rawItems = await profileFeedRepository.fetchProfileMediaItems(
         serverBaseUrl: state.serverBaseUrl,
         kind: kind,
         shortcode: item.shortcode,
         url: item.url,
         privateIgCookie: state.activeIgCookie,
       );
+
+      // Backend /profile/reels đã trả cover ở item.coverUrl.
+      // Nhưng /instagram/media đôi khi không trả thumb cho video detail,
+      // nên phải bơm lại cover cũ vào ProfileMediaItem.
+      final fallbackThumbnailUrl = _firstNonEmpty([item.coverUrl]);
+
+      final items = rawItems.map((mediaItem) {
+        final thumbnailUrl = _firstNonEmpty([
+          mediaItem.thumbnailUrl,
+          fallbackThumbnailUrl,
+        ]);
+
+        return ProfileMediaItem(
+          id: mediaItem.id,
+          index: mediaItem.index,
+          type: mediaItem.type,
+          width: mediaItem.width,
+          height: mediaItem.height,
+          duration: mediaItem.duration,
+          thumbnailUrl: thumbnailUrl.isEmpty ? null : thumbnailUrl,
+          downloadUrl: mediaItem.downloadUrl,
+        );
+      }).toList();
 
       emit(
         state.copyWith(
