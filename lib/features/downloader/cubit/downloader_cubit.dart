@@ -303,13 +303,67 @@ class DownloaderCubit extends Cubit<DownloaderState> {
           .asMap()
           .entries
           .map((entry) {
-            final map = Map<String, dynamic>.from(entry.value);
+            final raw = Map<String, dynamic>.from(entry.value);
+
+            raw['id'] = entry.key;
+            raw['index'] = entry.key;
+
+            raw['downloadUrl'] = _firstNonEmpty([
+              raw['downloadUrl']?.toString(),
+              raw['download_url']?.toString(),
+              raw['url']?.toString(),
+              raw['src']?.toString(),
+            ]);
+
+            raw['thumbnailUrl'] = _firstNonEmpty([
+              raw['thumbnailUrl']?.toString(),
+              raw['thumbnail_url']?.toString(),
+              raw['thumb']?.toString(),
+              raw['thumbnail']?.toString(),
+              raw['coverUrl']?.toString(),
+              raw['cover_url']?.toString(),
+              raw['displayUrl']?.toString(),
+              raw['display_url']?.toString(),
+              raw['imageUrl']?.toString(),
+              raw['image_url']?.toString(),
+              raw['type']?.toString().toLowerCase() == 'photo'
+                  ? raw['url']?.toString()
+                  : null,
+            ]);
+
+            final map = _mergeResolveItemWithRootMetadata(
+              rawItem: raw,
+              decoded: decoded,
+            );
 
             map['id'] = entry.key;
             map['index'] = entry.key;
-            map['downloadUrl'] = map['downloadUrl'] ?? map['url'];
-            map['thumbnailUrl'] = map['thumbnailUrl'] ?? map['thumb'];
-            map['sourceUrl'] = sourceUrl;
+
+            map['downloadUrl'] = _firstNonEmpty([
+              map['downloadUrl']?.toString(),
+              map['download_url']?.toString(),
+              map['url']?.toString(),
+              raw['downloadUrl']?.toString(),
+            ]);
+
+            map['thumbnailUrl'] = _firstNonEmpty([
+              map['thumbnailUrl']?.toString(),
+              map['thumbnail_url']?.toString(),
+              map['thumb']?.toString(),
+              raw['thumbnailUrl']?.toString(),
+              raw['thumb']?.toString(),
+              map['type']?.toString().toLowerCase() == 'photo'
+                  ? map['downloadUrl']?.toString()
+                  : null,
+            ]);
+
+            map['sourceUrl'] = _firstNonEmpty([
+              map['sourceUrl']?.toString(),
+              map['source_url']?.toString(),
+              decoded['sourceUrl']?.toString(),
+              decoded['source_url']?.toString(),
+              sourceUrl,
+            ]);
 
             return IgMediaItem.fromJson(map);
           })
@@ -326,24 +380,47 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         return <IgMediaItem>[];
       }
 
-      return [
-        IgMediaItem.fromJson({
-          'id': 0,
-          'index': 0,
-          'type':
-              decoded['media_type'] ??
-              decoded['mediaType'] ??
-              decoded['type'] ??
-              'photo',
-          'downloadUrl': downloadUrl,
-          'thumbnailUrl':
-              decoded['thumb'] ??
-              decoded['thumbnailUrl'] ??
-              decoded['thumbnail_url'],
-          'sourceUrl': sourceUrl,
-          'shortcode': decoded['filename'] ?? '',
-        }),
-      ];
+      final raw = Map<String, dynamic>.from(decoded);
+
+      raw['id'] = 0;
+      raw['index'] = 0;
+      raw['type'] =
+          decoded['media_type'] ??
+          decoded['mediaType'] ??
+          decoded['type'] ??
+          'photo';
+
+      raw['downloadUrl'] = downloadUrl;
+
+      raw['thumbnailUrl'] = _firstNonEmpty([
+        decoded['thumbnailUrl']?.toString(),
+        decoded['thumbnail_url']?.toString(),
+        decoded['thumb']?.toString(),
+        decoded['coverUrl']?.toString(),
+        decoded['cover_url']?.toString(),
+        raw['type']?.toString().toLowerCase() == 'photo' ? downloadUrl : null,
+      ]);
+
+      raw['sourceUrl'] = _firstNonEmpty([
+        decoded['sourceUrl']?.toString(),
+        decoded['source_url']?.toString(),
+        sourceUrl,
+      ]);
+
+      raw['shortcode'] = _firstNonEmpty([
+        decoded['shortcode']?.toString(),
+        decoded['shortCode']?.toString(),
+        decoded['code']?.toString(),
+      ]);
+
+      final map = _mergeResolveItemWithRootMetadata(
+        rawItem: raw,
+        decoded: decoded,
+      );
+
+      return [IgMediaItem.fromJson(map)].where((item) {
+        return item.downloadUrl.trim().isNotEmpty;
+      }).toList();
     }
 
     // Fallback giữ tương thích nếu lỡ còn test server cũ.

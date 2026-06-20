@@ -18,8 +18,9 @@ class MediaCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isVideo = item.isVideo;
     final hasError = errorText != null && errorText!.trim().isNotEmpty;
+    final ownerText = _ownerText(item);
+    final mediaInfoText = _mediaInfoText(item);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -54,7 +55,7 @@ class MediaCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${item.type.toUpperCase()} #${item.id}',
+                      '${_typeLabel(item)} #${item.id}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -62,28 +63,32 @@ class MediaCard extends StatelessWidget {
                         fontSize: 15,
                       ),
                     ),
+                    if (ownerText.isNotEmpty) ...[
+                      const SizedBox(height: 4),
+                      Text(
+                        ownerText,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
                     const SizedBox(height: 4),
                     Text(
-                      '${item.width ?? '?'} x ${item.height ?? '?'}',
+                      mediaInfoText,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: Theme.of(
                           context,
                         ).textTheme.bodySmall?.color?.withOpacity(0.68),
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 13,
                       ),
                     ),
-                    if (isVideo) ...[
-                      const SizedBox(height: 4),
-                      Text(
-                        'Video',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                    ],
                   ],
                 ),
               ),
@@ -124,6 +129,81 @@ class MediaCard extends StatelessWidget {
       ],
     );
   }
+
+  String _ownerText(IgMediaItem item) {
+    final username = _cleanUsername(item.username);
+    final fullName = item.fullName?.trim() ?? '';
+
+    if (username.isNotEmpty) {
+      return username;
+    }
+
+    if (fullName.isNotEmpty) {
+      return fullName;
+    }
+
+    return '';
+  }
+
+  String _mediaInfoText(IgMediaItem item) {
+    return _typeLabelVi(item);
+  }
+
+  String _typeLabel(IgMediaItem item) {
+    final clean = item.type.trim().toLowerCase();
+
+    if (clean == 'video' || clean == 'reel' || clean == 'mp4') {
+      return 'VIDEO';
+    }
+
+    if (clean == 'photo' ||
+        clean == 'image' ||
+        clean == 'jpg' ||
+        clean == 'jpeg' ||
+        clean == 'png' ||
+        clean == 'webp') {
+      return 'PHOTO';
+    }
+
+    if (clean == 'carousel') {
+      return 'CAROUSEL';
+    }
+
+    return clean.isEmpty ? 'MEDIA' : clean.toUpperCase();
+  }
+
+  String _typeLabelVi(IgMediaItem item) {
+    final clean = item.type.trim().toLowerCase();
+
+    if (clean == 'video' || clean == 'reel' || clean == 'mp4') {
+      return 'Video';
+    }
+
+    if (clean == 'photo' ||
+        clean == 'image' ||
+        clean == 'jpg' ||
+        clean == 'jpeg' ||
+        clean == 'png' ||
+        clean == 'webp') {
+      return 'Ảnh';
+    }
+
+    if (clean == 'carousel') {
+      return 'Bộ ảnh';
+    }
+
+    return clean.isEmpty ? 'Media' : clean;
+  }
+
+  String _cleanUsername(String? value) {
+    final raw = value?.trim() ?? '';
+
+    if (raw.isEmpty) {
+      return '';
+    }
+
+    return raw.replaceFirst(RegExp(r'^@+'), '');
+  }
 }
 
 class _PreviewBox extends StatelessWidget {
@@ -152,8 +232,11 @@ class _PreviewBox extends StatelessWidget {
             Image.network(
               previewUrl,
               fit: BoxFit.cover,
+              gaplessPlayback: true,
               loadingBuilder: (context, child, progress) {
-                if (progress == null) return child;
+                if (progress == null) {
+                  return child;
+                }
 
                 return Center(
                   child: SizedBox(
@@ -180,7 +263,6 @@ class _PreviewBox extends StatelessWidget {
               context,
               isVideo ? Icons.play_arrow_rounded : Icons.broken_image_rounded,
             ),
-
           if (isVideo)
             Container(
               color: Colors.black.withOpacity(0.12),
