@@ -9,14 +9,51 @@ import '../models/profile_story_item.dart';
 class ProfileStoryRepository {
   const ProfileStoryRepository();
 
-  Map<String, String> _headers({String? privateIgCookie}) {
-    final headers = <String, String>{'Content-Type': 'application/json'};
+  String _apiBase(String serverBaseUrl) {
+    var clean = serverBaseUrl.trim();
 
-    if (privateIgCookie != null && privateIgCookie.trim().isNotEmpty) {
-      headers['x-ig-cookie'] = privateIgCookie.trim();
+    while (clean.endsWith('/')) {
+      clean = clean.substring(0, clean.length - 1);
     }
 
-    return headers;
+    if (clean.endsWith('/instagram')) {
+      return clean;
+    }
+
+    return '$clean/instagram';
+  }
+
+  Map<String, String> _headers() {
+    return {'Content-Type': 'application/json'};
+  }
+
+  Map<String, dynamic> _bodyWithCookie(
+    Map<String, dynamic> body,
+    String? privateIgCookie,
+  ) {
+    final cookie = privateIgCookie?.trim();
+
+    return {...body, if (cookie != null && cookie.isNotEmpty) 'cookie': cookie};
+  }
+
+  String _errorMessage(dynamic body, String fallback) {
+    if (body is Map) {
+      final detail = body['detail'];
+
+      if (detail is Map && detail['message'] != null) {
+        return detail['message'].toString();
+      }
+
+      if (body['error'] != null) {
+        return body['error'].toString();
+      }
+
+      if (body['message'] != null) {
+        return body['message'].toString();
+      }
+    }
+
+    return fallback;
   }
 
   Future<List<ProfileStoryGroup>> fetchStoryGroups({
@@ -24,22 +61,28 @@ class ProfileStoryRepository {
     required String profileUrl,
     String? privateIgCookie,
   }) async {
-    final uri = Uri.parse('$serverBaseUrl/profile/story-groups');
+    final uri = Uri.parse('${_apiBase(serverBaseUrl)}/profile/story-groups');
 
     final response = await http
         .post(
           uri,
-          headers: _headers(privateIgCookie: privateIgCookie),
-          body: jsonEncode({'profileUrl': profileUrl}),
+          headers: _headers(),
+          body: jsonEncode(
+            _bodyWithCookie({'url': profileUrl}, privateIgCookie),
+          ),
         )
         .timeout(const Duration(seconds: 60));
 
-    final body = jsonDecode(response.body);
+    dynamic body;
 
-    if (response.statusCode != 200 || body['success'] != true) {
-      throw Exception(
-        body['error'] ?? 'Không lấy được story/highlight profile',
-      );
+    try {
+      body = jsonDecode(response.body);
+    } catch (_) {
+      body = null;
+    }
+
+    if (response.statusCode != 200 || body is! Map || body['success'] != true) {
+      throw Exception(_errorMessage(body, 'Không lấy được story/highlight'));
     }
 
     final groups = body['groups'];
@@ -48,10 +91,22 @@ class ProfileStoryRepository {
       return [];
     }
 
-    return groups
-        .whereType<Map<String, dynamic>>()
-        .map(ProfileStoryGroup.fromJson)
-        .toList();
+    final username = (body['username'] ?? '').toString();
+    final userId = (body['userId'] ?? body['user_id'] ?? '').toString();
+
+    return groups.whereType<Map>().map((raw) {
+      final map = Map<dynamic, dynamic>.from(raw);
+
+      if (username.isNotEmpty) {
+        map['username'] = username;
+      }
+
+      if (userId.isNotEmpty) {
+        map['userId'] = userId;
+      }
+
+      return ProfileStoryGroup.fromJson(map);
+    }).toList();
   }
 
   Future<List<ProfileStoryItem>> fetchStoryGroupItems({
@@ -61,24 +116,33 @@ class ProfileStoryRepository {
     String? userId,
     String? privateIgCookie,
   }) async {
-    final uri = Uri.parse('$serverBaseUrl/profile/story-group-items');
+    final uri = Uri.parse(
+      '${_apiBase(serverBaseUrl)}/profile/story-group-items',
+    );
 
     final response = await http
         .post(
           uri,
-          headers: _headers(privateIgCookie: privateIgCookie),
-          body: jsonEncode({
-            'groupId': groupId,
-            'username': username,
-            if (userId != null && userId.isNotEmpty) 'userId': userId,
-          }),
+          headers: _headers(),
+          body: jsonEncode(
+            _bodyWithCookie({
+              'groupId': groupId,
+              'username': username,
+            }, privateIgCookie),
+          ),
         )
         .timeout(const Duration(seconds: 60));
 
-    final body = jsonDecode(response.body);
+    dynamic body;
 
-    if (response.statusCode != 200 || body['success'] != true) {
-      throw Exception(body['error'] ?? 'Không lấy được item trong story group');
+    try {
+      body = jsonDecode(response.body);
+    } catch (_) {
+      body = null;
+    }
+
+    if (response.statusCode != 200 || body is! Map || body['success'] != true) {
+      throw Exception(_errorMessage(body, 'Không lấy được item story'));
     }
 
     final items = body['items'];
@@ -87,10 +151,11 @@ class ProfileStoryRepository {
       return [];
     }
 
-    return items
-        .whereType<Map<String, dynamic>>()
-        .map(ProfileStoryItem.fromJson)
-        .toList();
+    return items.whereType<Map>().toList().asMap().entries.map((entry) {
+      final map = Map<dynamic, dynamic>.from(entry.value);
+      map.putIfAbsent('index', () => entry.key);
+      return ProfileStoryItem.fromJson(map);
+    }).toList();
   }
 
   Future<Uint8List> downloadStoryItem({
@@ -98,20 +163,26 @@ class ProfileStoryRepository {
     required String downloadKey,
     String? privateIgCookie,
   }) async {
-    final uri = Uri.parse('$serverBaseUrl/profile/download-story-item');
+    final url = downloadKey.trim();
+
+    if (url.isEmpty) {
+      throw Exception('Story item thiếu URL tải');
+    }
 
     final response = await http
-        .post(
-          uri,
-          headers: _headers(privateIgCookie: privateIgCookie),
-          body: jsonEncode({'downloadKey': downloadKey}),
+        .get(
+          Uri.parse(url),
+          headers: {
+            'User-Agent':
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
+                '(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+            'Referer': 'https://www.instagram.com/',
+          },
         )
         .timeout(const Duration(seconds: 90));
 
-    if (response.statusCode != 200) {
-      throw Exception(
-        response.body.isNotEmpty ? response.body : 'Không tải được story item',
-      );
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      throw Exception('Không tải được story item: HTTP ${response.statusCode}');
     }
 
     return response.bodyBytes;

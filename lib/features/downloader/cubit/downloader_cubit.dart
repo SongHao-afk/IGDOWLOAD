@@ -35,8 +35,66 @@ class DownloaderCubit extends Cubit<DownloaderState> {
   final DownloadHistoryRepository downloadHistoryRepository =
       const DownloadHistoryRepository();
 
+  String _apiBase(String serverBaseUrl) {
+    var clean = serverBaseUrl.trim();
+
+    while (clean.endsWith('/')) {
+      clean = clean.substring(0, clean.length - 1);
+    }
+
+    if (clean.endsWith('/instagram')) {
+      return clean;
+    }
+
+    return '$clean/instagram';
+  }
+
+  String _serverErrorText(dynamic decoded, String fallback) {
+    if (decoded is Map) {
+      final detail = decoded['detail'];
+
+      if (detail is Map && detail['message'] != null) {
+        final message = detail['message'].toString().trim();
+        if (message.isNotEmpty) return message;
+      }
+
+      if (decoded['error'] != null) {
+        final message = decoded['error'].toString().trim();
+        if (message.isNotEmpty) return message;
+      }
+
+      if (decoded['message'] != null) {
+        final message = decoded['message'].toString().trim();
+        if (message.isNotEmpty) return message;
+      }
+    }
+
+    return fallback;
+  }
+
   String _profileText(Map<String, dynamic>? profile, String key) {
-    return (profile?[key] ?? '').toString().trim();
+    if (profile == null) {
+      return '';
+    }
+
+    final direct = (profile[key] ?? '').toString().trim();
+
+    if (direct.isNotEmpty && direct != 'null') {
+      return direct;
+    }
+
+    final snakeKey = key.replaceAllMapped(
+      RegExp(r'[A-Z]'),
+      (m) => '_${m.group(0)!.toLowerCase()}',
+    );
+
+    final snake = (profile[snakeKey] ?? '').toString().trim();
+
+    if (snake.isNotEmpty && snake != 'null') {
+      return snake;
+    }
+
+    return '';
   }
 
   String _firstNonEmpty(List<String?> values) {
@@ -163,6 +221,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         'shortcode',
         'shortCode',
         'code',
+        'filename',
       ]),
     ]);
 
@@ -203,6 +262,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         'thumbnailUrl',
         'thumbnail_url',
         'thumbnail',
+        'thumb',
         'coverUrl',
         'cover_url',
         'displayUrl',
@@ -211,7 +271,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         'image_url',
         'poster',
       ]),
-      type == 'image' ? downloadUrl : null,
+      type == 'image' || type == 'photo' ? downloadUrl : null,
     ]);
 
     putIfEmpty('username', username);
@@ -222,6 +282,85 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     putIfEmpty('thumbnailUrl', thumbnailUrl);
 
     return item;
+  }
+
+  List<IgMediaItem> _parseMediaResultToIgItems(
+    Map<String, dynamic> decoded, {
+    required String sourceUrl,
+  }) {
+    final status = (decoded['status'] ?? '').toString().trim();
+
+    if (status == 'picker') {
+      final picker = decoded['picker'];
+
+      if (picker is! List) {
+        return <IgMediaItem>[];
+      }
+
+      return picker
+          .whereType<Map>()
+          .toList()
+          .asMap()
+          .entries
+          .map((entry) {
+            final map = Map<String, dynamic>.from(entry.value);
+
+            map['id'] = entry.key;
+            map['index'] = entry.key;
+            map['downloadUrl'] = map['downloadUrl'] ?? map['url'];
+            map['thumbnailUrl'] = map['thumbnailUrl'] ?? map['thumb'];
+            map['sourceUrl'] = sourceUrl;
+
+            return IgMediaItem.fromJson(map);
+          })
+          .where((item) {
+            return item.downloadUrl.trim().isNotEmpty;
+          })
+          .toList();
+    }
+
+    if (status == 'success') {
+      final downloadUrl = (decoded['url'] ?? '').toString().trim();
+
+      if (downloadUrl.isEmpty) {
+        return <IgMediaItem>[];
+      }
+
+      return [
+        IgMediaItem.fromJson({
+          'id': 0,
+          'index': 0,
+          'type':
+              decoded['media_type'] ??
+              decoded['mediaType'] ??
+              decoded['type'] ??
+              'photo',
+          'downloadUrl': downloadUrl,
+          'thumbnailUrl':
+              decoded['thumb'] ??
+              decoded['thumbnailUrl'] ??
+              decoded['thumbnail_url'],
+          'sourceUrl': sourceUrl,
+          'shortcode': decoded['filename'] ?? '',
+        }),
+      ];
+    }
+
+    // Fallback giữ tương thích nếu lỡ còn test server cũ.
+    if (decoded['success'] == true && decoded['media'] is List) {
+      final list = decoded['media'] as List;
+
+      return list
+          .map(
+            (x) => IgMediaItem.fromJson(
+              _mergeResolveItemWithRootMetadata(rawItem: x, decoded: decoded),
+            ),
+          )
+          .where((item) => item.downloadUrl.trim().isNotEmpty)
+          .toList();
+    }
+
+    return <IgMediaItem>[];
   }
 
   String _feedIdentityKey(ProfileFeedItem item) {
@@ -457,19 +596,15 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     );
 
     try {
-      final body = <String, dynamic>{'url': url};
-
-      final headers = <String, String>{'Content-Type': 'application/json'};
-
-      if (state.activeIgCookie != null) {
-        body['igCookie'] = state.activeIgCookie;
-        headers['x-ig-cookie'] = state.activeIgCookie!;
-      }
+      final body = <String, dynamic>{
+        'url': url,
+        if (state.activeIgCookie != null) 'cookie': state.activeIgCookie,
+      };
 
       final res = await http
           .post(
-            Uri.parse('${state.serverBaseUrl}/resolve'),
-            headers: headers,
+            Uri.parse('${_apiBase(state.serverBaseUrl)}/media'),
+            headers: {'Content-Type': 'application/json'},
             body: jsonEncode(body),
           )
           .timeout(const Duration(seconds: 90));
@@ -482,27 +617,21 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         decoded = null;
       }
 
-      if (res.statusCode != 200) {
-        throw Exception('resolve_failed');
-      }
-
-      if (decoded is! Map || decoded['success'] != true) {
-        throw Exception('resolve_failed');
+      if (res.statusCode != 200 || decoded is! Map) {
+        throw Exception(_serverErrorText(decoded, 'Không lấy được media.'));
       }
 
       final decodedMap = Map<String, dynamic>.from(decoded);
-      final List list = decodedMap['media'] ?? [];
 
-      final media = list
-          .map(
-            (x) => IgMediaItem.fromJson(
-              _mergeResolveItemWithRootMetadata(
-                rawItem: x,
-                decoded: decodedMap,
-              ),
-            ),
-          )
-          .toList();
+      if ((decodedMap['status'] ?? '').toString() == 'error') {
+        throw Exception(_serverErrorText(decodedMap, 'Không lấy được media.'));
+      }
+
+      final media = _parseMediaResultToIgItems(decodedMap, sourceUrl: url);
+
+      if (media.isEmpty) {
+        throw Exception('Không tìm thấy media trong response.');
+      }
 
       emit(
         state.copyWith(
@@ -514,7 +643,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
           downloadingAll: false,
         ),
       );
-    } catch (_) {
+    } catch (e) {
       emit(
         state.copyWith(
           loading: false,
@@ -612,10 +741,13 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         privateIgCookie: state.activeIgCookie,
       );
 
+      final firstGroup = groups.isNotEmpty ? groups.first : null;
+
       emit(
         state.copyWith(
           profileGroupsLoading: false,
           profileGroups: groups,
+          profileUsername: firstGroup?.username ?? '',
           status: groups.isEmpty
               ? 'Không thấy story hiện tại hoặc tin nổi bật.'
               : 'Bắt được ${groups.length} mục story/highlight.',
@@ -790,7 +922,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
           shortcode: historyKey,
           type: item.isVideo ? 'video' : 'image',
           sourceUrl: state.profileUrl,
-          thumbnailUrl: '',
+          thumbnailUrl: item.thumbnailUrl ?? '',
           downloadUrl: historyKey,
           filename: filename,
           savedAt: DateTime.now().toIso8601String(),
@@ -1108,11 +1240,11 @@ class DownloaderCubit extends Cubit<DownloaderState> {
   }
 
   Future<void> loadProfileMediaItems(ProfileFeedItem item) async {
-    if (item.shortcode.trim().isEmpty) {
+    if (item.shortcode.trim().isEmpty && item.url.trim().isEmpty) {
       emit(
         state.copyWith(
-          profileError: 'Item thiếu shortcode.',
-          status: 'Item thiếu shortcode.',
+          profileError: 'Item thiếu shortcode/url.',
+          status: 'Item thiếu shortcode/url.',
         ),
       );
       return;
@@ -1329,7 +1461,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         case DioExceptionType.sendTimeout:
           return 'Tải lỗi do kết nối chậm. Bấm thử lại.';
         case DioExceptionType.connectionError:
-          return 'Không kết nối được server. Kiểm tra mạng/server.';
+          return 'Không kết nối được mạng/CDN. Kiểm tra mạng rồi thử lại.';
         case DioExceptionType.cancel:
           return 'Đã hủy tải.';
         case DioExceptionType.badCertificate:
@@ -1351,23 +1483,24 @@ class DownloaderCubit extends Cubit<DownloaderState> {
 
     final tempPath = '${tempDir.path}/$filename';
 
-    final proxyUrl = Uri.parse(
-      '${state.serverBaseUrl}/download',
-    ).replace(queryParameters: {'url': item.downloadUrl}).toString();
+    final downloadUrl = item.downloadUrl.trim();
 
-    final headers = <String, dynamic>{};
-
-    if (state.activeIgCookie != null) {
-      headers['x-ig-cookie'] = state.activeIgCookie!;
+    if (downloadUrl.isEmpty) {
+      throw Exception('download_url_empty');
     }
 
     await dio.download(
-      proxyUrl,
+      downloadUrl,
       tempPath,
       options: Options(
         responseType: ResponseType.bytes,
         followRedirects: true,
-        headers: headers,
+        headers: {
+          'User-Agent':
+              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
+              '(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+          'Referer': 'https://www.instagram.com/',
+        },
         validateStatus: (status) {
           return status != null && status >= 200 && status < 300;
         },

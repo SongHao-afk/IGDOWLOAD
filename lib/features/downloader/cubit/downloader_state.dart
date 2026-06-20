@@ -24,10 +24,8 @@ class DownloaderState {
   // DOWNLOAD HISTORY
   // =========================
 
-  // Danh sách "Đã tải gần đây"
   final List<DownloadHistoryItem> downloadHistory;
 
-  // Dùng để check nhanh item nào đã tải rồi
   final Set<String> downloadedProfileMediaKeys;
 
   // =========================
@@ -40,7 +38,6 @@ class DownloaderState {
   final String profileUrl;
   final String? profileError;
 
-  // Info profile hiện tại, dùng để hiện avatar/nick và lưu history
   final String profileUsername;
   final String profileFullName;
   final String profileAvatarUrl;

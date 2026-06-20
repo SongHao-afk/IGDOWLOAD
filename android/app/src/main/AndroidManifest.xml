@@ -10,7 +10,7 @@
 
     <application
         android:name="${applicationName}"
-        android:label="IG Downloader"
+        android:label="IG Downloader V2"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true">

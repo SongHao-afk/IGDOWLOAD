@@ -4,11 +4,9 @@ class IgMediaItem {
   final int? width;
   final int? height;
   final num? duration;
-
   final String downloadUrl;
   final String thumbnailUrl;
 
-  // Metadata mới từ server /resolve
   final String username;
   final String fullName;
   final String avatarUrl;
@@ -32,13 +30,11 @@ class IgMediaItem {
 
   bool get isVideo {
     final cleanType = type.trim().toLowerCase();
-
     return cleanType == 'video' || cleanType == 'reel' || cleanType == 'mp4';
   }
 
   bool get isImage {
     final cleanType = type.trim().toLowerCase();
-
     return cleanType == 'image' ||
         cleanType == 'photo' ||
         cleanType == 'jpg' ||
@@ -47,9 +43,6 @@ class IgMediaItem {
         cleanType == 'webp';
   }
 
-  // Giữ lại cho media_card.dart cũ không bị lỗi.
-  // Ưu tiên thumbnailUrl. Nếu là ảnh mà không có thumb thì lấy downloadUrl.
-  // Video không có thumbnail thì trả rỗng, không cố lấy mp4 làm ảnh. Không phải phù thủy.
   String get previewUrl {
     final thumb = thumbnailUrl.trim();
 
@@ -65,12 +58,9 @@ class IgMediaItem {
   }
 
   factory IgMediaItem.fromJson(dynamic json) {
-    final map = json is Map
-        ? Map<String, dynamic>.from(json)
-        : <String, dynamic>{};
+    final map = json is Map ? Map<dynamic, dynamic>.from(json) : {};
 
     final type = _readString(map, ['type', 'mediaType', 'media_type']);
-
     final downloadUrl = _readString(map, [
       'downloadUrl',
       'download_url',
@@ -82,6 +72,7 @@ class IgMediaItem {
       'thumbnailUrl',
       'thumbnail_url',
       'thumbnail',
+      'thumb',
       'coverUrl',
       'cover_url',
       'displayUrl',
@@ -92,7 +83,6 @@ class IgMediaItem {
     ]);
 
     final cleanType = type.trim().toLowerCase();
-
     final thumbnailUrl = rawThumbnailUrl.isNotEmpty
         ? rawThumbnailUrl
         : (cleanType == 'image' || cleanType == 'photo')
@@ -101,14 +91,12 @@ class IgMediaItem {
 
     return IgMediaItem(
       id: _readInt(map, ['id', 'index']) ?? 0,
-      type: type.isEmpty ? 'image' : type,
+      type: type.isEmpty ? 'photo' : type,
       width: _readInt(map, ['width', 'w']),
       height: _readInt(map, ['height', 'h']),
       duration: _readNum(map, ['duration']),
       downloadUrl: downloadUrl,
       thumbnailUrl: thumbnailUrl,
-
-      // Metadata mới
       username: _readString(map, [
         'username',
         'ownerUsername',
@@ -198,7 +186,7 @@ class IgMediaItem {
     );
   }
 
-  static String _readString(Map<String, dynamic> map, List<String> keys) {
+  static String _readString(Map map, List<String> keys) {
     for (final key in keys) {
       final value = map[key];
 
@@ -216,7 +204,7 @@ class IgMediaItem {
     return '';
   }
 
-  static int? _readInt(Map<String, dynamic> map, List<String> keys) {
+  static int? _readInt(Map map, List<String> keys) {
     for (final key in keys) {
       final value = map[key];
 
@@ -242,7 +230,7 @@ class IgMediaItem {
     return null;
   }
 
-  static num? _readNum(Map<String, dynamic> map, List<String> keys) {
+  static num? _readNum(Map map, List<String> keys) {
     for (final key in keys) {
       final value = map[key];
 
