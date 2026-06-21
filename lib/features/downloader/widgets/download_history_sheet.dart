@@ -159,25 +159,23 @@ class DownloadHistorySheet extends StatelessWidget {
   Widget _downloadHistoryTile(BuildContext context, DownloadHistoryItem item) {
     final theme = Theme.of(context);
 
-    final username = _cleanUsername(item.username);
-    final fullName = _cleanHumanText(item.fullName);
-    final avatarUrl = _cleanUrl(item.avatarUrl);
-    final thumbnailUrl = _cleanUrl(item.thumbnailUrl);
-
     final cleanType = item.type.trim().toLowerCase();
     final isVideo = _isVideoType(cleanType);
 
-    final title = username.isNotEmpty
-        ? '@$username'
-        : fullName.isNotEmpty
-        ? fullName
+    final safeUsername = _historyUsername(item);
+    final safeFullName = _historyFullName(item, safeUsername);
+    final safeAvatarUrl = _historyAvatarUrl(item, safeUsername);
+    final safeThumbnailUrl = _historyThumbUrl(item);
+
+    final title = safeUsername.isNotEmpty
+        ? '@$safeUsername'
+        : safeFullName.isNotEmpty
+        ? safeFullName
         : 'Instagram media';
 
-    final subtitle = _historySubtitle(
-      username: username,
-      fullName: fullName,
-      cleanType: cleanType,
-    );
+    final subtitle = safeFullName.isNotEmpty && safeUsername.isNotEmpty
+        ? safeFullName
+        : _typeLabelVi(cleanType);
 
     final typeText = _typeTagText(cleanType);
 
@@ -202,9 +200,9 @@ class DownloadHistorySheet extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
-                child: thumbnailUrl.isNotEmpty
+                child: safeThumbnailUrl.isNotEmpty
                     ? Image.network(
-                        thumbnailUrl,
+                        safeThumbnailUrl,
                         width: 76,
                         height: 76,
                         fit: BoxFit.cover,
@@ -254,10 +252,10 @@ class DownloadHistorySheet extends StatelessWidget {
                     backgroundColor: theme.colorScheme.primary.withOpacity(
                       0.14,
                     ),
-                    backgroundImage: avatarUrl.isNotEmpty
-                        ? NetworkImage(avatarUrl)
+                    backgroundImage: safeAvatarUrl.isNotEmpty
+                        ? NetworkImage(safeAvatarUrl)
                         : null,
-                    child: avatarUrl.isEmpty
+                    child: safeAvatarUrl.isEmpty
                         ? Icon(
                             Icons.person_rounded,
                             size: 19,
@@ -385,20 +383,153 @@ class DownloadHistorySheet extends StatelessWidget {
     );
   }
 
-  String _historySubtitle({
-    required String username,
-    required String fullName,
-    required String cleanType,
-  }) {
-    if (username.isNotEmpty && fullName.isNotEmpty) {
-      return fullName;
+  String _historyUsername(DownloadHistoryItem item) {
+    final fromSourceUrl = _usernameFromInstagramUrl(item.sourceUrl);
+
+    // Story/highlight lưu sourceUrl là profile URL hoặc /stories/{username}/...
+    // Ưu tiên username từ sourceUrl để không show nhầm chủ cookie.
+    if (fromSourceUrl.isNotEmpty) {
+      return fromSourceUrl;
     }
 
-    if (username.isEmpty && fullName.isNotEmpty) {
-      return _typeLabelVi(cleanType);
+    return _cleanUsername(item.username);
+  }
+
+  String _historyFullName(DownloadHistoryItem item, String safeUsername) {
+    final fullName = _cleanHumanText(item.fullName);
+
+    if (fullName.isEmpty) {
+      return '';
     }
 
-    return _typeLabelVi(cleanType);
+    final fromSourceUrl = _usernameFromInstagramUrl(item.sourceUrl);
+    final storedUsername = _cleanUsername(item.username);
+
+    // Nếu sourceUrl cho biết username thật, mà username lưu trong DB khác,
+    // fullName có nguy cơ là của chủ cookie/state cũ. Bỏ cho an toàn.
+    if (fromSourceUrl.isNotEmpty) {
+      if (storedUsername.isEmpty) {
+        return '';
+      }
+
+      if (!_sameUsername(fromSourceUrl, storedUsername)) {
+        return '';
+      }
+    }
+
+    if (safeUsername.isNotEmpty && _sameUsername(fullName, safeUsername)) {
+      return '';
+    }
+
+    return fullName;
+  }
+
+  String _historyAvatarUrl(DownloadHistoryItem item, String safeUsername) {
+    final avatarUrl = _cleanUrl(item.avatarUrl);
+
+    if (avatarUrl.isEmpty) {
+      return '';
+    }
+
+    final fromSourceUrl = _usernameFromInstagramUrl(item.sourceUrl);
+    final storedUsername = _cleanUsername(item.username);
+
+    // Nếu story/highlight cũ lưu avatar chủ cookie, không show nữa.
+    if (fromSourceUrl.isNotEmpty) {
+      if (storedUsername.isEmpty) {
+        return '';
+      }
+
+      if (!_sameUsername(fromSourceUrl, storedUsername)) {
+        return '';
+      }
+    }
+
+    return avatarUrl;
+  }
+
+  String _historyThumbUrl(DownloadHistoryItem item) {
+    final thumbnail = _cleanUrl(item.thumbnailUrl);
+
+    if (thumbnail.isNotEmpty) {
+      return thumbnail;
+    }
+
+    final downloadUrl = _cleanUrl(item.downloadUrl);
+    final cleanType = item.type.trim().toLowerCase();
+
+    // Ảnh post/profile nếu thiếu thumb thì dùng chính ảnh tải về làm cover.
+    if (!_isVideoType(cleanType) && _looksLikeImageUrl(downloadUrl)) {
+      return downloadUrl;
+    }
+
+    return '';
+  }
+
+  String _usernameFromInstagramUrl(String value) {
+    final clean = _cleanUrl(value);
+
+    if (clean.isEmpty) {
+      return '';
+    }
+
+    Uri? uri;
+
+    try {
+      uri = Uri.parse(clean);
+    } catch (_) {
+      uri = null;
+    }
+
+    final segments =
+        uri?.pathSegments
+            .map((x) => x.trim())
+            .where((x) => x.isNotEmpty)
+            .toList() ??
+        <String>[];
+
+    if (segments.isEmpty) {
+      return '';
+    }
+
+    String username = '';
+
+    final first = segments.first.toLowerCase();
+
+    if (first == 'stories' && segments.length >= 2) {
+      username = segments[1];
+    } else {
+      username = segments.first;
+    }
+
+    username = _cleanUsername(username);
+
+    const reserved = {
+      'p',
+      'reel',
+      'reels',
+      'tv',
+      'share',
+      'explore',
+      'accounts',
+      'direct',
+      'about',
+      'developer',
+      'api',
+    };
+
+    if (username.isEmpty || reserved.contains(username.toLowerCase())) {
+      return '';
+    }
+
+    return username;
+  }
+
+  bool _sameUsername(String a, String b) {
+    final left = _cleanUsername(a).toLowerCase();
+    final right = _cleanUsername(b).toLowerCase();
+
+    return left.isNotEmpty && left == right;
   }
 
   String _cleanUsername(String value) {
@@ -467,6 +598,17 @@ class DownloadHistorySheet extends StatelessWidget {
     }
 
     return false;
+  }
+
+  bool _looksLikeImageUrl(String value) {
+    final lower = value.toLowerCase();
+
+    return lower.contains('.jpg') ||
+        lower.contains('.jpeg') ||
+        lower.contains('.png') ||
+        lower.contains('.webp') ||
+        lower.contains('scontent') ||
+        lower.contains('cdninstagram');
   }
 
   bool _isVideoType(String cleanType) {

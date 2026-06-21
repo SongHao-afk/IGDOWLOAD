@@ -6,6 +6,8 @@ class ProfileStoryGroup {
   final int? itemCount;
   final String? userId;
   final String? username;
+  final String? fullName;
+  final String? avatarUrl;
 
   const ProfileStoryGroup({
     required this.id,
@@ -15,6 +17,8 @@ class ProfileStoryGroup {
     this.itemCount,
     this.userId,
     this.username,
+    this.fullName,
+    this.avatarUrl,
   });
 
   bool get isActiveStory => kind == 'active_story';
@@ -22,13 +26,60 @@ class ProfileStoryGroup {
 
   factory ProfileStoryGroup.fromJson(Map json) {
     return ProfileStoryGroup(
-      id: _text(json, ['groupId', 'group_id', 'id']),
-      kind: _text(json, ['kind']),
-      title: _text(json, ['title']).isEmpty ? 'Story' : _text(json, ['title']),
-      coverUrl: _nullableText(json, ['coverUrl', 'cover_url', 'thumb']),
-      itemCount: _int(json, ['itemCount', 'item_count', 'mediaCount']),
-      userId: _nullableText(json, ['userId', 'user_id']),
-      username: _nullableText(json, ['username']),
+      id: _text(json, ['groupId', 'group_id', 'id', 'pk']),
+      kind: _text(json, ['kind']).isEmpty ? 'highlight' : _text(json, ['kind']),
+      title:
+          _text(json, [
+            'title',
+            'name',
+            'highlightTitle',
+            'highlight_title',
+          ]).isEmpty
+          ? 'Story'
+          : _text(json, ['title', 'name', 'highlightTitle', 'highlight_title']),
+      coverUrl: _nullableText(json, [
+        'coverUrl',
+        'cover_url',
+        'thumb',
+        'thumbnail',
+        'thumbnailUrl',
+        'thumbnail_url',
+        'imageUrl',
+        'image_url',
+        'displayUrl',
+        'display_url',
+      ]),
+      itemCount: _int(json, [
+        'itemCount',
+        'item_count',
+        'mediaCount',
+        'media_count',
+      ]),
+      userId: _nullableText(json, ['userId', 'user_id', 'ownerId', 'owner_id']),
+      username: _nullableText(json, [
+        'username',
+        'userName',
+        'user_name',
+        'ownerUsername',
+        'owner_username',
+      ]),
+      fullName: _nullableText(json, [
+        'fullName',
+        'full_name',
+        'ownerFullName',
+        'owner_full_name',
+        'name',
+      ]),
+      avatarUrl: _nullableText(json, [
+        'avatarUrl',
+        'avatar_url',
+        'profilePicUrl',
+        'profile_pic_url',
+        'profilePicUrlHd',
+        'profile_pic_url_hd',
+        'ownerAvatarUrl',
+        'owner_avatar_url',
+      ]),
     );
   }
 

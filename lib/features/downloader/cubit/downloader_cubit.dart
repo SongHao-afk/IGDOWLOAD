@@ -876,6 +876,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
           profileGroupsLoading: false,
           profileGroups: groups,
           profileUsername: firstGroup?.username ?? '',
+          profileFullName: firstGroup?.fullName ?? '',
+          profileAvatarUrl: firstGroup?.avatarUrl ?? '',
           status: groups.isEmpty
               ? 'Không thấy story hiện tại hoặc tin nổi bật.'
               : 'Bắt được ${groups.length} mục story/highlight.',
@@ -1037,7 +1039,13 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       final filename = await _downloadProfileStoryItemWithRetry(item);
 
       final group = state.selectedProfileGroup;
+
       final username = _firstNonEmpty([group?.username, state.profileUsername]);
+
+      // Story/highlight chỉ tin metadata nằm trong group.
+      // Không fallback sang state để tránh bê nhầm profile chủ cookie.
+      final fullName = group?.fullName?.trim() ?? '';
+      final avatarUrl = group?.avatarUrl?.trim() ?? '';
 
       final historyKey = item.downloadKey.trim();
 
@@ -1045,12 +1053,15 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         DownloadHistoryItem(
           key: historyKey,
           username: username,
-          fullName: state.profileFullName,
-          avatarUrl: state.profileAvatarUrl,
+          fullName: fullName,
+          avatarUrl: avatarUrl,
           shortcode: historyKey,
           type: item.isVideo ? 'video' : 'image',
           sourceUrl: state.profileUrl,
-          thumbnailUrl: item.thumbnailUrl ?? '',
+          thumbnailUrl: _firstNonEmpty([
+            item.thumbnailUrl,
+            item.isVideo ? null : item.downloadUrl,
+          ]),
           downloadUrl: historyKey,
           filename: filename,
           savedAt: DateTime.now().toIso8601String(),
@@ -1137,6 +1148,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       );
 
       final items = page.items;
+      final firstItem = items.isNotEmpty ? items.first : null;
 
       emit(
         state.copyWith(
@@ -1146,9 +1158,18 @@ class DownloaderCubit extends Cubit<DownloaderState> {
           profileFeedHasNextPage: page.hasNextPage,
           profileFeedNextCursor: page.nextCursor,
           clearProfileFeedNextCursor: page.nextCursor == null,
-          profileUsername: _profileText(page.profile, 'username'),
-          profileFullName: _profileText(page.profile, 'fullName'),
-          profileAvatarUrl: _profileText(page.profile, 'avatarUrl'),
+          profileUsername: _firstNonEmpty([
+            _profileText(page.profile, 'username'),
+            firstItem?.username,
+          ]),
+          profileFullName: _firstNonEmpty([
+            _profileText(page.profile, 'fullName'),
+            firstItem?.fullName,
+          ]),
+          profileAvatarUrl: _firstNonEmpty([
+            _profileText(page.profile, 'avatarUrl'),
+            firstItem?.avatarUrl,
+          ]),
           status: items.isEmpty
               ? 'Profile này chưa có reel hoặc session không có quyền xem.'
               : 'Bắt được ${items.length} video reel.',
@@ -1222,6 +1243,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       );
 
       final items = page.items;
+      final firstItem = items.isNotEmpty ? items.first : null;
 
       emit(
         state.copyWith(
@@ -1231,9 +1253,18 @@ class DownloaderCubit extends Cubit<DownloaderState> {
           profileFeedHasNextPage: page.hasNextPage,
           profileFeedNextCursor: page.nextCursor,
           clearProfileFeedNextCursor: page.nextCursor == null,
-          profileUsername: _profileText(page.profile, 'username'),
-          profileFullName: _profileText(page.profile, 'fullName'),
-          profileAvatarUrl: _profileText(page.profile, 'avatarUrl'),
+          profileUsername: _firstNonEmpty([
+            _profileText(page.profile, 'username'),
+            firstItem?.username,
+          ]),
+          profileFullName: _firstNonEmpty([
+            _profileText(page.profile, 'fullName'),
+            firstItem?.fullName,
+          ]),
+          profileAvatarUrl: _firstNonEmpty([
+            _profileText(page.profile, 'avatarUrl'),
+            firstItem?.avatarUrl,
+          ]),
           status: items.isEmpty
               ? 'Profile này chưa có ảnh/bài viết hoặc session không có quyền xem.'
               : 'Bắt được ${items.length} ảnh/bài viết.',
@@ -1412,17 +1443,13 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         final thumbnailUrl = _firstNonEmpty([
           mediaItem.thumbnailUrl,
           fallbackThumbnailUrl,
+
+          // Nếu là ảnh thì dùng chính link ảnh làm cover.
+          mediaItem.isVideo ? null : mediaItem.downloadUrl,
         ]);
 
-        return ProfileMediaItem(
-          id: mediaItem.id,
-          index: mediaItem.index,
-          type: mediaItem.type,
-          width: mediaItem.width,
-          height: mediaItem.height,
-          duration: mediaItem.duration,
+        return mediaItem.copyWith(
           thumbnailUrl: thumbnailUrl.isEmpty ? null : thumbnailUrl,
-          downloadUrl: mediaItem.downloadUrl,
         );
       }).toList();
 
@@ -1537,18 +1564,49 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         downloadUrl,
       );
 
+      final username = _firstNonEmpty([
+        item.username,
+        selectedFeed?.username,
+        state.profileUsername,
+      ]);
+
+      final fullName = _firstNonEmpty([
+        item.fullName,
+        selectedFeed?.fullName,
+        state.profileFullName,
+      ]);
+
+      final avatarUrl = _firstNonEmpty([
+        item.avatarUrl,
+        selectedFeed?.avatarUrl,
+        state.profileAvatarUrl,
+      ]);
+
+      final shortcode = _cleanHistoryShortcode(
+        _firstNonEmpty([item.shortcode, selectedFeed?.shortcode]),
+      );
+
+      final sourceUrl = _firstNonEmpty([
+        item.sourceUrl,
+        selectedFeed?.url,
+        state.profileUrl,
+      ]);
+
+      final thumbnailUrl = _firstNonEmpty([
+        item.thumbnailUrl,
+        selectedFeed?.coverUrl,
+        item.isVideo ? null : item.downloadUrl,
+      ]);
+
       final historyItem = DownloadHistoryItem(
         key: historyKey,
-        username: state.profileUsername,
-        fullName: state.profileFullName,
-        avatarUrl: state.profileAvatarUrl,
-        shortcode: selectedFeed?.shortcode ?? '',
-        type: item.type,
-        sourceUrl: selectedFeed?.url ?? '',
-        thumbnailUrl: _firstNonEmpty([
-          item.thumbnailUrl,
-          selectedFeed?.coverUrl,
-        ]),
+        username: username,
+        fullName: fullName,
+        avatarUrl: avatarUrl,
+        shortcode: shortcode,
+        type: item.isVideo ? 'video' : 'image',
+        sourceUrl: sourceUrl,
+        thumbnailUrl: thumbnailUrl,
         downloadUrl: downloadUrl,
         filename: filename,
         savedAt: DateTime.now().toIso8601String(),

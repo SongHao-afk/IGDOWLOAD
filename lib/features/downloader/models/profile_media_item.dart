@@ -8,6 +8,12 @@ class ProfileMediaItem {
   final String? thumbnailUrl;
   final String downloadUrl;
 
+  final String username;
+  final String fullName;
+  final String avatarUrl;
+  final String shortcode;
+  final String sourceUrl;
+
   const ProfileMediaItem({
     required this.id,
     required this.index,
@@ -17,28 +23,138 @@ class ProfileMediaItem {
     required this.duration,
     required this.thumbnailUrl,
     required this.downloadUrl,
+    this.username = '',
+    this.fullName = '',
+    this.avatarUrl = '',
+    this.shortcode = '',
+    this.sourceUrl = '',
   });
 
   bool get isVideo => type.trim().toLowerCase() == 'video';
+  bool get isPhoto => !isVideo;
+
+  ProfileMediaItem copyWith({
+    String? id,
+    int? index,
+    String? type,
+    int? width,
+    int? height,
+    num? duration,
+    String? thumbnailUrl,
+    String? downloadUrl,
+    String? username,
+    String? fullName,
+    String? avatarUrl,
+    String? shortcode,
+    String? sourceUrl,
+  }) {
+    return ProfileMediaItem(
+      id: id ?? this.id,
+      index: index ?? this.index,
+      type: type ?? this.type,
+      width: width ?? this.width,
+      height: height ?? this.height,
+      duration: duration ?? this.duration,
+      thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
+      downloadUrl: downloadUrl ?? this.downloadUrl,
+      username: username ?? this.username,
+      fullName: fullName ?? this.fullName,
+      avatarUrl: avatarUrl ?? this.avatarUrl,
+      shortcode: shortcode ?? this.shortcode,
+      sourceUrl: sourceUrl ?? this.sourceUrl,
+    );
+  }
 
   factory ProfileMediaItem.fromJson(Map json) {
     final index = _int(json, ['index']) ?? 0;
-    final url = _text(json, ['downloadUrl', 'download_url', 'url']);
+
+    final url = _text(json, ['downloadUrl', 'download_url', 'url', 'src']);
+
+    final type = _normalizeType(
+      _text(json, ['type', 'mediaType', 'media_type']),
+    );
+
+    final rawThumb = _nullableText(json, [
+      'thumbnailUrl',
+      'thumbnail_url',
+      'thumb',
+      'thumbnail',
+      'coverUrl',
+      'cover_url',
+      'displayUrl',
+      'display_url',
+      'imageUrl',
+      'image_url',
+      'poster',
+    ]);
+
+    final thumbnailUrl =
+        rawThumb ?? (type == 'photo' && url.isNotEmpty ? url : null);
+
+    final id = _text(json, ['id', 'pk', 'mediaId', 'media_id']);
 
     return ProfileMediaItem(
-      id: _text(json, ['id']).isEmpty ? index.toString() : _text(json, ['id']),
+      id: id.isEmpty ? index.toString() : id,
       index: index,
-      type: _text(json, ['type']).isEmpty ? 'photo' : _text(json, ['type']),
+      type: type,
       width: _int(json, ['width', 'w']),
       height: _int(json, ['height', 'h']),
-      duration: _num(json, ['duration']),
-      thumbnailUrl: _nullableText(json, [
-        'thumbnailUrl',
-        'thumbnail_url',
-        'thumb',
-      ]),
+      duration: _num(json, ['duration', 'videoDuration', 'video_duration']),
+      thumbnailUrl: thumbnailUrl,
       downloadUrl: url,
+      username: _text(json, [
+        'username',
+        'ownerUsername',
+        'owner_username',
+        'userName',
+        'user_name',
+      ]),
+      fullName: _text(json, [
+        'fullName',
+        'full_name',
+        'ownerFullName',
+        'owner_full_name',
+        'name',
+      ]),
+      avatarUrl: _text(json, [
+        'avatarUrl',
+        'avatar_url',
+        'profilePicUrl',
+        'profile_pic_url',
+        'profilePicUrlHd',
+        'profile_pic_url_hd',
+        'ownerAvatarUrl',
+        'owner_avatar_url',
+      ]),
+      shortcode: _text(json, [
+        'shortcode',
+        'shortCode',
+        'code',
+        'mediaKey',
+        'media_key',
+      ]),
+      sourceUrl: _text(json, [
+        'sourceUrl',
+        'source_url',
+        'source',
+        'normalizedSource',
+        'normalized_source',
+        'permalink',
+      ]),
     );
+  }
+
+  static String _normalizeType(String value) {
+    final clean = value.trim().toLowerCase();
+
+    if (clean == '2' ||
+        clean == 'video' ||
+        clean == 'reel' ||
+        clean == 'clips') {
+      return 'video';
+    }
+
+    return 'photo';
   }
 
   static String _text(Map json, List<String> keys) {

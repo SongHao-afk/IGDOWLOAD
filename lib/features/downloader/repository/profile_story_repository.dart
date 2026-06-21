@@ -56,6 +56,89 @@ class ProfileStoryRepository {
     return fallback;
   }
 
+  String _firstText(Map map, List<String> keys) {
+    for (final key in keys) {
+      final value = map[key];
+
+      if (value == null) {
+        continue;
+      }
+
+      final clean = value.toString().trim();
+
+      if (clean.isNotEmpty && clean != 'null') {
+        return clean;
+      }
+    }
+
+    return '';
+  }
+
+  String _usernameFromProfileUrl(String value) {
+    final clean = value.trim();
+
+    if (clean.isEmpty) {
+      return '';
+    }
+
+    Uri? uri;
+
+    try {
+      uri = Uri.parse(clean);
+    } catch (_) {
+      uri = null;
+    }
+
+    final segments =
+        uri?.pathSegments
+            .map((x) => x.trim())
+            .where((x) => x.isNotEmpty)
+            .toList() ??
+        <String>[];
+
+    String username = '';
+
+    if (segments.isNotEmpty) {
+      if (segments.first.toLowerCase() == 'stories' && segments.length >= 2) {
+        username = segments[1];
+      } else {
+        username = segments.first;
+      }
+    }
+
+    if (username.isEmpty) {
+      final match = RegExp(
+        r'instagram\.com/([^/?#]+)/?',
+        caseSensitive: false,
+      ).firstMatch(clean);
+
+      username = (match?.group(1) ?? '').trim();
+    }
+
+    username = username.replaceFirst('@', '').trim();
+
+    const reserved = {
+      'p',
+      'reel',
+      'reels',
+      'tv',
+      'stories',
+      'share',
+      'explore',
+      'accounts',
+      'direct',
+      'about',
+      'developer',
+      'api',
+    };
+
+    if (username.isEmpty || reserved.contains(username.toLowerCase())) {
+      return '';
+    }
+
+    return username;
+  }
+
   Future<List<ProfileStoryGroup>> fetchStoryGroups({
     required String serverBaseUrl,
     required String profileUrl,
@@ -91,18 +174,79 @@ class ProfileStoryRepository {
       return [];
     }
 
-    final username = (body['username'] ?? '').toString();
-    final userId = (body['userId'] ?? body['user_id'] ?? '').toString();
+    final requestedUsername = _usernameFromProfileUrl(profileUrl);
+
+    final bodyUsername = _firstText(body, [
+      'username',
+      'userName',
+      'user_name',
+    ]);
+
+    final userId = _firstText(body, ['userId', 'user_id', 'pk', 'id']);
+
+    final profile = body['profile'] is Map
+        ? Map<dynamic, dynamic>.from(body['profile'] as Map)
+        : <dynamic, dynamic>{};
+
+    final profileUsername = _firstText(profile, [
+      'username',
+      'userName',
+      'user_name',
+    ]);
+
+    final safeUsername = requestedUsername.isNotEmpty
+        ? requestedUsername
+        : bodyUsername.isNotEmpty
+        ? bodyUsername
+        : profileUsername;
+
+    final profileMatchesRequest =
+        profileUsername.isEmpty ||
+        safeUsername.isEmpty ||
+        profileUsername.toLowerCase() == safeUsername.toLowerCase();
+
+    final profileFullName = profileMatchesRequest
+        ? _firstText(profile, [
+            'fullName',
+            'full_name',
+            'ownerFullName',
+            'owner_full_name',
+            'name',
+          ])
+        : '';
+
+    final profileAvatarUrl = profileMatchesRequest
+        ? _firstText(profile, [
+            'avatarUrl',
+            'avatar_url',
+            'profilePicUrl',
+            'profile_pic_url',
+            'profilePicUrlHd',
+            'profile_pic_url_hd',
+            'ownerAvatarUrl',
+            'owner_avatar_url',
+          ])
+        : '';
 
     return groups.whereType<Map>().map((raw) {
       final map = Map<dynamic, dynamic>.from(raw);
 
-      if (username.isNotEmpty) {
-        map['username'] = username;
+      if (safeUsername.isNotEmpty) {
+        map['username'] = safeUsername;
       }
 
       if (userId.isNotEmpty) {
         map['userId'] = userId;
+      }
+
+      // Chỉ inject fullName/avatar nếu profile server khớp username đang dán.
+      // Nếu server lỡ trả profile chủ cookie thì bỏ, tránh history map sai người.
+      if (profileFullName.isNotEmpty) {
+        map['fullName'] = profileFullName;
+      }
+
+      if (profileAvatarUrl.isNotEmpty) {
+        map['avatarUrl'] = profileAvatarUrl;
       }
 
       return ProfileStoryGroup.fromJson(map);

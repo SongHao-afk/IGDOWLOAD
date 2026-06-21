@@ -26,31 +26,64 @@ class ProfileStoryItem {
   });
 
   bool get isVideo => type.trim().toLowerCase() == 'video';
+  bool get isPhoto => !isVideo;
 
   factory ProfileStoryItem.fromJson(Map json) {
-    final url = _text(json, ['downloadUrl', 'download_url', 'url']);
-    final id = _text(json, ['id']);
+    final url = _text(json, ['downloadUrl', 'download_url', 'url', 'src']);
+
+    final id = _text(json, ['id', 'pk', 'mediaId', 'media_id']);
+
     final index = _int(json, ['index']) ?? 0;
+
+    final type = _normalizeType(
+      _text(json, ['type', 'mediaType', 'media_type']),
+    );
+
+    final rawThumb = _nullableText(json, [
+      'thumbnailUrl',
+      'thumbnail_url',
+      'thumb',
+      'thumbnail',
+      'coverUrl',
+      'cover_url',
+      'displayUrl',
+      'display_url',
+      'imageUrl',
+      'image_url',
+      'poster',
+    ]);
+
+    final thumbnailUrl =
+        rawThumb ?? (type == 'photo' && url.isNotEmpty ? url : null);
+
+    final downloadKey = _text(json, ['downloadKey', 'download_key', 'key']);
 
     return ProfileStoryItem(
       id: id.isEmpty ? index.toString() : id,
       index: index,
-      type: _text(json, ['type']).isEmpty ? 'photo' : _text(json, ['type']),
+      type: type,
       width: _int(json, ['width', 'w']),
       height: _int(json, ['height', 'h']),
-      duration: _num(json, ['duration']),
-      thumbnailUrl: _nullableText(json, [
-        'thumbnailUrl',
-        'thumbnail_url',
-        'thumb',
-      ]),
+      duration: _num(json, ['duration', 'videoDuration', 'video_duration']),
+      thumbnailUrl: thumbnailUrl,
       downloadUrl: url,
-      downloadKey: _text(json, ['downloadKey', 'download_key']).isNotEmpty
-          ? _text(json, ['downloadKey', 'download_key'])
-          : url,
-      sourceUrl: _nullableText(json, ['sourceUrl', 'source_url']),
+      downloadKey: downloadKey.isNotEmpty ? downloadKey : url,
+      sourceUrl: _nullableText(json, ['sourceUrl', 'source_url', 'permalink']),
       takenAt: _int(json, ['takenAt', 'taken_at']),
     );
+  }
+
+  static String _normalizeType(String value) {
+    final clean = value.trim().toLowerCase();
+
+    if (clean == '2' ||
+        clean == 'video' ||
+        clean == 'reel' ||
+        clean == 'clips') {
+      return 'video';
+    }
+
+    return 'photo';
   }
 
   static String _text(Map json, List<String> keys) {

@@ -6,6 +6,11 @@ class ProfileFeedItem {
   final String shortcode;
   final String url;
   final String? coverUrl;
+
+  final String username;
+  final String fullName;
+  final String avatarUrl;
+
   final String caption;
   final int? takenAt;
   final int itemCount;
@@ -21,6 +26,9 @@ class ProfileFeedItem {
     required this.shortcode,
     required this.url,
     required this.coverUrl,
+    this.username = '',
+    this.fullName = '',
+    this.avatarUrl = '',
     required this.caption,
     required this.takenAt,
     required this.itemCount,
@@ -35,20 +43,24 @@ class ProfileFeedItem {
   bool get isCarousel => type == 'carousel';
 
   factory ProfileFeedItem.fromJson(Map json) {
-    final kind = _text(json, ['kind']).isNotEmpty
-        ? _text(json, ['kind'])
+    final rawKind = _text(json, ['kind']);
+
+    final kind = rawKind.isNotEmpty
+        ? rawKind
         : _kindFromType(_text(json, ['mediaType', 'media_type', 'type']));
 
-    final type = _text(json, ['type']).isNotEmpty
-        ? _text(json, ['type'])
+    final rawType = _text(json, ['type']);
+
+    final type = rawType.isNotEmpty
+        ? rawType
         : _text(json, ['mediaType', 'media_type']);
 
     return ProfileFeedItem(
-      id: _text(json, ['id']),
+      id: _text(json, ['id', 'pk']),
       index: _int(json, ['index']) ?? 0,
       kind: kind,
       type: type,
-      shortcode: _text(json, ['shortcode', 'code']),
+      shortcode: _text(json, ['shortcode', 'shortCode', 'code']),
       url: _text(json, ['url', 'permalink']),
       coverUrl: _nullableText(json, [
         'coverUrl',
@@ -56,6 +68,35 @@ class ProfileFeedItem {
         'thumbnailUrl',
         'thumbnail_url',
         'thumb',
+        'thumbnail',
+        'displayUrl',
+        'display_url',
+        'imageUrl',
+        'image_url',
+      ]),
+      username: _text(json, [
+        'username',
+        'ownerUsername',
+        'owner_username',
+        'userName',
+        'user_name',
+      ]),
+      fullName: _text(json, [
+        'fullName',
+        'full_name',
+        'ownerFullName',
+        'owner_full_name',
+        'name',
+      ]),
+      avatarUrl: _text(json, [
+        'avatarUrl',
+        'avatar_url',
+        'profilePicUrl',
+        'profile_pic_url',
+        'profilePicUrlHd',
+        'profile_pic_url_hd',
+        'ownerAvatarUrl',
+        'owner_avatar_url',
       ]),
       caption: _text(json, ['caption']),
       takenAt: _int(json, ['takenAt', 'taken_at']),
