@@ -132,7 +132,7 @@ class MediaCard extends StatelessWidget {
 
   String _ownerText(IgMediaItem item) {
     final username = _cleanUsername(item.username);
-    final fullName = item.fullName?.trim() ?? '';
+    final fullName = item.fullName.trim();
 
     if (username.isNotEmpty) {
       return username;
