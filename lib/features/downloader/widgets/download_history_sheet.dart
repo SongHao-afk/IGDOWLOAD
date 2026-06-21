@@ -159,28 +159,27 @@ class DownloadHistorySheet extends StatelessWidget {
   Widget _downloadHistoryTile(BuildContext context, DownloadHistoryItem item) {
     final theme = Theme.of(context);
 
-    final username = item.username.trim();
-    final fullName = item.fullName.trim();
-    final avatarUrl = item.avatarUrl.trim();
-    final thumbnailUrl = item.thumbnailUrl.trim();
-    final shortcode = item.shortcode.trim();
-    final filename = item.filename.trim();
+    final username = _cleanUsername(item.username);
+    final fullName = _cleanHumanText(item.fullName);
+    final avatarUrl = _cleanUrl(item.avatarUrl);
+    final thumbnailUrl = _cleanUrl(item.thumbnailUrl);
 
     final cleanType = item.type.trim().toLowerCase();
-    final isVideo =
-        cleanType.contains('video') ||
-        cleanType.contains('reel') ||
-        cleanType == 'mp4';
+    final isVideo = _isVideoType(cleanType);
 
-    final title = username.isNotEmpty ? '@$username' : 'Instagram media';
+    final title = username.isNotEmpty
+        ? '@$username'
+        : fullName.isNotEmpty
+        ? fullName
+        : 'Instagram media';
 
-    final subtitle = _firstNonEmptyLocal([
-      fullName,
-      shortcode.isNotEmpty ? 'Mã: $shortcode' : null,
-      filename,
-    ]);
+    final subtitle = _historySubtitle(
+      username: username,
+      fullName: fullName,
+      cleanType: cleanType,
+    );
 
-    final typeText = cleanType.isNotEmpty ? cleanType.toUpperCase() : 'MEDIA';
+    final typeText = _typeTagText(cleanType);
 
     return Container(
       padding: const EdgeInsets.all(10),
@@ -209,6 +208,7 @@ class DownloadHistorySheet extends StatelessWidget {
                         width: 76,
                         height: 76,
                         fit: BoxFit.cover,
+                        gaplessPlayback: true,
                         errorBuilder: (_, __, ___) {
                           return _historyThumbFallback(context, item, size: 76);
                         },
@@ -286,20 +286,19 @@ class DownloadHistorySheet extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  if (subtitle.isNotEmpty)
-                    Text(
-                      subtitle,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 12,
-                        height: 1.2,
-                        color: theme.textTheme.bodySmall?.color?.withOpacity(
-                          0.72,
-                        ),
-                        fontWeight: FontWeight.w700,
+                  Text(
+                    subtitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 12,
+                      height: 1.2,
+                      color: theme.textTheme.bodySmall?.color?.withOpacity(
+                        0.72,
                       ),
+                      fontWeight: FontWeight.w700,
                     ),
+                  ),
                   const SizedBox(height: 8),
                   Row(
                     children: [
@@ -369,10 +368,7 @@ class DownloadHistorySheet extends StatelessWidget {
     final theme = Theme.of(context);
 
     final cleanType = item.type.trim().toLowerCase();
-    final isVideo =
-        cleanType.contains('video') ||
-        cleanType.contains('reel') ||
-        cleanType == 'mp4';
+    final isVideo = _isVideoType(cleanType);
 
     return Container(
       width: size,
@@ -389,16 +385,128 @@ class DownloadHistorySheet extends StatelessWidget {
     );
   }
 
-  String _firstNonEmptyLocal(List<String?> values) {
-    for (final value in values) {
-      final clean = value?.trim() ?? '';
-
-      if (clean.isNotEmpty && clean != 'null') {
-        return clean;
-      }
+  String _historySubtitle({
+    required String username,
+    required String fullName,
+    required String cleanType,
+  }) {
+    if (username.isNotEmpty && fullName.isNotEmpty) {
+      return fullName;
     }
 
-    return '';
+    if (username.isEmpty && fullName.isNotEmpty) {
+      return _typeLabelVi(cleanType);
+    }
+
+    return _typeLabelVi(cleanType);
+  }
+
+  String _cleanUsername(String value) {
+    final clean = value.trim().replaceFirst(RegExp(r'^@+'), '');
+
+    if (_isGarbageText(clean)) {
+      return '';
+    }
+
+    return clean;
+  }
+
+  String _cleanHumanText(String value) {
+    final clean = value.trim();
+
+    if (_isGarbageText(clean)) {
+      return '';
+    }
+
+    return clean;
+  }
+
+  String _cleanUrl(String value) {
+    final clean = value.trim();
+
+    if (clean.isEmpty || clean == 'null') {
+      return '';
+    }
+
+    final lower = clean.toLowerCase();
+
+    if (!lower.startsWith('http://') && !lower.startsWith('https://')) {
+      return '';
+    }
+
+    return clean;
+  }
+
+  bool _isGarbageText(String value) {
+    final clean = value.trim();
+
+    if (clean.isEmpty || clean == 'null') {
+      return true;
+    }
+
+    final lower = clean.toLowerCase();
+
+    if (lower.startsWith('http://') || lower.startsWith('https://')) {
+      return true;
+    }
+
+    if (lower.contains('instagram.') || lower.contains('cdninstagram')) {
+      return true;
+    }
+
+    if (lower.startsWith('instagram_')) {
+      return true;
+    }
+
+    if (lower.endsWith('.mp4') ||
+        lower.endsWith('.jpg') ||
+        lower.endsWith('.jpeg') ||
+        lower.endsWith('.png') ||
+        lower.endsWith('.webp')) {
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isVideoType(String cleanType) {
+    return cleanType.contains('video') ||
+        cleanType.contains('reel') ||
+        cleanType == 'mp4';
+  }
+
+  String _typeTagText(String cleanType) {
+    if (_isVideoType(cleanType)) {
+      return 'VIDEO';
+    }
+
+    if (cleanType.contains('photo') ||
+        cleanType.contains('image') ||
+        cleanType == 'jpg' ||
+        cleanType == 'jpeg' ||
+        cleanType == 'png' ||
+        cleanType == 'webp') {
+      return 'PHOTO';
+    }
+
+    return cleanType.isNotEmpty ? cleanType.toUpperCase() : 'MEDIA';
+  }
+
+  String _typeLabelVi(String cleanType) {
+    if (_isVideoType(cleanType)) {
+      return 'Video';
+    }
+
+    if (cleanType.contains('photo') ||
+        cleanType.contains('image') ||
+        cleanType == 'jpg' ||
+        cleanType == 'jpeg' ||
+        cleanType == 'png' ||
+        cleanType == 'webp') {
+      return 'Ảnh';
+    }
+
+    return 'Media';
   }
 
   String _historyTimeText(String value) {

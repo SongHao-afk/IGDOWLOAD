@@ -109,6 +109,34 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     return '';
   }
 
+  String _cleanHistoryShortcode(String? value) {
+    final clean = value?.trim() ?? '';
+
+    if (clean.isEmpty || clean == 'null') {
+      return '';
+    }
+
+    final lower = clean.toLowerCase();
+
+    if (lower.startsWith('http://') || lower.startsWith('https://')) {
+      return '';
+    }
+
+    if (lower.contains('instagram.') || lower.contains('cdninstagram')) {
+      return '';
+    }
+
+    if (lower.endsWith('.mp4') ||
+        lower.endsWith('.jpg') ||
+        lower.endsWith('.jpeg') ||
+        lower.endsWith('.png') ||
+        lower.endsWith('.webp')) {
+      return '';
+    }
+
+    return clean;
+  }
+
   Map<String, dynamic> _safeMap(dynamic value) {
     if (value is Map) {
       return Map<String, dynamic>.from(value);
@@ -158,6 +186,13 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         'userName',
         'user_name',
       ]),
+      _mapFirstText(decoded, [
+        'username',
+        'ownerUsername',
+        'owner_username',
+        'userName',
+        'user_name',
+      ]),
       _mapFirstText(profile, [
         'username',
         'ownerUsername',
@@ -175,6 +210,13 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         'owner_full_name',
         'name',
       ]),
+      _mapFirstText(decoded, [
+        'fullName',
+        'full_name',
+        'ownerFullName',
+        'owner_full_name',
+        'name',
+      ]),
       _mapFirstText(profile, [
         'fullName',
         'full_name',
@@ -186,6 +228,16 @@ class DownloaderCubit extends Cubit<DownloaderState> {
 
     final avatarUrl = _firstNonEmpty([
       _mapFirstText(item, [
+        'avatarUrl',
+        'avatar_url',
+        'profilePicUrl',
+        'profile_pic_url',
+        'profilePicUrlHd',
+        'profile_pic_url_hd',
+        'ownerAvatarUrl',
+        'owner_avatar_url',
+      ]),
+      _mapFirstText(decoded, [
         'avatarUrl',
         'avatar_url',
         'profilePicUrl',
@@ -221,7 +273,6 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         'shortcode',
         'shortCode',
         'code',
-        'filename',
       ]),
     ]);
 
@@ -1664,7 +1715,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       item.isVideo ? null : item.downloadUrl,
     ]);
 
-    final shortcode = _firstNonEmpty([item.shortcode, item.id.toString()]);
+    final shortcode = _cleanHistoryShortcode(item.shortcode);
 
     final sourceUrl = _firstNonEmpty([item.sourceUrl, state.profileUrl]);
 
