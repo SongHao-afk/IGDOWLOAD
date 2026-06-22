@@ -56,6 +56,14 @@ class ProfileStoryRepository {
     return fallback;
   }
 
+  Map<dynamic, dynamic> _map(dynamic value) {
+    if (value is Map) {
+      return Map<dynamic, dynamic>.from(value);
+    }
+
+    return <dynamic, dynamic>{};
+  }
+
   String _firstText(Map map, List<String> keys) {
     for (final key in keys) {
       final value = map[key];
@@ -72,6 +80,42 @@ class ProfileStoryRepository {
     }
 
     return '';
+  }
+
+  String _firstNonEmpty(List<String?> values) {
+    for (final value in values) {
+      final clean = value?.trim() ?? '';
+
+      if (clean.isNotEmpty && clean != 'null') {
+        return clean;
+      }
+    }
+
+    return '';
+  }
+
+  String _cleanUsername(String value) {
+    return value.trim().replaceFirst(RegExp(r'^@+'), '').toLowerCase();
+  }
+
+  bool _sameUsername(String a, String b) {
+    final left = _cleanUsername(a);
+    final right = _cleanUsername(b);
+
+    return left.isNotEmpty && left == right;
+  }
+
+  bool _isVideoType(dynamic value) {
+    final clean = value?.toString().trim().toLowerCase() ?? '';
+
+    return clean == '2' ||
+        clean == 'video' ||
+        clean == 'reel' ||
+        clean == 'clips';
+  }
+
+  String _normalizeType(dynamic value) {
+    return _isVideoType(value) ? 'video' : 'photo';
   }
 
   String _usernameFromProfileUrl(String value) {
@@ -115,7 +159,7 @@ class ProfileStoryRepository {
       username = (match?.group(1) ?? '').trim();
     }
 
-    username = username.replaceFirst('@', '').trim();
+    username = username.replaceFirst(RegExp(r'^@+'), '').trim();
 
     const reserved = {
       'p',
@@ -184,26 +228,26 @@ class ProfileStoryRepository {
 
     final userId = _firstText(body, ['userId', 'user_id', 'pk', 'id']);
 
-    final profile = body['profile'] is Map
-        ? Map<dynamic, dynamic>.from(body['profile'] as Map)
-        : <dynamic, dynamic>{};
+    final profile = _map(body['profile']);
 
     final profileUsername = _firstText(profile, [
       'username',
       'userName',
       'user_name',
+      'ownerUsername',
+      'owner_username',
     ]);
 
-    final safeUsername = requestedUsername.isNotEmpty
-        ? requestedUsername
-        : bodyUsername.isNotEmpty
-        ? bodyUsername
-        : profileUsername;
+    final safeUsername = _firstNonEmpty([
+      requestedUsername,
+      bodyUsername,
+      profileUsername,
+    ]);
 
     final profileMatchesRequest =
         profileUsername.isEmpty ||
         safeUsername.isEmpty ||
-        profileUsername.toLowerCase() == safeUsername.toLowerCase();
+        _sameUsername(profileUsername, safeUsername);
 
     final profileFullName = profileMatchesRequest
         ? _firstText(profile, [
@@ -264,6 +308,8 @@ class ProfileStoryRepository {
       '${_apiBase(serverBaseUrl)}/profile/story-group-items',
     );
 
+    final cleanUserId = userId?.trim() ?? '';
+
     final response = await http
         .post(
           uri,
@@ -272,6 +318,7 @@ class ProfileStoryRepository {
             _bodyWithCookie({
               'groupId': groupId,
               'username': username,
+              if (cleanUserId.isNotEmpty) 'userId': cleanUserId,
             }, privateIgCookie),
           ),
         )
@@ -297,7 +344,55 @@ class ProfileStoryRepository {
 
     return items.whereType<Map>().toList().asMap().entries.map((entry) {
       final map = Map<dynamic, dynamic>.from(entry.value);
+
       map.putIfAbsent('index', () => entry.key);
+
+      final rawType = _firstNonEmpty([
+        _firstText(map, ['type', 'mediaType', 'media_type']),
+      ]);
+
+      final type = _normalizeType(rawType);
+
+      final downloadUrl = _firstNonEmpty([
+        _firstText(map, ['downloadUrl', 'download_url', 'url', 'src']),
+      ]);
+
+      final downloadKey = _firstNonEmpty([
+        _firstText(map, ['downloadKey', 'download_key', 'key']),
+        downloadUrl,
+      ]);
+
+      final thumbnailUrl = _firstNonEmpty([
+        _firstText(map, [
+          'thumbnailUrl',
+          'thumbnail_url',
+          'thumb',
+          'thumbnail',
+          'coverUrl',
+          'cover_url',
+          'displayUrl',
+          'display_url',
+          'imageUrl',
+          'image_url',
+          'poster',
+        ]),
+        type == 'photo' ? downloadUrl : null,
+      ]);
+
+      map['type'] = type;
+
+      if (downloadUrl.isNotEmpty) {
+        map['downloadUrl'] = downloadUrl;
+      }
+
+      if (downloadKey.isNotEmpty) {
+        map['downloadKey'] = downloadKey;
+      }
+
+      if (thumbnailUrl.isNotEmpty) {
+        map['thumbnailUrl'] = thumbnailUrl;
+      }
+
       return ProfileStoryItem.fromJson(map);
     }).toList();
   }
