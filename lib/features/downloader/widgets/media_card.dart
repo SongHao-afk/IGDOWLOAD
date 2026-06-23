@@ -19,13 +19,18 @@ class MediaCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hasError = errorText != null && errorText!.trim().isNotEmpty;
-    final ownerText = _ownerText(item);
-    final mediaInfoText = _mediaInfoText(item);
+
+    final fullName = item.fullName.trim();
+    final username = item.username.trim();
+    final avatarUrl = item.avatarUrl.trim();
+
+    final usernameText = username.isNotEmpty ? '@$username' : '';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
+          height: 114,
           margin: EdgeInsets.only(bottom: hasError ? 8 : 16),
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
@@ -49,56 +54,82 @@ class MediaCard extends StatelessWidget {
           child: Row(
             children: [
               _PreviewBox(item: item),
+
               const SizedBox(width: 14),
+
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${_typeLabel(item)} #${item.id}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w900,
-                        fontSize: 15,
+                child: SizedBox(
+                  height: 82,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Hàng 1: avatar + tên
+                      Row(
+                        children: [
+                          _AvatarBox(avatarUrl: avatarUrl),
+
+                          const SizedBox(width: 9),
+
+                          Expanded(
+                            child: SizedBox(
+                              height: 24,
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  fullName,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 15.5,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    if (ownerText.isNotEmpty) ...[
-                      const SizedBox(height: 4),
-                      Text(
-                        ownerText,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 13,
+
+                      const SizedBox(height: 5),
+
+                      // Hàng 2: username riêng, không thụt theo tên nữa
+                      SizedBox(
+                        height: 20,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            usernameText,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Theme.of(
+                                context,
+                              ).textTheme.bodySmall?.color?.withOpacity(0.62),
+                              fontWeight: FontWeight.w700,
+                              fontSize: 12.5,
+                            ),
+                          ),
                         ),
                       ),
                     ],
-                    const SizedBox(height: 4),
-                    Text(
-                      mediaInfoText,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: Theme.of(
-                          context,
-                        ).textTheme.bodySmall?.color?.withOpacity(0.68),
-                        fontWeight: FontWeight.w700,
-                        fontSize: 13,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
+
               const SizedBox(width: 10),
+
               SizedBox(
                 width: 76,
                 height: 44,
                 child: FilledButton(
                   onPressed: isDownloading ? null : onDownload,
-                  style: FilledButton.styleFrom(padding: EdgeInsets.zero),
+                  style: FilledButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(22),
+                    ),
+                  ),
                   child: isDownloading
                       ? SizedBox(
                           width: 18,
@@ -108,12 +139,16 @@ class MediaCard extends StatelessWidget {
                             color: Theme.of(context).colorScheme.onPrimary,
                           ),
                         )
-                      : const Text('Tải'),
+                      : const Text(
+                          'Tải',
+                          style: TextStyle(fontWeight: FontWeight.w800),
+                        ),
                 ),
               ),
             ],
           ),
         ),
+
         if (hasError)
           Padding(
             padding: const EdgeInsets.only(left: 12, right: 12, bottom: 16),
@@ -129,80 +164,44 @@ class MediaCard extends StatelessWidget {
       ],
     );
   }
+}
 
-  String _ownerText(IgMediaItem item) {
-    final username = _cleanUsername(item.username);
-    final fullName = item.fullName.trim();
+class _AvatarBox extends StatelessWidget {
+  final String avatarUrl;
 
-    if (username.isNotEmpty) {
-      return username;
-    }
+  const _AvatarBox({required this.avatarUrl});
 
-    if (fullName.isNotEmpty) {
-      return fullName;
-    }
-
-    return '';
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 28,
+      height: 28,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Theme.of(context).colorScheme.primary.withOpacity(0.16),
+      ),
+      child: avatarUrl.isNotEmpty
+          ? Image.network(
+              avatarUrl,
+              fit: BoxFit.cover,
+              headers: const {
+                'User-Agent':
+                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                'Referer': 'https://www.instagram.com/',
+              },
+              errorBuilder: (_, __, ___) => _fallback(context),
+            )
+          : _fallback(context),
+    );
   }
 
-  String _mediaInfoText(IgMediaItem item) {
-    return _typeLabelVi(item);
-  }
-
-  String _typeLabel(IgMediaItem item) {
-    final clean = item.type.trim().toLowerCase();
-
-    if (clean == 'video' || clean == 'reel' || clean == 'mp4') {
-      return 'VIDEO';
-    }
-
-    if (clean == 'photo' ||
-        clean == 'image' ||
-        clean == 'jpg' ||
-        clean == 'jpeg' ||
-        clean == 'png' ||
-        clean == 'webp') {
-      return 'PHOTO';
-    }
-
-    if (clean == 'carousel') {
-      return 'CAROUSEL';
-    }
-
-    return clean.isEmpty ? 'MEDIA' : clean.toUpperCase();
-  }
-
-  String _typeLabelVi(IgMediaItem item) {
-    final clean = item.type.trim().toLowerCase();
-
-    if (clean == 'video' || clean == 'reel' || clean == 'mp4') {
-      return 'Video';
-    }
-
-    if (clean == 'photo' ||
-        clean == 'image' ||
-        clean == 'jpg' ||
-        clean == 'jpeg' ||
-        clean == 'png' ||
-        clean == 'webp') {
-      return 'Ảnh';
-    }
-
-    if (clean == 'carousel') {
-      return 'Bộ ảnh';
-    }
-
-    return clean.isEmpty ? 'Media' : clean;
-  }
-
-  String _cleanUsername(String? value) {
-    final raw = value?.trim() ?? '';
-
-    if (raw.isEmpty) {
-      return '';
-    }
-
-    return raw.replaceFirst(RegExp(r'^@+'), '');
+  Widget _fallback(BuildContext context) {
+    return Icon(
+      Icons.person_rounded,
+      size: 18,
+      color: Theme.of(context).colorScheme.primary,
+    );
   }
 }
 
@@ -232,7 +231,11 @@ class _PreviewBox extends StatelessWidget {
             Image.network(
               previewUrl,
               fit: BoxFit.cover,
-              gaplessPlayback: true,
+              headers: const {
+                'User-Agent':
+                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                'Referer': 'https://www.instagram.com/',
+              },
               loadingBuilder: (context, child, progress) {
                 if (progress == null) {
                   return child;
@@ -263,22 +266,20 @@ class _PreviewBox extends StatelessWidget {
               context,
               isVideo ? Icons.play_arrow_rounded : Icons.broken_image_rounded,
             ),
+
           if (isVideo)
-            Container(
-              color: Colors.black.withOpacity(0.12),
-              child: Center(
-                child: Container(
-                  width: 42,
-                  height: 42,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white.withOpacity(0.86),
-                  ),
-                  child: Icon(
-                    Icons.play_arrow_rounded,
-                    color: Theme.of(context).colorScheme.primary,
-                    size: 32,
-                  ),
+            Center(
+              child: Container(
+                width: 42,
+                height: 42,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withOpacity(0.86),
+                ),
+                child: Icon(
+                  Icons.play_arrow_rounded,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 32,
                 ),
               ),
             ),

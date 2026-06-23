@@ -167,15 +167,12 @@ class DownloadHistorySheet extends StatelessWidget {
     final safeAvatarUrl = _historyAvatarUrl(item, safeUsername);
     final safeThumbnailUrl = _historyThumbUrl(item);
 
-    final title = safeUsername.isNotEmpty
-        ? '@$safeUsername'
-        : safeFullName.isNotEmpty
-        ? safeFullName
-        : 'Instagram media';
-
-    final subtitle = safeFullName.isNotEmpty && safeUsername.isNotEmpty
-        ? safeFullName
-        : _typeLabelVi(cleanType);
+    // Layout cố định:
+    // Hàng 1: fullName
+    // Hàng 2: @username
+    // Nếu không có fullName thì hàng 1 vẫn để trống, username không nhảy lên.
+    final title = safeFullName;
+    final subtitle = safeUsername.isNotEmpty ? '@$safeUsername' : '';
 
     final typeText = _typeTagText(cleanType);
 
@@ -274,27 +271,39 @@ class DownloadHistorySheet extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 15,
+                  SizedBox(
+                    height: 19,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w900,
+                          fontSize: 15,
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    subtitle,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 12,
-                      height: 1.2,
-                      color: theme.textTheme.bodySmall?.color?.withOpacity(
-                        0.72,
+                  SizedBox(
+                    height: 16,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        subtitle,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 12,
+                          height: 1.2,
+                          color: theme.textTheme.bodySmall?.color?.withOpacity(
+                            0.72,
+                          ),
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -386,8 +395,9 @@ class DownloadHistorySheet extends StatelessWidget {
   String _historyUsername(DownloadHistoryItem item) {
     final fromSourceUrl = _usernameFromInstagramUrl(item.sourceUrl);
 
-    // Story/highlight lưu sourceUrl là profile URL hoặc /stories/{username}/...
-    // Ưu tiên username từ sourceUrl để không show nhầm chủ cookie.
+    // Story thường /stories/{username}/... có username thật trong URL.
+    // Link /s/... hoặc /stories/highlights/... KHÔNG có username,
+    // nên hàm _usernameFromInstagramUrl sẽ trả rỗng để fallback qua item.username.
     if (fromSourceUrl.isNotEmpty) {
       return fromSourceUrl;
     }
@@ -405,7 +415,7 @@ class DownloadHistorySheet extends StatelessWidget {
     final fromSourceUrl = _usernameFromInstagramUrl(item.sourceUrl);
     final storedUsername = _cleanUsername(item.username);
 
-    // Nếu sourceUrl cho biết username thật, mà username lưu trong DB khác,
+    // Nếu sourceUrl cho biết username thật mà username lưu khác,
     // fullName có nguy cơ là của chủ cookie/state cũ. Bỏ cho an toàn.
     if (fromSourceUrl.isNotEmpty) {
       if (storedUsername.isEmpty) {
@@ -434,7 +444,10 @@ class DownloadHistorySheet extends StatelessWidget {
     final fromSourceUrl = _usernameFromInstagramUrl(item.sourceUrl);
     final storedUsername = _cleanUsername(item.username);
 
-    // Nếu story/highlight cũ lưu avatar chủ cookie, không show nữa.
+    // Nếu sourceUrl có username thật mà username lưu khác,
+    // avatar có thể là avatar chủ cookie/state cũ. Chặn lại.
+    // Với /s/... và /stories/highlights/... thì fromSourceUrl rỗng,
+    // nên avatar backend trả về vẫn được dùng.
     if (fromSourceUrl.isNotEmpty) {
       if (storedUsername.isEmpty) {
         return '';
@@ -492,17 +505,29 @@ class DownloadHistorySheet extends StatelessWidget {
       return '';
     }
 
-    String username = '';
-
     final first = segments.first.toLowerCase();
 
-    if (first == 'stories' && segments.length >= 2) {
-      username = segments[1];
-    } else {
-      username = segments.first;
+    // Link share dạng instagram.com/s/xxxxx không chứa username.
+    // Không chặn cái này thì history sẽ hiện @s, một tác phẩm nghệ thuật rác.
+    if (first == 's') {
+      return '';
     }
 
-    username = _cleanUsername(username);
+    // /stories/{username}/... thì có username.
+    // /stories/highlights/{id} thì không có username.
+    if (first == 'stories') {
+      if (segments.length < 2) {
+        return '';
+      }
+
+      final second = segments[1].toLowerCase();
+
+      if (second == 'highlights' || second == 'highlight') {
+        return '';
+      }
+
+      return _cleanUsername(segments[1]);
+    }
 
     const reserved = {
       'p',
@@ -510,6 +535,10 @@ class DownloadHistorySheet extends StatelessWidget {
       'reels',
       'tv',
       'share',
+      's',
+      'stories',
+      'highlight',
+      'highlights',
       'explore',
       'accounts',
       'direct',
@@ -517,6 +546,12 @@ class DownloadHistorySheet extends StatelessWidget {
       'developer',
       'api',
     };
+
+    if (reserved.contains(first)) {
+      return '';
+    }
+
+    final username = _cleanUsername(segments.first);
 
     if (username.isEmpty || reserved.contains(username.toLowerCase())) {
       return '';
@@ -632,23 +667,6 @@ class DownloadHistorySheet extends StatelessWidget {
     }
 
     return cleanType.isNotEmpty ? cleanType.toUpperCase() : 'MEDIA';
-  }
-
-  String _typeLabelVi(String cleanType) {
-    if (_isVideoType(cleanType)) {
-      return 'Video';
-    }
-
-    if (cleanType.contains('photo') ||
-        cleanType.contains('image') ||
-        cleanType == 'jpg' ||
-        cleanType == 'jpeg' ||
-        cleanType == 'png' ||
-        cleanType == 'webp') {
-      return 'Ảnh';
-    }
-
-    return 'Media';
   }
 
   String _historyTimeText(String value) {
