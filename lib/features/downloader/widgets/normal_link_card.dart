@@ -83,22 +83,6 @@ class NormalLinkCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 10),
-          SizedBox(
-            width: double.infinity,
-            child: FilledButton.tonal(
-              onPressed: state.media.isEmpty || state.isAnyDownloading
-                  ? null
-                  : cubit.downloadAll,
-              child: state.downloadingAll
-                  ? const SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Text('Tải tất cả'),
-            ),
-          ),
         ],
       ),
     );

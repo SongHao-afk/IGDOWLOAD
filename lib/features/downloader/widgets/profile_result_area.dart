@@ -32,6 +32,10 @@ class ProfileResultArea extends StatelessWidget {
       return _storyResultArea(context, state, cubit);
     }
 
+    if (state.profileMode == 'all') {
+      return _allProfileResultArea(context, state, cubit);
+    }
+
     if (state.profileMode == 'reels' || state.profileMode == 'posts') {
       return _feedResultArea(context, state, cubit);
     }
@@ -91,6 +95,47 @@ class ProfileResultArea extends StatelessWidget {
     );
   }
 
+  Widget _allProfileResultArea(
+    BuildContext context,
+    DownloaderState state,
+    DownloaderCubit cubit,
+  ) {
+    return GlassCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _sectionTitle(
+            context: context,
+            icon: Icons.person_pin_circle_rounded,
+            title: state.profileUsername.trim().isEmpty
+                ? 'Tổng hợp profile'
+                : '@${state.profileUsername}',
+          ),
+          const SizedBox(height: 14),
+          _sectionTitle(
+            context: context,
+            icon: Icons.auto_stories_rounded,
+            title: 'Stories / Highlights',
+          ),
+          const SizedBox(height: 12),
+          _profileGroupsList(context, state, cubit),
+          const SizedBox(height: 14),
+          _profileStoryItemsGrid(context, state, cubit),
+          const SizedBox(height: 18),
+          _sectionTitle(
+            context: context,
+            icon: Icons.photo_library_rounded,
+            title: 'Ảnh / Video',
+          ),
+          const SizedBox(height: 12),
+          _profileFeedGrid(context, state, cubit),
+          const SizedBox(height: 14),
+          _profileMediaGrid(context, state, cubit),
+        ],
+      ),
+    );
+  }
+
   Widget _sectionTitle({
     required BuildContext context,
     required IconData icon,
@@ -119,23 +164,25 @@ class ProfileResultArea extends StatelessWidget {
   ) {
     if (state.profileGroupsLoading) {
       return const SizedBox(
-        height: 96,
+        height: 132,
         child: Center(child: CircularProgressIndicator()),
       );
     }
 
     if (state.profileGroups.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 8),
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: Text(
-          'Chưa có story/highlight. Bấm Stories rồi dán link profile.',
-          style: TextStyle(fontWeight: FontWeight.w600),
+          state.profileMode == 'all'
+              ? 'Chưa có story/highlight hoặc session không có quyền xem.'
+              : 'Chưa có story/highlight. Bấm Stories rồi dán link profile.',
+          style: const TextStyle(fontWeight: FontWeight.w600),
         ),
       );
     }
 
     return SizedBox(
-      height: 116,
+      height: 136,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: state.profileGroups.length,
@@ -203,13 +250,19 @@ class ProfileResultArea extends StatelessWidget {
                       ),
               ),
             ),
-            const SizedBox(height: 6),
-            Text(
-              group.title,
-              maxLines: 2,
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w800),
+            const SizedBox(height: 8),
+            Expanded(
+              child: Text(
+                group.title,
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 12,
+                  height: 1.1,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
             ),
           ],
         ),
@@ -302,11 +355,13 @@ class ProfileResultArea extends StatelessWidget {
     }
 
     if (state.profileFeedItems.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 8),
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: Text(
-          'Chưa có dữ liệu. Bấm Video Reel hoặc Ảnh rồi dán link profile.',
-          style: TextStyle(fontWeight: FontWeight.w600),
+          state.profileMode == 'all'
+              ? 'Chưa có ảnh/video hoặc session không có quyền xem.'
+              : 'Chưa có dữ liệu. Bấm Video Reel hoặc Ảnh rồi dán link profile.',
+          style: const TextStyle(fontWeight: FontWeight.w600),
         ),
       );
     }

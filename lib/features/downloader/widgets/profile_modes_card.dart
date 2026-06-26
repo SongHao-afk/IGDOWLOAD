@@ -50,6 +50,23 @@ class ProfileModesCard extends StatelessWidget {
     }
   }
 
+  bool _isSingleMediaUrl(String value) {
+    final uri = Uri.tryParse(value.trim());
+    if (uri == null) return false;
+
+    final host = uri.host.toLowerCase();
+    if (host != 'instagram.com' && !host.endsWith('.instagram.com')) {
+      return false;
+    }
+
+    final path = uri.path.toLowerCase();
+
+    return path.contains('/p/') ||
+        path.contains('/reel/') ||
+        path.contains('/reels/') ||
+        path.contains('/tv/');
+  }
+
   String _modeHint(ProfileModeAction mode) {
     switch (mode) {
       case ProfileModeAction.stories:
@@ -113,11 +130,21 @@ class ProfileModesCard extends StatelessWidget {
                     break;
 
                   case ProfileModeAction.reels:
+                    if (_isSingleMediaUrl(profileUrl)) {
+                      await cubit.resolveMedia(profileUrl);
+                      break;
+                    }
+
                     cubit.setProfileMode('reels');
                     await cubit.loadProfileReels(profileUrl);
                     break;
 
                   case ProfileModeAction.posts:
+                    if (_isSingleMediaUrl(profileUrl)) {
+                      await cubit.resolveMedia(profileUrl);
+                      break;
+                    }
+
                     cubit.setProfileMode('posts');
                     await cubit.loadProfilePosts(profileUrl);
                     break;

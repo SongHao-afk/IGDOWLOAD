@@ -6,11 +6,11 @@ import '../cubit/downloader_cubit.dart';
 import '../cubit/downloader_state.dart';
 import '../widgets/download_history_sheet.dart';
 import '../widgets/downloader_hero.dart';
+import '../widgets/frequent_profiles_card.dart';
 import '../widgets/media_card.dart';
 import '../widgets/normal_link_card.dart';
 import '../widgets/profile_modes_card.dart';
 import '../widgets/profile_result_area.dart';
-import '../widgets/server_settings_sheet.dart';
 import '../widgets/session_mode_card.dart';
 import '../widgets/theme_picker_sheet.dart';
 import 'instagram_login_page.dart';
@@ -30,18 +30,6 @@ class _DownloaderPageState extends State<DownloaderPage> {
   void dispose() {
     urlCtrl.dispose();
     super.dispose();
-  }
-
-  void openServerSettings() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      showDragHandle: false,
-      builder: (_) => BlocProvider.value(
-        value: context.read<DownloaderCubit>(),
-        child: const ServerSettingsSheet(),
-      ),
-    );
   }
 
   void openThemePicker() {
@@ -138,10 +126,6 @@ class _DownloaderPageState extends State<DownloaderPage> {
                 onPressed: openThemePicker,
                 icon: const Icon(Icons.palette_rounded),
               ),
-              IconButton(
-                onPressed: openServerSettings,
-                icon: const Icon(Icons.settings_rounded),
-              ),
             ],
           ),
           body: Container(
@@ -176,6 +160,9 @@ class _DownloaderPageState extends State<DownloaderPage> {
                         children: [
                           DownloaderHero(state: state),
                           const SizedBox(height: 46),
+                          FrequentProfilesCard(state: state, cubit: cubit),
+                          if (state.frequentProfiles.isNotEmpty)
+                            const SizedBox(height: 14),
                           ProfileModesCard(state: state, cubit: cubit),
                           const SizedBox(height: 14),
                           NormalLinkCard(
