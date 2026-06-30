@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-import '../../../core/utils/instagram_webview_cleaner.dart';
-
 class ManualInstagramBrowserPage extends StatefulWidget {
   final String? startUrl;
   final String privateIgCookie;
@@ -58,9 +56,7 @@ class _ManualInstagramBrowserPageState
   function sendCurrentUrl() {
     try {
       const href = window.location.href || '';
-
       if (!href || href === lastHref) return;
-
       lastHref = href;
 
       if (isPickableUrl(href)) {
@@ -101,13 +97,11 @@ class _ManualInstagramBrowserPageState
         keys.forEach((key) => {
           try {
             if (!proto[key] || proto['__manualIgRaw_' + key]) return;
-
             proto['__manualIgRaw_' + key] = proto[key];
 
             proto[key] = function() {
               sendCurrentUrl();
               markInlineVideos();
-
               return Promise.resolve();
             };
           } catch (e) {}
@@ -191,7 +185,7 @@ class _ManualInstagramBrowserPageState
 
   String currentUrl = '';
   String lastPickableUrl = '';
-  String status = 'Đang mở trình duyệt Instagram sạch...';
+  String status = 'Đang mở trình duyệt Instagram...';
 
   @override
   void initState() {
@@ -206,7 +200,8 @@ class _ManualInstagramBrowserPageState
   }
 
   Future<void> _prepareBrowser() async {
-    await InstagramWebViewCleaner.clearAll();
+    // Quan trọng cho iOS:
+    // Không clear cookie/storage ở đây, để WKWebView giữ session Instagram.
     await _applyPrivateCookie(widget.privateIgCookie);
 
     if (!mounted) return;
@@ -298,11 +293,7 @@ class _ManualInstagramBrowserPageState
 
     if (!mounted) {
       currentUrl = clean;
-
-      if (pickable) {
-        lastPickableUrl = clean;
-      }
-
+      if (pickable) lastPickableUrl = clean;
       return;
     }
 
@@ -488,130 +479,117 @@ class _ManualInstagramBrowserPageState
     return Stack(
       children: [
         InAppWebView(
-                      initialUrlRequest: URLRequest(url: _initialUri()),
-                      initialUserScripts: UnmodifiableListView<UserScript>([
-                        UserScript(
-                          source: _guardScript,
-                          injectionTime:
-                              UserScriptInjectionTime.AT_DOCUMENT_START,
-                        ),
-                      ]),
-                      initialSettings: InAppWebViewSettings(
-                        javaScriptEnabled: true,
-                        thirdPartyCookiesEnabled: true,
-                        sharedCookiesEnabled: true,
-                        domStorageEnabled: true,
-                        incognito: false,
-                        cacheEnabled: false,
-                        clearCache: true,
-                        databaseEnabled: false,
-                        mediaPlaybackRequiresUserGesture: false,
-                        allowsInlineMediaPlayback: true,
-                        supportMultipleWindows: false,
-                        javaScriptCanOpenWindowsAutomatically: false,
-                        useShouldOverrideUrlLoading: true,
-                        verticalScrollBarEnabled: true,
-                        horizontalScrollBarEnabled: false,
-                        transparentBackground: false,
-                      ),
-                      onWebViewCreated: (webController) {
-                        controller = webController;
+          initialUrlRequest: URLRequest(url: _initialUri()),
+          initialUserScripts: UnmodifiableListView<UserScript>([
+            UserScript(
+              source: _guardScript,
+              injectionTime: UserScriptInjectionTime.AT_DOCUMENT_START,
+            ),
+          ]),
+          initialSettings: InAppWebViewSettings(
+            javaScriptEnabled: true,
+            thirdPartyCookiesEnabled: true,
+            sharedCookiesEnabled: true,
+            domStorageEnabled: true,
+            incognito: false,
+            cacheEnabled: true,
+            clearCache: false,
+            databaseEnabled: true,
+            mediaPlaybackRequiresUserGesture: false,
+            allowsInlineMediaPlayback: true,
+            supportMultipleWindows: false,
+            javaScriptCanOpenWindowsAutomatically: false,
+            useShouldOverrideUrlLoading: true,
+            verticalScrollBarEnabled: true,
+            horizontalScrollBarEnabled: false,
+            transparentBackground: false,
+          ),
+          onWebViewCreated: (webController) {
+            controller = webController;
 
-                        webController.addJavaScriptHandler(
-                          handlerName: 'manualIgUrlChanged',
-                          callback: (args) {
-                            if (args.isEmpty) return null;
+            webController.addJavaScriptHandler(
+              handlerName: 'manualIgUrlChanged',
+              callback: (args) {
+                if (args.isEmpty) return null;
 
-                            final value = args.first?.toString();
-                            _rememberUrl(value);
+                final value = args.first?.toString();
+                _rememberUrl(value);
 
-                            return null;
-                          },
-                        );
-                      },
-                      shouldOverrideUrlLoading:
-                          (webController, navigationAction) async {
-                            final value =
-                                navigationAction.request.url?.toString() ?? '';
+                return null;
+              },
+            );
+          },
+          shouldOverrideUrlLoading: (webController, navigationAction) async {
+            final value = navigationAction.request.url?.toString() ?? '';
 
-                            _rememberUrl(value);
+            _rememberUrl(value);
 
-                            // Quan trọng:
-                            // Không CANCEL highlight nữa.
-                            // Cho highlight mở trong WebView nhỏ, chỉ chặn fullscreen.
-                            return NavigationActionPolicy.ALLOW;
-                          },
-                      onCreateWindow:
-                          (webController, createWindowAction) async {
-                            final value =
-                                createWindowAction.request.url?.toString() ??
-                                '';
+            return NavigationActionPolicy.ALLOW;
+          },
+          onCreateWindow: (webController, createWindowAction) async {
+            final value = createWindowAction.request.url?.toString() ?? '';
 
-                            if (value.startsWith('http')) {
-                              _rememberUrl(value);
+            if (value.startsWith('http')) {
+              _rememberUrl(value);
 
-                              await webController.loadUrl(
-                                urlRequest: URLRequest(url: WebUri(value)),
-                              );
-                            }
+              await webController.loadUrl(
+                urlRequest: URLRequest(url: WebUri(value)),
+              );
+            }
 
-                            return false;
-                          },
-                      onEnterFullscreen: (webController) async {
-                        controller = webController;
+            return false;
+          },
+          onEnterFullscreen: (webController) async {
+            controller = webController;
 
-                        final value = await _getCurrentUrlSafe();
-                        _rememberUrl(value);
+            final value = await _getCurrentUrlSafe();
+            _rememberUrl(value);
 
-                        await _forceExitFullscreen();
-                      },
-                      onExitFullscreen: (webController) async {
-                        controller = webController;
+            await _forceExitFullscreen();
+          },
+          onExitFullscreen: (webController) async {
+            controller = webController;
 
-                        await SystemChrome.setEnabledSystemUIMode(
-                          SystemUiMode.edgeToEdge,
-                        );
-                      },
-                      onLoadStart: (webController, url) {
-                        controller = webController;
+            await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+          },
+          onLoadStart: (webController, url) {
+            controller = webController;
 
-                        final value = url?.toString() ?? '';
-                        _rememberUrl(value);
+            final value = url?.toString() ?? '';
+            _rememberUrl(value);
 
-                        if (!mounted) return;
+            if (!mounted) return;
 
-                        setState(() {
-                          loading = true;
-                        });
-                      },
-                      onLoadStop: (webController, url) async {
-                        controller = webController;
+            setState(() {
+              loading = true;
+            });
+          },
+          onLoadStop: (webController, url) async {
+            controller = webController;
 
-                        await _installGuardScript(webController);
-                        await _forceExitFullscreen();
+            await _installGuardScript(webController);
+            await _forceExitFullscreen();
 
-                        final actualUrl = await webController.getUrl();
-                        final value =
-                            actualUrl?.toString() ?? url?.toString() ?? '';
+            final actualUrl = await webController.getUrl();
+            final value = actualUrl?.toString() ?? url?.toString() ?? '';
 
-                        _rememberUrl(value);
+            _rememberUrl(value);
 
-                        if (!mounted) return;
+            if (!mounted) return;
 
-                        setState(() {
-                          loading = false;
-                        });
-                      },
-                      onUpdateVisitedHistory:
-                          (webController, url, androidIsReload) async {
-                            controller = webController;
+            setState(() {
+              loading = false;
+            });
+          },
+          onUpdateVisitedHistory: (webController, url, androidIsReload) async {
+            controller = webController;
 
-                            await _installGuardScript(webController);
+            await _installGuardScript(webController);
 
-                            final value = url?.toString() ?? '';
-                            _rememberUrl(value);
-                          },
-                    ),
+            final value = url?.toString() ?? '';
+            _rememberUrl(value);
+          },
+        ),
         if (loading)
           const Positioned(
             top: 0,

@@ -9,7 +9,7 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 
 	<key>CFBundleDisplayName</key>
-	<string>Matheuscunha</string>
+	<string>IG DOWLOADER</string>
 
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
@@ -21,7 +21,7 @@
 	<string>6.0</string>
 
 	<key>CFBundleName</key>
-	<string>matheuscunha</string>
+	<string>IG DOWLOADER</string>
 
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
