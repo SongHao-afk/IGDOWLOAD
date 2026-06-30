@@ -89,9 +89,12 @@ class NormalLinkCard extends StatelessWidget {
     DownloaderCubit cubit,
   ) {
     return GlassCard(
+      padding: const EdgeInsets.fromLTRB(16, 18, 16, 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: 12),
+          const SizedBox(height: 14),
           TextField(
             controller: urlCtrl,
             maxLines: 1,
@@ -123,12 +126,30 @@ class NormalLinkCard extends StatelessWidget {
                       ? null
                       : () => onOpenManualInstagramBrowser(),
                   icon: const Icon(Icons.travel_explore_rounded),
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(50),
+                    foregroundColor: const Color(0xFFE1306C),
+                    side: const BorderSide(color: Color(0xFFFFC7DA)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    textStyle: const TextStyle(fontWeight: FontWeight.w900),
+                  ),
                   label: const Text('Duyệt IG'),
                 ),
               ),
               const SizedBox(width: 10),
               Expanded(
                 child: FilledButton(
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size.fromHeight(50),
+                    backgroundColor: const Color(0xFFE1306C),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    textStyle: const TextStyle(fontWeight: FontWeight.w900),
+                  ),
                   onPressed: state.loading
                       ? null
                       : () async {

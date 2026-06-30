@@ -10,10 +10,12 @@ class FrequentProfilesCard extends StatelessWidget {
     super.key,
     required this.state,
     required this.cubit,
+    this.onProfileTap,
   });
 
   final DownloaderState state;
   final DownloaderCubit cubit;
+  final void Function(FrequentProfileItem item)? onProfileTap;
 
   @override
   Widget build(BuildContext context) {
@@ -22,18 +24,32 @@ class FrequentProfilesCard extends StatelessWidget {
     }
 
     return GlassCard(
+      padding: const EdgeInsets.fromLTRB(16, 18, 16, 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              const Icon(Icons.history_toggle_off_rounded),
+              Container(
+                width: 34,
+                height: 34,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFEAF3),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(
+                  Icons.history_toggle_off_rounded,
+                  color: Color(0xFFE1306C),
+                  size: 18,
+                ),
+              ),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   'Truy cập thường xuyên',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w900,
+                    color: const Color(0xFF171321),
+                    fontWeight: FontWeight.w900,
                       ),
                 ),
               ),
@@ -50,7 +66,15 @@ class FrequentProfilesCard extends StatelessWidget {
                 final item = state.frequentProfiles[index];
                 return _FrequentProfileTile(
                   item: item,
-                  onTap: () => cubit.loadFrequentProfileAll(item),
+                  onTap: () {
+                    final handler = onProfileTap;
+                    if (handler != null) {
+                      handler(item);
+                      return;
+                    }
+
+                    cubit.loadFrequentProfileAll(item);
+                  },
                   onLongPress: () => cubit.removeFrequentProfile(item),
                 );
               },
@@ -91,29 +115,49 @@ class _FrequentProfileTile extends StatelessWidget {
               width: 66,
               height: 66,
               padding: const EdgeInsets.all(3),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(
-                  width: 2,
-                  color: Theme.of(context).colorScheme.primary,
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xFFFFD600),
+                    Color(0xFFFF7A30),
+                    Color(0xFFFF2F75),
+                    Color(0xFFC13584),
+                    Color(0xFF405DE6),
+                  ],
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
                 ),
               ),
-              child: ClipOval(
-                child: item.avatarUrl.trim().isEmpty
-                    ? Container(
-                        color: Colors.black26,
-                        child: const Icon(Icons.person_rounded),
-                      )
-                    : Image.network(
-                        item.avatarUrl,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) {
-                          return Container(
-                            color: Colors.black26,
-                            child: const Icon(Icons.person_rounded),
-                          );
-                        },
-                      ),
+              child: Container(
+                padding: const EdgeInsets.all(2),
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                ),
+                child: ClipOval(
+                  child: item.avatarUrl.trim().isEmpty
+                      ? Container(
+                          color: const Color(0xFFFFEAF3),
+                          child: const Icon(
+                            Icons.person_rounded,
+                            color: Color(0xFFE1306C),
+                          ),
+                        )
+                      : Image.network(
+                          item.avatarUrl,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) {
+                            return Container(
+                              color: const Color(0xFFFFEAF3),
+                              child: const Icon(
+                                Icons.person_rounded,
+                                color: Color(0xFFE1306C),
+                              ),
+                            );
+                          },
+                        ),
+                ),
               ),
             ),
             const SizedBox(height: 7),

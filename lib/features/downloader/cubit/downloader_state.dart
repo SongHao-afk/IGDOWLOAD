@@ -163,7 +163,7 @@ class DownloaderState {
   }
 
   String? get activeIgCookie {
-    if (privateMode && hasPrivateCookie) {
+    if (hasPrivateCookie) {
       return privateIgCookie;
     }
 

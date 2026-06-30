@@ -1,4 +1,4 @@
-import 'dart:convert';
+﻿import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -832,12 +832,10 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         profileUsername: nextUsername,
         profileFullName: nextFullName,
         profileAvatarUrl: nextAvatarUrl,
-        profileError: nothingLoaded
-            ? 'Không lấy được dữ liệu profile. Kiểm tra session hoặc quyền xem.'
-            : null,
+        profileError: nothingLoaded ? 'Cần đăng nhập' : null,
         clearProfileError: !nothingLoaded,
         status: nothingLoaded
-            ? 'Không lấy được dữ liệu profile.'
+            ? 'Cần đăng nhập'
             : 'Đã mở @$nextUsername: ${groups.length} mục story/highlight, ${feedItems.length} ảnh/video.',
       ),
     );
@@ -992,17 +990,12 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       return;
     }
 
-    if (state.privateMode && !state.hasPrivateCookie) {
-      emit(state.copyWith(status: 'Private mode cần bấm Đăng nhập trước.'));
-      return;
-    }
-
     emit(
       state.copyWith(
         loading: true,
         status: state.activeIgCookie == null
-            ? 'Đang bú link bằng Public mode...'
-            : 'Đang bú link bằng Private mode...',
+            ? 'Đang bú link...'
+            : 'Đang bú link với tài khoản đã đăng nhập...',
         media: <IgMediaItem>[],
         downloadingIds: <int>{},
         downloadErrors: <int, String>{},
@@ -1102,7 +1095,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
           loading: false,
           status: state.activeIgCookie == null
               ? 'Lỗi lấy media. Kiểm tra link hoặc thử lại.'
-              : 'Lỗi lấy media bằng Private mode. Kiểm tra quyền xem hoặc đăng nhập lại.',
+              : 'Lỗi lấy media. Kiểm tra quyền xem hoặc đăng nhập lại.',
           downloadingIds: <int>{},
           downloadingAll: false,
           profileMode: '',
@@ -1147,37 +1140,20 @@ class DownloaderCubit extends Cubit<DownloaderState> {
   }
 
   bool _guardPrivateModeForProfile() {
-    if (state.privateMode && !state.hasPrivateCookie) {
-      emit(
-        state.copyWith(
-          profileError: 'Private mode cần bấm Đăng nhập trước.',
-          status: 'Private mode cần bấm Đăng nhập trước.',
-        ),
-      );
-      return false;
-    }
-
     return true;
   }
 
   bool _guardPrivateLoginForStoryHighlight() {
-    if (state.privateMode && state.hasPrivateCookie) {
+    if (state.hasPrivateCookie) {
       return true;
     }
 
-    const message =
-        'Story/highlight cần bật Private mode và đăng nhập Instagram trước.';
+    const message = 'Cần đăng nhập';
 
-    emit(
-      state.copyWith(
-        profileError: message,
-        status: message,
-      ),
-    );
+    emit(state.copyWith(profileError: message, status: message));
 
     return false;
   }
-
   // =========================
   // PROFILE STORY / HIGHLIGHT
   // =========================
@@ -1222,9 +1198,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         downloadingProfileMediaUrls: <String>{},
         clearProfileIdentity: true,
         clearProfileError: true,
-        status: state.activeIgCookie == null
-            ? 'Đang lấy story/highlight bằng Public mode...'
-            : 'Đang lấy story/highlight bằng Private mode...',
+        status: 'Đang lấy story/highlight với tài khoản đã đăng nhập...',
       ),
     );
 
@@ -1259,9 +1233,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         profileUrl: profileUrl,
       );
     } catch (_) {
-      final message = state.activeIgCookie == null
-          ? 'Lỗi lấy profile. Kiểm tra link hoặc default session.'
-          : 'Lỗi lấy profile bằng Private mode. Kiểm tra quyền xem hoặc đăng nhập lại.';
+      const message = 'Cần đăng nhập';
 
       emit(
         state.copyWith(
@@ -1320,7 +1292,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     } catch (_) {
       final message = state.activeIgCookie == null
           ? 'Lỗi mở highlight/story. Kiểm tra default session.'
-          : 'Lỗi mở highlight/story bằng Private mode. Kiểm tra quyền xem.';
+          : 'Lỗi mở highlight/story. Kiểm tra quyền xem.';
 
       emit(
         state.copyWith(
@@ -1513,8 +1485,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         clearProfileIdentity: true,
         clearProfileError: true,
         status: state.activeIgCookie == null
-            ? 'Đang lấy reels bằng Public mode...'
-            : 'Đang lấy reels bằng Private mode...',
+            ? 'Đang lấy reels...'
+            : 'Đang lấy reels với tài khoản đã đăng nhập...',
       ),
     );
 
@@ -1571,7 +1543,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     } catch (_) {
       final message = state.activeIgCookie == null
           ? 'Lỗi lấy reels. Kiểm tra link hoặc default session.'
-          : 'Lỗi lấy reels bằng Private mode. Kiểm tra quyền xem.';
+          : 'Lỗi lấy reels. Kiểm tra quyền xem.';
 
       emit(
         state.copyWith(
@@ -1626,8 +1598,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         clearProfileIdentity: true,
         clearProfileError: true,
         status: state.activeIgCookie == null
-            ? 'Đang lấy ảnh/bài viết bằng Public mode...'
-            : 'Đang lấy ảnh/bài viết bằng Private mode...',
+            ? 'Đang lấy ảnh/bài viết...'
+            : 'Đang lấy ảnh/bài viết với tài khoản đã đăng nhập...',
       ),
     );
 
@@ -1684,7 +1656,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     } catch (_) {
       final message = state.activeIgCookie == null
           ? 'Lỗi lấy ảnh/bài viết. Kiểm tra link hoặc default session.'
-          : 'Lỗi lấy ảnh/bài viết bằng Private mode. Kiểm tra quyền xem.';
+          : 'Lỗi lấy ảnh/bài viết. Kiểm tra quyền xem.';
 
       emit(
         state.copyWith(
@@ -2208,11 +2180,6 @@ class DownloaderCubit extends Cubit<DownloaderState> {
   Future<void> downloadMedia(IgMediaItem item) async {
     if (state.downloadingIds.contains(item.id)) return;
     if (state.downloadingAll) return;
-
-    if (state.privateMode && !state.hasPrivateCookie) {
-      emit(state.copyWith(status: 'Private mode cần bấm Đăng nhập trước.'));
-      return;
-    }
 
     final nextDownloading = {...state.downloadingIds, item.id};
 

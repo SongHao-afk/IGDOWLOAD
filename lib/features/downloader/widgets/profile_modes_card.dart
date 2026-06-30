@@ -324,18 +324,33 @@ class ProfileModesCard extends StatelessWidget {
     DownloaderCubit cubit,
   ) {
     return GlassCard(
+      padding: const EdgeInsets.fromLTRB(16, 18, 16, 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              const Icon(Icons.dashboard_customize_rounded),
+              Container(
+                width: 34,
+                height: 34,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFEAF3),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(
+                  Icons.dashboard_customize_rounded,
+                  color: Color(0xFFE1306C),
+                  size: 18,
+                ),
+              ),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   'Tải từ trang cá nhân',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: const Color(0xFF171321),
                     fontWeight: FontWeight.w900,
+                    fontSize: 18,
                   ),
                 ),
               ),
@@ -351,7 +366,7 @@ class ProfileModesCard extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: 16),
           Row(
             children: [
               Expanded(
@@ -414,23 +429,21 @@ class ProfileModesCard extends StatelessWidget {
         duration: const Duration(milliseconds: 160),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 14),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(999),
           color: selected
-              ? Theme.of(context).colorScheme.primary.withOpacity(0.18)
-              : Colors.white.withOpacity(0.06),
+              ? const Color(0xFFFFEAF3)
+              : Colors.white,
           border: Border.all(
-            color: selected
-                ? Theme.of(context).colorScheme.primary
-                : Colors.white.withOpacity(0.16),
-            width: selected ? 2 : 1,
+            color: selected ? const Color(0xFFE1306C) : const Color(0xFFFFC7DA),
+            width: 1.2,
           ),
         ),
         child: Column(
           children: [
             Icon(
               _modeIcon(mode),
-              size: 28,
-              color: selected ? Theme.of(context).colorScheme.primary : null,
+              size: 20,
+              color: selected ? const Color(0xFFE1306C) : const Color(0xFF7D6671),
             ),
             const SizedBox(height: 6),
             Text(
