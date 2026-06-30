@@ -14,16 +14,27 @@ class GlassCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color = Theme.of(context).colorScheme;
+
     return Container(
       margin: margin,
       padding: padding,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
-        color: Colors.white.withOpacity(0.96),
-        border: Border.all(color: const Color(0xFFFFDDEB), width: 1),
+        gradient: LinearGradient(
+          colors: [
+            color.surface.withOpacity(0.98),
+            color.primary.withOpacity(0.11),
+            color.tertiary.withOpacity(0.09),
+            color.secondary.withOpacity(0.09),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        border: Border.all(color: color.primary.withOpacity(0.18), width: 1),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFE1306C).withOpacity(0.10),
+            color: color.primary.withOpacity(0.12),
             blurRadius: 28,
             offset: const Offset(0, 14),
           ),

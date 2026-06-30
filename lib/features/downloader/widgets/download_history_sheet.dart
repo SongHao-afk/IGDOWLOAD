@@ -16,10 +16,26 @@ class DownloadHistorySheet extends StatelessWidget {
       bloc: cubit,
       builder: (blocContext, state) {
         final items = state.downloadHistory;
+        final color = Theme.of(context).colorScheme;
 
         return SafeArea(
-          child: SizedBox(
+          child: Container(
             height: MediaQuery.of(context).size.height * 0.72,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(26),
+              ),
+              gradient: LinearGradient(
+                colors: [
+                  color.surface,
+                  Color.alphaBlend(color.primary.withOpacity(0.10), color.surface),
+                  Color.alphaBlend(color.tertiary.withOpacity(0.08), color.surface),
+                  Color.alphaBlend(color.secondary.withOpacity(0.08), color.surface),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
             child: Column(
               children: [
                 const SizedBox(height: 6),
@@ -28,9 +44,13 @@ class DownloadHistorySheet extends StatelessWidget {
                   height: 5,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(999),
-                    color: Theme.of(
-                      context,
-                    ).textTheme.bodySmall?.color?.withOpacity(0.28),
+                    gradient: LinearGradient(
+                      colors: [
+                        color.primary,
+                        color.tertiary,
+                        color.secondary,
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 14),
@@ -43,13 +63,19 @@ class DownloadHistorySheet extends StatelessWidget {
                         height: 38,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.primary.withOpacity(0.12),
+                          gradient: LinearGradient(
+                            colors: [
+                              color.primary,
+                              color.tertiary,
+                              color.secondary,
+                            ],
+                            begin: Alignment.bottomLeft,
+                            end: Alignment.topRight,
+                          ),
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.history_rounded,
-                          color: Theme.of(context).colorScheme.primary,
+                          color: Colors.white,
                         ),
                       ),
                       const SizedBox(width: 10),
@@ -101,14 +127,20 @@ class DownloadHistorySheet extends StatelessWidget {
                               height: 82,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.primary.withOpacity(0.10),
+                                gradient: LinearGradient(
+                                  colors: [
+                                    color.primary,
+                                    color.tertiary,
+                                    color.secondary,
+                                  ],
+                                  begin: Alignment.bottomLeft,
+                                  end: Alignment.topRight,
+                                ),
                               ),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.history_toggle_off_rounded,
                                 size: 42,
-                                color: Theme.of(context).colorScheme.primary,
+                                color: Colors.white,
                               ),
                             ),
                             const SizedBox(height: 16),
@@ -180,13 +212,13 @@ class DownloadHistorySheet extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
-        color: theme.cardColor.withOpacity(0.96),
-        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.08)),
+        color: Colors.white.withOpacity(0.96),
+        border: Border.all(color: theme.colorScheme.primary.withOpacity(0.16), width: 1),
         boxShadow: [
           BoxShadow(
             blurRadius: 18,
             offset: const Offset(0, 8),
-            color: Colors.black.withOpacity(0.08),
+            color: theme.colorScheme.primary.withOpacity(0.08),
           ),
         ],
       ),
@@ -316,7 +348,13 @@ class DownloadHistorySheet extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(999),
-                          color: theme.colorScheme.primary.withOpacity(0.10),
+                          gradient: LinearGradient(
+                            colors: [
+                              theme.colorScheme.primary.withOpacity(0.16),
+                              theme.colorScheme.tertiary.withOpacity(0.14),
+                              theme.colorScheme.secondary.withOpacity(0.13),
+                            ],
+                          ),
                         ),
                         child: Text(
                           typeText,

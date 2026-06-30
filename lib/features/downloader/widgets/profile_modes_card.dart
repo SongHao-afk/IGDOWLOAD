@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../cubit/downloader_cubit.dart';
 import '../cubit/downloader_state.dart';
-import 'glass_card.dart';
 
 enum ProfileModeAction { stories, reels, posts }
 
@@ -150,10 +149,12 @@ class ProfileModesCard extends StatelessWidget {
       await showDialog<void>(
         context: context,
         barrierDismissible: false,
-        barrierColor: Colors.black.withOpacity(0.35),
+        barrierColor: Colors.black.withOpacity(0.58),
         builder: (dialogContext) {
           return StatefulBuilder(
             builder: (dialogContext, setModalState) {
+              final modalColor = Theme.of(dialogContext).colorScheme;
+
               Future<void> closePopup() async {
                 FocusManager.instance.primaryFocus?.unfocus();
 
@@ -228,11 +229,33 @@ class ProfileModesCard extends StatelessWidget {
                         margin: const EdgeInsets.fromLTRB(16, 18, 16, 0),
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: Theme.of(dialogContext).cardColor,
+                          gradient: LinearGradient(
+                            colors: [
+                              modalColor.surface,
+                              Color.alphaBlend(
+                                modalColor.primary.withOpacity(0.10),
+                                modalColor.surface,
+                              ),
+                              Color.alphaBlend(
+                                modalColor.tertiary.withOpacity(0.08),
+                                modalColor.surface,
+                              ),
+                              Color.alphaBlend(
+                                modalColor.secondary.withOpacity(0.08),
+                                modalColor.surface,
+                              ),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
                           borderRadius: BorderRadius.circular(24),
+                          border: Border.all(
+                            color: modalColor.primary.withOpacity(0.20),
+                            width: 1,
+                          ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.22),
+                              color: modalColor.primary.withOpacity(0.20),
                               blurRadius: 28,
                               offset: const Offset(0, 14),
                             ),
@@ -244,7 +267,27 @@ class ProfileModesCard extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                Icon(_modeIcon(mode)),
+                                Container(
+                                  width: 38,
+                                  height: 38,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(13),
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        modalColor.primary,
+                                        modalColor.tertiary,
+                                        modalColor.secondary,
+                                      ],
+                                      begin: Alignment.bottomLeft,
+                                      end: Alignment.topRight,
+                                    ),
+                                  ),
+                                  child: Icon(
+                                    _modeIcon(mode),
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                ),
                                 const SizedBox(width: 8),
                                 Expanded(
                                   child: Text(
@@ -288,18 +331,45 @@ class ProfileModesCard extends StatelessWidget {
                             const SizedBox(height: 14),
                             SizedBox(
                               width: double.infinity,
-                              child: FilledButton.icon(
-                                onPressed: localLoading ? null : submit,
-                                icon: localLoading
-                                    ? const SizedBox(
-                                        width: 16,
-                                        height: 16,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                        ),
-                                      )
-                                    : const Icon(Icons.search_rounded),
-                                label: Text('Bú ${_modeTitle(mode)}'),
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(999),
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      modalColor.primary,
+                                      modalColor.tertiary,
+                                      modalColor.secondary,
+                                    ],
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color:
+                                          modalColor.primary.withOpacity(0.20),
+                                      blurRadius: 16,
+                                      offset: const Offset(0, 8),
+                                    ),
+                                  ],
+                                ),
+                                child: FilledButton.icon(
+                                  style: FilledButton.styleFrom(
+                                    backgroundColor: Colors.transparent,
+                                    disabledBackgroundColor: Colors.transparent,
+                                    shadowColor: Colors.transparent,
+                                  ),
+                                  onPressed: localLoading ? null : submit,
+                                  icon: localLoading
+                                      ? const SizedBox(
+                                          width: 16,
+                                          height: 16,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                          ),
+                                        )
+                                      : const Icon(Icons.search_rounded),
+                                  label: Text('Lấy ${_modeTitle(mode)}'),
+                                ),
                               ),
                             ),
                           ],
@@ -323,8 +393,33 @@ class ProfileModesCard extends StatelessWidget {
     DownloaderState state,
     DownloaderCubit cubit,
   ) {
-    return GlassCard(
+    final color = Theme.of(context).colorScheme;
+
+    return Container(
       padding: const EdgeInsets.fromLTRB(16, 18, 16, 16),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(26),
+        gradient: LinearGradient(
+          colors: [
+            color.surface.withOpacity(0.99),
+            color.primary.withOpacity(0.13),
+            color.tertiary.withOpacity(0.10),
+            color.secondary.withOpacity(0.12),
+            color.surface.withOpacity(0.94),
+          ],
+          stops: const [0.0, 0.28, 0.52, 0.76, 1.0],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        border: Border.all(color: color.primary.withOpacity(0.20), width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: color.primary.withOpacity(0.16),
+            blurRadius: 28,
+            offset: const Offset(0, 14),
+          ),
+        ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -334,12 +429,20 @@ class ProfileModesCard extends StatelessWidget {
                 width: 34,
                 height: 34,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFFEAF3),
                   borderRadius: BorderRadius.circular(12),
+                  gradient: LinearGradient(
+                    colors: [
+                      color.primary,
+                      color.tertiary,
+                      color.secondary,
+                    ],
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                  ),
                 ),
                 child: const Icon(
                   Icons.dashboard_customize_rounded,
-                  color: Color(0xFFE1306C),
+                  color: Colors.white,
                   size: 18,
                 ),
               ),
@@ -419,6 +522,7 @@ class ProfileModesCard extends StatelessWidget {
     required ProfileModeAction mode,
   }) {
     final selected = state.profileMode == _modeKey(mode);
+    final color = Theme.of(context).colorScheme;
 
     return InkWell(
       borderRadius: BorderRadius.circular(18),
@@ -430,26 +534,55 @@ class ProfileModesCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 14),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(999),
-          color: selected
-              ? const Color(0xFFFFEAF3)
-              : Colors.white,
+          gradient: selected
+              ? LinearGradient(
+                  colors: [
+                    color.primary,
+                    color.tertiary,
+                    color.secondary,
+                  ],
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                )
+              : LinearGradient(
+                  colors: [
+                    Colors.white,
+                    color.primary.withOpacity(0.10),
+                    color.secondary.withOpacity(0.09),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
           border: Border.all(
-            color: selected ? const Color(0xFFE1306C) : const Color(0xFFFFC7DA),
+            color: selected ? Colors.white : color.primary.withOpacity(0.22),
             width: 1.2,
           ),
+          boxShadow: [
+            BoxShadow(
+              color: (selected ? color.primary : Colors.black).withOpacity(
+                selected ? 0.18 : 0.05,
+              ),
+              blurRadius: selected ? 16 : 10,
+              offset: const Offset(0, 7),
+            ),
+          ],
         ),
         child: Column(
           children: [
             Icon(
               _modeIcon(mode),
               size: 20,
-              color: selected ? const Color(0xFFE1306C) : const Color(0xFF7D6671),
+              color: selected ? Colors.white : color.primary,
             ),
             const SizedBox(height: 6),
             Text(
               _modeTitle(mode),
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w900,
+                color: selected ? Colors.white : const Color(0xFF171321),
+              ),
             ),
           ],
         ),
@@ -457,3 +590,4 @@ class ProfileModesCard extends StatelessWidget {
     );
   }
 }
+

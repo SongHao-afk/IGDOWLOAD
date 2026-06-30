@@ -34,6 +34,8 @@ class _DownloaderPageState extends State<DownloaderPage> {
     showModalBottomSheet(
       context: context,
       showDragHandle: false,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       builder: (_) => const ThemePickerSheet(),
     );
   }
@@ -131,9 +133,9 @@ class _DownloaderPageState extends State<DownloaderPage> {
   void _openDownloadHistorySheet(BuildContext context, DownloaderCubit cubit) {
     showModalBottomSheet<void>(
       context: context,
-      showDragHandle: true,
+      showDragHandle: false,
       isScrollControlled: true,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: Colors.transparent,
       builder: (_) => DownloadHistorySheet(cubit: cubit),
     );
   }
@@ -141,9 +143,9 @@ class _DownloaderPageState extends State<DownloaderPage> {
   void _openFrequentProfilesSheet(BuildContext context, DownloaderCubit cubit) {
     showModalBottomSheet<void>(
       context: context,
-      showDragHandle: true,
+      showDragHandle: false,
       isScrollControlled: true,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: Colors.transparent,
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.75,
       ),
@@ -154,21 +156,13 @@ class _DownloaderPageState extends State<DownloaderPage> {
             return SafeArea(
               child: FractionallySizedBox(
                 heightFactor: 1,
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(
-                    16,
-                    8,
-                    16,
-                    MediaQuery.of(context).viewInsets.bottom + 16,
-                  ),
-                  child: FrequentProfilesCard(
-                    state: state,
-                    cubit: cubit,
-                    onProfileTap: (item) {
-                      Navigator.of(sheetContext).pop();
-                      cubit.loadFrequentProfileAll(item);
-                    },
-                  ),
+                child: FrequentProfilesCard(
+                  state: state,
+                  cubit: cubit,
+                  onProfileTap: (item) {
+                    Navigator.of(sheetContext).pop();
+                    cubit.loadFrequentProfileAll(item);
+                  },
                 ),
               ),
             );
@@ -188,6 +182,7 @@ class _DownloaderPageState extends State<DownloaderPage> {
       },
       builder: (context, state) {
         final cubit = context.read<DownloaderCubit>();
+        final colors = Theme.of(context).colorScheme;
 
         return Scaffold(
           resizeToAvoidBottomInset: true,
@@ -212,9 +207,35 @@ class _DownloaderPageState extends State<DownloaderPage> {
                 onPressed: state.frequentProfiles.isEmpty
                     ? null
                     : () => _openFrequentProfilesSheet(context, cubit),
-                icon: const Icon(
+                icon: Icon(
                   Icons.history_toggle_off_rounded,
-                  color: Color(0xFF7F1D8D),
+                  color: colors.primary,
+                ),
+              ),
+              IconButton(
+                tooltip: 'Đã tải gần đây',
+                visualDensity: VisualDensity.compact,
+                constraints: const BoxConstraints.tightFor(
+                  width: 38,
+                  height: 44,
+                ),
+                onPressed: () => _openDownloadHistorySheet(context, cubit),
+                icon: Icon(
+                  Icons.history_rounded,
+                  color: colors.secondary,
+                ),
+              ),
+              IconButton(
+                tooltip: 'Đổi giao diện',
+                visualDensity: VisualDensity.compact,
+                constraints: const BoxConstraints.tightFor(
+                  width: 38,
+                  height: 44,
+                ),
+                onPressed: openThemePicker,
+                icon: Icon(
+                  Icons.palette_rounded,
+                  color: colors.tertiary,
                 ),
               ),
               IconButton(
@@ -229,46 +250,21 @@ class _DownloaderPageState extends State<DownloaderPage> {
                     : () => openPrivateLogin(cubit),
                 icon: _InstagramLoginIcon(active: state.hasPrivateCookie),
               ),
-              IconButton(
-                tooltip: 'Đã tải gần đây',
-                visualDensity: VisualDensity.compact,
-                constraints: const BoxConstraints.tightFor(
-                  width: 38,
-                  height: 44,
-                ),
-                onPressed: () => _openDownloadHistorySheet(context, cubit),
-                icon: const Icon(
-                  Icons.history_rounded,
-                  color: Color(0xFF405DE6),
-                ),
-              ),
-              IconButton(
-                tooltip: 'Đổi giao diện',
-                visualDensity: VisualDensity.compact,
-                constraints: const BoxConstraints.tightFor(
-                  width: 38,
-                  height: 44,
-                ),
-                onPressed: openThemePicker,
-                icon: const Icon(
-                  Icons.palette_rounded,
-                  color: Color(0xFF111827),
-                ),
-              ),
             ],
           ),
           body: Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color(0xFFFFF2D8),
-                  Color(0xFFFFE5F1),
-                  Color(0xFFECEBFF),
-                  Color(0xFFFFF8FB),
+                  Theme.of(context).colorScheme.primary.withOpacity(0.88),
+                  Theme.of(context).colorScheme.tertiary.withOpacity(0.78),
+                  Theme.of(context).colorScheme.secondary.withOpacity(0.72),
+                  Theme.of(context).colorScheme.primary.withOpacity(0.36),
+                  Theme.of(context).scaffoldBackgroundColor,
                 ],
-                stops: [0.0, 0.36, 0.72, 1.0],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
+                stops: const [0.0, 0.18, 0.36, 0.62, 1.0],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
             ),
             child: SafeArea(
@@ -359,17 +355,17 @@ class _DownloaderPageState extends State<DownloaderPage> {
 class _InstagramTitle extends StatelessWidget {
   const _InstagramTitle();
 
-  static const _gradient = LinearGradient(
-    colors: [
-      Color(0xFFFF7A30),
-      Color(0xFFFF2F75),
-      Color(0xFFC13584),
-      Color(0xFF405DE6),
-    ],
-  );
-
   @override
   Widget build(BuildContext context) {
+    final color = Theme.of(context).colorScheme;
+    final gradient = LinearGradient(
+      colors: [
+        color.primary,
+        color.tertiary,
+        color.secondary,
+      ],
+    );
+
     return Row(
       children: [
         Container(
@@ -377,10 +373,10 @@ class _InstagramTitle extends StatelessWidget {
           height: 30,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            gradient: _gradient,
+            gradient: gradient,
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFFE1306C).withOpacity(0.22),
+                color: color.primary.withOpacity(0.22),
                 blurRadius: 12,
                 offset: const Offset(0, 6),
               ),
@@ -395,16 +391,20 @@ class _InstagramTitle extends StatelessWidget {
         const SizedBox(width: 8),
         Expanded(
           child: ShaderMask(
-            shaderCallback: (bounds) => _gradient.createShader(bounds),
-            child: const Text(
-              'IG Downloader',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w900,
-                fontSize: 19,
-                letterSpacing: 0,
+            shaderCallback: (bounds) => gradient.createShader(bounds),
+            child: const FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'IG Downloader',
+                maxLines: 1,
+                softWrap: false,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 19,
+                  letterSpacing: 0,
+                ),
               ),
             ),
           ),
@@ -419,15 +419,15 @@ class _InstagramGradientLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color = Theme.of(context).colorScheme;
+
     return DecoratedBox(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Color(0xFFFFD600),
-            Color(0xFFFF7A30),
-            Color(0xFFFF2F75),
-            Color(0xFFC13584),
-            Color(0xFF405DE6),
+            color.primary,
+            color.tertiary,
+            color.secondary,
           ],
         ),
       ),
@@ -443,7 +443,9 @@ class _InstagramLoginIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = active ? const Color(0xFFE1306C) : const Color(0xFF111827);
+    final color = active
+        ? Theme.of(context).colorScheme.primary
+        : const Color(0xFF111827);
 
     return SizedBox(
       width: 24,

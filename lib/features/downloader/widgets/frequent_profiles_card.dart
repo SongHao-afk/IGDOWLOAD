@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../cubit/downloader_cubit.dart';
 import '../cubit/downloader_state.dart';
 import '../repository/frequent_profile_repository.dart';
-import 'glass_card.dart';
 
 class FrequentProfilesCard extends StatelessWidget {
   const FrequentProfilesCard({
@@ -13,69 +12,129 @@ class FrequentProfilesCard extends StatelessWidget {
     this.onProfileTap,
   });
 
+  static const int _maxVisibleProfiles = 15;
+
   final DownloaderState state;
   final DownloaderCubit cubit;
   final void Function(FrequentProfileItem item)? onProfileTap;
 
   @override
   Widget build(BuildContext context) {
+    final color = Theme.of(context).colorScheme;
+
     if (state.frequentProfiles.isEmpty) {
       return const SizedBox.shrink();
     }
 
-    return GlassCard(
-      padding: const EdgeInsets.fromLTRB(16, 18, 16, 16),
+    final visibleProfiles = state.frequentProfiles
+        .take(_maxVisibleProfiles)
+        .toList(growable: false);
+
+    return Container(
+      padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(26)),
+        gradient: LinearGradient(
+          colors: [
+            color.surface,
+            Color.alphaBlend(color.primary.withOpacity(0.10), color.surface),
+            Color.alphaBlend(color.tertiary.withOpacity(0.08), color.surface),
+            Color.alphaBlend(color.secondary.withOpacity(0.08), color.surface),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        border: Border.all(color: color.primary.withOpacity(0.18), width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: color.primary.withOpacity(0.10),
+            blurRadius: 24,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Center(
+            child: Container(
+              width: 42,
+              height: 5,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(999),
+                gradient: LinearGradient(
+                  colors: [
+                    color.primary,
+                    color.tertiary,
+                    color.secondary,
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 14),
           Row(
             children: [
               Container(
-                width: 34,
-                height: 34,
+                width: 38,
+                height: 38,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFFEAF3),
-                  borderRadius: BorderRadius.circular(12),
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                    colors: [
+                      color.primary,
+                      color.tertiary,
+                      color.secondary,
+                    ],
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                  ),
                 ),
                 child: const Icon(
                   Icons.history_toggle_off_rounded,
-                  color: Color(0xFFE1306C),
-                  size: 18,
+                  color: Colors.white,
+                  size: 20,
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 10),
               Expanded(
                 child: Text(
                   'Truy cập thường xuyên',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: const Color(0xFF171321),
                     fontWeight: FontWeight.w900,
-                      ),
+                  ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          SizedBox(
-            height: 104,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: state.frequentProfiles.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 12),
+          const SizedBox(height: 16),
+          Expanded(
+            child: GridView.builder(
+              padding: EdgeInsets.zero,
+              itemCount: visibleProfiles.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisExtent: 104,
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 12,
+              ),
               itemBuilder: (context, index) {
-                final item = state.frequentProfiles[index];
-                return _FrequentProfileTile(
-                  item: item,
-                  onTap: () {
-                    final handler = onProfileTap;
-                    if (handler != null) {
-                      handler(item);
-                      return;
-                    }
+                final item = visibleProfiles[index];
+                return Center(
+                  child: _FrequentProfileTile(
+                    item: item,
+                    onTap: () {
+                      final handler = onProfileTap;
+                      if (handler != null) {
+                        handler(item);
+                        return;
+                      }
 
-                    cubit.loadFrequentProfileAll(item);
-                  },
-                  onLongPress: () => cubit.removeFrequentProfile(item),
+                      cubit.loadFrequentProfileAll(item);
+                    },
+                    onLongPress: () => cubit.removeFrequentProfile(item),
+                  ),
                 );
               },
             ),
@@ -99,6 +158,7 @@ class _FrequentProfileTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color = Theme.of(context).colorScheme;
     final title = item.username.trim().isEmpty
         ? 'Profile'
         : '@${item.username.trim()}';
@@ -115,15 +175,13 @@ class _FrequentProfileTile extends StatelessWidget {
               width: 66,
               height: 66,
               padding: const EdgeInsets.all(3),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: LinearGradient(
                   colors: [
-                    Color(0xFFFFD600),
-                    Color(0xFFFF7A30),
-                    Color(0xFFFF2F75),
-                    Color(0xFFC13584),
-                    Color(0xFF405DE6),
+                    color.primary,
+                    color.tertiary,
+                    color.secondary,
                   ],
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
@@ -138,10 +196,10 @@ class _FrequentProfileTile extends StatelessWidget {
                 child: ClipOval(
                   child: item.avatarUrl.trim().isEmpty
                       ? Container(
-                          color: const Color(0xFFFFEAF3),
-                          child: const Icon(
+                          color: color.primary.withOpacity(0.10),
+                          child: Icon(
                             Icons.person_rounded,
-                            color: Color(0xFFE1306C),
+                            color: color.primary,
                           ),
                         )
                       : Image.network(
@@ -149,10 +207,10 @@ class _FrequentProfileTile extends StatelessWidget {
                           fit: BoxFit.cover,
                           errorBuilder: (_, __, ___) {
                             return Container(
-                              color: const Color(0xFFFFEAF3),
-                              child: const Icon(
+                              color: color.primary.withOpacity(0.10),
+                              child: Icon(
                                 Icons.person_rounded,
-                                color: Color(0xFFE1306C),
+                                color: color.primary,
                               ),
                             );
                           },
