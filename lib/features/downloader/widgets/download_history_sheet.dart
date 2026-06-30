@@ -16,17 +16,21 @@ class DownloadHistorySheet extends StatelessWidget {
       bloc: cubit,
       builder: (blocContext, state) {
         final items = state.downloadHistory;
+        final color = Theme.of(context).colorScheme;
 
         return SafeArea(
           child: Container(
             height: MediaQuery.of(context).size.height * 0.72,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(26)),
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(26),
+              ),
               gradient: LinearGradient(
                 colors: [
-                  Color(0xFFFFF5FB),
-                  Color(0xFFFFEEF6),
-                  Color(0xFFFFF9F1),
+                  color.surface,
+                  Color.alphaBlend(color.primary.withOpacity(0.10), color.surface),
+                  Color.alphaBlend(color.tertiary.withOpacity(0.08), color.surface),
+                  Color.alphaBlend(color.secondary.withOpacity(0.08), color.surface),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -40,11 +44,11 @@ class DownloadHistorySheet extends StatelessWidget {
                   height: 5,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(999),
-                    gradient: const LinearGradient(
+                    gradient: LinearGradient(
                       colors: [
-                        Color(0xFFFF7A30),
-                        Color(0xFFE1306C),
-                        Color(0xFF405DE6),
+                        color.primary,
+                        color.tertiary,
+                        color.secondary,
                       ],
                     ),
                   ),
@@ -59,11 +63,11 @@ class DownloadHistorySheet extends StatelessWidget {
                         height: 38,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          gradient: const LinearGradient(
+                          gradient: LinearGradient(
                             colors: [
-                              Color(0xFFFF7A30),
-                              Color(0xFFE1306C),
-                              Color(0xFF405DE6),
+                              color.primary,
+                              color.tertiary,
+                              color.secondary,
                             ],
                             begin: Alignment.bottomLeft,
                             end: Alignment.topRight,
@@ -121,13 +125,13 @@ class DownloadHistorySheet extends StatelessWidget {
                             Container(
                               width: 82,
                               height: 82,
-                              decoration: const BoxDecoration(
+                              decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 gradient: LinearGradient(
                                   colors: [
-                                    Color(0xFFFF7A30),
-                                    Color(0xFFE1306C),
-                                    Color(0xFF405DE6),
+                                    color.primary,
+                                    color.tertiary,
+                                    color.secondary,
                                   ],
                                   begin: Alignment.bottomLeft,
                                   end: Alignment.topRight,
@@ -209,12 +213,12 @@ class DownloadHistorySheet extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
         color: Colors.white.withOpacity(0.96),
-        border: Border.all(color: const Color(0xFFFFDDEB), width: 1),
+        border: Border.all(color: theme.colorScheme.primary.withOpacity(0.16), width: 1),
         boxShadow: [
           BoxShadow(
             blurRadius: 18,
             offset: const Offset(0, 8),
-            color: const Color(0xFFE1306C).withOpacity(0.08),
+            color: theme.colorScheme.primary.withOpacity(0.08),
           ),
         ],
       ),
@@ -346,9 +350,9 @@ class DownloadHistorySheet extends StatelessWidget {
                           borderRadius: BorderRadius.circular(999),
                           gradient: LinearGradient(
                             colors: [
-                              const Color(0xFFFF7A30).withOpacity(0.16),
-                              const Color(0xFFE1306C).withOpacity(0.14),
-                              const Color(0xFF405DE6).withOpacity(0.13),
+                              theme.colorScheme.primary.withOpacity(0.16),
+                              theme.colorScheme.tertiary.withOpacity(0.14),
+                              theme.colorScheme.secondary.withOpacity(0.13),
                             ],
                           ),
                         ),
@@ -358,7 +362,7 @@ class DownloadHistorySheet extends StatelessWidget {
                             fontSize: 10,
                             letterSpacing: 0.2,
                             fontWeight: FontWeight.w900,
-                            color: const Color(0xFFE1306C),
+                            color: theme.colorScheme.primary,
                           ),
                         ),
                       ),

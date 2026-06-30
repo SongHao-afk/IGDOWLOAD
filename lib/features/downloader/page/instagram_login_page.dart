@@ -194,7 +194,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
     final color = Theme.of(context).colorScheme;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF7FB),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.white.withOpacity(0.96),
         elevation: 0,
@@ -216,18 +216,19 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
           IconButton(
             onPressed: saving || !webViewReady ? null : clearCookies,
             icon: const Icon(Icons.logout_rounded),
-            color: const Color(0xFFE1306C),
+            color: color.primary,
             tooltip: 'Đăng xuất Instagram',
           ),
         ],
       ),
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFFFFF5FB),
-              Color(0xFFFFEEF6),
-              Color(0xFFFFF9F1),
+              color.primary.withOpacity(0.10),
+              color.tertiary.withOpacity(0.08),
+              color.secondary.withOpacity(0.08),
+              Theme.of(context).scaffoldBackgroundColor,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -243,15 +244,15 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
               borderRadius: BorderRadius.circular(18),
               gradient: LinearGradient(
                 colors: [
-                  const Color(0xFFFFD600).withOpacity(0.18),
-                  const Color(0xFFE1306C).withOpacity(0.16),
-                  const Color(0xFF405DE6).withOpacity(0.14),
+                  color.primary.withOpacity(0.18),
+                  color.tertiary.withOpacity(0.16),
+                  color.secondary.withOpacity(0.14),
                 ],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),
               border: Border.all(
-                color: const Color(0xFFE1306C).withOpacity(0.14),
+                color: color.primary.withOpacity(0.14),
               ),
             ),
             child: Text(
@@ -348,7 +349,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
                 color: Colors.white.withOpacity(0.88),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFFE1306C).withOpacity(0.08),
+                    color: color.primary.withOpacity(0.08),
                     blurRadius: 18,
                     offset: const Offset(0, -8),
                   ),
@@ -359,9 +360,9 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
                   Expanded(
                     child: OutlinedButton(
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: const Color(0xFFE1306C),
+                        foregroundColor: color.primary,
                         side: BorderSide(
-                          color: const Color(0xFFE1306C).withOpacity(0.34),
+                          color: color.primary.withOpacity(0.34),
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 13),
                       ),
@@ -376,11 +377,11 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(999),
-                        gradient: const LinearGradient(
+                        gradient: LinearGradient(
                           colors: [
-                            Color(0xFFFF7A30),
-                            Color(0xFFE1306C),
-                            Color(0xFF405DE6),
+                            color.primary,
+                            color.tertiary,
+                            color.secondary,
                           ],
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,

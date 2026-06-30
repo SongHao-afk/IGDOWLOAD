@@ -52,15 +52,6 @@ class AppTheme {
           surface: Colors.white,
         );
 
-      case AppThemeMode.white:
-        return _build(
-          brightness: Brightness.light,
-          primary: Colors.black87,
-          secondary: Colors.grey,
-          background: AppColors.whiteBg,
-          surface: AppColors.whiteCard,
-        );
-
       case AppThemeMode.dark:
         return _build(
           brightness: Brightness.dark,

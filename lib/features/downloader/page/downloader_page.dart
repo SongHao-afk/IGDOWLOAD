@@ -182,6 +182,7 @@ class _DownloaderPageState extends State<DownloaderPage> {
       },
       builder: (context, state) {
         final cubit = context.read<DownloaderCubit>();
+        final colors = Theme.of(context).colorScheme;
 
         return Scaffold(
           resizeToAvoidBottomInset: true,
@@ -206,9 +207,9 @@ class _DownloaderPageState extends State<DownloaderPage> {
                 onPressed: state.frequentProfiles.isEmpty
                     ? null
                     : () => _openFrequentProfilesSheet(context, cubit),
-                icon: const Icon(
+                icon: Icon(
                   Icons.history_toggle_off_rounded,
-                  color: Color(0xFF7F1D8D),
+                  color: colors.primary,
                 ),
               ),
               IconButton(
@@ -219,9 +220,9 @@ class _DownloaderPageState extends State<DownloaderPage> {
                   height: 44,
                 ),
                 onPressed: () => _openDownloadHistorySheet(context, cubit),
-                icon: const Icon(
+                icon: Icon(
                   Icons.history_rounded,
-                  color: Color(0xFF405DE6),
+                  color: colors.secondary,
                 ),
               ),
               IconButton(
@@ -232,9 +233,9 @@ class _DownloaderPageState extends State<DownloaderPage> {
                   height: 44,
                 ),
                 onPressed: openThemePicker,
-                icon: const Icon(
+                icon: Icon(
                   Icons.palette_rounded,
-                  color: Color(0xFF111827),
+                  color: colors.tertiary,
                 ),
               ),
               IconButton(
@@ -391,15 +392,19 @@ class _InstagramTitle extends StatelessWidget {
         Expanded(
           child: ShaderMask(
             shaderCallback: (bounds) => gradient.createShader(bounds),
-            child: const Text(
-              'IG Downloader',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w900,
-                fontSize: 19,
-                letterSpacing: 0,
+            child: const FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'IG Downloader',
+                maxLines: 1,
+                softWrap: false,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 19,
+                  letterSpacing: 0,
+                ),
               ),
             ),
           ),

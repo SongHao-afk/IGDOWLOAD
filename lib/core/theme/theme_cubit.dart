@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/app_constants.dart';
 
-enum AppThemeMode { instagram, vivid, pink, blue, red, white, dark }
+enum AppThemeMode { instagram, vivid, pink, blue, red, dark }
 
 class ThemeCubit extends Cubit<AppThemeMode> {
   ThemeCubit() : super(AppThemeMode.instagram);

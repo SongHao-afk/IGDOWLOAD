@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/theme/app_theme.dart';
 import '../../../core/theme/theme_cubit.dart';
 
 class ThemePickerSheet extends StatefulWidget {
@@ -22,6 +23,7 @@ class _ThemePickerSheetState extends State<ThemePickerSheet> {
   @override
   Widget build(BuildContext context) {
     final bottomPadding = MediaQuery.of(context).padding.bottom;
+    final selectedColors = AppTheme.getTheme(selectedMode).colorScheme;
 
     return Container(
       padding: EdgeInsets.fromLTRB(22, 10, 22, 18 + bottomPadding),
@@ -78,7 +80,7 @@ class _ThemePickerSheetState extends State<ThemePickerSheet> {
             physics: const NeverScrollableScrollPhysics(),
             children: [
               _ThemeChoiceCard(
-                title: 'Instagram gốc',
+                title: 'Mặc định',
                 mode: AppThemeMode.instagram,
                 selectedMode: selectedMode,
                 swatch: const _InstagramGradientSwatch(),
@@ -114,11 +116,6 @@ class _ThemePickerSheetState extends State<ThemePickerSheet> {
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          _WhiteThemeRow(
-            selected: selectedMode == AppThemeMode.white,
-            onTap: () => _select(AppThemeMode.white),
-          ),
           const SizedBox(height: 26),
           Row(
             children: [
@@ -151,19 +148,18 @@ class _ThemePickerSheetState extends State<ThemePickerSheet> {
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      gradient: const LinearGradient(
+                      gradient: LinearGradient(
                         colors: [
-                          Color(0xFFFF7A30),
-                          Color(0xFFFFD66B),
-                          Color(0xFFE1306C),
-                          Color(0xFF405DE6),
+                          selectedColors.primary,
+                          selectedColors.tertiary,
+                          selectedColors.secondary,
                         ],
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFFE1306C).withOpacity(0.22),
+                          color: selectedColors.primary.withOpacity(0.22),
                           blurRadius: 18,
                           offset: const Offset(0, 8),
                         ),
@@ -232,6 +228,8 @@ class _ThemeChoiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final selectedColors = AppTheme.getTheme(selectedMode).colorScheme;
+
     return InkWell(
       borderRadius: BorderRadius.circular(14),
       onTap: () => onTap(mode),
@@ -242,12 +240,14 @@ class _ThemeChoiceCard extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: selected ? const Color(0xFFE1306C) : Colors.transparent,
+            color: selected ? selectedColors.primary : Colors.transparent,
             width: 2,
           ),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFE1306C).withOpacity(selected ? 0.12 : 0.04),
+              color: selectedColors.primary.withOpacity(
+                selected ? 0.12 : 0.04,
+              ),
               blurRadius: selected ? 16 : 10,
               offset: const Offset(0, 8),
             ),
@@ -281,7 +281,7 @@ class _ThemeChoiceCard extends StatelessWidget {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: selected
-                            ? const Color(0xFFE1306C)
+                            ? selectedColors.primary
                             : Colors.transparent,
                       ),
                     ),
@@ -299,96 +299,6 @@ class _ThemeChoiceCard extends StatelessWidget {
                 fontSize: 13,
                 fontWeight: FontWeight.w900,
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _WhiteThemeRow extends StatelessWidget {
-  const _WhiteThemeRow({required this.selected, required this.onTap});
-
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(14),
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(
-            color: selected ? const Color(0xFFE1306C) : Colors.transparent,
-            width: 2,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFFE1306C).withOpacity(0.05),
-              blurRadius: 14,
-              offset: const Offset(0, 8),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 66,
-              height: 66,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: const Color(0xFFEDE7EA)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.04),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: const Icon(
-                Icons.palette_outlined,
-                color: Color(0xFF8C6573),
-              ),
-            ),
-            const SizedBox(width: 14),
-            const Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Trắng sạch',
-                    style: TextStyle(
-                      color: Color(0xFF121018),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                  SizedBox(height: 3),
-                  Text(
-                    'Tối giản & tinh tế cho ban ngày.',
-                    style: TextStyle(
-                      color: Color(0xFF5E4550),
-                      fontSize: 12,
-                      height: 1.2,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Icon(
-              selected ? Icons.check_rounded : Icons.chevron_right_rounded,
-              color: selected
-                  ? const Color(0xFFE1306C)
-                  : const Color(0xFFE6AFC2),
             ),
           ],
         ),
@@ -504,3 +414,5 @@ class _SoftBlueSwatch extends StatelessWidget {
     );
   }
 }
+
+
