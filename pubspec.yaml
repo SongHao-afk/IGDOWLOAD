@@ -19,6 +19,7 @@ dependencies:
   flutter_bloc: ^8.1.6
   url_launcher: ^6.1.7
   flutter_inappwebview: ^6.1.5
+  share_handler: ^0.0.24
 
   
 

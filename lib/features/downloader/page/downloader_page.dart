@@ -1,5 +1,8 @@
-﻿import 'package:flutter/material.dart';
+﻿import 'dart:async';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_handler/share_handler.dart';
 
 import '../cubit/downloader_cubit.dart';
 import '../cubit/downloader_state.dart';
@@ -24,10 +27,67 @@ class DownloaderPage extends StatefulWidget {
 class _DownloaderPageState extends State<DownloaderPage> {
   final TextEditingController urlCtrl = TextEditingController();
 
+  StreamSubscription? _shareSub;
+  String? _lastSharedUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _initShareHandler();
+  }
+
   @override
   void dispose() {
+    _shareSub?.cancel();
     urlCtrl.dispose();
     super.dispose();
+  }
+
+  Future<void> _initShareHandler() async {
+    final handler = ShareHandlerPlatform.instance;
+
+    try {
+      final initial = await handler.getInitialSharedMedia();
+      await _handleSharedText(initial?.content);
+    } catch (_) {}
+
+    _shareSub = handler.sharedMediaStream.listen((media) async {
+      await _handleSharedText(media.content);
+    });
+  }
+
+  Future<void> _handleSharedText(String? text) async {
+    final clean = _extractInstagramUrl(text);
+    if (clean == null) return;
+
+    if (_lastSharedUrl == clean) return;
+    _lastSharedUrl = clean;
+
+    urlCtrl.text = clean;
+
+    if (!mounted) return;
+
+    final cubit = context.read<DownloaderCubit>();
+    final state = cubit.state;
+
+    if (state.loading || state.sessionBusy) return;
+
+    await cubit.resolveMedia(clean);
+  }
+
+  String? _extractInstagramUrl(String? raw) {
+    final text = raw?.trim() ?? '';
+    if (text.isEmpty) return null;
+
+    final match = RegExp(
+      r'https?:\/\/(?:www\.)?instagram\.com\/[^\s]+',
+      caseSensitive: false,
+    ).firstMatch(text);
+
+    final url = match?.group(0)?.trim();
+    if (url == null || url.isEmpty) return null;
+
+    return url;
   }
 
   void openThemePicker() {
@@ -220,10 +280,7 @@ class _DownloaderPageState extends State<DownloaderPage> {
                   height: 44,
                 ),
                 onPressed: () => _openDownloadHistorySheet(context, cubit),
-                icon: Icon(
-                  Icons.history_rounded,
-                  color: colors.secondary,
-                ),
+                icon: Icon(Icons.history_rounded, color: colors.secondary),
               ),
               IconButton(
                 tooltip: 'Đổi giao diện',
@@ -233,10 +290,7 @@ class _DownloaderPageState extends State<DownloaderPage> {
                   height: 44,
                 ),
                 onPressed: openThemePicker,
-                icon: Icon(
-                  Icons.palette_rounded,
-                  color: colors.tertiary,
-                ),
+                icon: Icon(Icons.palette_rounded, color: colors.tertiary),
               ),
               IconButton(
                 tooltip: 'Đăng nhập',
@@ -328,9 +382,7 @@ class _DownloaderPageState extends State<DownloaderPage> {
     DownloaderState state,
     DownloaderCubit cubit,
   ) {
-    if (state.media.isEmpty) {
-      return const SizedBox.shrink();
-    }
+    if (state.media.isEmpty) return const SizedBox.shrink();
 
     return ListView.builder(
       itemCount: state.media.length,
@@ -359,11 +411,7 @@ class _InstagramTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme;
     final gradient = LinearGradient(
-      colors: [
-        color.primary,
-        color.tertiary,
-        color.secondary,
-      ],
+      colors: [color.primary, color.tertiary, color.secondary],
     );
 
     return Row(
@@ -424,14 +472,10 @@ class _InstagramGradientLine extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            color.primary,
-            color.tertiary,
-            color.secondary,
-          ],
+          colors: [color.primary, color.tertiary, color.secondary],
         ),
       ),
-      child: SizedBox(width: double.infinity, height: 2),
+      child: const SizedBox(width: double.infinity, height: 2),
     );
   }
 }
