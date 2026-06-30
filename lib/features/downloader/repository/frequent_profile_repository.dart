@@ -72,6 +72,43 @@ class FrequentProfileRepository {
 
   const FrequentProfileRepository();
 
+  String _cleanUsername(String value) {
+    return value.trim().replaceFirst(RegExp(r'^@+'), '').toLowerCase();
+  }
+
+  bool _isSameAccount(FrequentProfileItem a, FrequentProfileItem b) {
+    final aUserId = a.userId.trim();
+    final bUserId = b.userId.trim();
+
+    if (aUserId.isNotEmpty && bUserId.isNotEmpty && aUserId == bUserId) {
+      return true;
+    }
+
+    final aUsername = _cleanUsername(a.username);
+    final bUsername = _cleanUsername(b.username);
+
+    if (aUsername.isNotEmpty &&
+        bUsername.isNotEmpty &&
+        aUsername == bUsername) {
+      return true;
+    }
+
+    return a.key.trim().isNotEmpty && a.key.trim() == b.key.trim();
+  }
+
+  List<FrequentProfileItem> _dedupe(List<FrequentProfileItem> items) {
+    final result = <FrequentProfileItem>[];
+
+    for (final item in items) {
+      if (item.key.trim().isEmpty) continue;
+
+      final exists = result.any((old) => _isSameAccount(old, item));
+      if (!exists) result.add(item);
+    }
+
+    return result.take(_maxItems).toList();
+  }
+
   Future<List<FrequentProfileItem>> getItems() async {
     final prefs = await SharedPreferences.getInstance();
     final raw = prefs.getString(_prefsKey);
@@ -87,7 +124,7 @@ class FrequentProfileRepository {
         return <FrequentProfileItem>[];
       }
 
-      return decoded
+      final items = decoded
           .whereType<Map>()
           .map(
             (x) => FrequentProfileItem.fromJson(
@@ -96,6 +133,17 @@ class FrequentProfileRepository {
           )
           .where((x) => x.key.trim().isNotEmpty)
           .toList();
+
+      final deduped = _dedupe(items);
+
+      if (deduped.length != items.length) {
+        await prefs.setString(
+          _prefsKey,
+          jsonEncode(deduped.map((x) => x.toJson()).toList()),
+        );
+      }
+
+      return deduped;
     } catch (_) {
       return <FrequentProfileItem>[];
     }
@@ -108,10 +156,10 @@ class FrequentProfileRepository {
     final prefs = await SharedPreferences.getInstance();
     final oldItems = await getItems();
 
-    final nextItems = <FrequentProfileItem>[
+    final nextItems = _dedupe(<FrequentProfileItem>[
       item.copyWith(key: cleanKey),
-      ...oldItems.where((x) => x.key.trim() != cleanKey),
-    ].take(_maxItems).toList();
+      ...oldItems.where((x) => !_isSameAccount(x, item)),
+    ]);
 
     await prefs.setString(
       _prefsKey,

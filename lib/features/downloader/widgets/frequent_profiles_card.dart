@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../cubit/downloader_cubit.dart';
 import '../cubit/downloader_state.dart';
 import '../repository/frequent_profile_repository.dart';
-import 'glass_card.dart';
 
 class FrequentProfilesCard extends StatelessWidget {
   const FrequentProfilesCard({
@@ -12,6 +11,8 @@ class FrequentProfilesCard extends StatelessWidget {
     required this.cubit,
     this.onProfileTap,
   });
+
+  static const int _maxVisibleProfiles = 15;
 
   final DownloaderState state;
   final DownloaderCubit cubit;
@@ -23,59 +24,114 @@ class FrequentProfilesCard extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    return GlassCard(
-      padding: const EdgeInsets.fromLTRB(16, 18, 16, 16),
+    final visibleProfiles = state.frequentProfiles
+        .take(_maxVisibleProfiles)
+        .toList(growable: false);
+
+    return Container(
+      padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(26)),
+        gradient: const LinearGradient(
+          colors: [
+            Color(0xFFFFF5FB),
+            Color(0xFFFFEEF6),
+            Color(0xFFFFF9F1),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        border: Border.all(color: Color(0xFFFFDDEB), width: 1),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x1AE1306C),
+            blurRadius: 24,
+            offset: Offset(0, 10),
+          ),
+        ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Center(
+            child: Container(
+              width: 42,
+              height: 5,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(999),
+                gradient: const LinearGradient(
+                  colors: [
+                    Color(0xFFFF7A30),
+                    Color(0xFFE1306C),
+                    Color(0xFF405DE6),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 14),
           Row(
             children: [
               Container(
-                width: 34,
-                height: 34,
+                width: 38,
+                height: 38,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFFEAF3),
-                  borderRadius: BorderRadius.circular(12),
+                  shape: BoxShape.circle,
+                  gradient: const LinearGradient(
+                    colors: [
+                      Color(0xFFFF7A30),
+                      Color(0xFFE1306C),
+                      Color(0xFF405DE6),
+                    ],
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                  ),
                 ),
                 child: const Icon(
                   Icons.history_toggle_off_rounded,
-                  color: Color(0xFFE1306C),
-                  size: 18,
+                  color: Colors.white,
+                  size: 20,
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 10),
               Expanded(
                 child: Text(
                   'Truy cập thường xuyên',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: const Color(0xFF171321),
                     fontWeight: FontWeight.w900,
-                      ),
+                  ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          SizedBox(
-            height: 104,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: state.frequentProfiles.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 12),
+          const SizedBox(height: 16),
+          Expanded(
+            child: GridView.builder(
+              padding: EdgeInsets.zero,
+              itemCount: visibleProfiles.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisExtent: 104,
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 12,
+              ),
               itemBuilder: (context, index) {
-                final item = state.frequentProfiles[index];
-                return _FrequentProfileTile(
-                  item: item,
-                  onTap: () {
-                    final handler = onProfileTap;
-                    if (handler != null) {
-                      handler(item);
-                      return;
-                    }
+                final item = visibleProfiles[index];
+                return Center(
+                  child: _FrequentProfileTile(
+                    item: item,
+                    onTap: () {
+                      final handler = onProfileTap;
+                      if (handler != null) {
+                        handler(item);
+                        return;
+                      }
 
-                    cubit.loadFrequentProfileAll(item);
-                  },
-                  onLongPress: () => cubit.removeFrequentProfile(item),
+                      cubit.loadFrequentProfileAll(item);
+                    },
+                    onLongPress: () => cubit.removeFrequentProfile(item),
+                  ),
                 );
               },
             ),

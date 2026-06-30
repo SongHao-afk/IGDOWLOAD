@@ -44,6 +44,8 @@ class _DownloaderHeroState extends State<DownloaderHero>
 
   @override
   Widget build(BuildContext context) {
+    final color = Theme.of(context).colorScheme;
+
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
@@ -57,21 +59,22 @@ class _DownloaderHeroState extends State<DownloaderHero>
               padding: const EdgeInsets.fromLTRB(22, 28, 22, 30),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(22),
-                gradient: const LinearGradient(
+                gradient: LinearGradient(
                   colors: [
-                    Color(0xFFFFD600),
-                    Color(0xFFFF7A30),
-                    Color(0xFFFF2F75),
-                    Color(0xFFC13584),
-                    Color(0xFF405DE6),
+                    color.primary,
+                    color.tertiary,
+                    color.secondary,
+                    color.primary.withOpacity(0.82),
+                    color.tertiary.withOpacity(0.90),
+                    color.secondary.withOpacity(0.92),
                   ],
-                  stops: [0.0, 0.22, 0.48, 0.72, 1.0],
+                  stops: const [0.0, 0.22, 0.48, 0.70, 0.84, 1.0],
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFFE1306C).withOpacity(0.28),
+                    color: color.primary.withOpacity(0.28),
                     blurRadius: 28,
                     offset: const Offset(0, 14),
                   ),

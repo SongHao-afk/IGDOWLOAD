@@ -6,6 +6,25 @@ import 'theme_cubit.dart';
 class AppTheme {
   static ThemeData getTheme(AppThemeMode mode) {
     switch (mode) {
+      case AppThemeMode.instagram:
+        return _build(
+          brightness: Brightness.light,
+          primary: const Color(0xFFFF7A30),
+          secondary: const Color(0xFF405DE6),
+          tertiary: const Color(0xFFE1306C),
+          background: const Color(0xFFFFEEF6),
+          surface: Colors.white,
+        );
+
+      case AppThemeMode.vivid:
+        return _build(
+          brightness: Brightness.light,
+          primary: AppColors.pink,
+          secondary: AppColors.blue,
+          background: AppColors.pinkBg,
+          surface: Colors.white,
+        );
+
       case AppThemeMode.pink:
         return _build(
           brightness: Brightness.light,
@@ -57,6 +76,7 @@ class AppTheme {
     required Brightness brightness,
     required Color primary,
     required Color secondary,
+    Color? tertiary,
     required Color background,
     required Color surface,
   }) {
@@ -66,7 +86,7 @@ class AppTheme {
       primary: primary,
       secondary: secondary,
       surface: surface,
-    );
+    ).copyWith(tertiary: tertiary ?? secondary);
 
     return ThemeData(
       useMaterial3: true,

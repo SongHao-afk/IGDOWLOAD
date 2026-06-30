@@ -230,6 +230,30 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     emit(state.copyWith(frequentProfiles: nextItems));
   }
 
+  Future<void> _saveFrequentProfileFromResolvedMedia({
+    required List<IgMediaItem> media,
+    required String inputUrl,
+  }) async {
+    if (media.isEmpty) return;
+
+    final firstItem = media.first;
+    final username = _firstNonEmpty([
+      firstItem.username,
+      _usernameFromProfileUrl(firstItem.sourceUrl),
+      _usernameFromProfileUrl(inputUrl),
+    ]);
+
+    if (username.isEmpty) return;
+
+    await _saveFrequentProfile(
+      userId: '',
+      username: username,
+      fullName: firstItem.fullName,
+      avatarUrl: firstItem.avatarUrl,
+      profileUrl: _profileUrlFromUsername(username),
+    );
+  }
+
   String _cleanHistoryShortcode(String? value) {
     final clean = value?.trim() ?? '';
 
@@ -994,8 +1018,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       state.copyWith(
         loading: true,
         status: state.activeIgCookie == null
-            ? 'Đang bú link...'
-            : 'Đang bú link với tài khoản đã đăng nhập...',
+            ? 'Đang lấy nội dung...'
+            : 'Đang lấy nội dung với tài khoản đã đăng nhập...',
         media: <IgMediaItem>[],
         downloadingIds: <int>{},
         downloadErrors: <int, String>{},
@@ -1088,6 +1112,11 @@ class DownloaderCubit extends Cubit<DownloaderState> {
           downloadingProfileMediaUrls: <String>{},
           clearProfileError: true,
         ),
+      );
+
+      await _saveFrequentProfileFromResolvedMedia(
+        media: media,
+        inputUrl: url,
       );
     } catch (e) {
       emit(

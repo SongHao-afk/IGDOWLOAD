@@ -3,10 +3,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/app_constants.dart';
 
-enum AppThemeMode { pink, blue, red, white, dark }
+enum AppThemeMode { instagram, vivid, pink, blue, red, white, dark }
 
 class ThemeCubit extends Cubit<AppThemeMode> {
-  ThemeCubit() : super(AppThemeMode.pink);
+  ThemeCubit() : super(AppThemeMode.instagram);
 
   Future<void> loadTheme() async {
     final prefs = await SharedPreferences.getInstance();
@@ -14,7 +14,7 @@ class ThemeCubit extends Cubit<AppThemeMode> {
 
     final mode = AppThemeMode.values.firstWhere(
       (e) => e.name == raw,
-      orElse: () => AppThemeMode.pink,
+      orElse: () => AppThemeMode.instagram,
     );
 
     emit(mode);

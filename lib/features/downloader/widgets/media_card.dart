@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../models/ig_media_item.dart';
 
@@ -122,27 +122,54 @@ class MediaCard extends StatelessWidget {
               SizedBox(
                 width: 76,
                 height: 44,
-                child: FilledButton(
-                  onPressed: isDownloading ? null : onDownload,
-                  style: FilledButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(22),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(22),
+                    gradient: LinearGradient(
+                      colors: [
+                        Theme.of(context).colorScheme.primary,
+                        Theme.of(context).colorScheme.tertiary,
+                        Theme.of(context).colorScheme.secondary,
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.18),
+                        blurRadius: 12,
+                        offset: const Offset(0, 6),
+                      ),
+                    ],
                   ),
-                  child: isDownloading
-                      ? SizedBox(
-                          width: 18,
-                          height: 18,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Theme.of(context).colorScheme.onPrimary,
+                  child: FilledButton(
+                    onPressed: isDownloading ? null : onDownload,
+                    style: FilledButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      backgroundColor: Colors.transparent,
+                      disabledBackgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(22),
+                      ),
+                    ),
+                    child: isDownloading
+                        ? SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          )
+                        : const Text(
+                            'Tải',
+                            style: TextStyle(fontWeight: FontWeight.w800),
                           ),
-                        )
-                      : const Text(
-                          'Tải',
-                          style: TextStyle(fontWeight: FontWeight.w800),
-                        ),
+                  ),
                 ),
               ),
             ],
@@ -294,6 +321,7 @@ class _PreviewBox extends StatelessWidget {
         gradient: LinearGradient(
           colors: [
             Theme.of(context).colorScheme.primary.withOpacity(0.95),
+            Theme.of(context).colorScheme.tertiary.withOpacity(0.82),
             Theme.of(context).colorScheme.secondary.withOpacity(0.75),
           ],
           begin: Alignment.topLeft,
@@ -304,3 +332,4 @@ class _PreviewBox extends StatelessWidget {
     );
   }
 }
+

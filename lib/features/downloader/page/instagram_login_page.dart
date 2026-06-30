@@ -31,7 +31,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
   bool saving = false;
   bool webViewReady = false;
 
-  String status = 'Đang chuẩn bị WebView Instagram...';
+  String status = 'Đang mở Instagram...';
 
   @override
   void initState() {
@@ -40,7 +40,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
     // Không tự clear cookie khi mở login nữa.
     // Muốn xoá thì bấm nút cây chổi trên AppBar.
     webViewReady = true;
-    status = 'Đăng nhập Instagram, xong bấm "Lưu đăng nhập".';
+    status = 'Đăng nhập Instagram rồi bấm "Lưu đăng nhập".';
   }
 
   Future<List<Cookie>> _getInstagramCookies() async {
@@ -121,8 +121,8 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
         setState(() {
           saving = false;
           status =
-              'Chưa thấy sessionid.\n'
-              'Hãy login Instagram xong, đợi vào home/profile rồi bấm lưu.';
+              'Chưa lấy được phiên đăng nhập.\n'
+              'Hãy đăng nhập Instagram xong rồi bấm lưu lại.';
         });
 
         return;
@@ -180,11 +180,11 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
 
     setState(() {
       if (hasSessionId) {
-        status = 'Đã thấy sessionid.\nBấm "Lưu đăng nhập" để lưu phiên.';
+        status = 'Đã nhận được phiên đăng nhập.\nBấm "Lưu đăng nhập" để lưu.';
       } else if (path.contains('/accounts/login')) {
-        status = 'Đăng nhập Instagram, xong đợi vào home/profile rồi bấm lưu.';
+        status = 'Đăng nhập Instagram rồi bấm "Lưu đăng nhập".';
       } else {
-        status = 'Nếu đã vào được Instagram, bấm "Lưu đăng nhập" bên dưới.';
+        status = 'Nếu đã đăng nhập xong, bấm "Lưu đăng nhập" bên dưới.';
       }
     });
   }
@@ -194,28 +194,73 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
     final color = Theme.of(context).colorScheme;
 
     return Scaffold(
+      backgroundColor: const Color(0xFFFFF7FB),
       appBar: AppBar(
-        title: const Text(
+        backgroundColor: Colors.white.withOpacity(0.96),
+        elevation: 0,
+        titleSpacing: 0,
+        title: const FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
+          child: Text(
           'Đăng nhập Instagram',
-          style: TextStyle(fontWeight: FontWeight.w900),
+            maxLines: 1,
+            style: TextStyle(
+              color: Color(0xFF24142E),
+              fontSize: 22,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
         ),
         actions: [
           IconButton(
             onPressed: saving || !webViewReady ? null : clearCookies,
-            icon: const Icon(Icons.cleaning_services_rounded),
-            tooltip: 'Xoá sạch WebView Instagram',
+            icon: const Icon(Icons.logout_rounded),
+            color: const Color(0xFFE1306C),
+            tooltip: 'Đăng xuất Instagram',
           ),
         ],
       ),
-      body: Column(
-        children: [
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFFFFF5FB),
+              Color(0xFFFFEEF6),
+              Color(0xFFFFF9F1),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Column(
+          children: [
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.fromLTRB(14, 10, 14, 10),
-            color: color.surface,
+            margin: const EdgeInsets.fromLTRB(14, 12, 14, 10),
+            padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(18),
+              gradient: LinearGradient(
+                colors: [
+                  const Color(0xFFFFD600).withOpacity(0.18),
+                  const Color(0xFFE1306C).withOpacity(0.16),
+                  const Color(0xFF405DE6).withOpacity(0.14),
+                ],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+              border: Border.all(
+                color: const Color(0xFFE1306C).withOpacity(0.14),
+              ),
+            ),
             child: Text(
               status,
-              style: const TextStyle(fontWeight: FontWeight.w700),
+              style: const TextStyle(
+                color: Color(0xFF24142E),
+                fontWeight: FontWeight.w800,
+                height: 1.35,
+              ),
             ),
           ),
           Expanded(
@@ -273,7 +318,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
                       setState(() {
                         status =
                             'Đang mở Instagram...\n'
-                            'Login xong đợi trang load vào home/profile rồi bấm lưu.';
+                            'Đăng nhập xong thì bấm "Lưu đăng nhập".';
                       });
                     },
                     onLoadStop: (webController, url) async {
@@ -297,12 +342,29 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
           ),
           SafeArea(
             top: false,
-            child: Padding(
+            child: Container(
               padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.88),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFFE1306C).withOpacity(0.08),
+                    blurRadius: 18,
+                    offset: const Offset(0, -8),
+                  ),
+                ],
+              ),
               child: Row(
                 children: [
                   Expanded(
                     child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: const Color(0xFFE1306C),
+                        side: BorderSide(
+                          color: const Color(0xFFE1306C).withOpacity(0.34),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 13),
+                      ),
                       onPressed: saving
                           ? null
                           : () => Navigator.of(context).pop(null),
@@ -311,21 +373,41 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
                   ),
                   const SizedBox(width: 10),
                   Expanded(
-                    child: FilledButton.icon(
-                      onPressed: saving || !webViewReady
-                          ? null
-                          : saveLoginCookie,
-                      icon: saving
-                          ? SizedBox(
-                              width: 16,
-                              height: 16,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: color.onPrimary,
-                              ),
-                            )
-                          : const Icon(Icons.save_rounded),
-                      label: const Text('Lưu đăng nhập'),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(999),
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color(0xFFFF7A30),
+                            Color(0xFFE1306C),
+                            Color(0xFF405DE6),
+                          ],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                      ),
+                      child: FilledButton.icon(
+                        style: FilledButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          disabledBackgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          padding: const EdgeInsets.symmetric(vertical: 13),
+                        ),
+                        onPressed: saving || !webViewReady
+                            ? null
+                            : saveLoginCookie,
+                        icon: saving
+                            ? SizedBox(
+                                width: 16,
+                                height: 16,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: color.onPrimary,
+                                ),
+                              )
+                            : const Icon(Icons.save_rounded),
+                        label: const Text('Lưu đăng nhập'),
+                      ),
                     ),
                   ),
                 ],
@@ -333,6 +415,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
             ),
           ),
         ],
+        ),
       ),
     );
   }
