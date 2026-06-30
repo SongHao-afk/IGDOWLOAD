@@ -50,6 +50,83 @@ class ProfileModesCard extends StatelessWidget {
     }
   }
 
+  bool _isSingleMediaUrl(String value) {
+    final uri = Uri.tryParse(value.trim());
+    if (uri == null) return false;
+
+    final host = uri.host.toLowerCase();
+    if (host != 'instagram.com' && !host.endsWith('.instagram.com')) {
+      return false;
+    }
+
+    final path = uri.path.toLowerCase();
+
+    return path.contains('/p/') ||
+        path.contains('/reel/') ||
+        path.contains('/reels/') ||
+        path.contains('/tv/');
+  }
+
+  bool _isValidProfileInput(String value) {
+    final clean = value.trim();
+    if (clean.isEmpty) return false;
+
+    final usernamePattern = RegExp(r'^@?[A-Za-z0-9._]{1,30}$');
+    if (usernamePattern.hasMatch(clean)) return true;
+
+    final uri = Uri.tryParse(clean);
+    if (uri == null || !uri.hasScheme || uri.host.trim().isEmpty) {
+      return false;
+    }
+
+    final scheme = uri.scheme.toLowerCase();
+    if (scheme != 'http' && scheme != 'https') return false;
+
+    final host = uri.host.toLowerCase();
+    if (host != 'instagram.com' && !host.endsWith('.instagram.com')) {
+      return false;
+    }
+
+    final segments = uri.pathSegments
+        .map((x) => x.trim().toLowerCase())
+        .where((x) => x.isNotEmpty)
+        .toList();
+
+    if (segments.isEmpty) return false;
+
+    const reservedRoots = {
+      'accounts',
+      'direct',
+      'explore',
+    };
+
+    return !reservedRoots.contains(segments.first);
+  }
+
+  Future<void> _showInvalidFormatDialog(BuildContext context) async {
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        final color = Theme.of(dialogContext).colorScheme;
+
+        return AlertDialog(
+          icon: Icon(
+            Icons.error_outline_rounded,
+            color: color.error,
+            size: 32,
+          ),
+          title: const Text('Vui lòng nhập đúng định dạng'),
+          actions: [
+            FilledButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   String _modeHint(ProfileModeAction mode) {
     switch (mode) {
       case ProfileModeAction.stories:
@@ -97,7 +174,12 @@ class ProfileModesCard extends StatelessWidget {
               Future<void> submit() async {
                 final profileUrl = ctrl.text.trim();
 
-                if (profileUrl.isEmpty || localLoading) return;
+                if (localLoading) return;
+
+                if (!_isValidProfileInput(profileUrl)) {
+                  await _showInvalidFormatDialog(dialogContext);
+                  return;
+                }
 
                 setModalState(() {
                   localLoading = true;
@@ -113,11 +195,21 @@ class ProfileModesCard extends StatelessWidget {
                     break;
 
                   case ProfileModeAction.reels:
+                    if (_isSingleMediaUrl(profileUrl)) {
+                      await cubit.resolveMedia(profileUrl);
+                      break;
+                    }
+
                     cubit.setProfileMode('reels');
                     await cubit.loadProfileReels(profileUrl);
                     break;
 
                   case ProfileModeAction.posts:
+                    if (_isSingleMediaUrl(profileUrl)) {
+                      await cubit.resolveMedia(profileUrl);
+                      break;
+                    }
+
                     cubit.setProfileMode('posts');
                     await cubit.loadProfilePosts(profileUrl);
                     break;
@@ -232,18 +324,33 @@ class ProfileModesCard extends StatelessWidget {
     DownloaderCubit cubit,
   ) {
     return GlassCard(
+      padding: const EdgeInsets.fromLTRB(16, 18, 16, 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              const Icon(Icons.dashboard_customize_rounded),
+              Container(
+                width: 34,
+                height: 34,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFEAF3),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(
+                  Icons.dashboard_customize_rounded,
+                  color: Color(0xFFE1306C),
+                  size: 18,
+                ),
+              ),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   'Tải từ trang cá nhân',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: const Color(0xFF171321),
                     fontWeight: FontWeight.w900,
+                    fontSize: 18,
                   ),
                 ),
               ),
@@ -259,7 +366,7 @@ class ProfileModesCard extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: 16),
           Row(
             children: [
               Expanded(
@@ -322,23 +429,21 @@ class ProfileModesCard extends StatelessWidget {
         duration: const Duration(milliseconds: 160),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 14),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(999),
           color: selected
-              ? Theme.of(context).colorScheme.primary.withOpacity(0.18)
-              : Colors.white.withOpacity(0.06),
+              ? const Color(0xFFFFEAF3)
+              : Colors.white,
           border: Border.all(
-            color: selected
-                ? Theme.of(context).colorScheme.primary
-                : Colors.white.withOpacity(0.16),
-            width: selected ? 2 : 1,
+            color: selected ? const Color(0xFFE1306C) : const Color(0xFFFFC7DA),
+            width: 1.2,
           ),
         ),
         child: Column(
           children: [
             Icon(
               _modeIcon(mode),
-              size: 28,
-              color: selected ? Theme.of(context).colorScheme.primary : null,
+              size: 20,
+              color: selected ? const Color(0xFFE1306C) : const Color(0xFF7D6671),
             ),
             const SizedBox(height: 6),
             Text(

@@ -1,17 +1,15 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import '../cubit/downloader_cubit.dart';
 import '../cubit/downloader_state.dart';
 import '../widgets/download_history_sheet.dart';
 import '../widgets/downloader_hero.dart';
+import '../widgets/frequent_profiles_card.dart';
 import '../widgets/media_card.dart';
 import '../widgets/normal_link_card.dart';
 import '../widgets/profile_modes_card.dart';
 import '../widgets/profile_result_area.dart';
-import '../widgets/server_settings_sheet.dart';
-import '../widgets/session_mode_card.dart';
 import '../widgets/theme_picker_sheet.dart';
 import 'instagram_login_page.dart';
 import 'manual_instagram_browser_page.dart';
@@ -32,18 +30,6 @@ class _DownloaderPageState extends State<DownloaderPage> {
     super.dispose();
   }
 
-  void openServerSettings() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      showDragHandle: false,
-      builder: (_) => BlocProvider.value(
-        value: context.read<DownloaderCubit>(),
-        child: const ServerSettingsSheet(),
-      ),
-    );
-  }
-
   void openThemePicker() {
     showModalBottomSheet(
       context: context,
@@ -62,9 +48,50 @@ class _DownloaderPageState extends State<DownloaderPage> {
     await cubit.savePrivateCookie(cookie);
   }
 
-  Future<void> logoutPrivate(DownloaderCubit cubit) async {
-    await CookieManager.instance().deleteAllCookies();
-    await cubit.logoutPrivateCookie();
+  bool loginDialogOpen = false;
+
+  Future<void> showLoginRequiredDialog(DownloaderCubit cubit) async {
+    if (loginDialogOpen) return;
+
+    loginDialogOpen = true;
+
+    final shouldLogin = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) {
+        final color = Theme.of(dialogContext).colorScheme;
+
+        return AlertDialog(
+          icon: Icon(Icons.lock_rounded, color: color.primary, size: 32),
+          title: const Text('Cần đăng nhập'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: 180,
+                child: TextButton(
+                  onPressed: () => Navigator.of(dialogContext).pop(false),
+                  child: const Text('Hủy'),
+                ),
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                width: 180,
+                child: FilledButton(
+                  onPressed: () => Navigator.of(dialogContext).pop(true),
+                  child: const Text('Đăng nhập'),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    loginDialogOpen = false;
+
+    if (shouldLogin == true && mounted) {
+      await openPrivateLogin(cubit);
+    }
   }
 
   Future<void> openManualInstagramBrowser() async {
@@ -75,12 +102,8 @@ class _DownloaderPageState extends State<DownloaderPage> {
 
     final cookie = (state.privateIgCookie ?? '').trim();
 
-    if (!state.privateMode || cookie.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Manual Browser cần bật Private mode trước.'),
-        ),
-      );
+    if (cookie.isEmpty) {
+      await showLoginRequiredDialog(cubit);
       return;
     }
 
@@ -115,45 +138,137 @@ class _DownloaderPageState extends State<DownloaderPage> {
     );
   }
 
+  void _openFrequentProfilesSheet(BuildContext context, DownloaderCubit cubit) {
+    showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      isScrollControlled: true,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.75,
+      ),
+      builder: (sheetContext) => BlocProvider.value(
+        value: cubit,
+        child: BlocBuilder<DownloaderCubit, DownloaderState>(
+          builder: (context, state) {
+            return SafeArea(
+              child: FractionallySizedBox(
+                heightFactor: 1,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    16,
+                    8,
+                    16,
+                    MediaQuery.of(context).viewInsets.bottom + 16,
+                  ),
+                  child: FrequentProfilesCard(
+                    state: state,
+                    cubit: cubit,
+                    onProfileTap: (item) {
+                      Navigator.of(sheetContext).pop();
+                      cubit.loadFrequentProfileAll(item);
+                    },
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DownloaderCubit, DownloaderState>(
+    return BlocConsumer<DownloaderCubit, DownloaderState>(
+      listener: (context, state) {
+        if (state.status == 'Cần đăng nhập') {
+          showLoginRequiredDialog(context.read<DownloaderCubit>());
+        }
+      },
       builder: (context, state) {
         final cubit = context.read<DownloaderCubit>();
 
         return Scaffold(
           resizeToAvoidBottomInset: true,
           appBar: AppBar(
-            title: const Text(
-              'IG Downloader',
-              style: TextStyle(fontWeight: FontWeight.w900),
+            backgroundColor: Colors.white.withOpacity(0.96),
+            surfaceTintColor: Colors.transparent,
+            elevation: 0,
+            titleSpacing: 12,
+            title: const _InstagramTitle(),
+            bottom: const PreferredSize(
+              preferredSize: Size.fromHeight(2),
+              child: _InstagramGradientLine(),
             ),
             actions: [
               IconButton(
+                tooltip: 'Truy cập thường xuyên',
+                visualDensity: VisualDensity.compact,
+                constraints: const BoxConstraints.tightFor(
+                  width: 38,
+                  height: 44,
+                ),
+                onPressed: state.frequentProfiles.isEmpty
+                    ? null
+                    : () => _openFrequentProfilesSheet(context, cubit),
+                icon: const Icon(
+                  Icons.history_toggle_off_rounded,
+                  color: Color(0xFF7F1D8D),
+                ),
+              ),
+              IconButton(
+                tooltip: 'Đăng nhập',
+                visualDensity: VisualDensity.compact,
+                constraints: const BoxConstraints.tightFor(
+                  width: 38,
+                  height: 44,
+                ),
+                onPressed: state.sessionBusy
+                    ? null
+                    : () => openPrivateLogin(cubit),
+                icon: _InstagramLoginIcon(active: state.hasPrivateCookie),
+              ),
+              IconButton(
                 tooltip: 'Đã tải gần đây',
+                visualDensity: VisualDensity.compact,
+                constraints: const BoxConstraints.tightFor(
+                  width: 38,
+                  height: 44,
+                ),
                 onPressed: () => _openDownloadHistorySheet(context, cubit),
-                icon: const Icon(Icons.history_rounded),
+                icon: const Icon(
+                  Icons.history_rounded,
+                  color: Color(0xFF405DE6),
+                ),
               ),
               IconButton(
+                tooltip: 'Đổi giao diện',
+                visualDensity: VisualDensity.compact,
+                constraints: const BoxConstraints.tightFor(
+                  width: 38,
+                  height: 44,
+                ),
                 onPressed: openThemePicker,
-                icon: const Icon(Icons.palette_rounded),
-              ),
-              IconButton(
-                onPressed: openServerSettings,
-                icon: const Icon(Icons.settings_rounded),
+                icon: const Icon(
+                  Icons.palette_rounded,
+                  color: Color(0xFF111827),
+                ),
               ),
             ],
           ),
           body: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Theme.of(context).scaffoldBackgroundColor,
-                  Theme.of(context).colorScheme.primary.withOpacity(0.24),
-                  Theme.of(context).colorScheme.secondary.withOpacity(0.14),
+                  Color(0xFFFFF2D8),
+                  Color(0xFFFFE5F1),
+                  Color(0xFFECEBFF),
+                  Color(0xFFFFF8FB),
                 ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+                stops: [0.0, 0.36, 0.72, 1.0],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
             ),
             child: SafeArea(
@@ -163,9 +278,9 @@ class _DownloaderPageState extends State<DownloaderPage> {
                     keyboardDismissBehavior:
                         ScrollViewKeyboardDismissBehavior.onDrag,
                     padding: EdgeInsets.fromLTRB(
-                      16,
-                      16,
-                      16,
+                      14,
+                      14,
+                      14,
                       MediaQuery.of(context).viewInsets.bottom + 16,
                     ),
                     child: ConstrainedBox(
@@ -175,7 +290,7 @@ class _DownloaderPageState extends State<DownloaderPage> {
                       child: Column(
                         children: [
                           DownloaderHero(state: state),
-                          const SizedBox(height: 46),
+                          const SizedBox(height: 38),
                           ProfileModesCard(state: state, cubit: cubit),
                           const SizedBox(height: 14),
                           NormalLinkCard(
@@ -199,15 +314,6 @@ class _DownloaderPageState extends State<DownloaderPage> {
                           ProfileResultArea(state: state, cubit: cubit),
                           const SizedBox(height: 12),
                           _normalMediaArea(context, state, cubit),
-                          const SizedBox(height: 12),
-                          SessionModeCard(
-                            privateMode: state.privateMode,
-                            hasPrivateCookie: state.hasPrivateCookie,
-                            sessionBusy: state.sessionBusy,
-                            onModeChanged: cubit.setPrivateMode,
-                            onLogin: () => openPrivateLogin(cubit),
-                            onLogout: () => logoutPrivate(cubit),
-                          ),
                         ],
                       ),
                     ),
@@ -246,6 +352,132 @@ class _DownloaderPageState extends State<DownloaderPage> {
               : () => cubit.downloadMedia(item),
         );
       },
+    );
+  }
+}
+
+class _InstagramTitle extends StatelessWidget {
+  const _InstagramTitle();
+
+  static const _gradient = LinearGradient(
+    colors: [
+      Color(0xFFFF7A30),
+      Color(0xFFFF2F75),
+      Color(0xFFC13584),
+      Color(0xFF405DE6),
+    ],
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          width: 30,
+          height: 30,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            gradient: _gradient,
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFFE1306C).withOpacity(0.22),
+                blurRadius: 12,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+          child: const Icon(
+            Icons.download_rounded,
+            color: Colors.white,
+            size: 18,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: ShaderMask(
+            shaderCallback: (bounds) => _gradient.createShader(bounds),
+            child: const Text(
+              'IG Downloader',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w900,
+                fontSize: 19,
+                letterSpacing: 0,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _InstagramGradientLine extends StatelessWidget {
+  const _InstagramGradientLine();
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Color(0xFFFFD600),
+            Color(0xFFFF7A30),
+            Color(0xFFFF2F75),
+            Color(0xFFC13584),
+            Color(0xFF405DE6),
+          ],
+        ),
+      ),
+      child: SizedBox(width: double.infinity, height: 2),
+    );
+  }
+}
+
+class _InstagramLoginIcon extends StatelessWidget {
+  const _InstagramLoginIcon({required this.active});
+
+  final bool active;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = active ? const Color(0xFFE1306C) : const Color(0xFF111827);
+
+    return SizedBox(
+      width: 24,
+      height: 24,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            width: 21,
+            height: 21,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(color: color, width: 2),
+            ),
+          ),
+          Container(
+            width: 8,
+            height: 8,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: color, width: 2),
+            ),
+          ),
+          Positioned(
+            top: 5,
+            right: 5,
+            child: Container(
+              width: 3.5,
+              height: 3.5,
+              decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

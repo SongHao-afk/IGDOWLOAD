@@ -5,6 +5,7 @@ import '../models/profile_media_item.dart';
 import '../models/profile_story_group.dart';
 import '../models/profile_story_item.dart';
 import '../repository/download_history_repository.dart';
+import '../repository/frequent_profile_repository.dart';
 
 class DownloaderState {
   final String serverBaseUrl;
@@ -28,11 +29,13 @@ class DownloaderState {
 
   final Set<String> downloadedProfileMediaKeys;
 
+  final List<FrequentProfileItem> frequentProfiles;
+
   // =========================
   // PROFILE COMMON
   // =========================
 
-  // '', 'stories', 'reels', 'posts'
+  // '', 'stories', 'reels', 'posts', 'all'
   final String profileMode;
 
   final String profileUrl;
@@ -41,6 +44,7 @@ class DownloaderState {
   final String profileUsername;
   final String profileFullName;
   final String profileAvatarUrl;
+  final String profileUserId;
 
   // =========================
   // PROFILE STORY / HIGHLIGHT
@@ -82,12 +86,14 @@ class DownloaderState {
     required this.sessionBusy,
     required this.downloadHistory,
     required this.downloadedProfileMediaKeys,
+    required this.frequentProfiles,
     required this.profileMode,
     required this.profileUrl,
     required this.profileError,
     required this.profileUsername,
     required this.profileFullName,
     required this.profileAvatarUrl,
+    required this.profileUserId,
     required this.profileGroupsLoading,
     required this.profileItemsLoading,
     required this.profileGroups,
@@ -119,12 +125,14 @@ class DownloaderState {
       sessionBusy: false,
       downloadHistory: <DownloadHistoryItem>[],
       downloadedProfileMediaKeys: <String>{},
+      frequentProfiles: <FrequentProfileItem>[],
       profileMode: '',
       profileUrl: '',
       profileError: null,
       profileUsername: '',
       profileFullName: '',
       profileAvatarUrl: '',
+      profileUserId: '',
       profileGroupsLoading: false,
       profileItemsLoading: false,
       profileGroups: <ProfileStoryGroup>[],
@@ -155,7 +163,7 @@ class DownloaderState {
   }
 
   String? get activeIgCookie {
-    if (privateMode && hasPrivateCookie) {
+    if (hasPrivateCookie) {
       return privateIgCookie;
     }
 
@@ -184,6 +192,7 @@ class DownloaderState {
     // Download history
     List<DownloadHistoryItem>? downloadHistory,
     Set<String>? downloadedProfileMediaKeys,
+    List<FrequentProfileItem>? frequentProfiles,
 
     // Profile common
     String? profileMode,
@@ -193,6 +202,7 @@ class DownloaderState {
     String? profileUsername,
     String? profileFullName,
     String? profileAvatarUrl,
+    String? profileUserId,
     bool clearProfileIdentity = false,
 
     // Profile story/highlight
@@ -234,6 +244,7 @@ class DownloaderState {
       downloadHistory: downloadHistory ?? this.downloadHistory,
       downloadedProfileMediaKeys:
           downloadedProfileMediaKeys ?? this.downloadedProfileMediaKeys,
+      frequentProfiles: frequentProfiles ?? this.frequentProfiles,
       profileMode: profileMode ?? this.profileMode,
       profileUrl: profileUrl ?? this.profileUrl,
       profileError: clearProfileError
@@ -248,6 +259,9 @@ class DownloaderState {
       profileAvatarUrl: clearProfileIdentity
           ? ''
           : profileAvatarUrl ?? this.profileAvatarUrl,
+      profileUserId: clearProfileIdentity
+          ? ''
+          : profileUserId ?? this.profileUserId,
       profileGroupsLoading: profileGroupsLoading ?? this.profileGroupsLoading,
       profileItemsLoading: profileItemsLoading ?? this.profileItemsLoading,
       profileGroups: profileGroups ?? this.profileGroups,

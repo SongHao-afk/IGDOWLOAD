@@ -23,15 +23,78 @@ class NormalLinkCard extends StatelessWidget {
     return _normalLinkCard(context, state, cubit);
   }
 
+  bool _isValidInstagramMediaUrl(String value) {
+    final clean = value.trim();
+    if (clean.isEmpty) return false;
+
+    final uri = Uri.tryParse(clean);
+    if (uri == null || !uri.hasScheme || uri.host.trim().isEmpty) {
+      return false;
+    }
+
+    final scheme = uri.scheme.toLowerCase();
+    if (scheme != 'http' && scheme != 'https') return false;
+
+    final host = uri.host.toLowerCase();
+    if (host != 'instagram.com' && !host.endsWith('.instagram.com')) {
+      return false;
+    }
+
+    final segments = uri.pathSegments
+        .map((x) => x.trim().toLowerCase())
+        .where((x) => x.isNotEmpty)
+        .toList();
+
+    if (segments.isEmpty) return false;
+
+    const supportedRoots = {
+      'p',
+      'reel',
+      'reels',
+      'tv',
+      'stories',
+      's',
+    };
+
+    return supportedRoots.contains(segments.first);
+  }
+
+  Future<void> _showInvalidFormatDialog(BuildContext context) async {
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        final color = Theme.of(dialogContext).colorScheme;
+
+        return AlertDialog(
+          icon: Icon(
+            Icons.error_outline_rounded,
+            color: color.error,
+            size: 32,
+          ),
+          title: const Text('Vui lòng nhập đúng định dạng'),
+          actions: [
+            FilledButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget _normalLinkCard(
     BuildContext context,
     DownloaderState state,
     DownloaderCubit cubit,
   ) {
     return GlassCard(
+      padding: const EdgeInsets.fromLTRB(16, 18, 16, 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: 12),
+          const SizedBox(height: 14),
           TextField(
             controller: urlCtrl,
             maxLines: 1,
@@ -63,15 +126,40 @@ class NormalLinkCard extends StatelessWidget {
                       ? null
                       : () => onOpenManualInstagramBrowser(),
                   icon: const Icon(Icons.travel_explore_rounded),
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(50),
+                    foregroundColor: const Color(0xFFE1306C),
+                    side: const BorderSide(color: Color(0xFFFFC7DA)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    textStyle: const TextStyle(fontWeight: FontWeight.w900),
+                  ),
                   label: const Text('Duyệt IG'),
                 ),
               ),
               const SizedBox(width: 10),
               Expanded(
                 child: FilledButton(
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size.fromHeight(50),
+                    backgroundColor: const Color(0xFFE1306C),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    textStyle: const TextStyle(fontWeight: FontWeight.w900),
+                  ),
                   onPressed: state.loading
                       ? null
-                      : () => cubit.resolveMedia(urlCtrl.text),
+                      : () async {
+                          if (!_isValidInstagramMediaUrl(urlCtrl.text)) {
+                            await _showInvalidFormatDialog(context);
+                            return;
+                          }
+
+                          await cubit.resolveMedia(urlCtrl.text);
+                        },
                   child: state.loading
                       ? const SizedBox(
                           width: 18,
@@ -82,22 +170,6 @@ class NormalLinkCard extends StatelessWidget {
                 ),
               ),
             ],
-          ),
-          const SizedBox(height: 10),
-          SizedBox(
-            width: double.infinity,
-            child: FilledButton.tonal(
-              onPressed: state.media.isEmpty || state.isAnyDownloading
-                  ? null
-                  : cubit.downloadAll,
-              child: state.downloadingAll
-                  ? const SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Text('Tải tất cả'),
-            ),
           ),
         ],
       ),

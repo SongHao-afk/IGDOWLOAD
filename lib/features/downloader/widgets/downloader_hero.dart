@@ -1,87 +1,299 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../cubit/downloader_state.dart';
 
-class DownloaderHero extends StatelessWidget {
+class DownloaderHero extends StatefulWidget {
   const DownloaderHero({super.key, required this.state});
 
   final DownloaderState state;
 
   @override
-  Widget build(BuildContext context) {
-    return _hero(context, state);
+  State<DownloaderHero> createState() => _DownloaderHeroState();
+}
+
+class _DownloaderHeroState extends State<DownloaderHero>
+    with SingleTickerProviderStateMixin {
+  static const _topHeartImage = 'lib/images/pic1.png';
+  static const _topCircleImage1 = 'lib/images/pic2.png';
+  static const _topCircleImage2 = 'lib/images/pic3.png';
+  static const _topCircleImage3 = 'lib/images/pic4.png';
+  static const _bottomBubbleImage1 = 'lib/images/pic5.png';
+  static const _bottomBubbleImage2 = 'lib/images/pic6.png';
+  static const _bottomBubbleImage3 = 'lib/images/pic7.png';
+  static const _bottomBubbleImage4 = 'lib/images/pic8.png';
+
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 4200),
+    )..repeat();
   }
 
-  Widget _hero(BuildContext context, DownloaderState state) {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.fromLTRB(22, 22, 22, 34),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(34),
-            gradient: LinearGradient(
-              colors: [
-                Theme.of(context).colorScheme.primary,
-                Theme.of(context).colorScheme.secondary,
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        final t = _controller.value * math.pi * 2;
+
+        return Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.fromLTRB(22, 28, 22, 30),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(22),
+                gradient: const LinearGradient(
+                  colors: [
+                    Color(0xFFFFD600),
+                    Color(0xFFFF7A30),
+                    Color(0xFFFF2F75),
+                    Color(0xFFC13584),
+                    Color(0xFF405DE6),
+                  ],
+                  stops: [0.0, 0.22, 0.48, 0.72, 1.0],
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFFE1306C).withOpacity(0.28),
+                    blurRadius: 28,
+                    offset: const Offset(0, 14),
+                  ),
+                ],
+              ),
+              child: Stack(
+                children: [
+                  _floating(
+                    t: t,
+                    phase: 0.2,
+                    x: -30,
+                    y: -16,
+                    dx: 9,
+                    dy: 5,
+                    child: Transform.rotate(
+                      angle: -0.18,
+                      child: Container(
+                        width: 180,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.16),
+                          borderRadius: BorderRadius.circular(999),
+                        ),
+                      ),
+                    ),
+                  ),
+                  _floating(
+                    t: t,
+                    phase: 0.95,
+                    x: null,
+                    y: 2,
+                    right: 64,
+                    dx: 5,
+                    dy: 9,
+                    child: _heartImage(_topHeartImage, 38),
+                  ),
+                  _floating(
+                    t: t,
+                    phase: 2.3,
+                    x: null,
+                    y: 42,
+                    right: 92,
+                    dx: 7,
+                    dy: 7,
+                    child: _bubbleImage(_topCircleImage1, 42),
+                  ),
+                  _floating(
+                    t: t,
+                    phase: 3.4,
+                    x: null,
+                    y: null,
+                    right: 46,
+                    bottom: 12,
+                    dx: 7,
+                    dy: 6,
+                    child: _bubbleImage(_topCircleImage2, 34),
+                  ),
+                  _floating(
+                    t: t,
+                    phase: 4.2,
+                    x: null,
+                    y: 18,
+                    right: 18,
+                    dx: 5,
+                    dy: 8,
+                    child: _smallAvatar(_topCircleImage3),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 28),
+                      const Text(
+                        'Tải nội dung Instagram dễ dàng',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          height: 1.08,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        widget.state.hasPrivateCookie
+                            ? 'Đã đăng nhập Instagram trên máy này'
+                            : 'Tải ảnh, reel, story cực nhanh và đơn giản.',
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.90),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            boxShadow: [
-              BoxShadow(
-                color: Theme.of(context).colorScheme.primary.withOpacity(0.34),
-                blurRadius: 30,
-                offset: const Offset(0, 16),
-              ),
-            ],
+            _floatingBubble(
+              t: t,
+              phase: 1.1,
+              left: 22,
+              bottom: -28,
+              path: _bottomBubbleImage1,
+              size: 58,
+              dx: 5,
+              dy: 8,
+            ),
+            _floatingBubble(
+              t: t,
+              phase: 2.6,
+              left: 88,
+              bottom: -18,
+              path: _bottomBubbleImage2,
+              size: 44,
+              dx: 6,
+              dy: 6,
+            ),
+            _floatingBubble(
+              t: t,
+              phase: 3.6,
+              right: 88,
+              bottom: -25,
+              path: _bottomBubbleImage3,
+              size: 52,
+              dx: 5,
+              dy: 9,
+            ),
+            _floatingBubble(
+              t: t,
+              phase: 4.8,
+              right: 26,
+              bottom: -14,
+              path: _bottomBubbleImage4,
+              size: 40,
+              dx: 4,
+              dy: 6,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _floating({
+    required double t,
+    required double phase,
+    required Widget child,
+    double? x,
+    double? y,
+    double? right,
+    double? bottom,
+    required double dx,
+    required double dy,
+  }) {
+    final offset = Offset(
+      math.sin(t + phase) * dx,
+      math.cos(t + phase * 1.17) * dy,
+    );
+
+    return Positioned(
+      left: x,
+      top: y,
+      right: right,
+      bottom: bottom,
+      child: Transform.translate(offset: offset, child: child),
+    );
+  }
+
+  Widget _floatingBubble({
+    required double t,
+    required double phase,
+    required String path,
+    required double size,
+    required double dx,
+    required double dy,
+    double? left,
+    double? right,
+    double? bottom,
+  }) {
+    return _floating(
+      t: t,
+      phase: phase,
+      x: left,
+      right: right,
+      bottom: bottom,
+      dx: dx,
+      dy: dy,
+      child: _bubbleImage(path, size),
+    );
+  }
+
+  Widget _heartImage(String path, double size) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        ClipPath(
+          clipper: _HeartClipper(),
+          child: Image.asset(
+            path,
+            width: size,
+            height: size,
+            fit: BoxFit.cover,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Tải ảnh, reel, story',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                state.privateMode
-                    ? 'Private mode: dùng đăng nhập Instagram trên máy này'
-                    : 'Public mode: dùng session mặc định',
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.88),
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
         ),
-        Positioned(
-          left: 22,
-          bottom: -28,
-          child: _bubbleImage('lib/images/anh1.jpg', 58),
-        ),
-        Positioned(
-          left: 88,
-          bottom: -18,
-          child: _bubbleImage('lib/images/anh2.jpg', 44),
-        ),
-        Positioned(
-          right: 88,
-          bottom: -25,
-          child: _bubbleImage('lib/images/anh3.jpg', 52),
-        ),
-        Positioned(
-          right: 26,
-          bottom: -14,
-          child: _bubbleImage('lib/images/anh4.jpg', 40),
+        Icon(
+          Icons.favorite_border_rounded,
+          color: Colors.white.withOpacity(0.82),
+          size: size + 4,
         ),
       ],
+    );
+  }
+
+  Widget _smallAvatar(String path) {
+    return Container(
+      width: 48,
+      height: 48,
+      padding: const EdgeInsets.all(3),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.white.withOpacity(0.32),
+      ),
+      child: ClipOval(child: Image.asset(path, fit: BoxFit.cover)),
     );
   }
 
@@ -103,4 +315,27 @@ class DownloaderHero extends StatelessWidget {
       ),
     );
   }
+}
+
+class _HeartClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final width = size.width;
+    final height = size.height;
+
+    return Path()
+      ..moveTo(width * 0.5, height * 0.86)
+      ..cubicTo(width * 0.08, height * 0.58, 0, height * 0.34,
+          width * 0.18, height * 0.16)
+      ..cubicTo(width * 0.33, height * 0.02, width * 0.48, height * 0.12,
+          width * 0.5, height * 0.28)
+      ..cubicTo(width * 0.52, height * 0.12, width * 0.67, height * 0.02,
+          width * 0.82, height * 0.16)
+      ..cubicTo(width, height * 0.34, width * 0.92, height * 0.58,
+          width * 0.5, height * 0.86)
+      ..close();
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
 }

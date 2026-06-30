@@ -285,6 +285,20 @@ class ProfileFeedRepository {
       'owner_avatar_url',
     ]);
 
+    final rootUserId = _firstText(root, [
+      'userId',
+      'user_id',
+      'pk',
+      'id',
+    ]);
+
+    final profileUserId = _firstText(profile, [
+      'userId',
+      'user_id',
+      'pk',
+      'id',
+    ]);
+
     // Mode profile phải ưu tiên username từ URL người dùng dán.
     // Nếu server trả profile chủ cookie thì không bê fullName/avatar sai vào item.
     final safeUsername = requestedUsername.isNotEmpty
@@ -301,6 +315,7 @@ class ProfileFeedRepository {
 
     final safeProfile = <String, dynamic>{
       ...profile,
+      'userId': profileUserId.isNotEmpty ? profileUserId : rootUserId,
       'username': safeUsername,
       'fullName': safeFullName,
       'avatarUrl': safeAvatarUrl,

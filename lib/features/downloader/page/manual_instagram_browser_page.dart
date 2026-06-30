@@ -1,6 +1,4 @@
 import 'dart:collection';
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -487,41 +485,9 @@ class _ManualInstagramBrowserPageState
       return const Center(child: CircularProgressIndicator());
     }
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final maxW = math.max(220.0, constraints.maxWidth - 28);
-        final maxH = math.max(320.0, constraints.maxHeight - 18);
-
-        double frameH = math.min(maxH, 620.0);
-        double frameW = frameH * 9 / 16;
-
-        if (frameW > maxW) {
-          frameW = maxW;
-          frameH = frameW * 16 / 9;
-        }
-
-        return Container(
-          width: double.infinity,
-          height: double.infinity,
-          color: Colors.black,
-          alignment: Alignment.center,
-          child: SizedBox(
-            width: frameW,
-            height: frameH,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(22),
-                border: Border.all(
-                  color: color.outlineVariant.withOpacity(0.45),
-                  width: 1,
-                ),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(22),
-                child: Stack(
-                  children: [
-                    InAppWebView(
+    return Stack(
+      children: [
+        InAppWebView(
                       initialUrlRequest: URLRequest(url: _initialUri()),
                       initialUserScripts: UnmodifiableListView<UserScript>([
                         UserScript(
@@ -544,7 +510,7 @@ class _ManualInstagramBrowserPageState
                         supportMultipleWindows: false,
                         javaScriptCanOpenWindowsAutomatically: false,
                         useShouldOverrideUrlLoading: true,
-                        verticalScrollBarEnabled: false,
+                        verticalScrollBarEnabled: true,
                         horizontalScrollBarEnabled: false,
                         transparentBackground: false,
                       ),
@@ -646,20 +612,14 @@ class _ManualInstagramBrowserPageState
                             _rememberUrl(value);
                           },
                     ),
-                    if (loading)
-                      const Positioned(
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        child: LinearProgressIndicator(minHeight: 2),
-                      ),
-                  ],
-                ),
-              ),
-            ),
+        if (loading)
+          const Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: LinearProgressIndicator(minHeight: 2),
           ),
-        );
-      },
+      ],
     );
   }
 
