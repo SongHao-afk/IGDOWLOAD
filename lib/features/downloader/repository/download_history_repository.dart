@@ -101,7 +101,7 @@ class DownloadHistoryRepository {
 
   // Giữ 300 item gần nhất là đủ vui rồi.
   // Không cần biến SharedPreferences thành nghĩa địa dữ liệu.
-  static const int _maxItems = 300;
+  static const int _maxItems = 50;
 
   const DownloadHistoryRepository();
 

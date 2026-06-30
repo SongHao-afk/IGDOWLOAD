@@ -162,6 +162,23 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     return 'https://www.instagram.com/$clean/';
   }
 
+  bool _isStoryOrHighlightUrl(String value) {
+    final clean = value.trim();
+    if (clean.isEmpty) return false;
+
+    final uri = Uri.tryParse(clean);
+    final segments =
+        uri?.pathSegments
+            .map((x) => x.trim().toLowerCase())
+            .where((x) => x.isNotEmpty)
+            .toList() ??
+        <String>[];
+
+    if (segments.isEmpty) return false;
+
+    return segments.first == 'stories' || segments.first == 's';
+  }
+
   String _frequentProfileKey({
     required String userId,
     required String username,
@@ -627,7 +644,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     final nextHistory = <DownloadHistoryItem>[
       cleanItem,
       ...state.downloadHistory.where((x) => x.key.trim() != cleanKey),
-    ].take(300).toList();
+    ].take(50).toList();
 
     final nextDownloadedKeys = {...state.downloadedProfileMediaKeys, cleanKey};
 
@@ -689,7 +706,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       return;
     }
 
-    if (!_guardPrivateModeForProfile()) return;
+    if (!_guardPrivateLoginForStoryHighlight()) return;
 
     final sourceUrl = profileUrl.isNotEmpty
         ? profileUrl
@@ -964,6 +981,11 @@ class DownloaderCubit extends Cubit<DownloaderState> {
 
   Future<void> resolveMedia(String inputUrl) async {
     final url = inputUrl.trim();
+    final isStoryOrHighlightUrl = _isStoryOrHighlightUrl(url);
+
+    if (isStoryOrHighlightUrl && !_guardPrivateLoginForStoryHighlight()) {
+      return;
+    }
 
     if (url.isEmpty) {
       emit(state.copyWith(status: 'Dán link Instagram trước đã.'));
@@ -1138,6 +1160,24 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     return true;
   }
 
+  bool _guardPrivateLoginForStoryHighlight() {
+    if (state.privateMode && state.hasPrivateCookie) {
+      return true;
+    }
+
+    const message =
+        'Story/highlight cần bật Private mode và đăng nhập Instagram trước.';
+
+    emit(
+      state.copyWith(
+        profileError: message,
+        status: message,
+      ),
+    );
+
+    return false;
+  }
+
   // =========================
   // PROFILE STORY / HIGHLIGHT
   // =========================
@@ -1156,7 +1196,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       return;
     }
 
-    if (!_guardPrivateModeForProfile()) return;
+    if (!_guardPrivateLoginForStoryHighlight()) return;
 
     emit(
       state.copyWith(
@@ -1246,7 +1286,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       return;
     }
 
-    if (!_guardPrivateModeForProfile()) return;
+    if (!_guardPrivateLoginForStoryHighlight()) return;
 
     emit(
       state.copyWith(
@@ -1356,7 +1396,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
 
     if (state.downloadingProfileKeys.contains(item.downloadKey)) return;
     if (state.downloadingAll) return;
-    if (!_guardPrivateModeForProfile()) return;
+    if (!_guardPrivateLoginForStoryHighlight()) return;
 
     final nextDownloading = {...state.downloadingProfileKeys, item.downloadKey};
 

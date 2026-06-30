@@ -66,7 +66,7 @@ class _DownloaderPageState extends State<DownloaderPage> {
     if (!state.privateMode || cookie.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Manual Browser cần bật Private mode trước.'),
+          content: Text('Cần đăng nhập'),
         ),
       );
       return;
@@ -103,6 +103,33 @@ class _DownloaderPageState extends State<DownloaderPage> {
     );
   }
 
+  void _openFrequentProfilesSheet(BuildContext context, DownloaderCubit cubit) {
+    showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      isScrollControlled: true,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      builder: (_) => BlocProvider.value(
+        value: cubit,
+        child: BlocBuilder<DownloaderCubit, DownloaderState>(
+          builder: (context, state) {
+            return SafeArea(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(
+                  16,
+                  8,
+                  16,
+                  MediaQuery.of(context).viewInsets.bottom + 16,
+                ),
+                child: FrequentProfilesCard(state: state, cubit: cubit),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DownloaderCubit, DownloaderState>(
@@ -117,6 +144,13 @@ class _DownloaderPageState extends State<DownloaderPage> {
               style: TextStyle(fontWeight: FontWeight.w900),
             ),
             actions: [
+              IconButton(
+                tooltip: 'Truy cập thường xuyên',
+                onPressed: state.frequentProfiles.isEmpty
+                    ? null
+                    : () => _openFrequentProfilesSheet(context, cubit),
+                icon: const Icon(Icons.history_toggle_off_rounded),
+              ),
               IconButton(
                 tooltip: 'Đã tải gần đây',
                 onPressed: () => _openDownloadHistorySheet(context, cubit),
@@ -160,9 +194,6 @@ class _DownloaderPageState extends State<DownloaderPage> {
                         children: [
                           DownloaderHero(state: state),
                           const SizedBox(height: 46),
-                          FrequentProfilesCard(state: state, cubit: cubit),
-                          if (state.frequentProfiles.isNotEmpty)
-                            const SizedBox(height: 14),
                           ProfileModesCard(state: state, cubit: cubit),
                           const SizedBox(height: 14),
                           NormalLinkCard(
@@ -236,3 +267,4 @@ class _DownloaderPageState extends State<DownloaderPage> {
     );
   }
 }
+

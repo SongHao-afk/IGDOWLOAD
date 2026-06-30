@@ -23,6 +23,66 @@ class NormalLinkCard extends StatelessWidget {
     return _normalLinkCard(context, state, cubit);
   }
 
+  bool _isValidInstagramMediaUrl(String value) {
+    final clean = value.trim();
+    if (clean.isEmpty) return false;
+
+    final uri = Uri.tryParse(clean);
+    if (uri == null || !uri.hasScheme || uri.host.trim().isEmpty) {
+      return false;
+    }
+
+    final scheme = uri.scheme.toLowerCase();
+    if (scheme != 'http' && scheme != 'https') return false;
+
+    final host = uri.host.toLowerCase();
+    if (host != 'instagram.com' && !host.endsWith('.instagram.com')) {
+      return false;
+    }
+
+    final segments = uri.pathSegments
+        .map((x) => x.trim().toLowerCase())
+        .where((x) => x.isNotEmpty)
+        .toList();
+
+    if (segments.isEmpty) return false;
+
+    const supportedRoots = {
+      'p',
+      'reel',
+      'reels',
+      'tv',
+      'stories',
+      's',
+    };
+
+    return supportedRoots.contains(segments.first);
+  }
+
+  Future<void> _showInvalidFormatDialog(BuildContext context) async {
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        final color = Theme.of(dialogContext).colorScheme;
+
+        return AlertDialog(
+          icon: Icon(
+            Icons.error_outline_rounded,
+            color: color.error,
+            size: 32,
+          ),
+          title: const Text('Vui lòng nhập đúng định dạng'),
+          actions: [
+            FilledButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget _normalLinkCard(
     BuildContext context,
     DownloaderState state,
@@ -71,7 +131,14 @@ class NormalLinkCard extends StatelessWidget {
                 child: FilledButton(
                   onPressed: state.loading
                       ? null
-                      : () => cubit.resolveMedia(urlCtrl.text),
+                      : () async {
+                          if (!_isValidInstagramMediaUrl(urlCtrl.text)) {
+                            await _showInvalidFormatDialog(context);
+                            return;
+                          }
+
+                          await cubit.resolveMedia(urlCtrl.text);
+                        },
                   child: state.loading
                       ? const SizedBox(
                           width: 18,

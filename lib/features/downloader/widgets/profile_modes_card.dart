@@ -67,6 +67,66 @@ class ProfileModesCard extends StatelessWidget {
         path.contains('/tv/');
   }
 
+  bool _isValidProfileInput(String value) {
+    final clean = value.trim();
+    if (clean.isEmpty) return false;
+
+    final usernamePattern = RegExp(r'^@?[A-Za-z0-9._]{1,30}$');
+    if (usernamePattern.hasMatch(clean)) return true;
+
+    final uri = Uri.tryParse(clean);
+    if (uri == null || !uri.hasScheme || uri.host.trim().isEmpty) {
+      return false;
+    }
+
+    final scheme = uri.scheme.toLowerCase();
+    if (scheme != 'http' && scheme != 'https') return false;
+
+    final host = uri.host.toLowerCase();
+    if (host != 'instagram.com' && !host.endsWith('.instagram.com')) {
+      return false;
+    }
+
+    final segments = uri.pathSegments
+        .map((x) => x.trim().toLowerCase())
+        .where((x) => x.isNotEmpty)
+        .toList();
+
+    if (segments.isEmpty) return false;
+
+    const reservedRoots = {
+      'accounts',
+      'direct',
+      'explore',
+    };
+
+    return !reservedRoots.contains(segments.first);
+  }
+
+  Future<void> _showInvalidFormatDialog(BuildContext context) async {
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        final color = Theme.of(dialogContext).colorScheme;
+
+        return AlertDialog(
+          icon: Icon(
+            Icons.error_outline_rounded,
+            color: color.error,
+            size: 32,
+          ),
+          title: const Text('Vui lòng nhập đúng định dạng'),
+          actions: [
+            FilledButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   String _modeHint(ProfileModeAction mode) {
     switch (mode) {
       case ProfileModeAction.stories:
@@ -114,7 +174,12 @@ class ProfileModesCard extends StatelessWidget {
               Future<void> submit() async {
                 final profileUrl = ctrl.text.trim();
 
-                if (profileUrl.isEmpty || localLoading) return;
+                if (localLoading) return;
+
+                if (!_isValidProfileInput(profileUrl)) {
+                  await _showInvalidFormatDialog(dialogContext);
+                  return;
+                }
 
                 setModalState(() {
                   localLoading = true;
