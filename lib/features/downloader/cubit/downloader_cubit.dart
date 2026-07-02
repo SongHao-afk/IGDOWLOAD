@@ -840,6 +840,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     ]);
 
     final nothingLoaded = groups.isEmpty && feedItems.isEmpty;
+    final accessMessage =
+        state.hasPrivateCookie ? 'Cần follow người này' : 'Cần đăng nhập';
 
     emit(
       state.copyWith(
@@ -856,10 +858,10 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         profileUsername: nextUsername,
         profileFullName: nextFullName,
         profileAvatarUrl: nextAvatarUrl,
-        profileError: nothingLoaded ? 'Cần đăng nhập' : null,
+        profileError: nothingLoaded ? accessMessage : null,
         clearProfileError: !nothingLoaded,
         status: nothingLoaded
-            ? 'Cần đăng nhập'
+            ? accessMessage
             : 'Đã mở @$nextUsername: ${groups.length} mục story/highlight, ${feedItems.length} ảnh/video.',
       ),
     );
@@ -1262,7 +1264,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         profileUrl: profileUrl,
       );
     } catch (_) {
-      const message = 'Cần đăng nhập';
+      final message =
+          state.hasPrivateCookie ? 'Cần follow người này' : 'Cần đăng nhập';
 
       emit(
         state.copyWith(
