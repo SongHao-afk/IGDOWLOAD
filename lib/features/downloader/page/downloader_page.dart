@@ -102,7 +102,11 @@ class _DownloaderPageState extends State<DownloaderPage> {
 
   Future<void> openPrivateLogin(DownloaderCubit cubit) async {
     final cookie = await Navigator.of(context).push<String?>(
-      MaterialPageRoute(builder: (_) => const InstagramLoginPage()),
+      MaterialPageRoute(
+        builder: (_) => InstagramLoginPage(
+          onLogout: cubit.logoutPrivateCookie,
+        ),
+      ),
     );
 
     if (cookie == null || cookie.trim().isEmpty) return;
@@ -111,6 +115,7 @@ class _DownloaderPageState extends State<DownloaderPage> {
   }
 
   bool loginDialogOpen = false;
+  bool followDialogOpen = false;
 
   Future<void> showLoginRequiredDialog(DownloaderCubit cubit) async {
     if (loginDialogOpen) return;
@@ -153,6 +158,45 @@ class _DownloaderPageState extends State<DownloaderPage> {
 
     if (shouldLogin == true && mounted) {
       await openPrivateLogin(cubit);
+    }
+  }
+
+  Future<void> showFollowRequiredDialog() async {
+    if (followDialogOpen) return;
+
+    followDialogOpen = true;
+
+    try {
+      await showDialog<void>(
+        context: context,
+        builder: (dialogContext) {
+          final color = Theme.of(dialogContext).colorScheme;
+
+          return AlertDialog(
+            icon: Icon(
+              Icons.person_add_alt_1_rounded,
+              color: color.primary,
+              size: 32,
+            ),
+            title: const Text('Cần follow người này'),
+            content: const Text(
+              'Tài khoản đang đăng nhập chưa có quyền xem nội dung này.',
+            ),
+            actionsAlignment: MainAxisAlignment.center,
+            actions: [
+              SizedBox(
+                width: 180,
+                child: FilledButton(
+                  onPressed: () => Navigator.of(dialogContext).pop(),
+                  child: const Text('Đã hiểu'),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    } finally {
+      followDialogOpen = false;
     }
   }
 
@@ -237,7 +281,15 @@ class _DownloaderPageState extends State<DownloaderPage> {
     return BlocConsumer<DownloaderCubit, DownloaderState>(
       listener: (context, state) {
         if (state.status == 'Cần đăng nhập') {
-          showLoginRequiredDialog(context.read<DownloaderCubit>());
+          if (state.hasPrivateCookie) {
+            showFollowRequiredDialog();
+          } else {
+            showLoginRequiredDialog(context.read<DownloaderCubit>());
+          }
+        }
+
+        if (state.status == 'Cần follow người này') {
+          showFollowRequiredDialog();
         }
       },
       builder: (context, state) {

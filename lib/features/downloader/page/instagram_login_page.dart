@@ -4,7 +4,9 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import '../../../core/utils/instagram_webview_cleaner.dart';
 
 class InstagramLoginPage extends StatefulWidget {
-  const InstagramLoginPage({super.key});
+  const InstagramLoginPage({super.key, this.onLogout});
+
+  final Future<void> Function()? onLogout;
 
   @override
   State<InstagramLoginPage> createState() => _InstagramLoginPageState();
@@ -145,15 +147,30 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
     if (saving) return;
 
     setState(() {
-      status = 'Đang xoá sạch cookie/cache WebView...';
+      saving = true;
+      status = 'Đang xoá sạch phiên đăng nhập...';
     });
 
-    await InstagramWebViewCleaner.clearAll(controller: controller);
+    try {
+      if (widget.onLogout != null) {
+        await widget.onLogout!.call();
+      } else {
+        await InstagramWebViewCleaner.clearAll(controller: controller);
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          saving = false;
+        });
+      }
+    }
 
     if (!mounted) return;
 
     setState(() {
-      status = 'Đã xoá sạch cookie/cache WebView.\nHãy đăng nhập lại.';
+      status =
+          'Đã xoá sạch phiên đăng nhập trên web và trong app.\n'
+          'Hãy đăng nhập lại.';
     });
 
     await controller?.loadUrl(urlRequest: URLRequest(url: loginUri));
