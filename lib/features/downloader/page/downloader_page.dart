@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:share_handler/share_handler.dart';
 
 import '../cubit/downloader_cubit.dart';
 import '../cubit/downloader_state.dart';
@@ -27,67 +26,10 @@ class DownloaderPage extends StatefulWidget {
 class _DownloaderPageState extends State<DownloaderPage> {
   final TextEditingController urlCtrl = TextEditingController();
 
-  StreamSubscription? _shareSub;
-  String? _lastSharedUrl;
-
-  @override
-  void initState() {
-    super.initState();
-    _initShareHandler();
-  }
-
   @override
   void dispose() {
-    _shareSub?.cancel();
     urlCtrl.dispose();
     super.dispose();
-  }
-
-  Future<void> _initShareHandler() async {
-    final handler = ShareHandlerPlatform.instance;
-
-    try {
-      final initial = await handler.getInitialSharedMedia();
-      await _handleSharedText(initial?.content);
-    } catch (_) {}
-
-    _shareSub = handler.sharedMediaStream.listen((media) async {
-      await _handleSharedText(media.content);
-    });
-  }
-
-  Future<void> _handleSharedText(String? text) async {
-    final clean = _extractInstagramUrl(text);
-    if (clean == null) return;
-
-    if (_lastSharedUrl == clean) return;
-    _lastSharedUrl = clean;
-
-    urlCtrl.text = clean;
-
-    if (!mounted) return;
-
-    final cubit = context.read<DownloaderCubit>();
-    final state = cubit.state;
-
-    if (state.loading || state.sessionBusy) return;
-
-    await cubit.resolveMedia(clean);
-  }
-
-  String? _extractInstagramUrl(String? raw) {
-    final text = raw?.trim() ?? '';
-    if (text.isEmpty) return null;
-
-    final match = RegExp(
-      r'https?:\/\/(?:www\.)?instagram\.com\/[^\s]+',
-      caseSensitive: false,
-    ).firstMatch(text);
-
-    final url = match?.group(0)?.trim();
-    if (url == null || url.isEmpty) return null;
-
-    return url;
   }
 
   void openThemePicker() {
@@ -103,9 +45,7 @@ class _DownloaderPageState extends State<DownloaderPage> {
   Future<void> openPrivateLogin(DownloaderCubit cubit) async {
     final cookie = await Navigator.of(context).push<String?>(
       MaterialPageRoute(
-        builder: (_) => InstagramLoginPage(
-          onLogout: cubit.logoutPrivateCookie,
-        ),
+        builder: (_) => InstagramLoginPage(onLogout: cubit.logoutPrivateCookie),
       ),
     );
 
