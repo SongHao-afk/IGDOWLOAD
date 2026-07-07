@@ -184,6 +184,38 @@ class _DownloaderPageState extends State<DownloaderPage> {
     );
   }
 
+  bool _isDownloadSuccessStatus(String status) {
+    final clean = status.trim();
+
+    return clean.startsWith('Đã lưu') &&
+        (clean.contains('album') ||
+            clean.contains('thư viện') ||
+            clean.contains('nội dung') ||
+            clean.contains('Story'));
+  }
+
+  void _showDownloadSuccessSnackBar(DownloaderCubit cubit) {
+    if (!mounted) return;
+
+    final messenger = ScaffoldMessenger.of(context);
+
+    messenger
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: const Text('Đã tải xuống thành công.'),
+          behavior: SnackBarBehavior.floating,
+          action: SnackBarAction(
+            label: 'Xem lịch sử',
+            onPressed: () {
+              if (!mounted) return;
+              _openDownloadHistorySheet(context, cubit);
+            },
+          ),
+        ),
+      );
+  }
+
   void _openFrequentProfilesSheet(BuildContext context, DownloaderCubit cubit) {
     showModalBottomSheet<void>(
       context: context,
@@ -219,17 +251,27 @@ class _DownloaderPageState extends State<DownloaderPage> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<DownloaderCubit, DownloaderState>(
+      listenWhen: (previous, current) {
+        return previous.status != current.status ||
+            previous.downloadHistory.length != current.downloadHistory.length;
+      },
       listener: (context, state) {
+        final cubit = context.read<DownloaderCubit>();
+
         if (state.status == 'Cần đăng nhập') {
           if (state.hasPrivateCookie) {
             showFollowRequiredDialog();
           } else {
-            showLoginRequiredDialog(context.read<DownloaderCubit>());
+            showLoginRequiredDialog(cubit);
           }
         }
 
         if (state.status == 'Cần follow người này') {
           showFollowRequiredDialog();
+        }
+
+        if (_isDownloadSuccessStatus(state.status)) {
+          _showDownloadSuccessSnackBar(cubit);
         }
       },
       builder: (context, state) {

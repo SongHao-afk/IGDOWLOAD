@@ -1,25 +1,359 @@
 import 'dart:io';
 
-import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gal/gal.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:video_player/video_player.dart';
 
 import '../cubit/downloader_cubit.dart';
 import '../cubit/downloader_state.dart';
 import '../repository/download_history_repository.dart';
 
-class DownloadHistorySheet extends StatelessWidget {
+class DownloadHistorySheet extends StatefulWidget {
   const DownloadHistorySheet({super.key, required this.cubit});
 
   final DownloaderCubit cubit;
 
   @override
+  State<DownloadHistorySheet> createState() => _DownloadHistorySheetState();
+}
+
+class _DownloadHistorySheetState extends State<DownloadHistorySheet> {
+  final Set<String> _selectedKeys = <String>{};
+
+  bool get _selectionMode => _selectedKeys.isNotEmpty;
+
+  void _toggleSelection(DownloadHistoryItem item) {
+    final key = item.key.trim();
+    if (key.isEmpty) return;
+
+    setState(() {
+      if (_selectedKeys.contains(key)) {
+        _selectedKeys.remove(key);
+      } else {
+        _selectedKeys.add(key);
+      }
+    });
+  }
+
+  void _clearSelection() {
+    if (_selectedKeys.isEmpty) return;
+    setState(_selectedKeys.clear);
+  }
+
+  Future<bool> _showDeleteConfirmSheet({
+    required String title,
+    required String message,
+    required String confirmText,
+  }) async {
+    final result = await showModalBottomSheet<bool>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (sheetContext) {
+        final color = Theme.of(sheetContext).colorScheme;
+
+        return SafeArea(
+          child: Container(
+            margin: const EdgeInsets.all(14),
+            padding: const EdgeInsets.fromLTRB(18, 18, 18, 14),
+            decoration: BoxDecoration(
+              color: color.surface,
+              borderRadius: BorderRadius.circular(28),
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 24,
+                  offset: const Offset(0, 10),
+                  color: Colors.black.withOpacity(0.16),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.redAccent.withOpacity(0.12),
+                  ),
+                  child: const Icon(
+                    Icons.delete_outline_rounded,
+                    color: Colors.redAccent,
+                    size: 26,
+                  ),
+                ),
+                const SizedBox(height: 14),
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 19,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  message,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    height: 1.35,
+                    color: color.onSurface.withOpacity(0.62),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 18),
+                FilledButton(
+                  onPressed: () => Navigator.of(sheetContext).pop(true),
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size.fromHeight(50),
+                    backgroundColor: Colors.redAccent,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                  ),
+                  child: Text(
+                    confirmText,
+                    style: const TextStyle(fontWeight: FontWeight.w900),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                TextButton(
+                  onPressed: () => Navigator.of(sheetContext).pop(false),
+                  child: const Text(
+                    'Huỷ',
+                    style: TextStyle(fontWeight: FontWeight.w800),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+
+    return result == true;
+  }
+
+  Future<void> _confirmAndClearAll(BuildContext context) async {
+    final ok = await _showDeleteConfirmSheet(
+      title: 'Xoá tất cả lịch sử?',
+      message: 'Tất cả mục trong lịch sử tải xuống sẽ bị xoá khỏi ứng dụng.',
+      confirmText: 'Xoá tất cả',
+    );
+
+    if (!ok || !mounted) return;
+
+    await widget.cubit.clearDownloadHistory();
+    if (!mounted) return;
+
+    _clearSelection();
+  }
+
+  Future<void> _confirmAndDeleteSelected(BuildContext context) async {
+    final count = _selectedKeys.length;
+    if (count == 0) return;
+
+    final ok = await _showDeleteConfirmSheet(
+      title: 'Xoá $count mục?',
+      message: count == 1
+          ? 'Mục đã chọn sẽ bị xoá khỏi lịch sử tải xuống.'
+          : '$count mục đã chọn sẽ bị xoá khỏi lịch sử tải xuống.',
+      confirmText: 'Xoá',
+    );
+
+    if (!ok || !mounted) return;
+
+    final keys = Set<String>.from(_selectedKeys);
+    await widget.cubit.removeDownloadHistoryItems(keys);
+    if (!mounted) return;
+
+    _clearSelection();
+  }
+
+  Future<void> _confirmAndDeleteOne(
+    BuildContext context,
+    DownloadHistoryItem item,
+  ) async {
+    final key = item.key.trim();
+    if (key.isEmpty) return;
+
+    final ok = await _showDeleteConfirmSheet(
+      title: 'Xoá mục này?',
+      message: 'Mục này sẽ bị xoá khỏi lịch sử tải xuống.',
+      confirmText: 'Xoá',
+    );
+
+    if (!ok || !mounted) return;
+
+    await widget.cubit.removeDownloadHistoryItems({key});
+    if (!mounted) return;
+
+    _selectedKeys.remove(key);
+    setState(() {});
+  }
+
+  Future<void> _shareHistoryItem(
+    BuildContext context,
+    DownloadHistoryItem item,
+  ) async {
+    final localPath = item.localPath.trim();
+    final file = File(localPath);
+
+    if (localPath.isEmpty || !await file.exists()) {
+      _showPreviewMessage(
+        context,
+        'Không thể chia sẻ. File không còn tồn tại trên máy.',
+      );
+      return;
+    }
+
+    try {
+      await Share.shareXFiles([XFile(localPath)]);
+    } catch (_) {
+      if (!context.mounted) return;
+      _showPreviewMessage(context, 'Không thể chia sẻ nội dung này.');
+    }
+  }
+
+  Future<void> _saveHistoryItemAgain(
+    BuildContext context,
+    DownloadHistoryItem item,
+  ) async {
+    final localPath = item.localPath.trim();
+    final file = File(localPath);
+
+    if (localPath.isEmpty || !await file.exists()) {
+      _showPreviewMessage(
+        context,
+        'Không thể lưu lại. File không còn tồn tại trên máy.',
+      );
+      return;
+    }
+
+    final isVideo = _isVideoType(item.type.trim().toLowerCase());
+
+    try {
+      if (isVideo) {
+        await Gal.putVideo(localPath, album: 'IG Downloader');
+      } else {
+        await Gal.putImage(localPath, album: 'IG Downloader');
+      }
+
+      if (!context.mounted) return;
+      _showPreviewMessage(context, 'Đã lưu lại vào thư viện.');
+    } catch (_) {
+      if (!context.mounted) return;
+      _showPreviewMessage(context, 'Không thể lưu lại nội dung này.');
+    }
+  }
+
+  void _showPreviewMessage(BuildContext context, String message) {
+    ScaffoldMessenger.of(context)
+      ..clearSnackBars()
+      ..showSnackBar(
+        SnackBar(content: Text(message), behavior: SnackBarBehavior.floating),
+      );
+  }
+
+  Widget _previewActionBar({
+    required BuildContext context,
+    required DownloadHistoryItem item,
+  }) {
+    return SafeArea(
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: Container(
+          margin: const EdgeInsets.fromLTRB(14, 10, 64, 0),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
+          decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.58),
+            borderRadius: BorderRadius.circular(999),
+            border: Border.all(color: Colors.white.withOpacity(0.14)),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _previewActionButton(
+                icon: Icons.ios_share_rounded,
+                label: 'Chia sẻ',
+                onTap: () => _shareHistoryItem(context, item),
+              ),
+              const SizedBox(width: 4),
+              _previewActionButton(
+                icon: Icons.download_rounded,
+                label: 'Lưu',
+                onTap: () => _saveHistoryItemAgain(context, item),
+              ),
+              const SizedBox(width: 4),
+              _previewActionButton(
+                icon: Icons.delete_outline_rounded,
+                label: 'Xoá',
+                isDanger: true,
+                onTap: () async {
+                  Navigator.of(context).pop();
+                  await Future<void>.delayed(const Duration(milliseconds: 180));
+
+                  if (!mounted) return;
+                  await _confirmAndDeleteOne(this.context, item);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _previewActionButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+    bool isDanger = false,
+  }) {
+    final color = isDanger ? Colors.redAccent : Colors.white;
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(999),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 7),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, size: 18, color: color),
+              const SizedBox(width: 5),
+              Text(
+                label,
+                style: TextStyle(
+                  color: color,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<DownloaderCubit, DownloaderState>(
-      bloc: cubit,
+      bloc: widget.cubit,
       builder: (blocContext, state) {
         final items = state.downloadHistory;
         final color = Theme.of(context).colorScheme;
+
+        final existingKeys = items.map((x) => x.key.trim()).toSet();
+        final validSelectedCount = _selectedKeys
+            .where(existingKeys.contains)
+            .length;
 
         return SafeArea(
           child: Container(
@@ -81,28 +415,51 @@ class DownloadHistorySheet extends StatelessWidget {
                             end: Alignment.topRight,
                           ),
                         ),
-                        child: const Icon(
-                          Icons.history_rounded,
+                        child: Icon(
+                          _selectionMode
+                              ? Icons.check_circle_rounded
+                              : Icons.history_rounded,
                           color: Colors.white,
                         ),
                       ),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
-                          'Lịch sử tải xuống',
+                          _selectionMode
+                              ? 'Đã chọn $validSelectedCount'
+                              : 'Lịch sử tải xuống',
                           style: Theme.of(context).textTheme.titleLarge
                               ?.copyWith(fontWeight: FontWeight.w900),
                         ),
                       ),
-                      if (items.isNotEmpty)
+                      if (_selectionMode)
+                        IconButton(
+                          tooltip: 'Bỏ chọn',
+                          onPressed: _clearSelection,
+                          icon: const Icon(Icons.close_rounded),
+                        ),
+                      if (_selectionMode)
                         TextButton.icon(
-                          onPressed: () async {
-                            await cubit.clearDownloadHistory();
-
-                            if (context.mounted) {
-                              Navigator.of(context).pop();
-                            }
-                          },
+                          onPressed: () => _confirmAndDeleteSelected(context),
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.redAccent,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 8,
+                            ),
+                          ),
+                          icon: const Icon(
+                            Icons.delete_outline_rounded,
+                            size: 20,
+                          ),
+                          label: const Text(
+                            'Xoá',
+                            style: TextStyle(fontWeight: FontWeight.w800),
+                          ),
+                        )
+                      else if (items.isNotEmpty)
+                        TextButton.icon(
+                          onPressed: () => _confirmAndClearAll(context),
                           style: TextButton.styleFrom(
                             foregroundColor: Colors.redAccent,
                             padding: const EdgeInsets.symmetric(
@@ -183,7 +540,6 @@ class DownloadHistorySheet extends StatelessWidget {
                       separatorBuilder: (_, __) => const SizedBox(height: 12),
                       itemBuilder: (context, index) {
                         final item = items[index];
-
                         return _downloadHistoryTile(context, item);
                       },
                     ),
@@ -216,7 +572,7 @@ class DownloadHistorySheet extends StatelessWidget {
 
     showDialog<void>(
       context: context,
-      builder: (_) {
+      builder: (previewContext) {
         return Dialog(
           backgroundColor: Colors.black,
           insetPadding: const EdgeInsets.all(12),
@@ -233,12 +589,24 @@ class DownloadHistorySheet extends StatelessWidget {
                         ),
                       ),
               ),
+              _previewActionBar(context: previewContext, item: item),
               Positioned(
                 top: 8,
                 right: 8,
-                child: IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.close_rounded, color: Colors.white),
+                child: SafeArea(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.black.withOpacity(0.58),
+                    ),
+                    child: IconButton(
+                      onPressed: () => Navigator.of(previewContext).pop(),
+                      icon: const Icon(
+                        Icons.close_rounded,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -259,26 +627,37 @@ class DownloadHistorySheet extends StatelessWidget {
     final safeAvatarUrl = _historyAvatarUrl(item, safeUsername);
     final safeThumbnailUrl = _historyThumbUrl(item);
 
-    // Layout cố định:
-    // Hàng 1: fullName
-    // Hàng 2: @username
-    // Nếu không có fullName thì hàng 1 vẫn để trống, username không nhảy lên.
     final title = safeFullName;
     final subtitle = safeUsername.isNotEmpty ? '@$safeUsername' : '';
 
     final typeText = _typeTagText(cleanType);
+    final itemKey = item.key.trim();
+    final selected = itemKey.isNotEmpty && _selectedKeys.contains(itemKey);
 
     return InkWell(
       borderRadius: BorderRadius.circular(24),
-      onTap: () => _openHistoryPreview(context, item),
-      child: Container(
+      onTap: () {
+        if (_selectionMode) {
+          _toggleSelection(item);
+          return;
+        }
+
+        _openHistoryPreview(context, item);
+      },
+      onLongPress: () => _toggleSelection(item),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 160),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
-          color: Colors.white.withOpacity(0.96),
+          color: selected
+              ? theme.colorScheme.primary.withOpacity(0.08)
+              : Colors.white.withOpacity(0.96),
           border: Border.all(
-            color: theme.colorScheme.primary.withOpacity(0.16),
-            width: 1,
+            color: selected
+                ? theme.colorScheme.primary
+                : theme.colorScheme.primary.withOpacity(0.16),
+            width: selected ? 1.6 : 1,
           ),
           boxShadow: [
             BoxShadow(
@@ -456,18 +835,47 @@ class DownloadHistorySheet extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.green.withOpacity(0.12),
-              ),
-              child: const Icon(
-                Icons.check_circle_rounded,
-                color: Colors.green,
-                size: 22,
-              ),
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 160),
+              child: _selectionMode
+                  ? Container(
+                      key: ValueKey('select_$selected'),
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: selected
+                            ? theme.colorScheme.primary
+                            : theme.colorScheme.primary.withOpacity(0.10),
+                        border: Border.all(
+                          color: selected
+                              ? theme.colorScheme.primary
+                              : theme.colorScheme.primary.withOpacity(0.35),
+                          width: 1.4,
+                        ),
+                      ),
+                      child: selected
+                          ? const Icon(
+                              Icons.check_rounded,
+                              color: Colors.white,
+                              size: 20,
+                            )
+                          : null,
+                    )
+                  : Container(
+                      key: const ValueKey('done'),
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.green.withOpacity(0.12),
+                      ),
+                      child: const Icon(
+                        Icons.check_circle_rounded,
+                        color: Colors.green,
+                        size: 22,
+                      ),
+                    ),
             ),
           ],
         ),
@@ -503,9 +911,6 @@ class DownloadHistorySheet extends StatelessWidget {
   String _historyUsername(DownloadHistoryItem item) {
     final fromSourceUrl = _usernameFromInstagramUrl(item.sourceUrl);
 
-    // Story thường /stories/{username}/... có username thật trong URL.
-    // Link /s/... hoặc /stories/highlights/... KHÔNG có username,
-    // nên hàm _usernameFromInstagramUrl sẽ trả rỗng để fallback qua item.username.
     if (fromSourceUrl.isNotEmpty) {
       return fromSourceUrl;
     }
@@ -523,8 +928,6 @@ class DownloadHistorySheet extends StatelessWidget {
     final fromSourceUrl = _usernameFromInstagramUrl(item.sourceUrl);
     final storedUsername = _cleanUsername(item.username);
 
-    // Nếu sourceUrl cho biết username thật mà username lưu khác,
-    // fullName có nguy cơ là của chủ cookie/state cũ. Bỏ cho an toàn.
     if (fromSourceUrl.isNotEmpty) {
       if (storedUsername.isEmpty) {
         return '';
@@ -552,10 +955,6 @@ class DownloadHistorySheet extends StatelessWidget {
     final fromSourceUrl = _usernameFromInstagramUrl(item.sourceUrl);
     final storedUsername = _cleanUsername(item.username);
 
-    // Nếu sourceUrl có username thật mà username lưu khác,
-    // avatar có thể là avatar chủ cookie/state cũ. Chặn lại.
-    // Với /s/... và /stories/highlights/... thì fromSourceUrl rỗng,
-    // nên avatar backend trả về vẫn được dùng.
     if (fromSourceUrl.isNotEmpty) {
       if (storedUsername.isEmpty) {
         return '';
@@ -579,7 +978,6 @@ class DownloadHistorySheet extends StatelessWidget {
     final downloadUrl = _cleanUrl(item.downloadUrl);
     final cleanType = item.type.trim().toLowerCase();
 
-    // Ảnh post/profile nếu thiếu thumb thì dùng chính ảnh tải về làm cover.
     if (!_isVideoType(cleanType) && _looksLikeImageUrl(downloadUrl)) {
       return downloadUrl;
     }
@@ -615,14 +1013,10 @@ class DownloadHistorySheet extends StatelessWidget {
 
     final first = segments.first.toLowerCase();
 
-    // Link share dạng instagram.com/s/xxxxx không chứa username.
-    // Không chặn cái này thì history sẽ hiện @s, một tác phẩm nghệ thuật rác.
     if (first == 's') {
       return '';
     }
 
-    // /stories/{username}/... thì có username.
-    // /stories/highlights/{id} thì không có username.
     if (first == 'stories') {
       if (segments.length < 2) {
         return '';
@@ -762,7 +1156,7 @@ class DownloadHistorySheet extends StatelessWidget {
 
   String _typeTagText(String cleanType) {
     if (_isVideoType(cleanType)) {
-      return 'VIDEO';
+      return 'Video';
     }
 
     if (cleanType.contains('photo') ||
@@ -771,10 +1165,10 @@ class DownloadHistorySheet extends StatelessWidget {
         cleanType == 'jpeg' ||
         cleanType == 'png' ||
         cleanType == 'webp') {
-      return 'PHOTO';
+      return 'Ảnh';
     }
 
-    return cleanType.isNotEmpty ? cleanType.toUpperCase() : 'MEDIA';
+    return 'Nội dung';
   }
 
   String _historyTimeText(String value) {
@@ -806,6 +1200,7 @@ class _HistoryVideoPreview extends StatefulWidget {
 class _HistoryVideoPreviewState extends State<_HistoryVideoPreview> {
   late final VideoPlayerController _controller;
   bool _ready = false;
+  bool _showControls = true;
 
   @override
   void initState() {
@@ -814,36 +1209,172 @@ class _HistoryVideoPreviewState extends State<_HistoryVideoPreview> {
     _controller = VideoPlayerController.file(widget.file)
       ..initialize().then((_) {
         if (!mounted) return;
-        setState(() => _ready = true);
+
+        setState(() {
+          _ready = true;
+          _showControls = true;
+        });
+
         _controller.play();
       });
+
+    _controller.addListener(_onVideoChanged);
+  }
+
+  void _onVideoChanged() {
+    if (!mounted || !_ready) return;
+
+    setState(() {
+      // Rebuild để cập nhật thời gian, progress và icon play/pause.
+    });
   }
 
   @override
   void dispose() {
+    _controller.removeListener(_onVideoChanged);
     _controller.dispose();
     super.dispose();
+  }
+
+  void _togglePlayPause() {
+    if (!_ready) return;
+
+    setState(() {
+      _showControls = true;
+
+      if (_controller.value.isPlaying) {
+        _controller.pause();
+      } else {
+        _controller.play();
+      }
+    });
+  }
+
+  String _formatDuration(Duration value) {
+    final totalSeconds = value.inSeconds;
+    final minutes = (totalSeconds ~/ 60).toString().padLeft(2, '0');
+    final seconds = (totalSeconds % 60).toString().padLeft(2, '0');
+
+    return '$minutes:$seconds';
   }
 
   @override
   Widget build(BuildContext context) {
     if (!_ready) {
-      return const Center(child: CircularProgressIndicator());
+      return const Center(
+        child: CircularProgressIndicator(color: Colors.white),
+      );
     }
 
-    return Center(
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            _controller.value.isPlaying
-                ? _controller.pause()
-                : _controller.play();
-          });
-        },
-        child: AspectRatio(
-          aspectRatio: _controller.value.aspectRatio,
-          child: VideoPlayer(_controller),
-        ),
+    final value = _controller.value;
+    final isPlaying = value.isPlaying;
+    final position = value.position;
+    final duration = value.duration;
+    final safeDuration = duration.inMilliseconds <= 0
+        ? const Duration(milliseconds: 1)
+        : duration;
+
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: _togglePlayPause,
+      child: Stack(
+        children: [
+          Center(
+            child: AspectRatio(
+              aspectRatio: value.aspectRatio,
+              child: VideoPlayer(_controller),
+            ),
+          ),
+
+          // Lớp tối nhẹ để controls dễ nhìn.
+          Positioned.fill(
+            child: AnimatedOpacity(
+              opacity: _showControls || !isPlaying ? 1 : 0,
+              duration: const Duration(milliseconds: 160),
+              child: Container(color: Colors.black.withOpacity(0.10)),
+            ),
+          ),
+
+          // Icon play/pause ở giữa.
+          Center(
+            child: AnimatedOpacity(
+              opacity: _showControls || !isPlaying ? 1 : 0,
+              duration: const Duration(milliseconds: 160),
+              child: Container(
+                width: 68,
+                height: 68,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.black.withOpacity(0.48),
+                ),
+                child: Icon(
+                  isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                  color: Colors.white,
+                  size: 44,
+                ),
+              ),
+            ),
+          ),
+
+          // Thanh thời gian và tua video.
+          Positioned(
+            left: 14,
+            right: 14,
+            bottom: 14,
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(12, 8, 12, 10),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.54),
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  VideoProgressIndicator(
+                    _controller,
+                    allowScrubbing: true,
+                    padding: EdgeInsets.zero,
+                    colors: const VideoProgressColors(
+                      playedColor: Colors.white,
+                      bufferedColor: Colors.white38,
+                      backgroundColor: Colors.white24,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Icon(
+                        isPlaying
+                            ? Icons.pause_rounded
+                            : Icons.play_arrow_rounded,
+                        color: Colors.white,
+                        size: 18,
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        _formatDuration(position),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      const Spacer(),
+                      Text(
+                        _formatDuration(safeDuration),
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

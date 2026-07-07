@@ -2117,6 +2117,32 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     );
   }
 
+  Future<void> removeDownloadHistoryItems(Set<String> keys) async {
+    final cleanKeys = keys
+        .map((x) => x.trim())
+        .where((x) => x.isNotEmpty)
+        .toSet();
+
+    if (cleanKeys.isEmpty) return;
+
+    for (final key in cleanKeys) {
+      await downloadHistoryRepository.removeByKey(key);
+    }
+
+    final nextHistory = await downloadHistoryRepository.getItems();
+
+    emit(
+      state.copyWith(
+        downloadHistory: nextHistory,
+        downloadedProfileMediaKeys: nextHistory
+            .map((x) => x.key.trim())
+            .where((x) => x.isNotEmpty)
+            .toSet(),
+        status: 'Đã xoá ${cleanKeys.length} mục khỏi lịch sử.',
+      ),
+    );
+  }
+
   // =========================
   // LINK LẺ DOWNLOAD
   // =========================
