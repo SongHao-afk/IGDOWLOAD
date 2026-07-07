@@ -38,19 +38,19 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 
-	<!-- Quyền thêm ảnh/video vào thư viện Photos -->
+	<!-- Permission to save photos/videos to the Photos library -->
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Ứng dụng cần quyền thêm ảnh và video đã tải vào thư viện ảnh của bạn.</string>
+	<string>This app requires permission to save downloaded photos and videos to your Photos library.</string>
 
-	<!-- Quyền truy cập thư viện ảnh, cần cho một số plugin lưu/đọc Photos -->
+	<!-- Permission to access the Photos library -->
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Ứng dụng cần quyền truy cập thư viện ảnh để lưu và quản lý ảnh/video đã tải.</string>
+	<string>This app requires access to your Photos library to save and manage downloaded photos and videos.</string>
 
-	<!-- Quyền mạng cục bộ nếu app gọi backend local kiểu http://192.168.x.x:6002 -->
+	<!-- Local network permission (for local development server) -->
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>Ứng dụng cần truy cập mạng cục bộ để kết nối tới máy chủ tải nội dung.</string>
+	<string>This app requires access to your local network to connect to the download server.</string>
 
-	<!-- Cho phép gọi HTTP local/dev server. Khi lên production nên siết lại domain cụ thể. -->
+	<!-- Allow HTTP connections for local development -->
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

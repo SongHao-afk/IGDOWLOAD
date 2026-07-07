@@ -335,7 +335,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
                         setState(() {
                           status =
                               'Đang mở Instagram...\n'
-                              'Đăng nhập xong thì bấm "Lưu đăng nhập".';
+                              'Đăng nhập xong thì bấm "Lưu".';
                         });
                       },
                       onLoadStop: (webController, url) async {

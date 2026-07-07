@@ -30,11 +30,11 @@ class ProfileModesCard extends StatelessWidget {
   String _modeTitle(ProfileModeAction mode) {
     switch (mode) {
       case ProfileModeAction.stories:
-        return 'Stories';
+        return 'Story';
       case ProfileModeAction.reels:
         return 'Reels';
       case ProfileModeAction.posts:
-        return 'Ảnh';
+        return 'Bài viết';
     }
   }
 
@@ -106,13 +106,80 @@ class ProfileModesCard extends StatelessWidget {
 
         return AlertDialog(
           icon: Icon(Icons.error_outline_rounded, color: color.error, size: 32),
-          title: const Text('Vui lòng nhập đúng định dạng'),
+          title: const Text('Thông tin không hợp lệ'),
+          content: const Text(
+            'Vui lòng nhập tên người dùng hoặc liên kết trang cá nhân Instagram.',
+          ),
           actions: [
             FilledButton(
               onPressed: () => Navigator.of(dialogContext).pop(),
-              child: const Text('OK'),
+              child: const Text('Đã hiểu'),
             ),
           ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showProfileInfo(BuildContext context) async {
+    await showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      isScrollControlled: true,
+      builder: (sheetContext) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.account_circle_rounded,
+                      color: Theme.of(sheetContext).colorScheme.primary,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Tải từ trang cá nhân',
+                      style: Theme.of(sheetContext).textTheme.titleLarge
+                          ?.copyWith(fontWeight: FontWeight.w900),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  'Dùng khi bạn muốn xem và tải nhiều nội dung từ một tài khoản Instagram.',
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Nhập tên người dùng hoặc liên kết trang cá nhân, sau đó chọn Story, Reels hoặc bài viết muốn tải.',
+                ),
+                const SizedBox(height: 14),
+                Text(
+                  'Ví dụ:',
+                  style: Theme.of(
+                    sheetContext,
+                  ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w900),
+                ),
+                const SizedBox(height: 6),
+                const Text(
+                  '@username\n'
+                  'username\n'
+                  'instagram.com/username',
+                ),
+                const SizedBox(height: 18),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton(
+                    onPressed: () => Navigator.of(sheetContext).pop(),
+                    child: const Text('Đã hiểu'),
+                  ),
+                ),
+              ],
+            ),
+          ),
         );
       },
     );
@@ -121,11 +188,33 @@ class ProfileModesCard extends StatelessWidget {
   String _modeHint(ProfileModeAction mode) {
     switch (mode) {
       case ProfileModeAction.stories:
-        return 'Nhập trang cá nhân để xem Story và Highlight có thể tải';
+        return 'Nhập trang cá nhân để xem Story và Highlight có thể tải.';
       case ProfileModeAction.reels:
-        return 'Nhập trang cá nhân để xem danh sách reels';
+        return 'Nhập trang cá nhân để xem danh sách Reels.';
       case ProfileModeAction.posts:
-        return 'Nhập trang cá nhân để xem danh sách ảnh/bài viết';
+        return 'Nhập trang cá nhân để xem các bài viết có thể tải.';
+    }
+  }
+
+  String _popupTitle(ProfileModeAction mode) {
+    switch (mode) {
+      case ProfileModeAction.stories:
+        return 'Tải Story từ trang cá nhân';
+      case ProfileModeAction.reels:
+        return 'Tải Reels từ trang cá nhân';
+      case ProfileModeAction.posts:
+        return 'Tải bài viết từ trang cá nhân';
+    }
+  }
+
+  String _submitButtonText(ProfileModeAction mode) {
+    switch (mode) {
+      case ProfileModeAction.stories:
+        return 'Xem Story';
+      case ProfileModeAction.reels:
+        return 'Xem Reels';
+      case ProfileModeAction.posts:
+        return 'Xem bài viết';
     }
   }
 
@@ -283,7 +372,7 @@ class ProfileModesCard extends StatelessWidget {
                                 const SizedBox(width: 8),
                                 Expanded(
                                   child: Text(
-                                    'Tải ${_modeTitle(mode)} từ trang cá nhân',
+                                    _popupTitle(mode),
                                     style: Theme.of(dialogContext)
                                         .textTheme
                                         .titleMedium
@@ -317,7 +406,8 @@ class ProfileModesCard extends StatelessWidget {
                               decoration: const InputDecoration(
                                 labelText:
                                     'Tên người dùng hoặc liên kết trang cá nhân',
-                                hintText: 'https://www.instagram.com/username',
+                                hintText:
+                                    'Ví dụ: @username hoặc instagram.com/username',
                                 prefixIcon: Icon(Icons.person_search_rounded),
                               ),
                             ),
@@ -362,7 +452,7 @@ class ProfileModesCard extends StatelessWidget {
                                           ),
                                         )
                                       : const Icon(Icons.search_rounded),
-                                  label: Text('Lấy ${_modeTitle(mode)}'),
+                                  label: Text(_submitButtonText(mode)),
                                 ),
                               ),
                             ),
@@ -439,7 +529,7 @@ class ProfileModesCard extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  'Tải nội dung từ trang cá nhân',
+                  'Tải từ trang cá nhân',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     color: const Color(0xFF171321),
                     fontWeight: FontWeight.w900,
@@ -447,11 +537,17 @@ class ProfileModesCard extends StatelessWidget {
                   ),
                 ),
               ),
+              IconButton(
+                onPressed: () => _showProfileInfo(context),
+                icon: const Icon(Icons.info_outline_rounded),
+                color: color.primary,
+                tooltip: 'Giải thích chức năng',
+              ),
             ],
           ),
           const SizedBox(height: 6),
           Text(
-            'Chọn loại nội dung, nhập trang cá nhân Instagram, sau đó chọn mục bạn muốn tải',
+            'Nhập tên người dùng hoặc liên kết trang cá nhân để xem Story, Reels và bài viết có thể tải.',
             style: TextStyle(
               color: Theme.of(
                 context,

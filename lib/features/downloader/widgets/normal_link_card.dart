@@ -59,13 +59,80 @@ class NormalLinkCard extends StatelessWidget {
 
         return AlertDialog(
           icon: Icon(Icons.error_outline_rounded, color: color.error, size: 32),
-          title: const Text('Vui lòng nhập đúng định dạng'),
+          title: const Text('Liên kết không hợp lệ'),
+          content: const Text(
+            'Vui lòng nhập liên kết Instagram của bài viết, Reel, Story hoặc video bạn muốn tải.',
+          ),
           actions: [
             FilledButton(
               onPressed: () => Navigator.of(dialogContext).pop(),
-              child: const Text('OK'),
+              child: const Text('Đã hiểu'),
             ),
           ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showLinkInfo(BuildContext context) async {
+    await showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      isScrollControlled: true,
+      builder: (sheetContext) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.link_rounded,
+                      color: Theme.of(sheetContext).colorScheme.primary,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Tải bằng liên kết',
+                      style: Theme.of(sheetContext).textTheme.titleLarge
+                          ?.copyWith(fontWeight: FontWeight.w900),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  'Dùng khi bạn đã có liên kết của một bài viết, Reel, Story hoặc Highlight trên Instagram.',
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Chỉ cần dán liên kết, ứng dụng sẽ kiểm tra nội dung và cho phép bạn tải xuống.',
+                ),
+                const SizedBox(height: 14),
+                Text(
+                  'Ví dụ:',
+                  style: Theme.of(
+                    sheetContext,
+                  ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w900),
+                ),
+                const SizedBox(height: 6),
+                const Text(
+                  'instagram.com/p/...\n'
+                  'instagram.com/reel/...\n'
+                  'instagram.com/stories/...',
+                ),
+                const SizedBox(height: 18),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton(
+                    onPressed: () => Navigator.of(sheetContext).pop(),
+                    child: const Text('Đã hiểu'),
+                  ),
+                ),
+              ],
+            ),
+          ),
         );
       },
     );
@@ -136,6 +203,12 @@ class NormalLinkCard extends StatelessWidget {
                   ),
                 ),
               ),
+              IconButton(
+                onPressed: () => _showLinkInfo(context),
+                icon: const Icon(Icons.info_outline_rounded),
+                color: color.primary,
+                tooltip: 'Giải thích chức năng',
+              ),
             ],
           ),
           const SizedBox(height: 14),
@@ -162,7 +235,7 @@ class NormalLinkCard extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            'Bạn có thể mở Instagram trong app để chọn đúng nội dung muốn tải.',
+            'Dán liên kết Instagram để kiểm tra và tải nội dung bạn muốn.',
             style: TextStyle(
               color: Theme.of(
                 context,
@@ -242,7 +315,7 @@ class NormalLinkCard extends StatelessWidget {
                         : const FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              'Kiểm tra liên kết',
+                              'Lấy nội dung',
                               maxLines: 1,
                               softWrap: false,
                             ),

@@ -256,9 +256,7 @@ class _DownloaderPageState extends State<DownloaderPage> {
                   width: 38,
                   height: 44,
                 ),
-                onPressed: state.frequentProfiles.isEmpty
-                    ? null
-                    : () => _openFrequentProfilesSheet(context, cubit),
+                onPressed: () => _openFrequentProfilesSheet(context, cubit),
                 icon: Icon(
                   Icons.history_toggle_off_rounded,
                   color: colors.primary,

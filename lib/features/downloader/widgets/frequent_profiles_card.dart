@@ -22,10 +22,6 @@ class FrequentProfilesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme;
 
-    if (state.frequentProfiles.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
     final visibleProfiles = state.frequentProfiles
         .take(_maxVisibleProfiles)
         .toList(growable: false);
@@ -101,36 +97,92 @@ class FrequentProfilesCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          Expanded(
-            child: GridView.builder(
-              padding: EdgeInsets.zero,
-              itemCount: visibleProfiles.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                mainAxisExtent: 104,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
-              ),
-              itemBuilder: (context, index) {
-                final item = visibleProfiles[index];
-                return Center(
-                  child: _FrequentProfileTile(
-                    item: item,
-                    onTap: () {
-                      final handler = onProfileTap;
-                      if (handler != null) {
-                        handler(item);
-                        return;
-                      }
 
-                      cubit.loadFrequentProfileAll(item);
-                    },
-                    onLongPress: () => cubit.removeFrequentProfile(item),
+          if (visibleProfiles.isEmpty)
+            Expanded(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 82,
+                        height: 82,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                            colors: [
+                              color.primary,
+                              color.tertiary,
+                              color.secondary,
+                            ],
+                            begin: Alignment.bottomLeft,
+                            end: Alignment.topRight,
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.person_search_rounded,
+                          size: 42,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Chưa có trang cá nhân nào',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(fontWeight: FontWeight.w900),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        'Những trang cá nhân bạn đã xem sẽ xuất hiện tại đây.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          height: 1.35,
+                          color: Theme.of(
+                            context,
+                          ).textTheme.bodySmall?.color?.withOpacity(0.65),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
                   ),
-                );
-              },
+                ),
+              ),
+            )
+          else
+            Expanded(
+              child: GridView.builder(
+                padding: EdgeInsets.zero,
+                itemCount: visibleProfiles.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  mainAxisExtent: 104,
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 12,
+                ),
+                itemBuilder: (context, index) {
+                  final item = visibleProfiles[index];
+
+                  return Center(
+                    child: _FrequentProfileTile(
+                      item: item,
+                      onTap: () {
+                        final handler = onProfileTap;
+                        if (handler != null) {
+                          handler(item);
+                          return;
+                        }
+
+                        cubit.loadFrequentProfileAll(item);
+                      },
+                      onLongPress: () => cubit.removeFrequentProfile(item),
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
         ],
       ),
     );
@@ -152,7 +204,7 @@ class _FrequentProfileTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme;
     final title = item.username.trim().isEmpty
-        ? 'Profile'
+        ? 'Tài khoản'
         : '@${item.username.trim()}';
 
     return InkWell(
