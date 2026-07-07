@@ -28,9 +28,18 @@ class DownloadHistorySheet extends StatelessWidget {
               gradient: LinearGradient(
                 colors: [
                   color.surface,
-                  Color.alphaBlend(color.primary.withOpacity(0.10), color.surface),
-                  Color.alphaBlend(color.tertiary.withOpacity(0.08), color.surface),
-                  Color.alphaBlend(color.secondary.withOpacity(0.08), color.surface),
+                  Color.alphaBlend(
+                    color.primary.withOpacity(0.10),
+                    color.surface,
+                  ),
+                  Color.alphaBlend(
+                    color.tertiary.withOpacity(0.08),
+                    color.surface,
+                  ),
+                  Color.alphaBlend(
+                    color.secondary.withOpacity(0.08),
+                    color.surface,
+                  ),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -45,11 +54,7 @@ class DownloadHistorySheet extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(999),
                     gradient: LinearGradient(
-                      colors: [
-                        color.primary,
-                        color.tertiary,
-                        color.secondary,
-                      ],
+                      colors: [color.primary, color.tertiary, color.secondary],
                     ),
                   ),
                 ),
@@ -81,7 +86,7 @@ class DownloadHistorySheet extends StatelessWidget {
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
-                          'Đã tải gần đây',
+                          'Lịch sử tải xuống',
                           style: Theme.of(context).textTheme.titleLarge
                               ?.copyWith(fontWeight: FontWeight.w900),
                         ),
@@ -107,7 +112,7 @@ class DownloadHistorySheet extends StatelessWidget {
                             size: 20,
                           ),
                           label: const Text(
-                            'Xoá',
+                            'Xoá tất cả',
                             style: TextStyle(fontWeight: FontWeight.w800),
                           ),
                         ),
@@ -145,14 +150,14 @@ class DownloadHistorySheet extends StatelessWidget {
                             ),
                             const SizedBox(height: 16),
                             Text(
-                              'Chưa tải gì cả',
+                              'Chưa có nội dung nào',
                               textAlign: TextAlign.center,
                               style: Theme.of(context).textTheme.titleMedium
                                   ?.copyWith(fontWeight: FontWeight.w900),
                             ),
                             const SizedBox(height: 6),
                             Text(
-                              'Một lịch sử trống trơn, rất thanh tịnh. Tải gì đó rồi quay lại đây.',
+                              'Bạn chưa tải nội dung nào',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 height: 1.35,
@@ -213,7 +218,10 @@ class DownloadHistorySheet extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
         color: Colors.white.withOpacity(0.96),
-        border: Border.all(color: theme.colorScheme.primary.withOpacity(0.16), width: 1),
+        border: Border.all(
+          color: theme.colorScheme.primary.withOpacity(0.16),
+          width: 1,
+        ),
         boxShadow: [
           BoxShadow(
             blurRadius: 18,

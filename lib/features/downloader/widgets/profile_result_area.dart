@@ -174,8 +174,8 @@ class ProfileResultArea extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Text(
           state.profileMode == 'all'
-              ? 'Chưa có story/highlight hoặc session không có quyền xem.'
-              : 'Chưa có story/highlight. Bấm Stories rồi dán link profile.',
+              ? 'Không tìm thấy Story hoặc Highlight. Hãy đăng nhập nếu nội dung cần quyền xem.'
+              : 'Không tìm thấy Story hoặc Highlight. Hãy nhập trang cá nhân Instagram để kiểm tra.',
           style: const TextStyle(fontWeight: FontWeight.w600),
         ),
       );
@@ -290,7 +290,7 @@ class ProfileResultArea extends StatelessWidget {
       return const Padding(
         padding: EdgeInsets.symmetric(vertical: 8),
         child: Text(
-          'Mục này không có item hoặc session hiện tại không có quyền xem.',
+          'Không có nội dung để hiển thị hoặc bạn chưa có quyền xem mục này.',
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
       );
@@ -359,8 +359,8 @@ class ProfileResultArea extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Text(
           state.profileMode == 'all'
-              ? 'Chưa có ảnh/video hoặc session không có quyền xem.'
-              : 'Chưa có dữ liệu. Bấm Video Reel hoặc Ảnh rồi dán link profile.',
+              ? 'Không tìm thấy bài viết hoặc video. Hãy đăng nhập nếu nội dung cần quyền xem.'
+              : 'Chưa có nội dung. Hãy chọn Reels hoặc Bài viết rồi nhập trang cá nhân.',
           style: const TextStyle(fontWeight: FontWeight.w600),
         ),
       );
@@ -408,7 +408,7 @@ class ProfileResultArea extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.only(top: 4),
         child: Text(
-          'Đã hết dữ liệu.',
+          'Bạn đã xem hết nội dung.',
           style: TextStyle(
             color: Theme.of(
               context,
@@ -537,7 +537,7 @@ class ProfileResultArea extends StatelessWidget {
                 bottom: 7,
                 child: Text(
                   item.itemCount > 1
-                      ? '${item.itemCount} mục'
+                      ? '${item.itemCount} nội dung'
                       : item.kind == 'reel'
                       ? 'Reel'
                       : 'Ảnh',
@@ -577,7 +577,7 @@ class ProfileResultArea extends StatelessWidget {
       return const Padding(
         padding: EdgeInsets.symmetric(vertical: 8),
         child: Text(
-          'Bài này chưa lấy được item con.',
+          ' Không thể hiển thị nội dung trong bài viết này.',
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
       );

@@ -147,7 +147,7 @@ class _DownloaderHeroState extends State<DownloaderHero>
                     children: [
                       const SizedBox(height: 28),
                       const Text(
-                        'Tải nội dung Instagram dễ dàng',
+                        'Tải nội dung từ Instagram',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -158,7 +158,7 @@ class _DownloaderHeroState extends State<DownloaderHero>
                       const SizedBox(height: 8),
                       Text(
                         widget.state.hasPrivateCookie
-                            ? 'Đã đăng nhập Instagram trên máy này'
+                            ? 'Instagram đã được kết nối.'
                             : 'Tải ảnh, reel, story cực nhanh và đơn giản.',
                         style: TextStyle(
                           color: Colors.white.withOpacity(0.90),
@@ -328,14 +328,38 @@ class _HeartClipper extends CustomClipper<Path> {
 
     return Path()
       ..moveTo(width * 0.5, height * 0.86)
-      ..cubicTo(width * 0.08, height * 0.58, 0, height * 0.34,
-          width * 0.18, height * 0.16)
-      ..cubicTo(width * 0.33, height * 0.02, width * 0.48, height * 0.12,
-          width * 0.5, height * 0.28)
-      ..cubicTo(width * 0.52, height * 0.12, width * 0.67, height * 0.02,
-          width * 0.82, height * 0.16)
-      ..cubicTo(width, height * 0.34, width * 0.92, height * 0.58,
-          width * 0.5, height * 0.86)
+      ..cubicTo(
+        width * 0.08,
+        height * 0.58,
+        0,
+        height * 0.34,
+        width * 0.18,
+        height * 0.16,
+      )
+      ..cubicTo(
+        width * 0.33,
+        height * 0.02,
+        width * 0.48,
+        height * 0.12,
+        width * 0.5,
+        height * 0.28,
+      )
+      ..cubicTo(
+        width * 0.52,
+        height * 0.12,
+        width * 0.67,
+        height * 0.02,
+        width * 0.82,
+        height * 0.16,
+      )
+      ..cubicTo(
+        width,
+        height * 0.34,
+        width * 0.92,
+        height * 0.58,
+        width * 0.5,
+        height * 0.86,
+      )
       ..close();
   }
 

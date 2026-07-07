@@ -33,7 +33,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
   bool saving = false;
   bool webViewReady = false;
 
-  String status = 'Đang mở Instagram...';
+  String status = 'Đang mở Instagram... Vui lòng chờ.';
 
   @override
   void initState() {
@@ -42,7 +42,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
     // Không tự clear cookie khi mở login nữa.
     // Muốn xoá thì bấm nút cây chổi trên AppBar.
     webViewReady = true;
-    status = 'Đăng nhập Instagram rồi bấm "Lưu đăng nhập".';
+    status = 'Đăng nhập vào Instagram, sau đó nhấn "Lưu" để hoàn tất.';
   }
 
   Future<List<Cookie>> _getInstagramCookies() async {
@@ -80,7 +80,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
 
     setState(() {
       saving = true;
-      status = 'Đang lấy phiên đăng nhập...';
+      status = 'Đang xác nhận đăng nhập...';
     });
 
     try {
@@ -123,8 +123,8 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
         setState(() {
           saving = false;
           status =
-              'Chưa lấy được phiên đăng nhập.\n'
-              'Hãy đăng nhập Instagram xong rồi bấm lưu lại.';
+              'Không thể xác nhận đăng nhập.\n'
+              'Vui lòng đăng nhập Instagram rồi thử lưu lại.';
         });
 
         return;
@@ -138,7 +138,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
 
       setState(() {
         saving = false;
-        status = 'Lấy phiên đăng nhập lỗi. Thử lại.';
+        status = 'Có lỗi xảy ra khi lưu thông tin đăng nhập. Vui lòng thử lại.';
       });
     }
   }
@@ -148,7 +148,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
 
     setState(() {
       saving = true;
-      status = 'Đang xoá sạch phiên đăng nhập...';
+      status = 'Đang đăng xuất...';
     });
 
     try {
@@ -169,8 +169,8 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
 
     setState(() {
       status =
-          'Đã xoá sạch phiên đăng nhập trên web và trong app.\n'
-          'Hãy đăng nhập lại.';
+          'Bạn đã đăng xuất khỏi Instagram.\n'
+          'Vui lòng đăng nhập lại để tiếp tục.';
     });
 
     await controller?.loadUrl(urlRequest: URLRequest(url: loginUri));
@@ -197,11 +197,11 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
 
     setState(() {
       if (hasSessionId) {
-        status = 'Đã nhận được phiên đăng nhập.\nBấm "Lưu đăng nhập" để lưu.';
+        status = 'Đăng nhập thành công..\nNhấn "Lưu" để hoàn tất.';
       } else if (path.contains('/accounts/login')) {
-        status = 'Đăng nhập Instagram rồi bấm "Lưu đăng nhập".';
+        status = 'Đăng nhập Instagram rồi bấm "Lưu" để hoàn tất.';
       } else {
-        status = 'Nếu đã đăng nhập xong, bấm "Lưu đăng nhập" bên dưới.';
+        status = 'Nếu đã đăng nhập xong, hãy nhấn "Lưu" bên dưới.';
       }
     });
   }
@@ -220,7 +220,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
           fit: BoxFit.scaleDown,
           alignment: Alignment.centerLeft,
           child: Text(
-          'Đăng nhập Instagram',
+            'Đăng nhập Instagram',
             maxLines: 1,
             style: TextStyle(
               color: Color(0xFF24142E),
@@ -234,7 +234,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
             onPressed: saving || !webViewReady ? null : clearCookies,
             icon: const Icon(Icons.logout_rounded),
             color: color.primary,
-            tooltip: 'Đăng xuất Instagram',
+            tooltip: 'Đăng xuất',
           ),
         ],
       ),
@@ -253,186 +253,185 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
         ),
         child: Column(
           children: [
-          Container(
-            width: double.infinity,
-            margin: const EdgeInsets.fromLTRB(14, 12, 14, 10),
-            padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(18),
-              gradient: LinearGradient(
-                colors: [
-                  color.primary.withOpacity(0.18),
-                  color.tertiary.withOpacity(0.16),
-                  color.secondary.withOpacity(0.14),
-                ],
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-              ),
-              border: Border.all(
-                color: color.primary.withOpacity(0.14),
-              ),
-            ),
-            child: Text(
-              status,
-              style: const TextStyle(
-                color: Color(0xFF24142E),
-                fontWeight: FontWeight.w800,
-                height: 1.35,
-              ),
-            ),
-          ),
-          Expanded(
-            child: webViewReady
-                ? InAppWebView(
-                    initialUrlRequest: URLRequest(url: loginUri),
-                    initialSettings: InAppWebViewSettings(
-                      javaScriptEnabled: true,
-                      thirdPartyCookiesEnabled: true,
-                      sharedCookiesEnabled: true,
-                      domStorageEnabled: true,
-
-                      // Quan trọng: không dùng incognito.
-                      // Incognito làm CookieManager đọc sessionid rất hên xui.
-                      incognito: false,
-
-                      // Instagram login cần cache/storage/database hoạt động.
-                      cacheEnabled: true,
-                      clearCache: false,
-                      databaseEnabled: true,
-
-                      mediaPlaybackRequiresUserGesture: false,
-                      supportMultipleWindows: true,
-                      javaScriptCanOpenWindowsAutomatically: true,
-                      useShouldOverrideUrlLoading: true,
-                      userAgent: _userAgent,
-                    ),
-                    onWebViewCreated: (webController) {
-                      controller = webController;
-                    },
-                    shouldOverrideUrlLoading:
-                        (webController, navigationAction) async {
-                          return NavigationActionPolicy.ALLOW;
-                        },
-                    onCreateWindow: (webController, createWindowAction) async {
-                      final url = createWindowAction.request.url;
-
-                      if (url != null) {
-                        await webController.loadUrl(
-                          urlRequest: URLRequest(url: url),
-                        );
-                      }
-
-                      return false;
-                    },
-                    onLoadStart: (webController, url) {
-                      final host = url?.host ?? '';
-
-                      if (!host.contains('instagram.com')) {
-                        return;
-                      }
-
-                      if (!mounted) return;
-
-                      setState(() {
-                        status =
-                            'Đang mở Instagram...\n'
-                            'Đăng nhập xong thì bấm "Lưu đăng nhập".';
-                      });
-                    },
-                    onLoadStop: (webController, url) async {
-                      await _updateLoginStatus(url);
-                    },
-                    onReceivedError: (webController, request, error) {
-                      if (request.isForMainFrame == false) {
-                        return;
-                      }
-
-                      if (!mounted) return;
-
-                      setState(() {
-                        status =
-                            'WebView tải Instagram lỗi.\n'
-                            'Kiểm tra mạng rồi thử lại.';
-                      });
-                    },
-                  )
-                : const Center(child: CircularProgressIndicator()),
-          ),
-          SafeArea(
-            top: false,
-            child: Container(
-              padding: const EdgeInsets.all(14),
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.fromLTRB(14, 12, 14, 10),
+              padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.88),
-                boxShadow: [
-                  BoxShadow(
-                    color: color.primary.withOpacity(0.08),
-                    blurRadius: 18,
-                    offset: const Offset(0, -8),
-                  ),
-                ],
+                borderRadius: BorderRadius.circular(18),
+                gradient: LinearGradient(
+                  colors: [
+                    color.primary.withOpacity(0.18),
+                    color.tertiary.withOpacity(0.16),
+                    color.secondary.withOpacity(0.14),
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+                border: Border.all(color: color.primary.withOpacity(0.14)),
               ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: color.primary,
-                        side: BorderSide(
-                          color: color.primary.withOpacity(0.34),
-                        ),
-                        padding: const EdgeInsets.symmetric(vertical: 13),
+              child: Text(
+                status,
+                style: const TextStyle(
+                  color: Color(0xFF24142E),
+                  fontWeight: FontWeight.w800,
+                  height: 1.35,
+                ),
+              ),
+            ),
+            Expanded(
+              child: webViewReady
+                  ? InAppWebView(
+                      initialUrlRequest: URLRequest(url: loginUri),
+                      initialSettings: InAppWebViewSettings(
+                        javaScriptEnabled: true,
+                        thirdPartyCookiesEnabled: true,
+                        sharedCookiesEnabled: true,
+                        domStorageEnabled: true,
+
+                        // Quan trọng: không dùng incognito.
+                        // Incognito làm CookieManager đọc sessionid rất hên xui.
+                        incognito: false,
+
+                        // Instagram login cần cache/storage/database hoạt động.
+                        cacheEnabled: true,
+                        clearCache: false,
+                        databaseEnabled: true,
+
+                        mediaPlaybackRequiresUserGesture: false,
+                        supportMultipleWindows: true,
+                        javaScriptCanOpenWindowsAutomatically: true,
+                        useShouldOverrideUrlLoading: true,
+                        userAgent: _userAgent,
                       ),
-                      onPressed: saving
-                          ? null
-                          : () => Navigator.of(context).pop(null),
-                      child: const Text('Hủy'),
+                      onWebViewCreated: (webController) {
+                        controller = webController;
+                      },
+                      shouldOverrideUrlLoading:
+                          (webController, navigationAction) async {
+                            return NavigationActionPolicy.ALLOW;
+                          },
+                      onCreateWindow:
+                          (webController, createWindowAction) async {
+                            final url = createWindowAction.request.url;
+
+                            if (url != null) {
+                              await webController.loadUrl(
+                                urlRequest: URLRequest(url: url),
+                              );
+                            }
+
+                            return false;
+                          },
+                      onLoadStart: (webController, url) {
+                        final host = url?.host ?? '';
+
+                        if (!host.contains('instagram.com')) {
+                          return;
+                        }
+
+                        if (!mounted) return;
+
+                        setState(() {
+                          status =
+                              'Đang mở Instagram...\n'
+                              'Đăng nhập xong thì bấm "Lưu đăng nhập".';
+                        });
+                      },
+                      onLoadStop: (webController, url) async {
+                        await _updateLoginStatus(url);
+                      },
+                      onReceivedError: (webController, request, error) {
+                        if (request.isForMainFrame == false) {
+                          return;
+                        }
+
+                        if (!mounted) return;
+
+                        setState(() {
+                          status =
+                              'Không thể mở Instagram.\n'
+                              'Vui lòng kiểm tra kết nối Internet và thử lại.';
+                        });
+                      },
+                    )
+                  : const Center(child: CircularProgressIndicator()),
+            ),
+            SafeArea(
+              top: false,
+              child: Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.88),
+                  boxShadow: [
+                    BoxShadow(
+                      color: color.primary.withOpacity(0.08),
+                      blurRadius: 18,
+                      offset: const Offset(0, -8),
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(999),
-                        gradient: LinearGradient(
-                          colors: [
-                            color.primary,
-                            color.tertiary,
-                            color.secondary,
-                          ],
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                        ),
-                      ),
-                      child: FilledButton.icon(
-                        style: FilledButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          disabledBackgroundColor: Colors.transparent,
-                          shadowColor: Colors.transparent,
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: color.primary,
+                          side: BorderSide(
+                            color: color.primary.withOpacity(0.34),
+                          ),
                           padding: const EdgeInsets.symmetric(vertical: 13),
                         ),
-                        onPressed: saving || !webViewReady
+                        onPressed: saving
                             ? null
-                            : saveLoginCookie,
-                        icon: saving
-                            ? SizedBox(
-                                width: 16,
-                                height: 16,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: color.onPrimary,
-                                ),
-                              )
-                            : const Icon(Icons.save_rounded),
-                        label: const Text('Lưu đăng nhập'),
+                            : () => Navigator.of(context).pop(null),
+                        child: const Text('Hủy'),
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(999),
+                          gradient: LinearGradient(
+                            colors: [
+                              color.primary,
+                              color.tertiary,
+                              color.secondary,
+                            ],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                        ),
+                        child: FilledButton.icon(
+                          style: FilledButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            disabledBackgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                            padding: const EdgeInsets.symmetric(vertical: 13),
+                          ),
+                          onPressed: saving || !webViewReady
+                              ? null
+                              : saveLoginCookie,
+                          icon: saving
+                              ? SizedBox(
+                                  width: 16,
+                                  height: 16,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: color.onPrimary,
+                                  ),
+                                )
+                              : const Icon(Icons.save_rounded),
+                          label: const Text('Lưu'),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
         ),
       ),
     );

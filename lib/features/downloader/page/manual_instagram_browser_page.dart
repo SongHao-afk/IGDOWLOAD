@@ -185,7 +185,7 @@ class _ManualInstagramBrowserPageState
 
   String currentUrl = '';
   String lastPickableUrl = '';
-  String status = 'Đang mở trình duyệt Instagram...';
+  String status = 'Đang mở Instagram...';
 
   @override
   void initState() {
@@ -208,7 +208,8 @@ class _ManualInstagramBrowserPageState
 
     setState(() {
       preparing = false;
-      status = 'Mở bài/story/reel/highlight rồi bấm "Lấy URL này".';
+      status =
+          'Mở bài viết, Reel, Story hoặc Highlight bạn muốn tải, sau đó nhấn "Chọn nội dung này".';
     });
   }
 
@@ -306,7 +307,7 @@ class _ManualInstagramBrowserPageState
 
       if (pickable) {
         lastPickableUrl = clean;
-        status = 'Đã bắt được URL. Bấm "Lấy URL này" để dùng.';
+        status = 'Đã chọn được nội dung. Nhấn "Chọn nội dung này" để tiếp tục.';
       }
     });
   }
@@ -403,7 +404,8 @@ class _ManualInstagramBrowserPageState
       if (!mounted) return;
 
       setState(() {
-        status = 'Chưa bắt được URL bài/story/reel/highlight.';
+        status =
+            'Không tìm thấy nội dung có thể tải. Hãy mở một bài viết, Reel, Story hoặc Highlight.';
       });
 
       return;
@@ -429,7 +431,8 @@ class _ManualInstagramBrowserPageState
     if (!mounted) return false;
 
     setState(() {
-      status = 'Muốn thoát thì bấm Hủy. Back bị chặn để khỏi mất link.';
+      status =
+          'Để tránh mất nội dung đang chọn, vui lòng nhấn "Đóng" nếu muốn thoát.';
     });
 
     return false;
@@ -623,7 +626,7 @@ class _ManualInstagramBrowserPageState
                 child: FilledButton.icon(
                   onPressed: preparing ? null : _pickCurrentUrl,
                   icon: const Icon(Icons.link_rounded),
-                  label: const Text('Lấy URL này'),
+                  label: const Text('Chọn nội dung này'),
                 ),
               ),
             ],
@@ -644,7 +647,7 @@ class _ManualInstagramBrowserPageState
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: const Text(
-            'Duyệt Instagram',
+            'Instagram',
             style: TextStyle(fontWeight: FontWeight.w900),
           ),
           leading: IconButton(
@@ -656,7 +659,7 @@ class _ManualInstagramBrowserPageState
             IconButton(
               onPressed: preparing ? null : _goInstagramHome,
               icon: const Icon(Icons.home_rounded),
-              tooltip: 'Instagram home',
+              tooltip: 'Trang chủ Instagram',
             ),
             IconButton(
               onPressed: preparing ? null : _reload,

@@ -46,14 +46,7 @@ class NormalLinkCard extends StatelessWidget {
 
     if (segments.isEmpty) return false;
 
-    const supportedRoots = {
-      'p',
-      'reel',
-      'reels',
-      'tv',
-      'stories',
-      's',
-    };
+    const supportedRoots = {'p', 'reel', 'reels', 'tv', 'stories', 's'};
 
     return supportedRoots.contains(segments.first);
   }
@@ -65,11 +58,7 @@ class NormalLinkCard extends StatelessWidget {
         final color = Theme.of(dialogContext).colorScheme;
 
         return AlertDialog(
-          icon: Icon(
-            Icons.error_outline_rounded,
-            color: color.error,
-            size: 32,
-          ),
+          icon: Icon(Icons.error_outline_rounded, color: color.error, size: 32),
           title: const Text('Vui lòng nhập đúng định dạng'),
           actions: [
             FilledButton(
@@ -125,11 +114,7 @@ class NormalLinkCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(14),
                   gradient: LinearGradient(
-                    colors: [
-                      color.primary,
-                      color.tertiary,
-                      color.secondary,
-                    ],
+                    colors: [color.primary, color.tertiary, color.secondary],
                     begin: Alignment.bottomLeft,
                     end: Alignment.topRight,
                   ),
@@ -143,7 +128,7 @@ class NormalLinkCard extends StatelessWidget {
               const SizedBox(width: 10),
               const Expanded(
                 child: Text(
-                  'Dán link lẻ',
+                  'Tải bằng liên kết',
                   style: TextStyle(
                     color: Color(0xFF171321),
                     fontSize: 18,
@@ -160,7 +145,7 @@ class NormalLinkCard extends StatelessWidget {
             keyboardType: TextInputType.url,
             textInputAction: TextInputAction.done,
             decoration: InputDecoration(
-              labelText: 'Dán link Instagram',
+              labelText: 'Nhập liên kết Instagram',
               hintText: 'https://www.instagram.com/p/... hoặc /reel/...',
               prefixIcon: const Icon(Icons.link_rounded),
               filled: true,
@@ -171,16 +156,13 @@ class NormalLinkCard extends StatelessWidget {
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(18),
-                borderSide: BorderSide(
-                  color: color.primary,
-                  width: 1.4,
-                ),
+                borderSide: BorderSide(color: color.primary, width: 1.4),
               ),
             ),
           ),
           const SizedBox(height: 10),
           Text(
-            'Muốn tự mở story/highlight/reel trong Instagram thì bấm "Duyệt IG", mở đúng nội dung rồi lấy URL hiện tại.',
+            'Bạn có thể mở Instagram trong app để chọn đúng nội dung muốn tải.',
             style: TextStyle(
               color: Theme.of(
                 context,
@@ -202,16 +184,13 @@ class NormalLinkCard extends StatelessWidget {
                     minimumSize: const Size.fromHeight(50),
                     foregroundColor: color.primary,
                     backgroundColor: Colors.white.withOpacity(0.82),
-                    side: BorderSide(
-                      color: color.primary,
-                      width: 1.2,
-                    ),
+                    side: BorderSide(color: color.primary, width: 1.2),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
                     textStyle: const TextStyle(fontWeight: FontWeight.w900),
                   ),
-                  label: const Text('Duyệt IG'),
+                  label: const Text('Mở Instagram'),
                 ),
               ),
               const SizedBox(width: 10),
@@ -220,11 +199,7 @@ class NormalLinkCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
                     gradient: LinearGradient(
-                      colors: [
-                        color.primary,
-                        color.tertiary,
-                        color.secondary,
-                      ],
+                      colors: [color.primary, color.tertiary, color.secondary],
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight,
                     ),
@@ -267,7 +242,7 @@ class NormalLinkCard extends StatelessWidget {
                         : const FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              'Lấy nội dung',
+                              'Kiểm tra liên kết',
                               maxLines: 1,
                               softWrap: false,
                             ),
@@ -282,4 +257,3 @@ class NormalLinkCard extends StatelessWidget {
     );
   }
 }
-

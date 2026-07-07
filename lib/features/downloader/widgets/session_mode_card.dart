@@ -73,8 +73,8 @@ class SessionModeCard extends StatelessWidget {
                     children: [
                       Text(
                         hasPrivateCookie
-                            ? 'Đã đăng nhập Instagram riêng trên máy này.'
-                            : 'Đăng nhập Instagram riêng để tải nội dung private mà tài khoản đó có quyền xem.',
+                            ? 'Bạn đã kết nối tài khoản Instagram.'
+                            : 'Đăng nhập Instagram để tải nội dung mà tài khoản của bạn có quyền xem.',
                         style: TextStyle(
                           color: color.onSurface.withOpacity(0.72),
                           fontWeight: FontWeight.w600,
@@ -116,7 +116,7 @@ class SessionModeCard extends StatelessWidget {
                     ],
                   )
                 : Text(
-                    'Đang dùng session public mặc định.',
+                    'Bạn đang tải nội dung công khai mà không cần đăng nhập.',
                     key: const ValueKey('public-mode'),
                     style: TextStyle(
                       color: color.onSurface.withOpacity(0.72),

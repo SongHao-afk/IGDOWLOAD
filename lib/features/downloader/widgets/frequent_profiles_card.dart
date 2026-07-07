@@ -63,11 +63,7 @@ class FrequentProfilesCard extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(999),
                 gradient: LinearGradient(
-                  colors: [
-                    color.primary,
-                    color.tertiary,
-                    color.secondary,
-                  ],
+                  colors: [color.primary, color.tertiary, color.secondary],
                 ),
               ),
             ),
@@ -81,11 +77,7 @@ class FrequentProfilesCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: LinearGradient(
-                    colors: [
-                      color.primary,
-                      color.tertiary,
-                      color.secondary,
-                    ],
+                    colors: [color.primary, color.tertiary, color.secondary],
                     begin: Alignment.bottomLeft,
                     end: Alignment.topRight,
                   ),
@@ -99,7 +91,7 @@ class FrequentProfilesCard extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  'Truy cập thường xuyên',
+                  'Trang cá nhân đã xem gần đây',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: const Color(0xFF171321),
                     fontWeight: FontWeight.w900,
@@ -178,11 +170,7 @@ class _FrequentProfileTile extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: LinearGradient(
-                  colors: [
-                    color.primary,
-                    color.tertiary,
-                    color.secondary,
-                  ],
+                  colors: [color.primary, color.tertiary, color.secondary],
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
                 ),

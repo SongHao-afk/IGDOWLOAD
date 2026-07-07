@@ -32,7 +32,7 @@ class ProfileModesCard extends StatelessWidget {
       case ProfileModeAction.stories:
         return 'Stories';
       case ProfileModeAction.reels:
-        return 'Video Reel';
+        return 'Reels';
       case ProfileModeAction.posts:
         return 'Ảnh';
     }
@@ -93,11 +93,7 @@ class ProfileModesCard extends StatelessWidget {
 
     if (segments.isEmpty) return false;
 
-    const reservedRoots = {
-      'accounts',
-      'direct',
-      'explore',
-    };
+    const reservedRoots = {'accounts', 'direct', 'explore'};
 
     return !reservedRoots.contains(segments.first);
   }
@@ -109,11 +105,7 @@ class ProfileModesCard extends StatelessWidget {
         final color = Theme.of(dialogContext).colorScheme;
 
         return AlertDialog(
-          icon: Icon(
-            Icons.error_outline_rounded,
-            color: color.error,
-            size: 32,
-          ),
+          icon: Icon(Icons.error_outline_rounded, color: color.error, size: 32),
           title: const Text('Vui lòng nhập đúng định dạng'),
           actions: [
             FilledButton(
@@ -129,11 +121,11 @@ class ProfileModesCard extends StatelessWidget {
   String _modeHint(ProfileModeAction mode) {
     switch (mode) {
       case ProfileModeAction.stories:
-        return 'Dán link profile để lấy story/highlight';
+        return 'Nhập trang cá nhân để xem Story và Highlight có thể tải';
       case ProfileModeAction.reels:
-        return 'Dán link profile để lấy danh sách reels';
+        return 'Nhập trang cá nhân để xem danh sách reels';
       case ProfileModeAction.posts:
-        return 'Dán link profile để lấy danh sách ảnh/bài viết';
+        return 'Nhập trang cá nhân để xem danh sách ảnh/bài viết';
     }
   }
 
@@ -323,7 +315,8 @@ class ProfileModesCard extends StatelessWidget {
                               textInputAction: TextInputAction.search,
                               onSubmitted: (_) => submit(),
                               decoration: const InputDecoration(
-                                labelText: 'Link profile hoặc username',
+                                labelText:
+                                    'Tên người dùng hoặc liên kết trang cá nhân',
                                 hintText: 'https://www.instagram.com/username',
                                 prefixIcon: Icon(Icons.person_search_rounded),
                               ),
@@ -345,8 +338,9 @@ class ProfileModesCard extends StatelessWidget {
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color:
-                                          modalColor.primary.withOpacity(0.20),
+                                      color: modalColor.primary.withOpacity(
+                                        0.20,
+                                      ),
                                       blurRadius: 16,
                                       offset: const Offset(0, 8),
                                     ),
@@ -431,11 +425,7 @@ class ProfileModesCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   gradient: LinearGradient(
-                    colors: [
-                      color.primary,
-                      color.tertiary,
-                      color.secondary,
-                    ],
+                    colors: [color.primary, color.tertiary, color.secondary],
                     begin: Alignment.bottomLeft,
                     end: Alignment.topRight,
                   ),
@@ -449,7 +439,7 @@ class ProfileModesCard extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  'Tải từ trang cá nhân',
+                  'Tải nội dung từ trang cá nhân',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     color: const Color(0xFF171321),
                     fontWeight: FontWeight.w900,
@@ -461,7 +451,7 @@ class ProfileModesCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'Chọn mode, dán link profile, rồi app sẽ hiện danh sách để chọn tải.',
+            'Chọn loại nội dung, nhập trang cá nhân Instagram, sau đó chọn mục bạn muốn tải',
             style: TextStyle(
               color: Theme.of(
                 context,
@@ -536,11 +526,7 @@ class ProfileModesCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(999),
           gradient: selected
               ? LinearGradient(
-                  colors: [
-                    color.primary,
-                    color.tertiary,
-                    color.secondary,
-                  ],
+                  colors: [color.primary, color.tertiary, color.secondary],
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
                 )
@@ -590,4 +576,3 @@ class ProfileModesCard extends StatelessWidget {
     );
   }
 }
-
