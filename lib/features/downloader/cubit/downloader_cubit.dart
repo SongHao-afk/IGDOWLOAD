@@ -23,6 +23,13 @@ import '../repository/profile_feed_repository.dart';
 import '../repository/profile_story_repository.dart';
 import 'downloader_state.dart';
 
+class SavedDownloadFile {
+  const SavedDownloadFile({required this.filename, required this.localPath});
+
+  final String filename;
+  final String localPath;
+}
+
 class DownloaderCubit extends Cubit<DownloaderState> {
   DownloaderCubit() : super(DownloaderState.initial());
 
@@ -192,6 +199,23 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     if (cleanUsername.isNotEmpty) return 'username:$cleanUsername';
 
     return '';
+  }
+
+  Future<String> _copyToAppStorage({
+    required String tempPath,
+    required String filename,
+  }) async {
+    final dir = await getApplicationDocumentsDirectory();
+    final downloadsDir = Directory('${dir.path}/downloads');
+
+    if (!await downloadsDir.exists()) {
+      await downloadsDir.create(recursive: true);
+    }
+
+    final localPath = '${downloadsDir.path}/$filename';
+    await File(tempPath).copy(localPath);
+
+    return localPath;
   }
 
   Future<void> _vibrateOnDownloadSuccess() async {
@@ -1346,7 +1370,9 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     }
   }
 
-  Future<String> _downloadProfileStoryItemOnce(ProfileStoryItem item) async {
+  Future<SavedDownloadFile> _downloadProfileStoryItemOnce(
+    ProfileStoryItem item,
+  ) async {
     final bytes = await profileStoryRepository.downloadStoryItem(
       serverBaseUrl: state.serverBaseUrl,
       downloadKey: item.downloadKey,
@@ -1364,6 +1390,11 @@ class DownloaderCubit extends Cubit<DownloaderState> {
 
     await file.writeAsBytes(bytes);
 
+    final localPath = await _copyToAppStorage(
+      tempPath: tempPath,
+      filename: filename,
+    );
+
     if (item.isVideo) {
       await Gal.putVideo(tempPath, album: AppConstants.albumName);
     } else {
@@ -1374,10 +1405,10 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       await file.delete();
     } catch (_) {}
 
-    return filename;
+    return SavedDownloadFile(filename: filename, localPath: localPath);
   }
 
-  Future<String> _downloadProfileStoryItemWithRetry(
+  Future<SavedDownloadFile> _downloadProfileStoryItemWithRetry(
     ProfileStoryItem item,
   ) async {
     Object? lastError;
@@ -1425,7 +1456,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     try {
       await requestSavePermission();
 
-      final filename = await _downloadProfileStoryItemWithRetry(item);
+      final saved = await _downloadProfileStoryItemWithRetry(item);
 
       final group = state.selectedProfileGroup;
 
@@ -1452,7 +1483,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
             item.isVideo ? null : item.downloadUrl,
           ]),
           downloadUrl: historyKey,
-          filename: filename,
+          filename: saved.filename,
+          localPath: saved.localPath,
           savedAt: DateTime.now().toIso8601String(),
         ),
       );
@@ -1901,7 +1933,9 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     }
   }
 
-  Future<String> _downloadProfileMediaItemOnce(ProfileMediaItem item) async {
+  Future<SavedDownloadFile> _downloadProfileMediaItemOnce(
+    ProfileMediaItem item,
+  ) async {
     final bytes = await profileFeedRepository.downloadProfileMediaItem(
       serverBaseUrl: state.serverBaseUrl,
       downloadUrl: item.downloadUrl,
@@ -1919,6 +1953,11 @@ class DownloaderCubit extends Cubit<DownloaderState> {
 
     await file.writeAsBytes(bytes);
 
+    final localPath = await _copyToAppStorage(
+      tempPath: tempPath,
+      filename: filename,
+    );
+
     if (item.isVideo) {
       await Gal.putVideo(tempPath, album: AppConstants.albumName);
     } else {
@@ -1929,10 +1968,10 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       await file.delete();
     } catch (_) {}
 
-    return filename;
+    return SavedDownloadFile(filename: filename, localPath: localPath);
   }
 
-  Future<String> _downloadProfileMediaItemWithRetry(
+  Future<SavedDownloadFile> _downloadProfileMediaItemWithRetry(
     ProfileMediaItem item,
   ) async {
     Object? lastError;
@@ -1982,7 +2021,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     try {
       await requestSavePermission();
 
-      final filename = await _downloadProfileMediaItemWithRetry(item);
+      final saved = await _downloadProfileMediaItemWithRetry(item);
 
       final selectedFeed = state.selectedProfileFeedItem;
 
@@ -2034,7 +2073,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         sourceUrl: sourceUrl,
         thumbnailUrl: thumbnailUrl,
         downloadUrl: downloadUrl,
-        filename: filename,
+        filename: saved.filename,
+        localPath: saved.localPath,
         savedAt: DateTime.now().toIso8601String(),
       );
 
@@ -2110,7 +2150,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     return 'Tải lỗi. Bấm thử lại.';
   }
 
-  Future<String> _downloadMediaOnce(IgMediaItem item) async {
+  Future<SavedDownloadFile> _downloadMediaOnce(IgMediaItem item) async {
     final tempDir = await getTemporaryDirectory();
 
     final ext = item.isVideo ? 'mp4' : 'jpg';
@@ -2150,6 +2190,11 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       },
     );
 
+    final localPath = await _copyToAppStorage(
+      tempPath: tempPath,
+      filename: filename,
+    );
+
     if (item.isVideo) {
       await Gal.putVideo(tempPath, album: AppConstants.albumName);
     } else {
@@ -2160,10 +2205,10 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       await File(tempPath).delete();
     } catch (_) {}
 
-    return filename;
+    return SavedDownloadFile(filename: filename, localPath: localPath);
   }
 
-  Future<String> _downloadMediaWithRetry(IgMediaItem item) async {
+  Future<SavedDownloadFile> _downloadMediaWithRetry(IgMediaItem item) async {
     Object? lastError;
 
     for (int attempt = 1; attempt <= 2; attempt++) {
@@ -2183,7 +2228,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
 
   Future<void> _addNormalMediaToHistory({
     required IgMediaItem item,
-    required String filename,
+    required SavedDownloadFile saved,
   }) async {
     final downloadUrl = item.downloadUrl.trim();
 
@@ -2214,7 +2259,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       sourceUrl: sourceUrl,
       thumbnailUrl: thumbnailUrl,
       downloadUrl: downloadUrl,
-      filename: filename,
+      filename: saved.filename,
+      localPath: saved.localPath,
       savedAt: DateTime.now().toIso8601String(),
     );
 
@@ -2241,9 +2287,9 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     try {
       await requestSavePermission();
 
-      final filename = await _downloadMediaWithRetry(item);
+      final saved = await _downloadMediaWithRetry(item);
 
-      await _addNormalMediaToHistory(item: item, filename: filename);
+      await _addNormalMediaToHistory(item: item, saved: saved);
       await _vibrateOnDownloadSuccess();
 
       final doneDownloading = {...state.downloadingIds}..remove(item.id);
@@ -2253,8 +2299,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
 
       emit(
         state.copyWith(
-          status:
-              'Đã lưu nội dung vào album ${AppConstants.albumName}.',
+          status: 'Đã lưu nội dung vào album ${AppConstants.albumName}.',
           downloadingIds: doneDownloading,
           downloadErrors: doneErrors,
         ),

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -193,6 +196,58 @@ class DownloadHistorySheet extends StatelessWidget {
     );
   }
 
+  void _openHistoryPreview(BuildContext context, DownloadHistoryItem item) {
+    final cleanType = item.type.trim().toLowerCase();
+    final isVideo = _isVideoType(cleanType);
+    final localPath = item.localPath.trim();
+    final file = File(localPath);
+
+    if (localPath.isEmpty || !file.existsSync()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Không thể mở nội dung này. File không còn tồn tại trên máy.',
+          ),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+
+    showDialog<void>(
+      context: context,
+      builder: (_) {
+        return Dialog(
+          backgroundColor: Colors.black,
+          insetPadding: const EdgeInsets.all(12),
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: isVideo
+                    ? _HistoryVideoPreview(file: file)
+                    : InteractiveViewer(
+                        minScale: 0.8,
+                        maxScale: 4,
+                        child: Center(
+                          child: Image.file(file, fit: BoxFit.contain),
+                        ),
+                      ),
+              ),
+              Positioned(
+                top: 8,
+                right: 8,
+                child: IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(Icons.close_rounded, color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   Widget _downloadHistoryTile(BuildContext context, DownloadHistoryItem item) {
     final theme = Theme.of(context);
 
@@ -213,202 +268,209 @@ class DownloadHistorySheet extends StatelessWidget {
 
     final typeText = _typeTagText(cleanType);
 
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        color: Colors.white.withOpacity(0.96),
-        border: Border.all(
-          color: theme.colorScheme.primary.withOpacity(0.16),
-          width: 1,
+    return InkWell(
+      borderRadius: BorderRadius.circular(24),
+      onTap: () => _openHistoryPreview(context, item),
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          color: Colors.white.withOpacity(0.96),
+          border: Border.all(
+            color: theme.colorScheme.primary.withOpacity(0.16),
+            width: 1,
+          ),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 18,
+              offset: const Offset(0, 8),
+              color: theme.colorScheme.primary.withOpacity(0.08),
+            ),
+          ],
         ),
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 18,
-            offset: const Offset(0, 8),
-            color: theme.colorScheme.primary.withOpacity(0.08),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: safeThumbnailUrl.isNotEmpty
-                    ? Image.network(
-                        safeThumbnailUrl,
-                        width: 76,
-                        height: 76,
-                        fit: BoxFit.cover,
-                        gaplessPlayback: true,
-                        errorBuilder: (_, __, ___) {
-                          return _historyThumbFallback(context, item, size: 76);
-                        },
-                      )
-                    : _historyThumbFallback(context, item, size: 76),
-              ),
-              if (isVideo)
-                Positioned.fill(
-                  child: Center(
-                    child: Container(
-                      width: 34,
-                      height: 34,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.black.withOpacity(0.48),
-                      ),
-                      child: const Icon(
-                        Icons.play_arrow_rounded,
-                        color: Colors.white,
-                        size: 28,
-                      ),
-                    ),
-                  ),
+        child: Row(
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: safeThumbnailUrl.isNotEmpty
+                      ? Image.network(
+                          safeThumbnailUrl,
+                          width: 76,
+                          height: 76,
+                          fit: BoxFit.cover,
+                          gaplessPlayback: true,
+                          errorBuilder: (_, __, ___) {
+                            return _historyThumbFallback(
+                              context,
+                              item,
+                              size: 76,
+                            );
+                          },
+                        )
+                      : _historyThumbFallback(context, item, size: 76),
                 ),
-              Positioned(
-                right: -7,
-                bottom: -7,
-                child: Container(
-                  padding: const EdgeInsets.all(2.4),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: theme.scaffoldBackgroundColor,
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 10,
-                        offset: const Offset(0, 3),
-                        color: Colors.black.withOpacity(0.12),
-                      ),
-                    ],
-                  ),
-                  child: CircleAvatar(
-                    radius: 17,
-                    backgroundColor: theme.colorScheme.primary.withOpacity(
-                      0.14,
-                    ),
-                    backgroundImage: safeAvatarUrl.isNotEmpty
-                        ? NetworkImage(safeAvatarUrl)
-                        : null,
-                    child: safeAvatarUrl.isEmpty
-                        ? Icon(
-                            Icons.person_rounded,
-                            size: 19,
-                            color: theme.colorScheme.primary,
-                          )
-                        : null,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 3),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 19,
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  SizedBox(
-                    height: 16,
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        subtitle,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 12,
-                          height: 1.2,
-                          color: theme.textTheme.bodySmall?.color?.withOpacity(
-                            0.72,
-                          ),
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 3,
-                        ),
+                if (isVideo)
+                  Positioned.fill(
+                    child: Center(
+                      child: Container(
+                        width: 34,
+                        height: 34,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(999),
-                          gradient: LinearGradient(
-                            colors: [
-                              theme.colorScheme.primary.withOpacity(0.16),
-                              theme.colorScheme.tertiary.withOpacity(0.14),
-                              theme.colorScheme.secondary.withOpacity(0.13),
-                            ],
-                          ),
+                          shape: BoxShape.circle,
+                          color: Colors.black.withOpacity(0.48),
                         ),
+                        child: const Icon(
+                          Icons.play_arrow_rounded,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                      ),
+                    ),
+                  ),
+                Positioned(
+                  right: -7,
+                  bottom: -7,
+                  child: Container(
+                    padding: const EdgeInsets.all(2.4),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: theme.scaffoldBackgroundColor,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 10,
+                          offset: const Offset(0, 3),
+                          color: Colors.black.withOpacity(0.12),
+                        ),
+                      ],
+                    ),
+                    child: CircleAvatar(
+                      radius: 17,
+                      backgroundColor: theme.colorScheme.primary.withOpacity(
+                        0.14,
+                      ),
+                      backgroundImage: safeAvatarUrl.isNotEmpty
+                          ? NetworkImage(safeAvatarUrl)
+                          : null,
+                      child: safeAvatarUrl.isEmpty
+                          ? Icon(
+                              Icons.person_rounded,
+                              size: 19,
+                              color: theme.colorScheme.primary,
+                            )
+                          : null,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 3),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 19,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
                         child: Text(
-                          typeText,
-                          style: TextStyle(
-                            fontSize: 10,
-                            letterSpacing: 0.2,
+                          title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
                             fontWeight: FontWeight.w900,
-                            color: theme.colorScheme.primary,
+                            fontSize: 15,
                           ),
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      Expanded(
+                    ),
+                    const SizedBox(height: 4),
+                    SizedBox(
+                      height: 16,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
                         child: Text(
-                          _historyTimeText(item.savedAt),
+                          subtitle,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontSize: 11,
+                            fontSize: 12,
+                            height: 1.2,
                             color: theme.textTheme.bodySmall?.color
-                                ?.withOpacity(0.55),
+                                ?.withOpacity(0.72),
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 3,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(999),
+                            gradient: LinearGradient(
+                              colors: [
+                                theme.colorScheme.primary.withOpacity(0.16),
+                                theme.colorScheme.tertiary.withOpacity(0.14),
+                                theme.colorScheme.secondary.withOpacity(0.13),
+                              ],
+                            ),
+                          ),
+                          child: Text(
+                            typeText,
+                            style: TextStyle(
+                              fontSize: 10,
+                              letterSpacing: 0.2,
+                              fontWeight: FontWeight.w900,
+                              color: theme.colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            _historyTimeText(item.savedAt),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: theme.textTheme.bodySmall?.color
+                                  ?.withOpacity(0.55),
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          const SizedBox(width: 8),
-          Container(
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.green.withOpacity(0.12),
+            const SizedBox(width: 8),
+            Container(
+              width: 30,
+              height: 30,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.green.withOpacity(0.12),
+              ),
+              child: const Icon(
+                Icons.check_circle_rounded,
+                color: Colors.green,
+                size: 22,
+              ),
             ),
-            child: const Icon(
-              Icons.check_circle_rounded,
-              color: Colors.green,
-              size: 22,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -729,5 +791,60 @@ class DownloadHistorySheet extends StatelessWidget {
     final minute = local.minute.toString().padLeft(2, '0');
 
     return '$day/$month · $hour:$minute';
+  }
+}
+
+class _HistoryVideoPreview extends StatefulWidget {
+  const _HistoryVideoPreview({required this.file});
+
+  final File file;
+
+  @override
+  State<_HistoryVideoPreview> createState() => _HistoryVideoPreviewState();
+}
+
+class _HistoryVideoPreviewState extends State<_HistoryVideoPreview> {
+  late final VideoPlayerController _controller;
+  bool _ready = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = VideoPlayerController.file(widget.file)
+      ..initialize().then((_) {
+        if (!mounted) return;
+        setState(() => _ready = true);
+        _controller.play();
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_ready) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    return Center(
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            _controller.value.isPlaying
+                ? _controller.pause()
+                : _controller.play();
+          });
+        },
+        child: AspectRatio(
+          aspectRatio: _controller.value.aspectRatio,
+          child: VideoPlayer(_controller),
+        ),
+      ),
+    );
   }
 }

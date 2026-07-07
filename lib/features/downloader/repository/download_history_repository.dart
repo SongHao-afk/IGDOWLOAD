@@ -5,20 +5,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 class DownloadHistoryItem {
   final String key;
 
-  // Instagram profile info
   final String username;
   final String fullName;
   final String avatarUrl;
 
-  // Media/source info
   final String shortcode;
-  final String type; // image / video / reel / post
+  final String type;
   final String sourceUrl;
   final String thumbnailUrl;
   final String downloadUrl;
 
-  // Local/save info
   final String filename;
+  final String localPath;
   final String savedAt;
 
   const DownloadHistoryItem({
@@ -32,6 +30,7 @@ class DownloadHistoryItem {
     required this.thumbnailUrl,
     required this.downloadUrl,
     required this.filename,
+    required this.localPath,
     required this.savedAt,
   });
 
@@ -47,6 +46,7 @@ class DownloadHistoryItem {
       'thumbnailUrl': thumbnailUrl,
       'downloadUrl': downloadUrl,
       'filename': filename,
+      'localPath': localPath,
       'savedAt': savedAt,
     };
   }
@@ -63,6 +63,7 @@ class DownloadHistoryItem {
       thumbnailUrl: (json['thumbnailUrl'] ?? '').toString(),
       downloadUrl: (json['downloadUrl'] ?? '').toString(),
       filename: (json['filename'] ?? '').toString(),
+      localPath: (json['localPath'] ?? '').toString(),
       savedAt: (json['savedAt'] ?? '').toString(),
     );
   }
@@ -78,6 +79,7 @@ class DownloadHistoryItem {
     String? thumbnailUrl,
     String? downloadUrl,
     String? filename,
+    String? localPath,
     String? savedAt,
   }) {
     return DownloadHistoryItem(
@@ -91,6 +93,7 @@ class DownloadHistoryItem {
       thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
       downloadUrl: downloadUrl ?? this.downloadUrl,
       filename: filename ?? this.filename,
+      localPath: localPath ?? this.localPath,
       savedAt: savedAt ?? this.savedAt,
     );
   }
@@ -98,9 +101,6 @@ class DownloadHistoryItem {
 
 class DownloadHistoryRepository {
   static const String _prefsKey = 'download_history_items_v1';
-
-  // Giữ 300 item gần nhất là đủ vui rồi.
-  // Không cần biến SharedPreferences thành nghĩa địa dữ liệu.
   static const int _maxItems = 50;
 
   const DownloadHistoryRepository();
@@ -164,8 +164,6 @@ class DownloadHistoryRepository {
     final prefs = await SharedPreferences.getInstance();
     final oldItems = await getItems();
 
-    // Item mới đưa lên đầu.
-    // Nếu đã tồn tại thì xóa bản cũ, tránh trùng.
     final nextItems = <DownloadHistoryItem>[
       item.copyWith(key: cleanKey),
       ...oldItems.where((x) => x.key.trim() != cleanKey),
