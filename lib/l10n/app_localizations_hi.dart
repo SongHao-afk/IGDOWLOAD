@@ -724,4 +724,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String downloadProgress(String percent) {
     return 'सामग्री डाउनलोड करना: $percent%';
   }
+
+  @override
+  String get legalLinksTitle => 'गोपनीयता नीति और शर्तें';
+
+  @override
+  String get termsOfUse => 'उपयोग की शर्तें';
+
+  @override
+  String get privacyPolicy => 'गोपनीयता नीति';
 }

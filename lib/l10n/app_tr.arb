@@ -335,5 +335,8 @@
         "type": "String"
       }
     }
-  }
+  },
+  "legalLinksTitle": "Gizlilik Politikası ve Şartlar",
+  "termsOfUse": "Kullanım Şartları",
+  "privacyPolicy": "Gizlilik Politikası"
 }

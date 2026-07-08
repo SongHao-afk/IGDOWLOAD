@@ -720,4 +720,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String downloadProgress(String percent) {
     return 'İçerik indiriliyor: $percent%';
   }
+
+  @override
+  String get legalLinksTitle => 'Gizlilik Politikası ve Şartlar';
+
+  @override
+  String get termsOfUse => 'Kullanım Şartları';
+
+  @override
+  String get privacyPolicy => 'Gizlilik Politikası';
 }

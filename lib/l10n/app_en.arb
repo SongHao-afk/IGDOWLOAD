@@ -335,5 +335,8 @@
         "type": "String"
       }
     }
-  }
+  },
+  "legalLinksTitle": "Privacy Policy & Terms",
+  "termsOfUse": "Terms of Use",
+  "privacyPolicy": "Privacy Policy"
 }

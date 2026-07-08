@@ -335,5 +335,8 @@
         "type": "String"
       }
     }
-  }
+  },
+  "legalLinksTitle": "Patakaran sa Privacy at Mga Tuntunin",
+  "termsOfUse": "Mga Tuntunin ng Paggamit",
+  "privacyPolicy": "Patakaran sa Privacy"
 }

@@ -720,4 +720,13 @@ class AppLocalizationsId extends AppLocalizations {
   String downloadProgress(String percent) {
     return 'Mengunduh konten: $percent%';
   }
+
+  @override
+  String get legalLinksTitle => 'Kebijakan Privasi & Ketentuan';
+
+  @override
+  String get termsOfUse => 'Ketentuan Penggunaan';
+
+  @override
+  String get privacyPolicy => 'Kebijakan Privasi';
 }

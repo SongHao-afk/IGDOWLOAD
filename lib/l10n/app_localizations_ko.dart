@@ -679,4 +679,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String downloadProgress(String percent) {
     return '콘텐츠 다운로드 중: $percent%';
   }
+
+  @override
+  String get legalLinksTitle => '개인정보처리방침 및 이용약관';
+
+  @override
+  String get termsOfUse => '이용약관';
+
+  @override
+  String get privacyPolicy => '개인정보처리방침';
 }

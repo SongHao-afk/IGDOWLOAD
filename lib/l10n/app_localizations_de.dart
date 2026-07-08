@@ -727,4 +727,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String downloadProgress(String percent) {
     return 'Inhalte werden heruntergeladen: $percent %';
   }
+
+  @override
+  String get legalLinksTitle => 'Datenschutzrichtlinie & Nutzungsbedingungen';
+
+  @override
+  String get termsOfUse => 'Nutzungsbedingungen';
+
+  @override
+  String get privacyPolicy => 'Datenschutzrichtlinie';
 }

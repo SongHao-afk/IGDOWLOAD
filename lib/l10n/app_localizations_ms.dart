@@ -722,4 +722,13 @@ class AppLocalizationsMs extends AppLocalizations {
   String downloadProgress(String percent) {
     return 'Memuat turun kandungan: $percent%';
   }
+
+  @override
+  String get legalLinksTitle => 'Dasar Privasi & Terma';
+
+  @override
+  String get termsOfUse => 'Terma Penggunaan';
+
+  @override
+  String get privacyPolicy => 'Dasar Privasi';
 }

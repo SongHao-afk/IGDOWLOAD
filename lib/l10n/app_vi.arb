@@ -335,5 +335,8 @@
         "type": "String"
       }
     }
-  }
+  },
+  "legalLinksTitle": "Chính sách quyền riêng tư & Điều khoản",
+  "termsOfUse": "Điều khoản sử dụng",
+  "privacyPolicy": "Chính sách quyền riêng tư"
 }

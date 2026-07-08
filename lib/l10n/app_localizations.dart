@@ -1353,6 +1353,24 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Đang tải nội dung: {percent}%'**
   String downloadProgress(String percent);
+
+  /// No description provided for @legalLinksTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chính sách quyền riêng tư & Điều khoản'**
+  String get legalLinksTitle;
+
+  /// No description provided for @termsOfUse.
+  ///
+  /// In vi, this message translates to:
+  /// **'Điều khoản sử dụng'**
+  String get termsOfUse;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chính sách quyền riêng tư'**
+  String get privacyPolicy;
 }
 
 class _AppLocalizationsDelegate

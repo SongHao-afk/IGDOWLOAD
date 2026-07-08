@@ -335,5 +335,8 @@
         "type": "String"
       }
     }
-  }
+  },
+  "legalLinksTitle": "Dasar Privasi & Terma",
+  "termsOfUse": "Terma Penggunaan",
+  "privacyPolicy": "Dasar Privasi"
 }

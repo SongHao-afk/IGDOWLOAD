@@ -679,4 +679,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String downloadProgress(String percent) {
     return 'コンテンツをダウンロード中: $percent%';
   }
+
+  @override
+  String get legalLinksTitle => 'プライバシーポリシーと利用規約';
+
+  @override
+  String get termsOfUse => '利用規約';
+
+  @override
+  String get privacyPolicy => 'プライバシーポリシー';
 }

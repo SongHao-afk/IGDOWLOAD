@@ -335,5 +335,8 @@
         "type": "String"
       }
     }
-  }
+  },
+  "legalLinksTitle": "プライバシーポリシーと利用規約",
+  "termsOfUse": "利用規約",
+  "privacyPolicy": "プライバシーポリシー"
 }

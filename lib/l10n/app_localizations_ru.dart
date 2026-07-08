@@ -724,4 +724,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String downloadProgress(String percent) {
     return 'Загрузка контента: $percent%';
   }
+
+  @override
+  String get legalLinksTitle => 'Политика конфиденциальности и условия';
+
+  @override
+  String get termsOfUse => 'Условия использования';
+
+  @override
+  String get privacyPolicy => 'Политика конфиденциальности';
 }

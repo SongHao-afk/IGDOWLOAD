@@ -712,4 +712,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String downloadProgress(String percent) {
     return 'Đang tải nội dung: $percent%';
   }
+
+  @override
+  String get legalLinksTitle => 'Chính sách quyền riêng tư & Điều khoản';
+
+  @override
+  String get termsOfUse => 'Điều khoản sử dụng';
+
+  @override
+  String get privacyPolicy => 'Chính sách quyền riêng tư';
 }

@@ -724,4 +724,13 @@ class AppLocalizationsFil extends AppLocalizations {
   String downloadProgress(String percent) {
     return 'Nagda-download ng content: $percent%';
   }
+
+  @override
+  String get legalLinksTitle => 'Patakaran sa Privacy at Mga Tuntunin';
+
+  @override
+  String get termsOfUse => 'Mga Tuntunin ng Paggamit';
+
+  @override
+  String get privacyPolicy => 'Patakaran sa Privacy';
 }

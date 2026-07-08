@@ -3,6 +3,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import '../../../core/utils/instagram_webview_cleaner.dart';
 import '../../../l10n/app_localizations.dart';
+import 'privacy_links_page.dart';
 
 class InstagramLoginPage extends StatefulWidget {
   const InstagramLoginPage({super.key, this.onLogout});
@@ -235,6 +236,12 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
     });
   }
 
+  void _openPrivacyPage() {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute<void>(builder: (_) => const PrivacyLinksPage()));
+  }
+
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme;
@@ -396,61 +403,114 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
                     ),
                   ],
                 ),
-                child: Row(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: color.primary,
-                          side: BorderSide(
-                            color: color.primary.withOpacity(0.34),
+                    Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: TextButton(
+                          onPressed: _openPrivacyPage,
+                          style: TextButton.styleFrom(
+                            foregroundColor: color.primary,
+                            textStyle: const TextStyle(
+                              fontWeight: FontWeight.w900,
+                            ),
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: 13),
+                          child: LayoutBuilder(
+                            builder: (context, constraints) {
+                              final maxLabelWidth = constraints.maxWidth > 28
+                                  ? constraints.maxWidth - 28
+                                  : constraints.maxWidth;
+
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.privacy_tip_outlined,
+                                    size: 18,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  ConstrainedBox(
+                                    constraints: BoxConstraints(
+                                      maxWidth: maxLabelWidth,
+                                    ),
+                                    child: Text(
+                                      AppLocalizations.of(
+                                        context,
+                                      )!.legalLinksTitle,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
                         ),
-                        onPressed: saving
-                            ? null
-                            : () => Navigator.of(context).pop(null),
-                        child: Text(AppLocalizations.of(context)!.cancel),
                       ),
                     ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(999),
-                          gradient: LinearGradient(
-                            colors: [
-                              color.primary,
-                              color.tertiary,
-                              color.secondary,
-                            ],
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: color.primary,
+                              side: BorderSide(
+                                color: color.primary.withOpacity(0.34),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 13),
+                            ),
+                            onPressed: saving
+                                ? null
+                                : () => Navigator.of(context).pop(null),
+                            child: Text(AppLocalizations.of(context)!.cancel),
                           ),
                         ),
-                        child: FilledButton.icon(
-                          style: FilledButton.styleFrom(
-                            backgroundColor: Colors.transparent,
-                            disabledBackgroundColor: Colors.transparent,
-                            shadowColor: Colors.transparent,
-                            padding: const EdgeInsets.symmetric(vertical: 13),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(999),
+                              gradient: LinearGradient(
+                                colors: [
+                                  color.primary,
+                                  color.tertiary,
+                                  color.secondary,
+                                ],
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                              ),
+                            ),
+                            child: FilledButton.icon(
+                              style: FilledButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                disabledBackgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 13,
+                                ),
+                              ),
+                              onPressed: saving || !webViewReady
+                                  ? null
+                                  : saveLoginCookie,
+                              icon: saving
+                                  ? SizedBox(
+                                      width: 16,
+                                      height: 16,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        color: color.onPrimary,
+                                      ),
+                                    )
+                                  : const Icon(Icons.save_rounded),
+                              label: Text(AppLocalizations.of(context)!.save),
+                            ),
                           ),
-                          onPressed: saving || !webViewReady
-                              ? null
-                              : saveLoginCookie,
-                          icon: saving
-                              ? SizedBox(
-                                  width: 16,
-                                  height: 16,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: color.onPrimary,
-                                  ),
-                                )
-                              : const Icon(Icons.save_rounded),
-                          label: Text(AppLocalizations.of(context)!.save),
                         ),
-                      ),
+                      ],
                     ),
                   ],
                 ),

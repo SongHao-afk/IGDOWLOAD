@@ -659,4 +659,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String downloadProgress(String percent) {
     return '下载内容：$percent%';
   }
+
+  @override
+  String get legalLinksTitle => '隐私政策和使用条款';
+
+  @override
+  String get termsOfUse => '使用条款';
+
+  @override
+  String get privacyPolicy => '隐私政策';
 }
