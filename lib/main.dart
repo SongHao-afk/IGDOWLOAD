@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_cubit.dart';
 import 'features/downloader/cubit/downloader_cubit.dart';
 import 'features/downloader/page/downloader_page.dart';
+import 'l10n/app_localizations.dart';
 
 void main() {
   runApp(const IgDownloaderApp());
@@ -25,6 +27,11 @@ class IgDownloaderApp extends StatelessWidget {
           return MaterialApp(
             title: 'IG Downloader',
             debugShowCheckedModeBanner: false,
+
+            // Đa ngôn ngữ
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+
             theme: AppTheme.getTheme(themeMode),
             home: const DownloaderPage(),
           );
