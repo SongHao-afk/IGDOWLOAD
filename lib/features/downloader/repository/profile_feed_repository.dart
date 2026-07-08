@@ -285,12 +285,7 @@ class ProfileFeedRepository {
       'owner_avatar_url',
     ]);
 
-    final rootUserId = _firstText(root, [
-      'userId',
-      'user_id',
-      'pk',
-      'id',
-    ]);
+    final rootUserId = _firstText(root, ['userId', 'user_id', 'pk', 'id']);
 
     final profileUserId = _firstText(profile, [
       'userId',
@@ -401,7 +396,7 @@ class ProfileFeedRepository {
     if (response.statusCode != 200 ||
         decoded is! Map ||
         decoded['success'] != true) {
-      throw Exception(_errorMessage(decoded, 'Không lấy được reels'));
+      throw Exception(_errorMessage(decoded, 'fetch_reels_failed'));
     }
 
     return _parseFeedPage(decoded, kind: 'reel', profileUrl: profileUrl);
@@ -441,7 +436,7 @@ class ProfileFeedRepository {
     if (response.statusCode != 200 ||
         decoded is! Map ||
         decoded['success'] != true) {
-      throw Exception(_errorMessage(decoded, 'Không lấy được ảnh/bài viết'));
+      throw Exception(_errorMessage(decoded, 'fetch_posts_failed'));
     }
 
     return _parseFeedPage(decoded, kind: 'post', profileUrl: profileUrl);
@@ -479,13 +474,13 @@ class ProfileFeedRepository {
     }
 
     if (response.statusCode != 200 || decoded is! Map) {
-      throw Exception(_errorMessage(decoded, 'Không lấy được media item'));
+      throw Exception(_errorMessage(decoded, 'fetch_media_item_failed'));
     }
 
     final status = (decoded['status'] ?? '').toString();
 
     if (status == 'error') {
-      throw Exception(decoded['error']?.toString() ?? 'Không lấy được media');
+      throw Exception(decoded['error']?.toString() ?? 'fetch_media_failed');
     }
 
     return _mediaResultToProfileItems(decoded, sourceUrl: mediaUrl);
@@ -747,7 +742,7 @@ class ProfileFeedRepository {
     final url = downloadUrl.trim();
 
     if (url.isEmpty) {
-      throw Exception('Media item thiếu URL tải');
+      throw Exception('media_item_missing_download_url');
     }
 
     final response = await http
@@ -763,7 +758,7 @@ class ProfileFeedRepository {
         .timeout(const Duration(seconds: 120));
 
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw Exception('Không tải được media item: HTTP ${response.statusCode}');
+      throw Exception('download_media_item_failed_http_${response.statusCode}');
     }
 
     return response.bodyBytes;

@@ -1,0 +1,339 @@
+{
+  "@@locale": "id",
+  "appName": "IG Downloader",
+  "cancel": "Membatalkan",
+  "save": "Menyimpan",
+  "login": "Masuk",
+  "logout": "Keluar",
+  "understood": "Mengerti",
+  "delete": "Menghapus",
+  "deleteAll": "Hapus semua",
+  "share": "Membagikan",
+  "download": "Unduh",
+  "downloadAgain": "Unduh lagi",
+  "saved": "Diunduh",
+  "loading": "Memuat",
+  "apply": "Menerapkan",
+  "frequentProfilesTitle": "Profil yang baru dilihat",
+  "frequentProfilesEmptyTitle": "Belum ada profil",
+  "frequentProfilesEmptyMessage": "Profil yang Anda lihat akan muncul di sini.",
+  "account": "Akun",
+  "downloadHistoryTitle": "Unduh riwayat",
+  "downloadHistoryEmptyTitle": "Belum ada konten",
+  "downloadHistoryEmptyMessage": "Anda belum mengunduh konten apa pun",
+  "selectedCount": "{count} dipilih",
+  "@selectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteAllHistoryTitle": "Hapus semua riwayat?",
+  "deleteAllHistoryMessage": "Semua item dalam riwayat unduhan Anda akan dihapus dari aplikasi.",
+  "deleteSelectedTitle": "Hapus {count} item?",
+  "@deleteSelectedTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteSelectedOneMessage": "Item yang dipilih akan dihapus dari riwayat unduhan Anda.",
+  "deleteSelectedManyMessage": "{count} item yang dipilih akan dihapus dari riwayat unduhan Anda.",
+  "@deleteSelectedManyMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteOneTitle": "Hapus item ini?",
+  "deleteOneMessage": "Item ini akan dihapus dari riwayat unduhan Anda.",
+  "cannotShareFileMissing": "Tidak dapat berbagi. File tersebut sudah tidak ada lagi di perangkat ini.",
+  "cannotShareContent": "Tidak dapat membagikan konten ini.",
+  "cannotSaveAgainFileMissing": "Tidak dapat menyimpan lagi. File tersebut sudah tidak ada lagi di perangkat ini.",
+  "savedAgainToGallery": "Disimpan lagi ke galeri.",
+  "cannotSaveAgainContent": "Tidak dapat menyimpan konten ini lagi.",
+  "cannotOpenFileMissing": "Tidak dapat membuka konten ini. File tersebut sudah tidak ada lagi di perangkat ini.",
+  "video": "Video",
+  "image": "Foto",
+  "content": "Isi",
+  "justDownloaded": "Baru saja diunduh",
+  "heroTitle": "Unduh konten dari Instagram",
+  "heroConnected": "Instagram terhubung.",
+  "heroDescription": "Unduh foto, gulungan, dan cerita dengan cepat dan mudah.",
+  "downloadByLink": "Unduh melalui tautan",
+  "invalidLinkTitle": "Tautan tidak valid",
+  "invalidLinkMessage": "Silakan masukkan tautan Instagram untuk postingan, Reel, Story, atau video yang ingin Anda unduh.",
+  "downloadByLinkInfo1": "Gunakan ini bila Anda sudah memiliki link ke postingan Instagram, Reel, Story, atau Highlight.",
+  "downloadByLinkInfo2": "Tempel tautannya dan aplikasi akan memeriksa kontennya dan membiarkan Anda mengunduhnya.",
+  "example": "Contoh:",
+  "enterInstagramLink": "Masukkan tautan Instagram",
+  "instagramLinkHint": "https://www.instagram.com/p/... atau /reel/...",
+  "pasteInstagramLinkHint": "Tempelkan tautan Instagram untuk memeriksa dan mengunduh konten yang Anda inginkan.",
+  "openInstagram": "Buka Instagram",
+  "getContent": "Dapatkan konten",
+  "explainFeature": "Jelaskan fitur",
+  "downloadFromProfile": "Unduh dari profil",
+  "invalidProfileTitle": "Informasi tidak valid",
+  "invalidProfileMessage": "Silakan masukkan nama pengguna atau tautan profil Instagram.",
+  "profileInfo1": "Gunakan ini saat Anda ingin melihat dan mengunduh beberapa item dari akun Instagram.",
+  "profileInfo2": "Masukkan nama pengguna atau tautan profil, lalu pilih Story, Reels, atau postingan yang ingin Anda unduh.",
+  "profileInputLabel": "Nama pengguna atau tautan profil",
+  "profileInputHint": "Contoh: @namapengguna atau instagram.com/namapengguna",
+  "profileCardDescription": "Masukkan nama pengguna atau tautan profil untuk melihat Stories, Reels, dan postingan yang dapat diunduh.",
+  "story": "Story",
+  "storiesHighlights": "Stories / Highlights",
+  "reels": "Reels",
+  "posts": "Postingan",
+  "photosPosts": "Foto / Postingan",
+  "photosVideos": "Foto / Video",
+  "profileSummary": "Ringkasan profil",
+  "storyModeHint": "Masukkan profil untuk melihat Stories dan Highlights yang dapat diunduh.",
+  "reelsModeHint": "Masukkan profil untuk melihat daftar Reel.",
+  "postsModeHint": "Masukkan profil untuk melihat postingan yang dapat diunduh.",
+  "storyPopupTitle": "Unduh Stories dari profil",
+  "reelsPopupTitle": "Unduh Reels dari profil",
+  "postsPopupTitle": "Unduh postingan dari profil",
+  "viewStory": "Lihat Story",
+  "viewReels": "Lihat Reels",
+  "viewPosts": "Lihat postingan",
+  "noStoryOrHighlightAll": "Tidak ditemukan Story atau Highlight. Masuk jika konten memerlukan izin melihat.",
+  "noStoryOrHighlightInput": "Tidak ditemukan Story atau Highlight. Masukkan profil Instagram untuk diperiksa.",
+  "noStoryItems": "Tidak ada konten untuk ditampilkan, atau Anda tidak memiliki izin untuk melihat item ini.",
+  "noFeedAll": "Tidak ada postingan atau video yang ditemukan. Masuk jika konten memerlukan izin melihat.",
+  "noFeedInput": "Belum ada konten. Pilih Reels atau Postingan, lalu masukkan profil.",
+  "endOfContent": "Anda telah mencapai akhir konten.",
+  "loadMore": "Muat lebih banyak",
+  "loadingMore": "Memuat lebih banyak...",
+  "cannotShowPostContent": "Tidak dapat menampilkan konten dalam postingan ini.",
+  "chooseItemToDownload": "Pilih item untuk diunduh",
+  "contentCount": "{count} item",
+  "@contentCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chooseThemeColor": "Pilih warna tema",
+  "themeDefault": "Bawaan",
+  "themeVivid": "Jelas",
+  "themePink": "Merah muda mengkilap",
+  "themeBlue": "Biru muda",
+  "themeRed": "Merah",
+  "themeDark": "Gelap",
+  "loginRequiredTitle": "Diperlukan login",
+  "followRequiredTitle": "Ikuti diperlukan",
+  "followRequiredMessage": "Akun yang masuk tidak memiliki izin untuk melihat konten ini.",
+  "downloadSuccessMessage": "Berhasil diunduh.",
+  "viewHistory": "Lihat sejarah",
+  "frequentAccessTooltip": "Akses yang sering",
+  "recentDownloadsTooltip": "Unduhan terbaru",
+  "changeThemeTooltip": "Ubah tema",
+  "settingsTitle": "Pengaturan",
+  "themeSettingTitle": "Tema",
+  "languageSettingTitle": "Bahasa",
+  "chooseLanguageTitle": "Pilih bahasa Anda",
+  "languageVietnameseNative": "Ti?ng Vi?t",
+  "languageVietnameseLocal": "Vietnamese",
+  "languageEnglishNative": "English",
+  "languageEnglishLocal": "English",
+  "sessionModeTitle": "Modus pengunduhan",
+  "sessionPublicMode": "Public",
+  "sessionPrivateMode": "Private",
+  "sessionPrivateConnected": "Akun Instagram Anda terhubung.",
+  "sessionPrivatePrompt": "Masuk ke Instagram untuk mengunduh konten yang boleh dilihat oleh akun Anda.",
+  "sessionPublicPrompt": "Anda mengunduh konten publik tanpa login.",
+  "profileReelsListTitle": "Reel daftar video",
+  "profilePostsListTitle": "Daftar Foto / Posting",
+  "close": "Menutup",
+  "instagramHome": "Instagram rumah",
+  "selectThisContent": "Pilih konten ini",
+  "manualOpeningInstagram": "Pembukaan Instagram...",
+  "manualInstruction": "Buka postingan, Reel, Story, atau Highlight yang ingin Anda unduh, lalu ketuk \"Pilih konten ini\".",
+  "manualPickedContent": "Konten dipilih. Ketuk \"Pilih konten ini\" untuk melanjutkan.",
+  "manualNoDownloadableContent": "Tidak ditemukan konten yang dapat diunduh. Buka postingan, Reel, Story, atau Highlight.",
+  "manualCloseToExit": "Untuk menghindari kehilangan konten yang dipilih, ketuk \"Tutup\" jika Anda ingin keluar.",
+  "loginOpeningInstagram": "Membuka Instagram... Harap tunggu.",
+  "loginInstruction": "Masuk ke Instagram, lalu ketuk \"Simpan\" untuk menyelesaikan.",
+  "loginChecking": "Memeriksa login...",
+  "loginCannotConfirm": "Tidak dapat mengonfirmasi login.\nSilakan masuk ke Instagram dan coba simpan lagi.",
+  "loginSaveError": "Terjadi kesalahan saat menyimpan informasi login. Silakan coba lagi.",
+  "loginLoggingOut": "Keluar...",
+  "loginLoggedOut": "Anda telah keluar dari Instagram.\nSilakan login lagi untuk melanjutkan.",
+  "loginSuccessPrompt": "Login berhasil.\nKetuk \"Simpan\" untuk menyelesaikan.",
+  "loginPromptOnLoginPage": "Masuk ke Instagram, lalu ketuk \"Simpan\" untuk menyelesaikan.",
+  "loginPromptSaveBottom": "Jika Anda sudah selesai masuk, ketuk \"Simpan\" di bawah.",
+  "loginPageTitle": "Masuk ke Instagram",
+  "loginOpeningInstagramWithHint": "Membuka Instagram...\nSetelah masuk, ketuk \"Simpan\".",
+  "loginOpenFailed": "Tidak dapat membuka Instagram.\nSilakan periksa koneksi internet Anda dan coba lagi.",
+  "profileSavedMissingUsername": "Profil yang disimpan tidak memiliki nama pengguna.",
+  "openingProfile": "Membuka profil...",
+  "openingUsername": "Membuka @{username}...",
+  "@openingUsername": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryHighlightsAndPosts": "Ditemukan {storyCount} Story/Highlight item dan {postCount} kiriman.",
+  "@foundStoryHighlightsAndPosts": {
+    "placeholders": {
+      "storyCount": {
+        "type": "int"
+      },
+      "postCount": {
+        "type": "int"
+      }
+    }
+  },
+  "privateModeEnabled": "Private mode diaktifkan.",
+  "publicModeEnabled": "Beralih kembali ke mode Public.",
+  "cannotConfirmInstagramLogin": "Tidak dapat mengonfirmasi Instagram login. Silakan masuk lagi.",
+  "instagramConnected": "Instagram akun terhubung.",
+  "loggingOutInstagram": "Keluar dari Instagram...",
+  "instagramLoggedOut": "Anda telah keluar dari Instagram.",
+  "instagramLogoutCleanupFailed": "Keluar dari Instagram, namun terjadi kesalahan saat menghapus data login.",
+  "emptyInstagramLink": "Silakan masukkan tautan Instagram.",
+  "preparingContent": "Mempersiapkan konten...",
+  "loadingContentWithAccount": "Memuat konten dengan akun yang terhubung...",
+  "cannotFetchContent": "Tidak dapat mengambil konten.",
+  "noDownloadableContentFound": "Tidak ditemukan konten yang dapat diunduh.",
+  "foundDownloadableContent": "Ditemukan {count} item yang dapat diunduh.",
+  "@foundDownloadableContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "fetchContentFailedPublic": "Tidak dapat mengambil konten. Silakan periksa tautannya atau coba lagi.",
+  "fetchContentFailedPrivate": "Tidak dapat mengambil konten. Silakan periksa izin melihat atau masuk lagi.",
+  "emptyProfileInput": "Silakan masukkan profil Instagram.",
+  "loadingStoryHighlights": "Memuat Stories dan Highlights...",
+  "noCurrentStoryOrHighlight": "Tidak ada berita atau sorotan terkini yang ditemukan.",
+  "foundStoryHighlights": "Ditemukan {count} Story/Highlight item.",
+  "@foundStoryHighlights": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotOpenContent": "Tidak dapat membuka konten ini.",
+  "openingStoryGroup": "Membuka \"{title}\"....",
+  "@openingStoryGroup": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryGroupItems": "Ditemukan {count} item di \"{title}\".",
+  "@foundStoryGroupItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "cannotOpenStoryHighlightLogin": "Tidak dapat membuka Story atau Highlight. Silakan masuk dan coba lagi.",
+  "cannotOpenStoryHighlightPermission": "Tidak dapat membuka Story atau Highlight. Silakan periksa izin melihat.",
+  "cannotDownloadContent": "Tidak dapat mengunduh konten ini.",
+  "downloadingStory": "Mengunduh cerita...",
+  "savedStoryToAlbum": "Item cerita yang disimpan ke album {albumName}.",
+  "@savedStoryToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadStoryFailed": "Story pengunduhan gagal. Silakan coba lagi.",
+  "loadingReelsPublic": "Mengambil gulungan...",
+  "loadingReelsPrivate": "Memuat gulungan...",
+  "noReelsOrPermission": "Tidak ada Reelyang ditemukan, atau Anda tidak memiliki izin untuk melihatnya.",
+  "foundReels": "Ditemukan {count} Reels.",
+  "@foundReels": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadReelsPublic": "Tidak dapat memuat Reels. Silakan periksa profil atau coba lagi.",
+  "cannotLoadReelsPrivate": "Tidak dapat memuat Reels. Silakan periksa izin melihat.",
+  "loadingPostsPublic": "Mengambil foto/postingan...",
+  "loadingPostsPrivate": "Memuat foto/postingan...",
+  "noPostsOrPermission": "Foto/postingan tidak ditemukan, atau Anda tidak memiliki izin untuk melihatnya.",
+  "foundPosts": "Ditemukan {count} foto/postingan.",
+  "@foundPosts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadPostsPublic": "Tidak dapat memuat postingan. Silakan periksa profil atau coba lagi.",
+  "cannotLoadPostsPrivate": "Tidak dapat memuat postingan. Silakan periksa izin melihat.",
+  "cannotLoadMoreContent": "Tidak dapat memuat konten lainnya.",
+  "cannotLoadMoreProfile": "Tidak dapat memuat lebih banyak. Silakan masuk ke profil lagi.",
+  "noMoreNewContent": "Tidak ada lagi konten baru.",
+  "loadedMoreContent": "Dimuat {count} item lainnya.",
+  "@loadedMoreContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadMoreFailed": "Gagal memuat lebih banyak. Silakan coba lagi.",
+  "openingReel": "Membuka Reel...",
+  "openingPost": "Membuka postingan...",
+  "cannotOpenContentPermission": "Tidak dapat membuka konten ini. Silakan periksa izin melihat atau coba lagi.",
+  "downloadingContent": "Mengunduh konten...",
+  "savedToAlbum": "Disimpan ke album {albumName}.",
+  "@savedToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "savedContentToAlbum": "Konten yang disimpan ke album {albumName}.",
+  "@savedContentToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadContentErrorRetry": "Pengunduhan konten gagal. Ketuk untuk mencoba lagi.",
+  "downloadHistoryCleared": "Riwayat unduhan dihapus.",
+  "downloadHistoryItemsRemoved": "Menghapus {count} item dari riwayat.",
+  "@downloadHistoryItemsRemoved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "downloadConnectionSlow": "Pengunduhan gagal karena koneksi lambat. Ketuk untuk mencoba lagi.",
+  "downloadNetworkUnavailable": "Tidak dapat terhubung ke jaringan/CDN. Periksa jaringan Anda dan coba lagi.",
+  "downloadCancelled": "Pengunduhan dibatalkan.",
+  "downloadGenericError": "Pengunduhan gagal. Ketuk untuk mencoba lagi.",
+  "downloadProgress": "Mengunduh konten: {percent}%",
+  "@downloadProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  }
+}

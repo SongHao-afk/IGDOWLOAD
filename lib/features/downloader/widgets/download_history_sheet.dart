@@ -9,6 +9,7 @@ import 'package:video_player/video_player.dart';
 import '../cubit/downloader_cubit.dart';
 import '../cubit/downloader_state.dart';
 import '../repository/download_history_repository.dart';
+import '../../../l10n/app_localizations.dart';
 
 class DownloadHistorySheet extends StatefulWidget {
   const DownloadHistorySheet({super.key, required this.cubit});
@@ -122,9 +123,9 @@ class _DownloadHistorySheetState extends State<DownloadHistorySheet> {
                 const SizedBox(height: 8),
                 TextButton(
                   onPressed: () => Navigator.of(sheetContext).pop(false),
-                  child: const Text(
-                    'Huỷ',
-                    style: TextStyle(fontWeight: FontWeight.w800),
+                  child: Text(
+                    AppLocalizations.of(sheetContext)!.cancel,
+                    style: const TextStyle(fontWeight: FontWeight.w800),
                   ),
                 ),
               ],
@@ -138,10 +139,12 @@ class _DownloadHistorySheetState extends State<DownloadHistorySheet> {
   }
 
   Future<void> _confirmAndClearAll(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
+
     final ok = await _showDeleteConfirmSheet(
-      title: 'Xoá tất cả lịch sử?',
-      message: 'Tất cả mục trong lịch sử tải xuống sẽ bị xoá khỏi ứng dụng.',
-      confirmText: 'Xoá tất cả',
+      title: l10n.deleteAllHistoryTitle,
+      message: l10n.deleteAllHistoryMessage,
+      confirmText: l10n.deleteAll,
     );
 
     if (!ok || !mounted) return;
@@ -156,12 +159,14 @@ class _DownloadHistorySheetState extends State<DownloadHistorySheet> {
     final count = _selectedKeys.length;
     if (count == 0) return;
 
+    final l10n = AppLocalizations.of(context)!;
+
     final ok = await _showDeleteConfirmSheet(
-      title: 'Xoá $count mục?',
+      title: l10n.deleteSelectedTitle(count),
       message: count == 1
-          ? 'Mục đã chọn sẽ bị xoá khỏi lịch sử tải xuống.'
-          : '$count mục đã chọn sẽ bị xoá khỏi lịch sử tải xuống.',
-      confirmText: 'Xoá',
+          ? l10n.deleteSelectedOneMessage
+          : l10n.deleteSelectedManyMessage(count),
+      confirmText: l10n.delete,
     );
 
     if (!ok || !mounted) return;
@@ -180,10 +185,12 @@ class _DownloadHistorySheetState extends State<DownloadHistorySheet> {
     final key = item.key.trim();
     if (key.isEmpty) return;
 
+    final l10n = AppLocalizations.of(context)!;
+
     final ok = await _showDeleteConfirmSheet(
-      title: 'Xoá mục này?',
-      message: 'Mục này sẽ bị xoá khỏi lịch sử tải xuống.',
-      confirmText: 'Xoá',
+      title: l10n.deleteOneTitle,
+      message: l10n.deleteOneMessage,
+      confirmText: l10n.delete,
     );
 
     if (!ok || !mounted) return;
@@ -205,7 +212,7 @@ class _DownloadHistorySheetState extends State<DownloadHistorySheet> {
     if (localPath.isEmpty || !await file.exists()) {
       _showPreviewMessage(
         context,
-        'Không thể chia sẻ. File không còn tồn tại trên máy.',
+        AppLocalizations.of(context)!.cannotShareFileMissing,
       );
       return;
     }
@@ -214,7 +221,10 @@ class _DownloadHistorySheetState extends State<DownloadHistorySheet> {
       await Share.shareXFiles([XFile(localPath)]);
     } catch (_) {
       if (!context.mounted) return;
-      _showPreviewMessage(context, 'Không thể chia sẻ nội dung này.');
+      _showPreviewMessage(
+        context,
+        AppLocalizations.of(context)!.cannotShareContent,
+      );
     }
   }
 
@@ -228,7 +238,7 @@ class _DownloadHistorySheetState extends State<DownloadHistorySheet> {
     if (localPath.isEmpty || !await file.exists()) {
       _showPreviewMessage(
         context,
-        'Không thể lưu lại. File không còn tồn tại trên máy.',
+        AppLocalizations.of(context)!.cannotSaveAgainFileMissing,
       );
       return;
     }
@@ -243,10 +253,16 @@ class _DownloadHistorySheetState extends State<DownloadHistorySheet> {
       }
 
       if (!context.mounted) return;
-      _showPreviewMessage(context, 'Đã lưu lại vào thư viện.');
+      _showPreviewMessage(
+        context,
+        AppLocalizations.of(context)!.savedAgainToGallery,
+      );
     } catch (_) {
       if (!context.mounted) return;
-      _showPreviewMessage(context, 'Không thể lưu lại nội dung này.');
+      _showPreviewMessage(
+        context,
+        AppLocalizations.of(context)!.cannotSaveAgainContent,
+      );
     }
   }
 
@@ -278,19 +294,19 @@ class _DownloadHistorySheetState extends State<DownloadHistorySheet> {
             children: [
               _previewActionButton(
                 icon: Icons.ios_share_rounded,
-                label: 'Chia sẻ',
+                label: AppLocalizations.of(context)!.share,
                 onTap: () => _shareHistoryItem(context, item),
               ),
               const SizedBox(width: 4),
               _previewActionButton(
                 icon: Icons.download_rounded,
-                label: 'Lưu',
+                label: AppLocalizations.of(context)!.save,
                 onTap: () => _saveHistoryItemAgain(context, item),
               ),
               const SizedBox(width: 4),
               _previewActionButton(
                 icon: Icons.delete_outline_rounded,
-                label: 'Xoá',
+                label: AppLocalizations.of(context)!.delete,
                 isDanger: true,
                 onTap: () async {
                   Navigator.of(context).pop();
@@ -349,6 +365,7 @@ class _DownloadHistorySheetState extends State<DownloadHistorySheet> {
       builder: (blocContext, state) {
         final items = state.downloadHistory;
         final color = Theme.of(context).colorScheme;
+        final l10n = AppLocalizations.of(context)!;
 
         final existingKeys = items.map((x) => x.key.trim()).toSet();
         final validSelectedCount = _selectedKeys
@@ -426,15 +443,15 @@ class _DownloadHistorySheetState extends State<DownloadHistorySheet> {
                       Expanded(
                         child: Text(
                           _selectionMode
-                              ? 'Đã chọn $validSelectedCount'
-                              : 'Lịch sử tải xuống',
+                              ? l10n.selectedCount(validSelectedCount)
+                              : l10n.downloadHistoryTitle,
                           style: Theme.of(context).textTheme.titleLarge
                               ?.copyWith(fontWeight: FontWeight.w900),
                         ),
                       ),
                       if (_selectionMode)
                         IconButton(
-                          tooltip: 'Bỏ chọn',
+                          tooltip: l10n.cancel,
                           onPressed: _clearSelection,
                           icon: const Icon(Icons.close_rounded),
                         ),
@@ -452,9 +469,9 @@ class _DownloadHistorySheetState extends State<DownloadHistorySheet> {
                             Icons.delete_outline_rounded,
                             size: 20,
                           ),
-                          label: const Text(
-                            'Xoá',
-                            style: TextStyle(fontWeight: FontWeight.w800),
+                          label: Text(
+                            l10n.delete,
+                            style: const TextStyle(fontWeight: FontWeight.w800),
                           ),
                         )
                       else if (items.isNotEmpty)
@@ -471,9 +488,9 @@ class _DownloadHistorySheetState extends State<DownloadHistorySheet> {
                             Icons.delete_outline_rounded,
                             size: 20,
                           ),
-                          label: const Text(
-                            'Xoá tất cả',
-                            style: TextStyle(fontWeight: FontWeight.w800),
+                          label: Text(
+                            l10n.deleteAll,
+                            style: const TextStyle(fontWeight: FontWeight.w800),
                           ),
                         ),
                     ],
@@ -510,14 +527,14 @@ class _DownloadHistorySheetState extends State<DownloadHistorySheet> {
                             ),
                             const SizedBox(height: 16),
                             Text(
-                              'Chưa có nội dung nào',
+                              l10n.downloadHistoryEmptyTitle,
                               textAlign: TextAlign.center,
                               style: Theme.of(context).textTheme.titleMedium
                                   ?.copyWith(fontWeight: FontWeight.w900),
                             ),
                             const SizedBox(height: 6),
                             Text(
-                              'Bạn chưa tải nội dung nào',
+                              l10n.downloadHistoryEmptyMessage,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 height: 1.35,
@@ -560,10 +577,8 @@ class _DownloadHistorySheetState extends State<DownloadHistorySheet> {
 
     if (localPath.isEmpty || !file.existsSync()) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Không thể mở nội dung này. File không còn tồn tại trên máy.',
-          ),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.cannotOpenFileMissing),
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -630,7 +645,7 @@ class _DownloadHistorySheetState extends State<DownloadHistorySheet> {
     final title = safeFullName;
     final subtitle = safeUsername.isNotEmpty ? '@$safeUsername' : '';
 
-    final typeText = _typeTagText(cleanType);
+    final typeText = _typeTagText(context, cleanType);
     final itemKey = item.key.trim();
     final selected = itemKey.isNotEmpty && _selectedKeys.contains(itemKey);
 
@@ -817,7 +832,7 @@ class _DownloadHistorySheetState extends State<DownloadHistorySheet> {
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
-                            _historyTimeText(item.savedAt),
+                            _historyTimeText(context, item.savedAt),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -1154,9 +1169,10 @@ class _DownloadHistorySheetState extends State<DownloadHistorySheet> {
         cleanType == 'mp4';
   }
 
-  String _typeTagText(String cleanType) {
+  String _typeTagText(BuildContext context, String cleanType) {
+    final l10n = AppLocalizations.of(context)!;
     if (_isVideoType(cleanType)) {
-      return 'Video';
+      return l10n.video;
     }
 
     if (cleanType.contains('photo') ||
@@ -1165,17 +1181,17 @@ class _DownloadHistorySheetState extends State<DownloadHistorySheet> {
         cleanType == 'jpeg' ||
         cleanType == 'png' ||
         cleanType == 'webp') {
-      return 'Ảnh';
+      return l10n.image;
     }
 
-    return 'Nội dung';
+    return l10n.content;
   }
 
-  String _historyTimeText(String value) {
+  String _historyTimeText(BuildContext context, String value) {
     final date = DateTime.tryParse(value);
 
     if (date == null) {
-      return 'Vừa tải';
+      return AppLocalizations.of(context)!.justDownloaded;
     }
 
     final local = date.toLocal();

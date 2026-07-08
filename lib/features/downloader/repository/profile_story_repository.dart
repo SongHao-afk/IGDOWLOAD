@@ -209,7 +209,7 @@ class ProfileStoryRepository {
     }
 
     if (response.statusCode != 200 || body is! Map || body['success'] != true) {
-      throw Exception(_errorMessage(body, 'Không lấy được story/highlight'));
+      throw Exception(_errorMessage(body, 'fetch_story_highlight_failed'));
     }
 
     final groups = body['groups'];
@@ -333,7 +333,7 @@ class ProfileStoryRepository {
     }
 
     if (response.statusCode != 200 || body is! Map || body['success'] != true) {
-      throw Exception(_errorMessage(body, 'Không lấy được item story'));
+      throw Exception(_errorMessage(body, 'fetch_story_item_failed'));
     }
 
     final items = body['items'];
@@ -405,7 +405,7 @@ class ProfileStoryRepository {
     final url = downloadKey.trim();
 
     if (url.isEmpty) {
-      throw Exception('Story item thiếu URL tải');
+      throw Exception('story_item_missing_download_url');
     }
 
     final response = await http
@@ -421,7 +421,7 @@ class ProfileStoryRepository {
         .timeout(const Duration(seconds: 90));
 
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw Exception('Không tải được story item: HTTP ${response.statusCode}');
+      throw Exception('download_story_item_failed_http_${response.statusCode}');
     }
 
     return response.bodyBytes;

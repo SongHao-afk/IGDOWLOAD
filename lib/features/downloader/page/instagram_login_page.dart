@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import '../../../core/utils/instagram_webview_cleaner.dart';
+import '../../../l10n/app_localizations.dart';
 
 class InstagramLoginPage extends StatefulWidget {
   const InstagramLoginPage({super.key, this.onLogout});
@@ -33,7 +34,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
   bool saving = false;
   bool webViewReady = false;
 
-  String status = 'Đang mở Instagram... Vui lòng chờ.';
+  String statusKey = 'loginOpeningInstagram';
 
   @override
   void initState() {
@@ -42,7 +43,39 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
     // Không tự clear cookie khi mở login nữa.
     // Muốn xoá thì bấm nút cây chổi trên AppBar.
     webViewReady = true;
-    status = 'Đăng nhập vào Instagram, sau đó nhấn "Lưu" để hoàn tất.';
+    statusKey = 'loginInstruction';
+  }
+
+  String _statusText(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
+    switch (statusKey) {
+      case 'loginInstruction':
+        return l10n.loginInstruction;
+      case 'loginChecking':
+        return l10n.loginChecking;
+      case 'loginCannotConfirm':
+        return l10n.loginCannotConfirm;
+      case 'loginSaveError':
+        return l10n.loginSaveError;
+      case 'loginLoggingOut':
+        return l10n.loginLoggingOut;
+      case 'loginLoggedOut':
+        return l10n.loginLoggedOut;
+      case 'loginSuccessPrompt':
+        return l10n.loginSuccessPrompt;
+      case 'loginPromptOnLoginPage':
+        return l10n.loginPromptOnLoginPage;
+      case 'loginPromptSaveBottom':
+        return l10n.loginPromptSaveBottom;
+      case 'loginOpeningInstagramWithHint':
+        return l10n.loginOpeningInstagramWithHint;
+      case 'loginOpenFailed':
+        return l10n.loginOpenFailed;
+      case 'loginOpeningInstagram':
+      default:
+        return l10n.loginOpeningInstagram;
+    }
   }
 
   Future<List<Cookie>> _getInstagramCookies() async {
@@ -80,7 +113,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
 
     setState(() {
       saving = true;
-      status = 'Đang xác nhận đăng nhập...';
+      statusKey = 'loginChecking';
     });
 
     try {
@@ -122,9 +155,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
 
         setState(() {
           saving = false;
-          status =
-              'Không thể xác nhận đăng nhập.\n'
-              'Vui lòng đăng nhập Instagram rồi thử lưu lại.';
+          statusKey = 'loginCannotConfirm';
         });
 
         return;
@@ -138,7 +169,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
 
       setState(() {
         saving = false;
-        status = 'Có lỗi xảy ra khi lưu thông tin đăng nhập. Vui lòng thử lại.';
+        statusKey = 'loginSaveError';
       });
     }
   }
@@ -148,7 +179,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
 
     setState(() {
       saving = true;
-      status = 'Đang đăng xuất...';
+      statusKey = 'loginLoggingOut';
     });
 
     try {
@@ -168,9 +199,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
     if (!mounted) return;
 
     setState(() {
-      status =
-          'Bạn đã đăng xuất khỏi Instagram.\n'
-          'Vui lòng đăng nhập lại để tiếp tục.';
+      statusKey = 'loginLoggedOut';
     });
 
     await controller?.loadUrl(urlRequest: URLRequest(url: loginUri));
@@ -197,11 +226,11 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
 
     setState(() {
       if (hasSessionId) {
-        status = 'Đăng nhập thành công..\nNhấn "Lưu" để hoàn tất.';
+        statusKey = 'loginSuccessPrompt';
       } else if (path.contains('/accounts/login')) {
-        status = 'Đăng nhập Instagram rồi bấm "Lưu" để hoàn tất.';
+        statusKey = 'loginPromptOnLoginPage';
       } else {
-        status = 'Nếu đã đăng nhập xong, hãy nhấn "Lưu" bên dưới.';
+        statusKey = 'loginPromptSaveBottom';
       }
     });
   }
@@ -216,11 +245,11 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
         backgroundColor: Colors.white.withOpacity(0.96),
         elevation: 0,
         titleSpacing: 0,
-        title: const FittedBox(
+        title: FittedBox(
           fit: BoxFit.scaleDown,
           alignment: Alignment.centerLeft,
           child: Text(
-            'Đăng nhập Instagram',
+            AppLocalizations.of(context)!.loginPageTitle,
             maxLines: 1,
             style: TextStyle(
               color: Color(0xFF24142E),
@@ -234,7 +263,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
             onPressed: saving || !webViewReady ? null : clearCookies,
             icon: const Icon(Icons.logout_rounded),
             color: color.primary,
-            tooltip: 'Đăng xuất',
+            tooltip: AppLocalizations.of(context)!.logout,
           ),
         ],
       ),
@@ -271,7 +300,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
                 border: Border.all(color: color.primary.withOpacity(0.14)),
               ),
               child: Text(
-                status,
+                _statusText(context),
                 style: const TextStyle(
                   color: Color(0xFF24142E),
                   fontWeight: FontWeight.w800,
@@ -333,9 +362,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
                         if (!mounted) return;
 
                         setState(() {
-                          status =
-                              'Đang mở Instagram...\n'
-                              'Đăng nhập xong thì bấm "Lưu".';
+                          statusKey = 'loginOpeningInstagramWithHint';
                         });
                       },
                       onLoadStop: (webController, url) async {
@@ -349,9 +376,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
                         if (!mounted) return;
 
                         setState(() {
-                          status =
-                              'Không thể mở Instagram.\n'
-                              'Vui lòng kiểm tra kết nối Internet và thử lại.';
+                          statusKey = 'loginOpenFailed';
                         });
                       },
                     )
@@ -385,7 +410,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
                         onPressed: saving
                             ? null
                             : () => Navigator.of(context).pop(null),
-                        child: const Text('Hủy'),
+                        child: Text(AppLocalizations.of(context)!.cancel),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -423,7 +448,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
                                   ),
                                 )
                               : const Icon(Icons.save_rounded),
-                          label: const Text('Lưu'),
+                          label: Text(AppLocalizations.of(context)!.save),
                         ),
                       ),
                     ),

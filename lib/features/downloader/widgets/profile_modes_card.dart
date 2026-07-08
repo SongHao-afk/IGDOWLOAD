@@ -1,6 +1,8 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../cubit/downloader_cubit.dart';
+import '../cubit/downloader_messages.dart';
 import '../cubit/downloader_state.dart';
 
 enum ProfileModeAction { stories, reels, posts }
@@ -27,14 +29,15 @@ class ProfileModesCard extends StatelessWidget {
     }
   }
 
-  String _modeTitle(ProfileModeAction mode) {
+  String _modeTitle(BuildContext context, ProfileModeAction mode) {
+    final l10n = AppLocalizations.of(context)!;
     switch (mode) {
       case ProfileModeAction.stories:
-        return 'Story';
+        return l10n.story;
       case ProfileModeAction.reels:
-        return 'Reels';
+        return l10n.reels;
       case ProfileModeAction.posts:
-        return 'Bài viết';
+        return l10n.posts;
     }
   }
 
@@ -106,14 +109,14 @@ class ProfileModesCard extends StatelessWidget {
 
         return AlertDialog(
           icon: Icon(Icons.error_outline_rounded, color: color.error, size: 32),
-          title: const Text('Thông tin không hợp lệ'),
-          content: const Text(
-            'Vui lòng nhập tên người dùng hoặc liên kết trang cá nhân Instagram.',
+          title: Text(AppLocalizations.of(dialogContext)!.invalidProfileTitle),
+          content: Text(
+            AppLocalizations.of(dialogContext)!.invalidProfileMessage,
           ),
           actions: [
             FilledButton(
               onPressed: () => Navigator.of(dialogContext).pop(),
-              child: const Text('Đã hiểu'),
+              child: Text(AppLocalizations.of(dialogContext)!.understood),
             ),
           ],
         );
@@ -142,23 +145,19 @@ class ProfileModesCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      'Tải từ trang cá nhân',
+                      AppLocalizations.of(sheetContext)!.downloadFromProfile,
                       style: Theme.of(sheetContext).textTheme.titleLarge
                           ?.copyWith(fontWeight: FontWeight.w900),
                     ),
                   ],
                 ),
                 const SizedBox(height: 12),
-                const Text(
-                  'Dùng khi bạn muốn xem và tải nhiều nội dung từ một tài khoản Instagram.',
-                ),
+                Text(AppLocalizations.of(sheetContext)!.profileInfo1),
                 const SizedBox(height: 8),
-                const Text(
-                  'Nhập tên người dùng hoặc liên kết trang cá nhân, sau đó chọn Story, Reels hoặc bài viết muốn tải.',
-                ),
+                Text(AppLocalizations.of(sheetContext)!.profileInfo2),
                 const SizedBox(height: 14),
                 Text(
-                  'Ví dụ:',
+                  AppLocalizations.of(sheetContext)!.example,
                   style: Theme.of(
                     sheetContext,
                   ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w900),
@@ -174,7 +173,7 @@ class ProfileModesCard extends StatelessWidget {
                   width: double.infinity,
                   child: FilledButton(
                     onPressed: () => Navigator.of(sheetContext).pop(),
-                    child: const Text('Đã hiểu'),
+                    child: Text(AppLocalizations.of(sheetContext)!.understood),
                   ),
                 ),
               ],
@@ -185,36 +184,39 @@ class ProfileModesCard extends StatelessWidget {
     );
   }
 
-  String _modeHint(ProfileModeAction mode) {
+  String _modeHint(BuildContext context, ProfileModeAction mode) {
+    final l10n = AppLocalizations.of(context)!;
     switch (mode) {
       case ProfileModeAction.stories:
-        return 'Nhập trang cá nhân để xem Story và Highlight có thể tải.';
+        return l10n.storyModeHint;
       case ProfileModeAction.reels:
-        return 'Nhập trang cá nhân để xem danh sách Reels.';
+        return l10n.reelsModeHint;
       case ProfileModeAction.posts:
-        return 'Nhập trang cá nhân để xem các bài viết có thể tải.';
+        return l10n.postsModeHint;
     }
   }
 
-  String _popupTitle(ProfileModeAction mode) {
+  String _popupTitle(BuildContext context, ProfileModeAction mode) {
+    final l10n = AppLocalizations.of(context)!;
     switch (mode) {
       case ProfileModeAction.stories:
-        return 'Tải Story từ trang cá nhân';
+        return l10n.storyPopupTitle;
       case ProfileModeAction.reels:
-        return 'Tải Reels từ trang cá nhân';
+        return l10n.reelsPopupTitle;
       case ProfileModeAction.posts:
-        return 'Tải bài viết từ trang cá nhân';
+        return l10n.postsPopupTitle;
     }
   }
 
-  String _submitButtonText(ProfileModeAction mode) {
+  String _submitButtonText(BuildContext context, ProfileModeAction mode) {
+    final l10n = AppLocalizations.of(context)!;
     switch (mode) {
       case ProfileModeAction.stories:
-        return 'Xem Story';
+        return l10n.viewStory;
       case ProfileModeAction.reels:
-        return 'Xem Reels';
+        return l10n.viewReels;
       case ProfileModeAction.posts:
-        return 'Xem bài viết';
+        return l10n.viewPosts;
     }
   }
 
@@ -372,7 +374,7 @@ class ProfileModesCard extends StatelessWidget {
                                 const SizedBox(width: 8),
                                 Expanded(
                                   child: Text(
-                                    _popupTitle(mode),
+                                    _popupTitle(dialogContext, mode),
                                     style: Theme.of(dialogContext)
                                         .textTheme
                                         .titleMedium
@@ -387,7 +389,7 @@ class ProfileModesCard extends StatelessWidget {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              _modeHint(mode),
+                              _modeHint(dialogContext, mode),
                               style: TextStyle(
                                 color: Theme.of(
                                   dialogContext,
@@ -403,12 +405,16 @@ class ProfileModesCard extends StatelessWidget {
                               keyboardType: TextInputType.url,
                               textInputAction: TextInputAction.search,
                               onSubmitted: (_) => submit(),
-                              decoration: const InputDecoration(
-                                labelText:
-                                    'Tên người dùng hoặc liên kết trang cá nhân',
-                                hintText:
-                                    'Ví dụ: @username hoặc instagram.com/username',
-                                prefixIcon: Icon(Icons.person_search_rounded),
+                              decoration: InputDecoration(
+                                labelText: AppLocalizations.of(
+                                  dialogContext,
+                                )!.profileInputLabel,
+                                hintText: AppLocalizations.of(
+                                  dialogContext,
+                                )!.profileInputHint,
+                                prefixIcon: const Icon(
+                                  Icons.person_search_rounded,
+                                ),
                               ),
                             ),
                             const SizedBox(height: 14),
@@ -452,7 +458,9 @@ class ProfileModesCard extends StatelessWidget {
                                           ),
                                         )
                                       : const Icon(Icons.search_rounded),
-                                  label: Text(_submitButtonText(mode)),
+                                  label: Text(
+                                    _submitButtonText(dialogContext, mode),
+                                  ),
                                 ),
                               ),
                             ),
@@ -529,9 +537,9 @@ class ProfileModesCard extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  'Tải từ trang cá nhân',
+                  AppLocalizations.of(context)!.downloadFromProfile,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: const Color(0xFF171321),
+                    color: color.onSurface,
                     fontWeight: FontWeight.w900,
                     fontSize: 18,
                   ),
@@ -541,13 +549,13 @@ class ProfileModesCard extends StatelessWidget {
                 onPressed: () => _showProfileInfo(context),
                 icon: const Icon(Icons.info_outline_rounded),
                 color: color.primary,
-                tooltip: 'Giải thích chức năng',
+                tooltip: AppLocalizations.of(context)!.explainFeature,
               ),
             ],
           ),
           const SizedBox(height: 6),
           Text(
-            'Nhập tên người dùng hoặc liên kết trang cá nhân để xem Story, Reels và bài viết có thể tải.',
+            AppLocalizations.of(context)!.profileCardDescription,
             style: TextStyle(
               color: Theme.of(
                 context,
@@ -589,7 +597,7 @@ class ProfileModesCard extends StatelessWidget {
           if (state.profileError != null) ...[
             const SizedBox(height: 10),
             Text(
-              state.profileError!,
+              DownloaderMessages.resolve(context, state.profileError!),
               style: const TextStyle(
                 color: Colors.redAccent,
                 fontWeight: FontWeight.w800,
@@ -609,6 +617,7 @@ class ProfileModesCard extends StatelessWidget {
   }) {
     final selected = state.profileMode == _modeKey(mode);
     final color = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return InkWell(
       borderRadius: BorderRadius.circular(18),
@@ -628,7 +637,7 @@ class ProfileModesCard extends StatelessWidget {
                 )
               : LinearGradient(
                   colors: [
-                    Colors.white,
+                    isDark ? color.surfaceContainerHighest : Colors.white,
                     color.primary.withOpacity(0.10),
                     color.secondary.withOpacity(0.09),
                   ],
@@ -658,12 +667,12 @@ class ProfileModesCard extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             Text(
-              _modeTitle(mode),
+              _modeTitle(context, mode),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w900,
-                color: selected ? Colors.white : const Color(0xFF171321),
+                color: selected ? Colors.white : color.onSurface,
               ),
             ),
           ],

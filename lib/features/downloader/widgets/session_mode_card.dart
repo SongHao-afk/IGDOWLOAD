@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../l10n/app_localizations.dart';
+
 class SessionModeCard extends StatelessWidget {
   final bool privateMode;
   final bool hasPrivateCookie;
@@ -40,22 +42,22 @@ class SessionModeCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'Chế độ tải',
-            style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
+          Text(
+            AppLocalizations.of(context)!.sessionModeTitle,
+            style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
           ),
           const SizedBox(height: 12),
           SegmentedButton<bool>(
-            segments: const [
+            segments: [
               ButtonSegment<bool>(
                 value: false,
-                label: Text('Public'),
-                icon: Icon(Icons.public_rounded),
+                label: Text(AppLocalizations.of(context)!.sessionPublicMode),
+                icon: const Icon(Icons.public_rounded),
               ),
               ButtonSegment<bool>(
                 value: true,
-                label: Text('Private'),
-                icon: Icon(Icons.lock_rounded),
+                label: Text(AppLocalizations.of(context)!.sessionPrivateMode),
+                icon: const Icon(Icons.lock_rounded),
               ),
             ],
             selected: {privateMode},
@@ -73,8 +75,12 @@ class SessionModeCard extends StatelessWidget {
                     children: [
                       Text(
                         hasPrivateCookie
-                            ? 'Bạn đã kết nối tài khoản Instagram.'
-                            : 'Đăng nhập Instagram để tải nội dung mà tài khoản của bạn có quyền xem.',
+                            ? AppLocalizations.of(
+                                context,
+                              )!.sessionPrivateConnected
+                            : AppLocalizations.of(
+                                context,
+                              )!.sessionPrivatePrompt,
                         style: TextStyle(
                           color: color.onSurface.withOpacity(0.72),
                           fontWeight: FontWeight.w600,
@@ -98,7 +104,7 @@ class SessionModeCard extends StatelessWidget {
                                       ),
                                     )
                                   : const Icon(Icons.login_rounded),
-                              label: const Text('Đăng nhập'),
+                              label: Text(AppLocalizations.of(context)!.login),
                             ),
                           ),
                           const SizedBox(width: 10),
@@ -108,7 +114,7 @@ class SessionModeCard extends StatelessWidget {
                                   ? null
                                   : onLogout,
                               icon: const Icon(Icons.logout_rounded),
-                              label: const Text('Đăng xuất'),
+                              label: Text(AppLocalizations.of(context)!.logout),
                             ),
                           ),
                         ],
@@ -116,7 +122,7 @@ class SessionModeCard extends StatelessWidget {
                     ],
                   )
                 : Text(
-                    'Bạn đang tải nội dung công khai mà không cần đăng nhập.',
+                    AppLocalizations.of(context)!.sessionPublicPrompt,
                     key: const ValueKey('public-mode'),
                     style: TextStyle(
                       color: color.onSurface.withOpacity(0.72),

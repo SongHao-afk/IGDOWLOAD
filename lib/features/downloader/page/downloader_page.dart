@@ -1,9 +1,11 @@
-﻿import 'dart:async';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../cubit/downloader_cubit.dart';
+import '../cubit/downloader_messages.dart';
 import '../cubit/downloader_state.dart';
 import '../widgets/download_history_sheet.dart';
 import '../widgets/downloader_hero.dart';
@@ -12,8 +14,10 @@ import '../widgets/media_card.dart';
 import '../widgets/normal_link_card.dart';
 import '../widgets/profile_modes_card.dart';
 import '../widgets/profile_result_area.dart';
+import '../widgets/settings_sheet.dart';
 import '../widgets/theme_picker_sheet.dart';
 import 'instagram_login_page.dart';
+import 'language_picker_page.dart';
 import 'manual_instagram_browser_page.dart';
 
 class DownloaderPage extends StatefulWidget {
@@ -40,6 +44,33 @@ class _DownloaderPageState extends State<DownloaderPage> {
       backgroundColor: Colors.transparent,
       builder: (_) => const ThemePickerSheet(),
     );
+  }
+
+  Future<void> openSettingsSheet() async {
+    final action = await showModalBottomSheet<SettingsSheetAction>(
+      context: context,
+      showDragHandle: false,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => const SettingsSheet(),
+    );
+
+    if (!mounted || action == null) return;
+
+    switch (action) {
+      case SettingsSheetAction.theme:
+        openThemePicker();
+        break;
+      case SettingsSheetAction.language:
+        await openLanguagePicker();
+        break;
+    }
+  }
+
+  Future<void> openLanguagePicker() async {
+    await Navigator.of(
+      context,
+    ).push<void>(MaterialPageRoute(builder: (_) => const LanguagePickerPage()));
   }
 
   Future<void> openPrivateLogin(DownloaderCubit cubit) async {
@@ -69,7 +100,7 @@ class _DownloaderPageState extends State<DownloaderPage> {
 
         return AlertDialog(
           icon: Icon(Icons.lock_rounded, color: color.primary, size: 32),
-          title: const Text('Cần đăng nhập'),
+          title: Text(AppLocalizations.of(dialogContext)!.loginRequiredTitle),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -77,7 +108,7 @@ class _DownloaderPageState extends State<DownloaderPage> {
                 width: 180,
                 child: TextButton(
                   onPressed: () => Navigator.of(dialogContext).pop(false),
-                  child: const Text('Hủy'),
+                  child: Text(AppLocalizations.of(dialogContext)!.cancel),
                 ),
               ),
               const SizedBox(height: 8),
@@ -85,7 +116,7 @@ class _DownloaderPageState extends State<DownloaderPage> {
                 width: 180,
                 child: FilledButton(
                   onPressed: () => Navigator.of(dialogContext).pop(true),
-                  child: const Text('Đăng nhập'),
+                  child: Text(AppLocalizations.of(dialogContext)!.login),
                 ),
               ),
             ],
@@ -118,9 +149,11 @@ class _DownloaderPageState extends State<DownloaderPage> {
               color: color.primary,
               size: 32,
             ),
-            title: const Text('Cần follow người này'),
-            content: const Text(
-              'Tài khoản đang đăng nhập chưa có quyền xem nội dung này.',
+            title: Text(
+              AppLocalizations.of(dialogContext)!.followRequiredTitle,
+            ),
+            content: Text(
+              AppLocalizations.of(dialogContext)!.followRequiredMessage,
             ),
             actionsAlignment: MainAxisAlignment.center,
             actions: [
@@ -128,7 +161,7 @@ class _DownloaderPageState extends State<DownloaderPage> {
                 width: 180,
                 child: FilledButton(
                   onPressed: () => Navigator.of(dialogContext).pop(),
-                  child: const Text('Đã hiểu'),
+                  child: Text(AppLocalizations.of(dialogContext)!.understood),
                 ),
               ),
             ],
@@ -184,16 +217,6 @@ class _DownloaderPageState extends State<DownloaderPage> {
     );
   }
 
-  bool _isDownloadSuccessStatus(String status) {
-    final clean = status.trim();
-
-    return clean.startsWith('Đã lưu') &&
-        (clean.contains('album') ||
-            clean.contains('thư viện') ||
-            clean.contains('nội dung') ||
-            clean.contains('Story'));
-  }
-
   void _showDownloadSuccessSnackBar(DownloaderCubit cubit) {
     if (!mounted) return;
 
@@ -203,10 +226,10 @@ class _DownloaderPageState extends State<DownloaderPage> {
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
-          content: const Text('Đã tải xuống thành công.'),
+          content: Text(AppLocalizations.of(context)!.downloadSuccessMessage),
           behavior: SnackBarBehavior.floating,
           action: SnackBarAction(
-            label: 'Xem lịch sử',
+            label: AppLocalizations.of(context)!.viewHistory,
             onPressed: () {
               if (!mounted) return;
               _openDownloadHistorySheet(context, cubit);
@@ -258,7 +281,7 @@ class _DownloaderPageState extends State<DownloaderPage> {
       listener: (context, state) {
         final cubit = context.read<DownloaderCubit>();
 
-        if (state.status == 'Cần đăng nhập') {
+        if (DownloaderMessages.isLoginRequired(state.status)) {
           if (state.hasPrivateCookie) {
             showFollowRequiredDialog();
           } else {
@@ -266,22 +289,25 @@ class _DownloaderPageState extends State<DownloaderPage> {
           }
         }
 
-        if (state.status == 'Cần follow người này') {
+        if (DownloaderMessages.isFollowRequired(state.status)) {
           showFollowRequiredDialog();
         }
 
-        if (_isDownloadSuccessStatus(state.status)) {
+        if (DownloaderMessages.isDownloadSuccess(state.status)) {
           _showDownloadSuccessSnackBar(cubit);
         }
       },
       builder: (context, state) {
         final cubit = context.read<DownloaderCubit>();
         final colors = Theme.of(context).colorScheme;
+        final isDark = Theme.of(context).brightness == Brightness.dark;
 
         return Scaffold(
           resizeToAvoidBottomInset: true,
           appBar: AppBar(
-            backgroundColor: Colors.white.withOpacity(0.96),
+            backgroundColor: isDark
+                ? colors.surface.withOpacity(0.96)
+                : Colors.white.withOpacity(0.96),
             surfaceTintColor: Colors.transparent,
             elevation: 0,
             titleSpacing: 12,
@@ -292,7 +318,7 @@ class _DownloaderPageState extends State<DownloaderPage> {
             ),
             actions: [
               IconButton(
-                tooltip: 'Truy cập thường xuyên',
+                tooltip: AppLocalizations.of(context)!.frequentAccessTooltip,
                 visualDensity: VisualDensity.compact,
                 constraints: const BoxConstraints.tightFor(
                   width: 38,
@@ -305,7 +331,7 @@ class _DownloaderPageState extends State<DownloaderPage> {
                 ),
               ),
               IconButton(
-                tooltip: 'Đã tải gần đây',
+                tooltip: AppLocalizations.of(context)!.recentDownloadsTooltip,
                 visualDensity: VisualDensity.compact,
                 constraints: const BoxConstraints.tightFor(
                   width: 38,
@@ -315,17 +341,17 @@ class _DownloaderPageState extends State<DownloaderPage> {
                 icon: Icon(Icons.history_rounded, color: colors.secondary),
               ),
               IconButton(
-                tooltip: 'Đổi giao diện',
+                tooltip: AppLocalizations.of(context)!.settingsTitle,
                 visualDensity: VisualDensity.compact,
                 constraints: const BoxConstraints.tightFor(
                   width: 38,
                   height: 44,
                 ),
-                onPressed: openThemePicker,
-                icon: Icon(Icons.palette_rounded, color: colors.tertiary),
+                onPressed: openSettingsSheet,
+                icon: Icon(Icons.settings_rounded, color: colors.tertiary),
               ),
               IconButton(
-                tooltip: 'Đăng nhập',
+                tooltip: AppLocalizations.of(context)!.login,
                 visualDensity: VisualDensity.compact,
                 constraints: const BoxConstraints.tightFor(
                   width: 38,
@@ -341,13 +367,21 @@ class _DownloaderPageState extends State<DownloaderPage> {
           body: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [
-                  Theme.of(context).colorScheme.primary.withOpacity(0.88),
-                  Theme.of(context).colorScheme.tertiary.withOpacity(0.78),
-                  Theme.of(context).colorScheme.secondary.withOpacity(0.72),
-                  Theme.of(context).colorScheme.primary.withOpacity(0.36),
-                  Theme.of(context).scaffoldBackgroundColor,
-                ],
+                colors: isDark
+                    ? const [
+                        Color(0xFF05070A),
+                        Color(0xFF0B1015),
+                        Color(0xFF121A1A),
+                        Color(0xFF18130D),
+                        Color(0xFF070A0D),
+                      ]
+                    : [
+                        colors.primary.withOpacity(0.88),
+                        colors.tertiary.withOpacity(0.78),
+                        colors.secondary.withOpacity(0.72),
+                        colors.primary.withOpacity(0.36),
+                        Theme.of(context).scaffoldBackgroundColor,
+                      ],
                 stops: const [0.0, 0.18, 0.36, 0.62, 1.0],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -386,7 +420,7 @@ class _DownloaderPageState extends State<DownloaderPage> {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              state.status,
+                              DownloaderMessages.resolve(context, state.status),
                               style: const TextStyle(
                                 fontWeight: FontWeight.w700,
                               ),
@@ -426,7 +460,10 @@ class _DownloaderPageState extends State<DownloaderPage> {
         return MediaCard(
           item: item,
           isDownloading: state.downloadingIds.contains(item.id),
-          errorText: state.downloadErrors[item.id],
+          errorText: DownloaderMessages.resolveNullable(
+            context,
+            state.downloadErrors[item.id],
+          ),
           onDownload: state.downloadingAll
               ? null
               : () => cubit.downloadMedia(item),

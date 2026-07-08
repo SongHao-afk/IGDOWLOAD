@@ -1,0 +1,339 @@
+{
+  "@@locale": "fil",
+  "appName": "IG Downloader",
+  "cancel": "Kanselahin",
+  "save": "I-save",
+  "login": "Mag-log in",
+  "logout": "Log out",
+  "understood": "Nakuha ko",
+  "delete": "Tanggalin",
+  "deleteAll": "Tanggalin lahat",
+  "share": "Ibahagi",
+  "download": "I-download",
+  "downloadAgain": "I-download muli",
+  "saved": "Na-download",
+  "loading": "Naglo-load",
+  "apply": "Mag-apply",
+  "frequentProfilesTitle": "Kamakailang tiningnang mga profile",
+  "frequentProfilesEmptyTitle": "Wala pang mga profile",
+  "frequentProfilesEmptyMessage": "Lalabas dito ang mga profile na iyong tiningnan.",
+  "account": "Account",
+  "downloadHistoryTitle": "Kasaysayan ng pag-download",
+  "downloadHistoryEmptyTitle": "Wala pang nilalaman",
+  "downloadHistoryEmptyMessage": "Hindi ka pa nagda-download ng anumang nilalaman",
+  "selectedCount": "{count} napili",
+  "@selectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteAllHistoryTitle": "Tanggalin ang lahat ng kasaysayan?",
+  "deleteAllHistoryMessage": "Aalisin sa app ang lahat ng item sa iyong history ng pag-download.",
+  "deleteSelectedTitle": "Tanggalin ang {count} item?",
+  "@deleteSelectedTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteSelectedOneMessage": "Ang napiling item ay aalisin sa iyong kasaysayan ng pag-download.",
+  "deleteSelectedManyMessage": "{count} aalisin ang mga napiling item mula sa iyong kasaysayan ng pag-download.",
+  "@deleteSelectedManyMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteOneTitle": "Tanggalin ang item na ito?",
+  "deleteOneMessage": "Aalisin ang item na ito sa iyong history ng pag-download.",
+  "cannotShareFileMissing": "Hindi maibahagi. Wala na ang file sa device na ito.",
+  "cannotShareContent": "Hindi maibabahagi ang nilalamang ito.",
+  "cannotSaveAgainFileMissing": "Hindi na muling makapag-save. Wala na ang file sa device na ito.",
+  "savedAgainToGallery": "Na-save muli sa gallery.",
+  "cannotSaveAgainContent": "Hindi ma-save muli ang nilalamang ito.",
+  "cannotOpenFileMissing": "Hindi mabuksan ang nilalamang ito. Wala na ang file sa device na ito.",
+  "video": "Video",
+  "image": "Larawan",
+  "content": "Nilalaman",
+  "justDownloaded": "Kakadownload lang",
+  "heroTitle": "Mag-download ng nilalaman mula sa Instagram",
+  "heroConnected": "Instagram ay konektado.",
+  "heroDescription": "Mag-download ng mga larawan, reel, at kwento nang mabilis at madali.",
+  "downloadByLink": "I-download sa pamamagitan ng link",
+  "invalidLinkTitle": "Di-wastong link",
+  "invalidLinkMessage": "Pakipasok ang Instagram link para sa post, Reel, Story, o video na gusto mong i-download.",
+  "downloadByLinkInfo1": "Gamitin ito kapag mayroon ka nang link sa isang Instagram post, Reel, Story, o Highlight.",
+  "downloadByLinkInfo2": "I-paste ang link at susuriin ng app ang nilalaman at hahayaan kang i-download ito.",
+  "example": "Halimbawa:",
+  "enterInstagramLink": "Ipasok ang Instagram link",
+  "instagramLinkHint": "https://www.instagram.com/p/... o /reel/...",
+  "pasteInstagramLinkHint": "Mag-paste ng Instagram link upang suriin at i-download ang nilalamang gusto mo.",
+  "openInstagram": "Buksan Instagram",
+  "getContent": "Kumuha ng nilalaman",
+  "explainFeature": "Ipaliwanag ang katangian",
+  "downloadFromProfile": "I-download mula sa profile",
+  "invalidProfileTitle": "Di-wastong impormasyon",
+  "invalidProfileMessage": "Mangyaring magpasok ng Instagram username o profile link.",
+  "profileInfo1": "Gamitin ito kapag gusto mong tingnan at i-download ang maramihang mga item mula sa isang Instagram account.",
+  "profileInfo2": "Maglagay ng username o profile link, pagkatapos ay piliin ang Story, Reels, o mga post na gusto mong i-download.",
+  "profileInputLabel": "Username o profile link",
+  "profileInputHint": "Halimbawa: @username o instagram.com/username",
+  "profileCardDescription": "Maglagay ng username o profile link upang tingnan ang mga nada-download na Stories, Reels, at mga post.",
+  "story": "Story",
+  "storiesHighlights": "Stories / Highlights",
+  "reels": "Reels",
+  "posts": "Mga post",
+  "photosPosts": "Mga Larawan / Mga Post",
+  "photosVideos": "Mga Larawan / Video",
+  "profileSummary": "Buod ng profile",
+  "storyModeHint": "Magpasok ng profile para tingnan ang mga nada-download na Stories at Highlights.",
+  "reelsModeHint": "Magpasok ng profile upang tingnan ang listahan ng Reels.",
+  "postsModeHint": "Maglagay ng profile para tingnan ang mga nada-download na post.",
+  "storyPopupTitle": "I-download ang Stories mula sa profile",
+  "reelsPopupTitle": "I-download ang Reels mula sa profile",
+  "postsPopupTitle": "Mag-download ng mga post mula sa profile",
+  "viewStory": "Tingnan Story",
+  "viewReels": "Tingnan ang mga Reels",
+  "viewPosts": "Tingnan ang mga post",
+  "noStoryOrHighlightAll": "Walang Story o Highlight nahanap. Mag-log in kung ang nilalaman ay nangangailangan ng pahintulot sa pagtingin.",
+  "noStoryOrHighlightInput": "Walang Story o Highlight nahanap. Maglagay ng Instagram profile upang suriin.",
+  "noStoryItems": "Walang ipapakitang nilalaman, o wala kang pahintulot na tingnan ang item na ito.",
+  "noFeedAll": "Walang nakitang mga post o video. Mag-log in kung ang nilalaman ay nangangailangan ng pahintulot sa pagtingin.",
+  "noFeedInput": "Wala pang nilalaman. Piliin ang Reels o Posts, pagkatapos ay magpasok ng profile.",
+  "endOfContent": "Naabot mo na ang dulo ng nilalaman.",
+  "loadMore": "Mag-load pa",
+  "loadingMore": "Naglo-load ng higit pa...",
+  "cannotShowPostContent": "Hindi maipakita ang nilalaman sa post na ito.",
+  "chooseItemToDownload": "Pumili ng item na ida-download",
+  "contentCount": "{count} aytem",
+  "@contentCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chooseThemeColor": "Pumili ng kulay ng tema",
+  "themeDefault": "Default",
+  "themeVivid": "Matingkad",
+  "themePink": "Makintab na kulay rosas",
+  "themeBlue": "Banayad na asul",
+  "themeRed": "Pula",
+  "themeDark": "Madilim",
+  "loginRequiredTitle": "Kinakailangan ang pag-login",
+  "followRequiredTitle": "Kailangang sundin",
+  "followRequiredMessage": "Ang naka-log-in na account ay walang pahintulot na tingnan ang nilalamang ito.",
+  "downloadSuccessMessage": "Matagumpay na na-download.",
+  "viewHistory": "Tingnan ang kasaysayan",
+  "frequentAccessTooltip": "Madalas na pag-access",
+  "recentDownloadsTooltip": "Mga kamakailang pag-download",
+  "changeThemeTooltip": "Baguhin ang tema",
+  "settingsTitle": "Mga setting",
+  "themeSettingTitle": "Tema",
+  "languageSettingTitle": "Wika",
+  "chooseLanguageTitle": "Piliin ang iyong wika",
+  "languageVietnameseNative": "Ti?ng Vi?t",
+  "languageVietnameseLocal": "Vietnamese",
+  "languageEnglishNative": "English",
+  "languageEnglishLocal": "English",
+  "sessionModeTitle": "Download mode",
+  "sessionPublicMode": "Public",
+  "sessionPrivateMode": "Private",
+  "sessionPrivateConnected": "Nakakonekta ang iyong Instagram account.",
+  "sessionPrivatePrompt": "Mag-log in sa Instagram upang mag-download ng nilalamang pinapayagang tingnan ng iyong account.",
+  "sessionPublicPrompt": "Nagda-download ka ng pampublikong nilalaman nang hindi nagla-log in.",
+  "profileReelsListTitle": "Reel listahan ng video",
+  "profilePostsListTitle": "Larawan / Listahan ng post",
+  "close": "Isara",
+  "instagramHome": "Instagram bahay",
+  "selectThisContent": "Piliin ang nilalamang ito",
+  "manualOpeningInstagram": "Pagbubukas Instagram...",
+  "manualInstruction": "Buksan ang post, Reel, Story, o Highlight gusto mong i-download, pagkatapos ay tapikin ang \"Piliin ang nilalamang ito\".",
+  "manualPickedContent": "Napili ang nilalaman. I-tap ang \"Piliin ang nilalamang ito\" para magpatuloy.",
+  "manualNoDownloadableContent": "Walang nakitang nada-download na nilalaman. Magbukas ng post, Reel, Story, o Highlight.",
+  "manualCloseToExit": "Para maiwasang mawala ang napiling content, i-tap ang \"Isara\" kung gusto mong lumabas.",
+  "loginOpeningInstagram": "Binubuksan Instagram... Mangyaring maghintay.",
+  "loginInstruction": "Mag-log in sa Instagram, pagkatapos ay i-tap ang \"I-save\" upang matapos.",
+  "loginChecking": "Sinusuri ang pag-login...",
+  "loginCannotConfirm": "Hindi makumpirma ang pag-login.\nMangyaring mag-log in sa Instagram at subukang mag-save muli.",
+  "loginSaveError": "Nagkaroon ng error habang sine-save ang impormasyon sa pag-log in. Pakisubukang muli.",
+  "loginLoggingOut": "Nagla-log out...",
+  "loginLoggedOut": "Nag-log out ka sa Instagram.\nMangyaring mag-log in muli upang magpatuloy.",
+  "loginSuccessPrompt": "Matagumpay ang pag-log in.\nI-tap ang \"I-save\" para matapos.",
+  "loginPromptOnLoginPage": "Mag-log in sa Instagram, pagkatapos ay i-tap ang \"I-save\" upang matapos.",
+  "loginPromptSaveBottom": "Kung tapos ka nang mag-log in, i-tap ang \"I-save\" sa ibaba.",
+  "loginPageTitle": "Mag-log in sa Instagram",
+  "loginOpeningInstagramWithHint": "Pagbubukas Instagram...\nPagkatapos mag-log in, i-tap ang \"I-save\".",
+  "loginOpenFailed": "Hindi mabuksan Instagram.\nPakisuri ang iyong koneksyon sa internet at subukang muli.",
+  "profileSavedMissingUsername": "Walang username ang naka-save na profile.",
+  "openingProfile": "Binubuksan ang profile...",
+  "openingUsername": "Binubuksan ang @{username}...",
+  "@openingUsername": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryHighlightsAndPosts": "Nakahanap ng {storyCount} Story/Highlight item at {postCount} post.",
+  "@foundStoryHighlightsAndPosts": {
+    "placeholders": {
+      "storyCount": {
+        "type": "int"
+      },
+      "postCount": {
+        "type": "int"
+      }
+    }
+  },
+  "privateModeEnabled": "Pinagana ang Private mode.",
+  "publicModeEnabled": "Bumalik sa Public mode.",
+  "cannotConfirmInstagramLogin": "Hindi makumpirma ang Instagram login. Mangyaring mag-log in muli.",
+  "instagramConnected": "Instagram nakakonekta ang account.",
+  "loggingOutInstagram": "Nagla-log out sa Instagram...",
+  "instagramLoggedOut": "Nag-log out ka sa Instagram.",
+  "instagramLogoutCleanupFailed": "Nag-log out sa Instagram, ngunit nagkaroon ng error sa pag-clear ng data sa pag-log in.",
+  "emptyInstagramLink": "Mangyaring magpasok ng Instagram link.",
+  "preparingContent": "Inihahanda ang nilalaman...",
+  "loadingContentWithAccount": "Naglo-load ng content gamit ang konektadong account...",
+  "cannotFetchContent": "Hindi makakuha ng nilalaman.",
+  "noDownloadableContentFound": "Walang nakitang nada-download na nilalaman.",
+  "foundDownloadableContent": "Nakakita ng {count} nada-download na mga item.",
+  "@foundDownloadableContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "fetchContentFailedPublic": "Hindi makakuha ng nilalaman. Pakisuri ang link o subukang muli.",
+  "fetchContentFailedPrivate": "Hindi makakuha ng nilalaman. Mangyaring suriin ang pahintulot sa pagtingin o mag-log in muli.",
+  "emptyProfileInput": "Mangyaring magpasok ng Instagram profile.",
+  "loadingStoryHighlights": "Naglo-load ng Stories at Highlights...",
+  "noCurrentStoryOrHighlight": "Walang nakitang kasalukuyang kwento o highlight.",
+  "foundStoryHighlights": "Nakakita ng {count} Story/Highlight item.",
+  "@foundStoryHighlights": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotOpenContent": "Hindi mabuksan ang nilalamang ito.",
+  "openingStoryGroup": "Binubuksan ang \"{title}\"...",
+  "@openingStoryGroup": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryGroupItems": "Nakakita ng {count} aytem sa \"{title}\".",
+  "@foundStoryGroupItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "cannotOpenStoryHighlightLogin": "Hindi mabuksan ang Story o Highlight. Mangyaring mag-log in at subukang muli.",
+  "cannotOpenStoryHighlightPermission": "Hindi mabuksan ang Story o Highlight. Pakitingnan ang pahintulot sa panonood.",
+  "cannotDownloadContent": "Hindi ma-download ang nilalamang ito.",
+  "downloadingStory": "Nagda-download ng kuwento...",
+  "savedStoryToAlbum": "Nai-save na item ng kuwento sa album {albumName}.",
+  "@savedStoryToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadStoryFailed": "Story Nabigo ang pag-download. Pakisubukang muli.",
+  "loadingReelsPublic": "Pagkuha ng mga reel...",
+  "loadingReelsPrivate": "Naglo-load ng mga reel...",
+  "noReelsOrPermission": "Walang nakitang Reel, o wala kang pahintulot na tingnan ang mga ito.",
+  "foundReels": "Nakahanap ng {count} Reels.",
+  "@foundReels": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadReelsPublic": "Hindi ma-load ang mga Reel. Pakisuri ang profile o subukang muli.",
+  "cannotLoadReelsPrivate": "Hindi ma-load ang mga Reels. Pakitingnan ang pahintulot sa panonood.",
+  "loadingPostsPublic": "Pagkuha ng mga larawan/post...",
+  "loadingPostsPrivate": "Naglo-load ng mga larawan/post...",
+  "noPostsOrPermission": "Walang nakitang mga larawan/post, o wala kang pahintulot na tingnan ang mga ito.",
+  "foundPosts": "Nakahanap ng {count} mga larawan/post.",
+  "@foundPosts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadPostsPublic": "Hindi ma-load ang mga post. Pakisuri ang profile o subukang muli.",
+  "cannotLoadPostsPrivate": "Hindi ma-load ang mga post. Pakitingnan ang pahintulot sa panonood.",
+  "cannotLoadMoreContent": "Hindi makapag-load ng higit pang nilalaman.",
+  "cannotLoadMoreProfile": "Hindi makapag-load ng higit pa. Mangyaring ipasok muli ang profile.",
+  "noMoreNewContent": "Wala nang bagong nilalaman.",
+  "loadedMoreContent": "Nag-load ng {count} higit pang mga item.",
+  "@loadedMoreContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadMoreFailed": "Nabigo ang pag-load. Pakisubukang muli.",
+  "openingReel": "Pagbubukas Reel...",
+  "openingPost": "Pagbubukas ng post...",
+  "cannotOpenContentPermission": "Hindi mabuksan ang nilalamang ito. Pakitingnan ang pahintulot sa panonood o subukang muli.",
+  "downloadingContent": "Pag-download ng nilalaman...",
+  "savedToAlbum": "Naka-save sa album {albumName}.",
+  "@savedToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "savedContentToAlbum": "Naka-save na nilalaman sa album {albumName}.",
+  "@savedContentToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadContentErrorRetry": "Nabigo ang pag-download ng nilalaman. I-tap para subukang muli.",
+  "downloadHistoryCleared": "Na-clear ang history ng pag-download.",
+  "downloadHistoryItemsRemoved": "Inalis ang {count} item sa history.",
+  "@downloadHistoryItemsRemoved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "downloadConnectionSlow": "Nabigo ang pag-download dahil sa mabagal na koneksyon. I-tap para subukang muli.",
+  "downloadNetworkUnavailable": "Hindi makakonekta sa network/CDN. Suriin ang iyong network at subukang muli.",
+  "downloadCancelled": "Nakansela ang pag-download.",
+  "downloadGenericError": "Nabigo ang pag-download. I-tap para subukang muli.",
+  "downloadProgress": "Nagda-download ng content: {percent}%",
+  "@downloadProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  }
+}

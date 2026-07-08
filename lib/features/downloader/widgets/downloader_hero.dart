@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../cubit/downloader_state.dart';
 
 class DownloaderHero extends StatefulWidget {
@@ -44,7 +45,9 @@ class _DownloaderHeroState extends State<DownloaderHero>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final color = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return AnimatedBuilder(
       animation: _controller,
@@ -60,14 +63,23 @@ class _DownloaderHeroState extends State<DownloaderHero>
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(22),
                 gradient: LinearGradient(
-                  colors: [
-                    color.primary,
-                    color.tertiary,
-                    color.secondary,
-                    color.primary.withOpacity(0.82),
-                    color.tertiary.withOpacity(0.90),
-                    color.secondary.withOpacity(0.92),
-                  ],
+                  colors: isDark
+                      ? const [
+                          Color(0xFF171A12),
+                          Color(0xFF242016),
+                          Color(0xFF1A222C),
+                          Color(0xFF0B1015),
+                          Color(0xFF18130D),
+                          Color(0xFF070A0D),
+                        ]
+                      : [
+                          color.primary,
+                          color.tertiary,
+                          color.secondary,
+                          color.primary.withOpacity(0.82),
+                          color.tertiary.withOpacity(0.90),
+                          color.secondary.withOpacity(0.92),
+                        ],
                   stops: const [0.0, 0.22, 0.48, 0.70, 0.84, 1.0],
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
@@ -146,9 +158,9 @@ class _DownloaderHeroState extends State<DownloaderHero>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 28),
-                      const Text(
-                        'Tải nội dung từ Instagram',
-                        style: TextStyle(
+                      Text(
+                        l10n.heroTitle,
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20,
                           height: 1.08,
@@ -158,8 +170,8 @@ class _DownloaderHeroState extends State<DownloaderHero>
                       const SizedBox(height: 8),
                       Text(
                         widget.state.hasPrivateCookie
-                            ? 'Instagram đã được kết nối.'
-                            : 'Tải ảnh, reel, story cực nhanh và đơn giản.',
+                            ? l10n.heroConnected
+                            : l10n.heroDescription,
                         style: TextStyle(
                           color: Colors.white.withOpacity(0.90),
                           fontSize: 12,

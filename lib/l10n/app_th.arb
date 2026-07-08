@@ -1,0 +1,339 @@
+{
+  "@@locale": "th",
+  "appName": "IG Downloader",
+  "cancel": "ยกเลิก",
+  "save": "บันทึก",
+  "login": "เข้าสู่ระบบ",
+  "logout": "ออกจากระบบ",
+  "understood": "เข้าใจแล้ว",
+  "delete": "ลบ",
+  "deleteAll": "ลบทั้งหมด",
+  "share": "แบ่งปัน",
+  "download": "ดาวน์โหลด",
+  "downloadAgain": "ดาวน์โหลดอีกครั้ง",
+  "saved": "ดาวน์โหลดแล้ว",
+  "loading": "กำลังโหลด",
+  "apply": "นำมาใช้",
+  "frequentProfilesTitle": "โปรไฟล์ที่ดูล่าสุด",
+  "frequentProfilesEmptyTitle": "ยังไม่มีโปรไฟล์",
+  "frequentProfilesEmptyMessage": "โปรไฟล์ที่คุณดูจะปรากฏที่นี่",
+  "account": "บัญชี",
+  "downloadHistoryTitle": "ประวัติการดาวน์โหลด",
+  "downloadHistoryEmptyTitle": "ยังไม่มีเนื้อหา",
+  "downloadHistoryEmptyMessage": "คุณยังไม่ได้ดาวน์โหลดเนื้อหาใดๆ",
+  "selectedCount": "{count} เลือกแล้ว",
+  "@selectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteAllHistoryTitle": "ลบประวัติทั้งหมดใช่ไหม",
+  "deleteAllHistoryMessage": "รายการทั้งหมดในประวัติการดาวน์โหลดของคุณจะถูกลบออกจากแอป",
+  "deleteSelectedTitle": "ลบ {count} รายการหรือไม่",
+  "@deleteSelectedTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteSelectedOneMessage": "รายการที่เลือกจะถูกลบออกจากประวัติการดาวน์โหลดของคุณ",
+  "deleteSelectedManyMessage": "{count} รายการที่เลือกจะถูกลบออกจากประวัติการดาวน์โหลดของคุณ",
+  "@deleteSelectedManyMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteOneTitle": "ลบรายการนี้ใช่ไหม",
+  "deleteOneMessage": "รายการนี้จะถูกลบออกจากประวัติการดาวน์โหลดของคุณ",
+  "cannotShareFileMissing": "ไม่สามารถแบ่งปันได้ ไฟล์ไม่มีอยู่ในอุปกรณ์นี้แล้ว",
+  "cannotShareContent": "ไม่สามารถแบ่งปันเนื้อหานี้ได้",
+  "cannotSaveAgainFileMissing": "ไม่สามารถบันทึกอีกครั้งได้ ไฟล์ไม่มีอยู่ในอุปกรณ์นี้แล้ว",
+  "savedAgainToGallery": "บันทึกอีกครั้งในแกลเลอรี",
+  "cannotSaveAgainContent": "ไม่สามารถบันทึกเนื้อหานี้อีกครั้ง",
+  "cannotOpenFileMissing": "ไม่สามารถเปิดเนื้อหานี้ได้ ไฟล์ไม่มีอยู่ในอุปกรณ์นี้แล้ว",
+  "video": "วีดีโอ",
+  "image": "รูปถ่าย",
+  "content": "เนื้อหา",
+  "justDownloaded": "เพิ่งดาวน์โหลด",
+  "heroTitle": "ดาวน์โหลดเนื้อหาจาก Instagram",
+  "heroConnected": "Instagram เชื่อมต่ออยู่",
+  "heroDescription": "ดาวน์โหลดรูปภาพ ม้วนฟิล์ม และเรื่องราวได้อย่างรวดเร็วและง่ายดาย",
+  "downloadByLink": "ดาวน์โหลดได้ตามลิงค์",
+  "invalidLinkTitle": "ลิงก์ไม่ถูกต้อง",
+  "invalidLinkMessage": "โปรดป้อนลิงก์ Instagram สำหรับโพสต์ Reel Story หรือวิดีโอที่คุณต้องการดาวน์โหลด",
+  "downloadByLinkInfo1": "ใช้สิ่งนี้เมื่อคุณมีลิงก์ไปยังโพสต์ Instagram, Reel, Story หรือ Highlight อยู่แล้ว",
+  "downloadByLinkInfo2": "วางลิงก์แล้วแอปจะตรวจสอบเนื้อหาและให้คุณดาวน์โหลด",
+  "example": "ตัวอย่าง:",
+  "enterInstagramLink": "ป้อน Instagram ลิงก์",
+  "instagramLinkHint": "https://www.instagram.com/p/... หรือ /reel/...",
+  "pasteInstagramLinkHint": "วางลิงก์ Instagram เพื่อตรวจสอบและดาวน์โหลดเนื้อหาที่คุณต้องการ",
+  "openInstagram": "เปิด Instagram",
+  "getContent": "รับเนื้อหา",
+  "explainFeature": "อธิบายคุณสมบัติ",
+  "downloadFromProfile": "ดาวน์โหลดจากโปรไฟล์",
+  "invalidProfileTitle": "ข้อมูลไม่ถูกต้อง",
+  "invalidProfileMessage": "โปรดป้อน Instagram ชื่อผู้ใช้หรือลิงก์โปรไฟล์",
+  "profileInfo1": "ใช้ตัวเลือกนี้เมื่อคุณต้องการดูและดาวน์โหลดหลายรายการจากบัญชี Instagram",
+  "profileInfo2": "ป้อนชื่อผู้ใช้หรือลิงก์โปรไฟล์ จากนั้นเลือก Story Reels หรือโพสต์ที่คุณต้องการดาวน์โหลด",
+  "profileInputLabel": "ชื่อผู้ใช้หรือลิงค์โปรไฟล์",
+  "profileInputHint": "ตัวอย่าง: @username หรือ instagram.com/username",
+  "profileCardDescription": "ป้อนชื่อผู้ใช้หรือลิงก์โปรไฟล์เพื่อดู Stories, Reels และโพสต์ที่ดาวน์โหลดได้",
+  "story": "Story",
+  "storiesHighlights": "Stories / Highlightส",
+  "reels": "ส",
+  "posts": "กระทู้",
+  "photosPosts": "รูปภาพ / โพสต์",
+  "photosVideos": "ภาพถ่าย / วิดีโอ",
+  "profileSummary": "สรุปโปรไฟล์",
+  "storyModeHint": "ป้อนโปรไฟล์เพื่อดู Stories และ Highlights ที่ดาวน์โหลดได้",
+  "reelsModeHint": "ป้อนโปรไฟล์เพื่อดูรายการ Reel",
+  "postsModeHint": "ป้อนโปรไฟล์เพื่อดูโพสต์ที่ดาวน์โหลดได้",
+  "storyPopupTitle": "ดาวน์โหลด Stories จากโปรไฟล์",
+  "reelsPopupTitle": "ดาวน์โหลดจากโปรไฟล์",
+  "postsPopupTitle": "ดาวน์โหลดโพสต์จากโปรไฟล์",
+  "viewStory": "ดู Story",
+  "viewReels": "ดู Reels",
+  "viewPosts": "ดูโพสต์",
+  "noStoryOrHighlightAll": "ไม่พบ Story หรือ Highlight เข้าสู่ระบบหากเนื้อหาต้องได้รับอนุญาตในการดู",
+  "noStoryOrHighlightInput": "ไม่พบ Story หรือ Highlight ป้อนโปรไฟล์ Instagram เพื่อตรวจสอบ",
+  "noStoryItems": "ไม่มีเนื้อหาที่จะแสดง หรือคุณไม่ได้รับอนุญาตให้ดูรายการนี้",
+  "noFeedAll": "ไม่พบโพสต์หรือวิดีโอ เข้าสู่ระบบหากเนื้อหาต้องได้รับอนุญาตในการดู",
+  "noFeedInput": "ยังไม่มีเนื้อหา เลือก Reels หรือ โพสต์ จากนั้นป้อนโปรไฟล์",
+  "endOfContent": "คุณมาถึงจุดสิ้นสุดของเนื้อหาแล้ว",
+  "loadMore": "โหลดเพิ่ม",
+  "loadingMore": "กำลังโหลดเพิ่มเติม...",
+  "cannotShowPostContent": "ไม่สามารถแสดงเนื้อหาในโพสต์นี้ได้",
+  "chooseItemToDownload": "เลือกรายการที่จะดาวน์โหลด",
+  "contentCount": "{count} รายการ",
+  "@contentCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chooseThemeColor": "เลือกสีของธีม",
+  "themeDefault": "ค่าเริ่มต้น",
+  "themeVivid": "สดใส",
+  "themePink": "สีชมพูมันวาว",
+  "themeBlue": "ฟ้าอ่อน",
+  "themeRed": "สีแดง",
+  "themeDark": "มืด",
+  "loginRequiredTitle": "ต้องเข้าสู่ระบบ",
+  "followRequiredTitle": "ต้องติดตาม",
+  "followRequiredMessage": "บัญชีที่เข้าสู่ระบบไม่ได้รับอนุญาตให้ดูเนื้อหานี้",
+  "downloadSuccessMessage": "ดาวน์โหลดสำเร็จแล้ว",
+  "viewHistory": "ดูประวัติ",
+  "frequentAccessTooltip": "เข้าถึงได้บ่อยครั้ง",
+  "recentDownloadsTooltip": "ดาวน์โหลดล่าสุด",
+  "changeThemeTooltip": "เปลี่ยนธีม",
+  "settingsTitle": "การตั้งค่า",
+  "themeSettingTitle": "ธีม",
+  "languageSettingTitle": "ภาษา",
+  "chooseLanguageTitle": "เลือกภาษาของคุณ",
+  "languageVietnameseNative": "Ti?ng Vi?t",
+  "languageVietnameseLocal": "Vietnamese",
+  "languageEnglishNative": "English",
+  "languageEnglishLocal": "English",
+  "sessionModeTitle": "โหมดดาวน์โหลด",
+  "sessionPublicMode": "Public",
+  "sessionPrivateMode": "Private",
+  "sessionPrivateConnected": "บัญชี Instagram ของคุณเชื่อมต่อแล้ว",
+  "sessionPrivatePrompt": "เข้าสู่ระบบ Instagram เพื่อดาวน์โหลดเนื้อหาที่บัญชีของคุณได้รับอนุญาตให้ดู",
+  "sessionPublicPrompt": "คุณกำลังดาวน์โหลดเนื้อหาสาธารณะโดยไม่ได้เข้าสู่ระบบ",
+  "profileReelsListTitle": "Reel รายการวิดีโอ",
+  "profilePostsListTitle": "รูปภาพ / รายการโพสต์",
+  "close": "ปิด",
+  "instagramHome": "Instagram บ้าน",
+  "selectThisContent": "เลือกเนื้อหานี้",
+  "manualOpeningInstagram": "กำลังเปิด Instagram...",
+  "manualInstruction": "เปิดโพสต์ Reel, Story หรือ Highlight ที่คุณต้องการดาวน์โหลด จากนั้นแตะ \"เลือกเนื้อหานี้\"",
+  "manualPickedContent": "เลือกเนื้อหาแล้ว แตะ \"เลือกเนื้อหานี้\" เพื่อดำเนินการต่อ",
+  "manualNoDownloadableContent": "ไม่พบเนื้อหาที่ดาวน์โหลดได้ เปิดโพสต์ Reel, Story หรือ Highlight",
+  "manualCloseToExit": "เพื่อหลีกเลี่ยงการสูญเสียเนื้อหาที่เลือก ให้แตะ \"ปิด\" หากคุณต้องการออก",
+  "loginOpeningInstagram": "กำลังเปิด Instagram... กรุณารอสักครู่.",
+  "loginInstruction": "เข้าสู่ระบบ Instagram จากนั้นแตะ \"บันทึก\" เพื่อเสร็จสิ้น",
+  "loginChecking": "กำลังตรวจสอบการเข้าสู่ระบบ...",
+  "loginCannotConfirm": "ไม่สามารถยืนยันการเข้าสู่ระบบได้\nโปรดเข้าสู่ระบบ Instagram และลองบันทึกอีกครั้ง",
+  "loginSaveError": "เกิดข้อผิดพลาดขณะบันทึกข้อมูลการเข้าสู่ระบบ โปรดลองอีกครั้ง",
+  "loginLoggingOut": "กำลังออกจากระบบ...",
+  "loginLoggedOut": "คุณได้ออกจากระบบ Instagram\nกรุณาเข้าสู่ระบบอีกครั้งเพื่อดำเนินการต่อ",
+  "loginSuccessPrompt": "เข้าสู่ระบบสำเร็จ\nแตะ \"บันทึก\" เพื่อเสร็จสิ้น",
+  "loginPromptOnLoginPage": "เข้าสู่ระบบ Instagram จากนั้นแตะ \"บันทึก\" เพื่อเสร็จสิ้น",
+  "loginPromptSaveBottom": "หากคุณเข้าสู่ระบบเสร็จแล้ว ให้แตะ \"บันทึก\" ด้านล่าง",
+  "loginPageTitle": "เข้าสู่ระบบ Instagram",
+  "loginOpeningInstagramWithHint": "กำลังเปิด Instagram...\nหลังจากเข้าสู่ระบบแล้ว ให้แตะ \"บันทึก\"",
+  "loginOpenFailed": "ไม่สามารถเปิด Instagram\nโปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณแล้วลองอีกครั้ง",
+  "profileSavedMissingUsername": "โปรไฟล์ที่บันทึกไว้ไม่มีชื่อผู้ใช้",
+  "openingProfile": "กำลังเปิดโปรไฟล์...",
+  "openingUsername": "กำลังเปิด @{username}...",
+  "@openingUsername": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryHighlightsAndPosts": "พบ {storyCount} Story/Highlight รายการและ {postCount} โพสต์",
+  "@foundStoryHighlightsAndPosts": {
+    "placeholders": {
+      "storyCount": {
+        "type": "int"
+      },
+      "postCount": {
+        "type": "int"
+      }
+    }
+  },
+  "privateModeEnabled": "เปิดใช้งานโหมดแล้ว",
+  "publicModeEnabled": "เปลี่ยนกลับเป็นโหมด Public",
+  "cannotConfirmInstagramLogin": "ไม่สามารถยืนยัน Instagram เข้าสู่ระบบได้ กรุณาเข้าสู่ระบบอีกครั้ง",
+  "instagramConnected": "Instagram เชื่อมต่อบัญชีแล้ว",
+  "loggingOutInstagram": "กำลังออกจากระบบ Instagram...",
+  "instagramLoggedOut": "คุณได้ออกจากระบบ Instagram",
+  "instagramLogoutCleanupFailed": "ออกจากระบบ Instagram แต่มีข้อผิดพลาดในการล้างข้อมูลเข้าสู่ระบบ",
+  "emptyInstagramLink": "โปรดป้อนลิงก์ Instagram",
+  "preparingContent": "กำลังเตรียมเนื้อหา...",
+  "loadingContentWithAccount": "กำลังโหลดเนื้อหาด้วยบัญชีที่เชื่อมต่อ...",
+  "cannotFetchContent": "ไม่สามารถดึงเนื้อหาได้",
+  "noDownloadableContentFound": "ไม่พบเนื้อหาที่ดาวน์โหลดได้",
+  "foundDownloadableContent": "พบ {count} รายการที่ดาวน์โหลดได้",
+  "@foundDownloadableContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "fetchContentFailedPublic": "ไม่สามารถดึงเนื้อหาได้ โปรดตรวจสอบลิงก์หรือลองอีกครั้ง",
+  "fetchContentFailedPrivate": "ไม่สามารถดึงเนื้อหาได้ โปรดตรวจสอบสิทธิ์ในการดูหรือเข้าสู่ระบบอีกครั้ง",
+  "emptyProfileInput": "โปรดป้อนโปรไฟล์ Instagram",
+  "loadingStoryHighlights": "กำลังโหลด Stories และ Highlights...",
+  "noCurrentStoryOrHighlight": "ไม่พบเรื่องราวหรือไฮไลท์ในปัจจุบัน",
+  "foundStoryHighlights": "พบ {count} Story/Highlight รายการ",
+  "@foundStoryHighlights": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotOpenContent": "ไม่สามารถเปิดเนื้อหานี้ได้",
+  "openingStoryGroup": "กำลังเปิด \"{title}\"...",
+  "@openingStoryGroup": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryGroupItems": "พบ {count} รายการใน \"{title}\"",
+  "@foundStoryGroupItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "cannotOpenStoryHighlightLogin": "ไม่สามารถเปิด Story หรือ Highlight กรุณาเข้าสู่ระบบและลองอีกครั้ง",
+  "cannotOpenStoryHighlightPermission": "ไม่สามารถเปิด Story หรือ Highlight โปรดตรวจสอบสิทธิ์ในการรับชม",
+  "cannotDownloadContent": "ไม่สามารถดาวน์โหลดเนื้อหานี้ได้",
+  "downloadingStory": "กำลังดาวน์โหลดเรื่องราว...",
+  "savedStoryToAlbum": "บันทึกรายการเรื่องราวลงในอัลบั้ม {albumName}",
+  "@savedStoryToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadStoryFailed": "การดาวน์โหลดล้มเหลว โปรดลองอีกครั้ง",
+  "loadingReelsPublic": "กำลังดึงวงล้อ...",
+  "loadingReelsPrivate": "กำลังโหลดม้วน...",
+  "noReelsOrPermission": "ไม่พบ หรือคุณไม่ได้รับอนุญาตให้ดู",
+  "foundReels": "พบ {count} Reels.",
+  "@foundReels": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadReelsPublic": "ไม่สามารถโหลดได้ โปรดตรวจสอบโปรไฟล์หรือลองอีกครั้ง",
+  "cannotLoadReelsPrivate": "ไม่สามารถโหลดได้ โปรดตรวจสอบสิทธิ์ในการรับชม",
+  "loadingPostsPublic": "กำลังเรียกรูปภาพ/โพสต์...",
+  "loadingPostsPrivate": "กำลังโหลดรูปภาพ/โพสต์...",
+  "noPostsOrPermission": "ไม่พบรูปภาพ/โพสต์ หรือคุณไม่ได้รับอนุญาตให้ดู",
+  "foundPosts": "พบ {count} รูปภาพ/โพสต์",
+  "@foundPosts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadPostsPublic": "โหลดกระทู้ไม่ได้ โปรดตรวจสอบโปรไฟล์หรือลองอีกครั้ง",
+  "cannotLoadPostsPrivate": "โหลดกระทู้ไม่ได้ โปรดตรวจสอบสิทธิ์ในการรับชม",
+  "cannotLoadMoreContent": "ไม่สามารถโหลดเนื้อหาเพิ่มเติมได้",
+  "cannotLoadMoreProfile": "ไม่สามารถโหลดเพิ่มเติมได้ กรุณากรอกรายละเอียดอีกครั้ง",
+  "noMoreNewContent": "ไม่มีเนื้อหาใหม่อีกต่อไป",
+  "loadedMoreContent": "โหลด {count} รายการเพิ่มเติมแล้ว",
+  "@loadedMoreContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadMoreFailed": "โหลดเพิ่มเติมล้มเหลว โปรดลองอีกครั้ง",
+  "openingReel": "กำลังเปิด Reel...",
+  "openingPost": "กำลังเปิดโพสต์...",
+  "cannotOpenContentPermission": "ไม่สามารถเปิดเนื้อหานี้ได้ โปรดตรวจสอบสิทธิ์ในการดูหรือลองอีกครั้ง",
+  "downloadingContent": "กำลังดาวน์โหลดเนื้อหา...",
+  "savedToAlbum": "บันทึกไว้ในอัลบั้ม {albumName}",
+  "@savedToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "savedContentToAlbum": "เนื้อหาที่บันทึกไว้ในอัลบั้ม {albumName}",
+  "@savedContentToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadContentErrorRetry": "การดาวน์โหลดเนื้อหาล้มเหลว แตะเพื่อลองอีกครั้ง",
+  "downloadHistoryCleared": "ล้างประวัติการดาวน์โหลดแล้ว",
+  "downloadHistoryItemsRemoved": "ลบ {count} รายการออกจากประวัติ",
+  "@downloadHistoryItemsRemoved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "downloadConnectionSlow": "การดาวน์โหลดล้มเหลวเนื่องจากการเชื่อมต่อช้า แตะเพื่อลองอีกครั้ง",
+  "downloadNetworkUnavailable": "ไม่สามารถเชื่อมต่อกับเครือข่าย/CDN ตรวจสอบเครือข่ายของคุณแล้วลองอีกครั้ง",
+  "downloadCancelled": "การดาวน์โหลดถูกยกเลิก",
+  "downloadGenericError": "การดาวน์โหลดล้มเหลว แตะเพื่อลองอีกครั้ง",
+  "downloadProgress": "กำลังดาวน์โหลดเนื้อหา: {percent}%",
+  "@downloadProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  }
+}

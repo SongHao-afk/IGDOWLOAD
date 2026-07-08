@@ -1,0 +1,339 @@
+{
+  "@@locale": "it",
+  "appName": "IG Downloader",
+  "cancel": "Cancellare",
+  "save": "Salva",
+  "login": "Login",
+  "logout": "Esci",
+  "understood": "Fatto",
+  "delete": "Eliminare",
+  "deleteAll": "Elimina tutto",
+  "share": "Condividere",
+  "download": "Scaricamento",
+  "downloadAgain": "Scarica di nuovo",
+  "saved": "Scaricato",
+  "loading": "Caricamento",
+  "apply": "Fare domanda a",
+  "frequentProfilesTitle": "Profili visualizzati di recente",
+  "frequentProfilesEmptyTitle": "Nessun profilo ancora",
+  "frequentProfilesEmptyMessage": "I profili che hai visualizzato appariranno qui.",
+  "account": "Account",
+  "downloadHistoryTitle": "Scarica la cronologia",
+  "downloadHistoryEmptyTitle": "Nessun contenuto ancora",
+  "downloadHistoryEmptyMessage": "Non hai ancora scaricato alcun contenuto",
+  "selectedCount": "{count} selezionato",
+  "@selectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteAllHistoryTitle": "Eliminare tutta la cronologia?",
+  "deleteAllHistoryMessage": "Tutti gli elementi nella cronologia dei download verranno rimossi dall'app.",
+  "deleteSelectedTitle": "Eliminare {count} elementi?",
+  "@deleteSelectedTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteSelectedOneMessage": "L'elemento selezionato verrà rimosso dalla cronologia dei download.",
+  "deleteSelectedManyMessage": "{count} gli elementi selezionati verranno rimossi dalla cronologia dei download.",
+  "@deleteSelectedManyMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteOneTitle": "Eliminare questo elemento?",
+  "deleteOneMessage": "Questo elemento verrà rimosso dalla cronologia dei download.",
+  "cannotShareFileMissing": "Impossibile condividere. Il file non esiste più su questo dispositivo.",
+  "cannotShareContent": "Impossibile condividere questo contenuto.",
+  "cannotSaveAgainFileMissing": "Impossibile salvare di nuovo. Il file non esiste più su questo dispositivo.",
+  "savedAgainToGallery": "Salvato di nuovo nella galleria.",
+  "cannotSaveAgainContent": "Impossibile salvare nuovamente questo contenuto.",
+  "cannotOpenFileMissing": "Impossibile aprire questo contenuto. Il file non esiste più su questo dispositivo.",
+  "video": "Video",
+  "image": "Foto",
+  "content": "Contenuto",
+  "justDownloaded": "Appena scaricato",
+  "heroTitle": "Scarica contenuti da Instagram",
+  "heroConnected": "Instagram è connesso.",
+  "heroDescription": "Scarica foto, filmati e storie in modo rapido e semplice.",
+  "downloadByLink": "Scarica tramite collegamento",
+  "invalidLinkTitle": "Link non valido",
+  "invalidLinkMessage": "Inserisci il collegamento Instagram per il post, Reel, Story o video che desideri scaricare.",
+  "downloadByLinkInfo1": "Utilizza questo quando hai già un collegamento a un Instagram post, Reel, Story o Highlight.",
+  "downloadByLinkInfo2": "Incolla il collegamento e l'app controllerà il contenuto e ti consentirà di scaricarlo.",
+  "example": "Esempio:",
+  "enterInstagramLink": "Inserisci Instagram collegamento",
+  "instagramLinkHint": "https://www.instagram.com/p/... o /reel/...",
+  "pasteInstagramLinkHint": "Incolla un collegamento Instagram per verificare e scaricare il contenuto desiderato.",
+  "openInstagram": "Apri Instagram",
+  "getContent": "Ottieni contenuto",
+  "explainFeature": "Spiega funzionalità",
+  "downloadFromProfile": "Scarica dal profilo",
+  "invalidProfileTitle": "Informazioni non valide",
+  "invalidProfileMessage": "Inserisci un nome utente o un collegamento al profilo Instagram.",
+  "profileInfo1": "Utilizza questo quando desideri visualizzare e scaricare più elementi da un account Instagram.",
+  "profileInfo2": "Inserisci un nome utente o un collegamento al profilo, quindi scegli Story, Reel o post che desideri scaricare.",
+  "profileInputLabel": "Nome utente o collegamento al profilo",
+  "profileInputHint": "Esempio: @nomeutente o instagram.com/nomeutente",
+  "profileCardDescription": "Inserisci un nome utente o un collegamento al profilo per visualizzare Stories, Reels e post scaricabili.",
+  "story": "Story",
+  "storiesHighlights": "Stories / Highlights",
+  "reels": "Reels",
+  "posts": "Post",
+  "photosPosts": "Foto/Post",
+  "photosVideos": "Foto/Video",
+  "profileSummary": "Riepilogo profilo",
+  "storyModeHint": "Inserisci un profilo per visualizzare Stories e Highlights scaricabili.",
+  "reelsModeHint": "Inserisci un profilo per visualizzare l'elenco Reel.",
+  "postsModeHint": "Inserisci un profilo per visualizzare i post scaricabili.",
+  "storyPopupTitle": "Scarica Stories dal profilo",
+  "reelsPopupTitle": "Scarica Reel dal profilo",
+  "postsPopupTitle": "Scarica post dal profilo",
+  "viewStory": "Visualizza Story",
+  "viewReels": "Visualizza Reels",
+  "viewPosts": "Visualizza post",
+  "noStoryOrHighlightAll": "Nessun Story o Highlight trovato. Accedi se il contenuto richiede l'autorizzazione alla visualizzazione.",
+  "noStoryOrHighlightInput": "Nessun Story o Highlight trovato. Inserisci un profilo Instagram da controllare.",
+  "noStoryItems": "Non ci sono contenuti da visualizzare o non hai l'autorizzazione per visualizzare questo elemento.",
+  "noFeedAll": "Nessun post o video trovato. Accedi se il contenuto richiede l'autorizzazione alla visualizzazione.",
+  "noFeedInput": "Ancora nessun contenuto. Scegli Reels o Post, quindi inserisci un profilo.",
+  "endOfContent": "Hai raggiunto la fine del contenuto.",
+  "loadMore": "Carica altro",
+  "loadingMore": "Caricamento altro...",
+  "cannotShowPostContent": "Impossibile visualizzare il contenuto di questo post.",
+  "chooseItemToDownload": "Scegli un elemento da scaricare",
+  "contentCount": "{count} articoli",
+  "@contentCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chooseThemeColor": "Scegli il colore del tema",
+  "themeDefault": "Predefinito",
+  "themeVivid": "Vivido",
+  "themePink": "Rosa lucido",
+  "themeBlue": "Azzurro",
+  "themeRed": "Rosso",
+  "themeDark": "Buio",
+  "loginRequiredTitle": "È richiesto l'accesso",
+  "followRequiredTitle": "Seguire obbligatorio",
+  "followRequiredMessage": "L'account che ha effettuato l'accesso non dispone dell'autorizzazione per visualizzare questo contenuto.",
+  "downloadSuccessMessage": "Scaricato con successo.",
+  "viewHistory": "Visualizza la cronologia",
+  "frequentAccessTooltip": "Accesso frequente",
+  "recentDownloadsTooltip": "Download recenti",
+  "changeThemeTooltip": "Cambia tema",
+  "settingsTitle": "Impostazioni",
+  "themeSettingTitle": "Tema",
+  "languageSettingTitle": "Lingua",
+  "chooseLanguageTitle": "Scegli la tua lingua",
+  "languageVietnameseNative": "Tiếng Việt",
+  "languageVietnameseLocal": "Vietnamese",
+  "languageEnglishNative": "English",
+  "languageEnglishLocal": "English",
+  "sessionModeTitle": "Modalità di download",
+  "sessionPublicMode": "Public",
+  "sessionPrivateMode": "Private",
+  "sessionPrivateConnected": "Il tuo account Instagram è collegato.",
+  "sessionPrivatePrompt": "Accedi a Instagram per scaricare i contenuti che il tuo account può visualizzare.",
+  "sessionPublicPrompt": "Stai scaricando contenuti pubblici senza effettuare l'accesso.",
+  "profileReelsListTitle": "Reel elenco dei video",
+  "profilePostsListTitle": "Elenco foto/post",
+  "close": "Vicino",
+  "instagramHome": "Instagram casa",
+  "selectThisContent": "Seleziona questo contenuto",
+  "manualOpeningInstagram": "Apertura Instagram...",
+  "manualInstruction": "Apri il post, Reel, Story o Highlight che desideri scaricare, quindi tocca \"Seleziona questo contenuto\".",
+  "manualPickedContent": "Contenuto selezionato. Tocca \"Seleziona questo contenuto\" per continuare.",
+  "manualNoDownloadableContent": "Nessun contenuto scaricabile trovato. Apri un post, Reel, Story o Highlight.",
+  "manualCloseToExit": "Per evitare di perdere il contenuto selezionato, toccare \"Chiudi\" se si desidera uscire.",
+  "loginOpeningInstagram": "Apertura Instagram... Attendere.",
+  "loginInstruction": "Accedi a Instagram, quindi tocca \"Salva\" per terminare.",
+  "loginChecking": "Verifica accesso...",
+  "loginCannotConfirm": "Impossibile confermare l'accesso.\nAccedi a Instagram e prova a salvare di nuovo.",
+  "loginSaveError": "Si è verificato un errore durante il salvataggio delle informazioni di accesso. Riprova.",
+  "loginLoggingOut": "Disconnessione...",
+  "loginLoggedOut": "Sei uscito da Instagram.\nEffettua nuovamente l'accesso per continuare.",
+  "loginSuccessPrompt": "Accesso riuscito.\nTocca \"Salva\" per terminare.",
+  "loginPromptOnLoginPage": "Accedi a Instagram, quindi tocca \"Salva\" per terminare.",
+  "loginPromptSaveBottom": "Se hai terminato l'accesso, tocca \"Salva\" di seguito.",
+  "loginPageTitle": "Accedi a Instagram",
+  "loginOpeningInstagramWithHint": "Apertura Instagram...\nDopo aver effettuato l'accesso, toccare \"Salva\".",
+  "loginOpenFailed": "Impossibile aprire Instagram.\nControlla la connessione Internet e riprova.",
+  "profileSavedMissingUsername": "Nel profilo salvato manca un nome utente.",
+  "openingProfile": "Apertura profilo...",
+  "openingUsername": "Apertura @{username}...",
+  "@openingUsername": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryHighlightsAndPosts": "Trovato {storyCount} Story/Highlight elementi e {postCount} post.",
+  "@foundStoryHighlightsAndPosts": {
+    "placeholders": {
+      "storyCount": {
+        "type": "int"
+      },
+      "postCount": {
+        "type": "int"
+      }
+    }
+  },
+  "privateModeEnabled": "Private modalità attivata.",
+  "publicModeEnabled": "Tornato alla modalità Public.",
+  "cannotConfirmInstagramLogin": "Impossibile confermare l'accesso Instagram. Effettua nuovamente l'accesso.",
+  "instagramConnected": "Instagram account collegato.",
+  "loggingOutInstagram": "Disconnessione da Instagram...",
+  "instagramLoggedOut": "Ti sei disconnesso da Instagram.",
+  "instagramLogoutCleanupFailed": "Disconnesso da Instagram, ma si è verificato un errore durante la cancellazione dei dati di accesso.",
+  "emptyInstagramLink": "Inserisci un link Instagram.",
+  "preparingContent": "Preparazione dei contenuti...",
+  "loadingContentWithAccount": "Caricamento del contenuto con l'account connesso...",
+  "cannotFetchContent": "Impossibile recuperare il contenuto.",
+  "noDownloadableContentFound": "Nessun contenuto scaricabile trovato.",
+  "foundDownloadableContent": "Trovati {count} elementi scaricabili.",
+  "@foundDownloadableContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "fetchContentFailedPublic": "Impossibile recuperare il contenuto. Controlla il collegamento o riprova.",
+  "fetchContentFailedPrivate": "Impossibile recuperare il contenuto. Controlla i permessi di visualizzazione o accedi nuovamente.",
+  "emptyProfileInput": "Inserisci un profilo Instagram.",
+  "loadingStoryHighlights": "Caricamento Stories e Highlights...",
+  "noCurrentStoryOrHighlight": "Nessuna storia attuale o highlight trovato.",
+  "foundStoryHighlights": "Trovati {count} Story/Highlight articoli.",
+  "@foundStoryHighlights": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotOpenContent": "Impossibile aprire questo contenuto.",
+  "openingStoryGroup": "Apertura di \"{title}\"...",
+  "@openingStoryGroup": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryGroupItems": "Trovati {count} oggetti in \"{title}\".",
+  "@foundStoryGroupItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "cannotOpenStoryHighlightLogin": "Impossibile aprire Story o Highlight. Effettua l'accesso e riprova.",
+  "cannotOpenStoryHighlightPermission": "Impossibile aprire Story o Highlight. Si prega di verificare i permessi di visualizzazione.",
+  "cannotDownloadContent": "Impossibile scaricare questo contenuto.",
+  "downloadingStory": "Download della storia...",
+  "savedStoryToAlbum": "Elemento della storia salvato nell'album {albumName}.",
+  "@savedStoryToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadStoryFailed": "Story download non riuscito. Per favore riprova.",
+  "loadingReelsPublic": "Recupero bobine in corso...",
+  "loadingReelsPrivate": "Caricamento bobine...",
+  "noReelsOrPermission": "Nessun elemento trovato oppure non disponi dell'autorizzazione per visualizzarli.",
+  "foundReels": "Trovato {count} Reels.",
+  "@foundReels": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadReelsPublic": "Impossibile caricare Reels. Controlla il profilo o riprova.",
+  "cannotLoadReelsPrivate": "Impossibile caricare Reels. Si prega di verificare i permessi di visualizzazione.",
+  "loadingPostsPublic": "Recupero foto/post...",
+  "loadingPostsPrivate": "Caricamento foto/post...",
+  "noPostsOrPermission": "Nessuna foto/post trovato oppure non sei autorizzato a visualizzarli.",
+  "foundPosts": "Trovato {count} foto/post.",
+  "@foundPosts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadPostsPublic": "Impossibile caricare i post. Controlla il profilo o riprova.",
+  "cannotLoadPostsPrivate": "Impossibile caricare i post. Si prega di verificare i permessi di visualizzazione.",
+  "cannotLoadMoreContent": "Impossibile caricare più contenuti.",
+  "cannotLoadMoreProfile": "Impossibile caricare altro. Inserisci nuovamente il profilo.",
+  "noMoreNewContent": "Niente più nuovi contenuti.",
+  "loadedMoreContent": "Caricati {count} altri articoli.",
+  "@loadedMoreContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadMoreFailed": "Caricamento di più non riuscito. Per favore riprova.",
+  "openingReel": "Apertura Reel...",
+  "openingPost": "Messaggio di apertura...",
+  "cannotOpenContentPermission": "Impossibile aprire questo contenuto. Controlla i permessi di visualizzazione o riprova.",
+  "downloadingContent": "Download dei contenuti...",
+  "savedToAlbum": "Salvato nell'album {albumName}.",
+  "@savedToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "savedContentToAlbum": "Contenuti salvati nell'album {albumName}.",
+  "@savedContentToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadContentErrorRetry": "Download del contenuto non riuscito. Tocca per riprovare.",
+  "downloadHistoryCleared": "La cronologia dei download è stata cancellata.",
+  "downloadHistoryItemsRemoved": "Rimossi {count} elementi dalla cronologia.",
+  "@downloadHistoryItemsRemoved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "downloadConnectionSlow": "Download non riuscito a causa di una connessione lenta. Toccare per riprovare.",
+  "downloadNetworkUnavailable": "Impossibile connettersi alla rete/CDN. Controlla la rete e riprova.",
+  "downloadCancelled": "Download annullato.",
+  "downloadGenericError": "Download non riuscito. Tocca per riprovare.",
+  "downloadProgress": "Download di contenuti: {percent}%",
+  "@downloadProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  }
+}

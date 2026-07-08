@@ -127,9 +127,7 @@ class FrequentProfileRepository {
       final items = decoded
           .whereType<Map>()
           .map(
-            (x) => FrequentProfileItem.fromJson(
-              Map<String, dynamic>.from(x),
-            ),
+            (x) => FrequentProfileItem.fromJson(Map<String, dynamic>.from(x)),
           )
           .where((x) => x.key.trim().isNotEmpty)
           .toList();

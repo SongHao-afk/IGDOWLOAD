@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../cubit/downloader_cubit.dart';
 import '../cubit/downloader_state.dart';
 import '../repository/frequent_profile_repository.dart';
@@ -20,6 +21,7 @@ class FrequentProfilesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final color = Theme.of(context).colorScheme;
 
     final visibleProfiles = state.frequentProfiles
@@ -87,7 +89,7 @@ class FrequentProfilesCard extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  'Trang cá nhân đã xem gần đây',
+                  l10n.frequentProfilesTitle,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: const Color(0xFF171321),
                     fontWeight: FontWeight.w900,
@@ -129,14 +131,14 @@ class FrequentProfilesCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'Chưa có trang cá nhân nào',
+                        l10n.frequentProfilesEmptyTitle,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleMedium
                             ?.copyWith(fontWeight: FontWeight.w900),
                       ),
                       const SizedBox(height: 6),
                       Text(
-                        'Những trang cá nhân bạn đã xem sẽ xuất hiện tại đây.',
+                        l10n.frequentProfilesEmptyMessage,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           height: 1.35,
@@ -202,9 +204,10 @@ class _FrequentProfileTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final color = Theme.of(context).colorScheme;
     final title = item.username.trim().isEmpty
-        ? 'Tài khoản'
+        ? l10n.account
         : '@${item.username.trim()}';
 
     return InkWell(

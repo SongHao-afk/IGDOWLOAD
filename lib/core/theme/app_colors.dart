@@ -16,7 +16,7 @@ class AppColors {
   static const whiteBg = Color(0xFFFAFAFA);
   static const whiteCard = Color(0xFFFFFFFF);
 
-  static const darkBg = Color(0xFF100D16);
-  static const darkCard = Color(0xFF201A2B);
-  static const darkCard2 = Color(0xFF2B203A);
+  static const darkBg = Color(0xFF070A0D);
+  static const darkCard = Color(0xFF121820);
+  static const darkCard2 = Color(0xFF1A222C);
 }

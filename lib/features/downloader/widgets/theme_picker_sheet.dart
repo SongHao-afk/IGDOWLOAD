@@ -1,5 +1,8 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../l10n/app_localizations.dart';
 
 import '../../../core/theme/app_theme.dart';
 import '../../../core/theme/theme_cubit.dart';
@@ -23,13 +26,15 @@ class _ThemePickerSheetState extends State<ThemePickerSheet> {
   @override
   Widget build(BuildContext context) {
     final bottomPadding = MediaQuery.of(context).padding.bottom;
+    final colors = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final selectedColors = AppTheme.getTheme(selectedMode).colorScheme;
 
     return Container(
       padding: EdgeInsets.fromLTRB(22, 10, 22, 18 + bottomPadding),
-      decoration: const BoxDecoration(
-        color: Color(0xFFFFFBFD),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+      decoration: BoxDecoration(
+        color: colors.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -40,7 +45,7 @@ class _ThemePickerSheetState extends State<ThemePickerSheet> {
               width: 44,
               height: 5,
               decoration: BoxDecoration(
-                color: const Color(0xFFE1306C).withOpacity(0.16),
+                color: colors.primary.withOpacity(0.16),
                 borderRadius: BorderRadius.circular(999),
               ),
             ),
@@ -48,15 +53,15 @@ class _ThemePickerSheetState extends State<ThemePickerSheet> {
           const SizedBox(height: 22),
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Chọn màu giao diện',
+                    AppLocalizations.of(context)!.chooseThemeColor,
                     maxLines: 1,
                     style: TextStyle(
-                      color: Color(0xFF121018),
+                      color: colors.onSurface,
                       fontSize: 21,
                       fontWeight: FontWeight.w900,
                     ),
@@ -66,7 +71,7 @@ class _ThemePickerSheetState extends State<ThemePickerSheet> {
               IconButton(
                 onPressed: () => Navigator.pop(context),
                 icon: const Icon(Icons.close_rounded),
-                color: const Color(0xFF121018),
+                color: colors.onSurface,
               ),
             ],
           ),
@@ -80,38 +85,45 @@ class _ThemePickerSheetState extends State<ThemePickerSheet> {
             physics: const NeverScrollableScrollPhysics(),
             children: [
               _ThemeChoiceCard(
-                title: 'Mặc định',
+                title: AppLocalizations.of(context)!.themeDefault,
                 mode: AppThemeMode.instagram,
                 selectedMode: selectedMode,
                 swatch: const _InstagramGradientSwatch(),
                 onTap: _select,
               ),
               _ThemeChoiceCard(
-                title: 'Rực rỡ',
+                title: AppLocalizations.of(context)!.themeVivid,
                 mode: AppThemeMode.vivid,
                 selectedMode: selectedMode,
                 swatch: const _VividSwatch(),
                 onTap: _select,
               ),
               _ThemeChoiceCard(
-                title: 'Hồng bóng',
+                title: AppLocalizations.of(context)!.themePink,
                 mode: AppThemeMode.pink,
                 selectedMode: selectedMode,
                 swatch: const _SolidSwatch(color: Color(0xFFFFC2D9)),
                 onTap: _select,
               ),
               _ThemeChoiceCard(
-                title: 'Xanh lam nhạt',
+                title: AppLocalizations.of(context)!.themeBlue,
                 mode: AppThemeMode.blue,
                 selectedMode: selectedMode,
                 swatch: const _SoftBlueSwatch(),
                 onTap: _select,
               ),
               _ThemeChoiceCard(
-                title: 'Đỏ',
+                title: AppLocalizations.of(context)!.themeRed,
                 mode: AppThemeMode.red,
                 selectedMode: selectedMode,
                 swatch: const _SolidSwatch(color: Color(0xFFD24646)),
+                onTap: _select,
+              ),
+              _ThemeChoiceCard(
+                title: AppLocalizations.of(context)!.themeDark,
+                mode: AppThemeMode.dark,
+                selectedMode: selectedMode,
+                swatch: const _DarkSwatch(),
                 onTap: _select,
               ),
             ],
@@ -126,8 +138,10 @@ class _ThemePickerSheetState extends State<ThemePickerSheet> {
                   child: FilledButton(
                     onPressed: () => Navigator.pop(context),
                     style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFFE8E5E5),
-                      foregroundColor: const Color(0xFF121018),
+                      backgroundColor: isDark
+                          ? colors.surfaceContainerHighest
+                          : const Color(0xFFE8E5E5),
+                      foregroundColor: colors.onSurface,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -136,7 +150,7 @@ class _ThemePickerSheetState extends State<ThemePickerSheet> {
                         fontWeight: FontWeight.w900,
                       ),
                     ),
-                    child: const Text('Hủy'),
+                    child: Text(AppLocalizations.of(context)!.cancel),
                   ),
                 ),
               ),
@@ -178,12 +192,12 @@ class _ThemePickerSheetState extends State<ThemePickerSheet> {
                           fontWeight: FontWeight.w900,
                         ),
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text('Áp dụng'),
-                          SizedBox(width: 6),
-                          Icon(Icons.done_all_rounded, size: 19),
+                          Text(AppLocalizations.of(context)!.apply),
+                          const SizedBox(width: 6),
+                          const Icon(Icons.done_all_rounded, size: 19),
                         ],
                       ),
                     ),
@@ -228,6 +242,8 @@ class _ThemeChoiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final selectedColors = AppTheme.getTheme(selectedMode).colorScheme;
 
     return InkWell(
@@ -237,7 +253,7 @@ class _ThemeChoiceCard extends StatelessWidget {
         duration: const Duration(milliseconds: 180),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isDark ? colors.surfaceContainerHighest : colors.surface,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: selected ? selectedColors.primary : Colors.transparent,
@@ -245,9 +261,7 @@ class _ThemeChoiceCard extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: selectedColors.primary.withOpacity(
-                selected ? 0.12 : 0.04,
-              ),
+              color: selectedColors.primary.withOpacity(selected ? 0.12 : 0.04),
               blurRadius: selected ? 16 : 10,
               offset: const Offset(0, 8),
             ),
@@ -294,8 +308,8 @@ class _ThemeChoiceCard extends StatelessWidget {
               title,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: Color(0xFF121018),
+              style: TextStyle(
+                color: colors.onSurface,
                 fontSize: 13,
                 fontWeight: FontWeight.w900,
               ),
@@ -368,11 +382,7 @@ class _VividSwatch extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         gradient: const LinearGradient(
-          colors: [
-            Color(0xFFFF4FA3),
-            Color(0xFFC13584),
-            Color(0xFF5AC8FA),
-          ],
+          colors: [Color(0xFFFF4FA3), Color(0xFFC13584), Color(0xFF5AC8FA)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -404,15 +414,39 @@ class _SoftBlueSwatch extends StatelessWidget {
         gradient: const RadialGradient(
           center: Alignment.center,
           radius: 0.95,
-          colors: [
-            Color(0xFF8DC7FF),
-            Color(0xFFBDEAFF),
-            Color(0xFFEAF8FF),
-          ],
+          colors: [Color(0xFF8DC7FF), Color(0xFFBDEAFF), Color(0xFFEAF8FF)],
         ),
       ),
     );
   }
 }
 
+class _DarkSwatch extends StatelessWidget {
+  const _DarkSwatch();
 
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        gradient: const LinearGradient(
+          colors: [Color(0xFF05070A), Color(0xFF121820), Color(0xFFD19A55)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: Align(
+        alignment: Alignment.topRight,
+        child: Container(
+          width: 10,
+          height: 10,
+          margin: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.white.withOpacity(0.52),
+          ),
+        ),
+      ),
+    );
+  }
+}

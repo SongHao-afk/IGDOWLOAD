@@ -55,8 +55,9 @@ class AppTheme {
       case AppThemeMode.dark:
         return _build(
           brightness: Brightness.dark,
-          primary: AppColors.pink,
-          secondary: AppColors.blue,
+          primary: const Color(0xFFD19A55),
+          secondary: const Color(0xFF7C8B63),
+          tertiary: const Color(0xFF9A6A43),
           background: AppColors.darkBg,
           surface: AppColors.darkCard,
         );

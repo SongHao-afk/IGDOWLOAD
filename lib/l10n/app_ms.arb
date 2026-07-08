@@ -1,0 +1,339 @@
+{
+  "@@locale": "ms",
+  "appName": "IG Downloader",
+  "cancel": "Batal",
+  "save": "Jimat",
+  "login": "Log masuk",
+  "logout": "Log keluar",
+  "understood": "faham",
+  "delete": "Padam",
+  "deleteAll": "Padam semua",
+  "share": "Kongsi",
+  "download": "Muat turun",
+  "downloadAgain": "Muat turun semula",
+  "saved": "Dimuat turun",
+  "loading": "Memuatkan",
+  "apply": "Mohon",
+  "frequentProfilesTitle": "Profil yang dilihat baru-baru ini",
+  "frequentProfilesEmptyTitle": "Tiada profil lagi",
+  "frequentProfilesEmptyMessage": "Profil yang telah anda lihat akan dipaparkan di sini.",
+  "account": "Akaun",
+  "downloadHistoryTitle": "Muat turun sejarah",
+  "downloadHistoryEmptyTitle": "Tiada kandungan lagi",
+  "downloadHistoryEmptyMessage": "Anda belum memuat turun sebarang kandungan lagi",
+  "selectedCount": "{count} dipilih",
+  "@selectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteAllHistoryTitle": "Padamkan semua sejarah?",
+  "deleteAllHistoryMessage": "Semua item dalam sejarah muat turun anda akan dialih keluar daripada apl.",
+  "deleteSelectedTitle": "Padamkan {count} item?",
+  "@deleteSelectedTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteSelectedOneMessage": "Item yang dipilih akan dialih keluar daripada sejarah muat turun anda.",
+  "deleteSelectedManyMessage": "{count} item yang dipilih akan dialih keluar daripada sejarah muat turun anda.",
+  "@deleteSelectedManyMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteOneTitle": "Padamkan item ini?",
+  "deleteOneMessage": "Item ini akan dialih keluar daripada sejarah muat turun anda.",
+  "cannotShareFileMissing": "Tidak boleh berkongsi. Fail tidak lagi wujud pada peranti ini.",
+  "cannotShareContent": "Tidak boleh berkongsi kandungan ini.",
+  "cannotSaveAgainFileMissing": "Tidak boleh menyimpan lagi. Fail tidak lagi wujud pada peranti ini.",
+  "savedAgainToGallery": "Disimpan semula ke galeri.",
+  "cannotSaveAgainContent": "Tidak dapat menyimpan kandungan ini lagi.",
+  "cannotOpenFileMissing": "Tidak boleh membuka kandungan ini. Fail tidak lagi wujud pada peranti ini.",
+  "video": "Video",
+  "image": "Foto",
+  "content": "kandungan",
+  "justDownloaded": "Baru muat turun",
+  "heroTitle": "Muat turun kandungan daripada Instagram",
+  "heroConnected": "Instagram disambungkan.",
+  "heroDescription": "Muat turun foto, gulungan dan cerita dengan cepat dan mudah.",
+  "downloadByLink": "Muat turun melalui pautan",
+  "invalidLinkTitle": "Pautan tidak sah",
+  "invalidLinkMessage": "Sila masukkan pautan Instagram untuk siaran, Reel, Story atau video yang anda ingin muat turun.",
+  "downloadByLinkInfo1": "Gunakan ini apabila anda sudah mempunyai pautan ke Instagram siaran, Reel, Story atau Highlight.",
+  "downloadByLinkInfo2": "Tampal pautan dan apl akan menyemak kandungan dan membenarkan anda memuat turunnya.",
+  "example": "Contoh:",
+  "enterInstagramLink": "Masukkan pautan Instagram",
+  "instagramLinkHint": "https://www.instagram.com/p/... atau /reel/...",
+  "pasteInstagramLinkHint": "Tampal pautan Instagram untuk menyemak dan memuat turun kandungan yang anda mahukan.",
+  "openInstagram": "Buka Instagram",
+  "getContent": "Dapatkan kandungan",
+  "explainFeature": "Terangkan ciri",
+  "downloadFromProfile": "Muat turun dari profil",
+  "invalidProfileTitle": "Maklumat tidak sah",
+  "invalidProfileMessage": "Sila masukkan Instagram nama pengguna atau pautan profil.",
+  "profileInfo1": "Gunakan ini apabila anda mahu melihat dan memuat turun berbilang item daripada akaun Instagram.",
+  "profileInfo2": "Masukkan nama pengguna atau pautan profil, kemudian pilih Story, Reels atau siaran yang anda mahu muat turun.",
+  "profileInputLabel": "Nama pengguna atau pautan profil",
+  "profileInputHint": "Contoh: @nama pengguna atau instagram.com/nama pengguna",
+  "profileCardDescription": "Masukkan nama pengguna atau pautan profil untuk melihat Stories, Reels dan siaran yang boleh dimuat turun.",
+  "story": "Story",
+  "storiesHighlights": "Stories / Highlights",
+  "reels": "Reels",
+  "posts": "Catatan",
+  "photosPosts": "Foto / Catatan",
+  "photosVideos": "Foto / Video",
+  "profileSummary": "Ringkasan profil",
+  "storyModeHint": "Masukkan profil untuk melihat Stories dan Highlights yang boleh dimuat turun.",
+  "reelsModeHint": "Masukkan profil untuk melihat senarai Reels.",
+  "postsModeHint": "Masukkan profil untuk melihat siaran yang boleh dimuat turun.",
+  "storyPopupTitle": "Muat turun Stories daripada profil",
+  "reelsPopupTitle": "Muat turun Reels daripada profil",
+  "postsPopupTitle": "Muat turun siaran daripada profil",
+  "viewStory": "Lihat Story",
+  "viewReels": "Lihat Reels",
+  "viewPosts": "Lihat siaran",
+  "noStoryOrHighlightAll": "Tiada Story atau Highlight ditemui. Log masuk jika kandungan memerlukan kebenaran melihat.",
+  "noStoryOrHighlightInput": "Tiada Story atau Highlight ditemui. Masukkan profil Instagram untuk menyemak.",
+  "noStoryItems": "Tiada kandungan untuk dipaparkan atau anda tidak mempunyai kebenaran untuk melihat item ini.",
+  "noFeedAll": "Tiada siaran atau video ditemui. Log masuk jika kandungan memerlukan kebenaran melihat.",
+  "noFeedInput": "Tiada kandungan lagi. Pilih Reels atau Catatan, kemudian masukkan profil.",
+  "endOfContent": "Anda telah mencapai penghujung kandungan.",
+  "loadMore": "Muatkan lagi",
+  "loadingMore": "Memuatkan lagi...",
+  "cannotShowPostContent": "Tidak dapat memaparkan kandungan dalam siaran ini.",
+  "chooseItemToDownload": "Pilih item untuk dimuat turun",
+  "contentCount": "{count} item",
+  "@contentCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chooseThemeColor": "Pilih warna tema",
+  "themeDefault": "Lalai",
+  "themeVivid": "terang",
+  "themePink": "Merah jambu berkilat",
+  "themeBlue": "Biru muda",
+  "themeRed": "merah",
+  "themeDark": "Gelap",
+  "loginRequiredTitle": "Log masuk diperlukan",
+  "followRequiredTitle": "Ikut diperlukan",
+  "followRequiredMessage": "Akaun log masuk tidak mempunyai kebenaran untuk melihat kandungan ini.",
+  "downloadSuccessMessage": "Berjaya dimuat turun.",
+  "viewHistory": "Lihat sejarah",
+  "frequentAccessTooltip": "Akses yang kerap",
+  "recentDownloadsTooltip": "Muat turun terbaharu",
+  "changeThemeTooltip": "Tukar tema",
+  "settingsTitle": "tetapan",
+  "themeSettingTitle": "Tema",
+  "languageSettingTitle": "Bahasa",
+  "chooseLanguageTitle": "Pilih bahasa anda",
+  "languageVietnameseNative": "Ti?ng Vi?t",
+  "languageVietnameseLocal": "Vietnamese",
+  "languageEnglishNative": "English",
+  "languageEnglishLocal": "English",
+  "sessionModeTitle": "Mod muat turun",
+  "sessionPublicMode": "Public",
+  "sessionPrivateMode": "Private",
+  "sessionPrivateConnected": "Akaun Instagram anda disambungkan.",
+  "sessionPrivatePrompt": "Log masuk ke Instagram untuk memuat turun kandungan yang dibenarkan untuk dilihat oleh akaun anda.",
+  "sessionPublicPrompt": "Anda sedang memuat turun kandungan awam tanpa log masuk.",
+  "profileReelsListTitle": "Reel senarai video",
+  "profilePostsListTitle": "Senarai foto / siaran",
+  "close": "tutup",
+  "instagramHome": "Instagram rumah",
+  "selectThisContent": "Pilih kandungan ini",
+  "manualOpeningInstagram": "Pembukaan Instagram...",
+  "manualInstruction": "Buka siaran, Reel, Story atau Highlight yang anda mahu muat turun, kemudian ketik \"Pilih kandungan ini\".",
+  "manualPickedContent": "Kandungan dipilih. Ketik \"Pilih kandungan ini\" untuk meneruskan.",
+  "manualNoDownloadableContent": "Tiada kandungan yang boleh dimuat turun ditemui. Buka siaran, Reel, Story atau Highlight.",
+  "manualCloseToExit": "Untuk mengelakkan kehilangan kandungan yang dipilih, ketik \"Tutup\" jika anda mahu keluar.",
+  "loginOpeningInstagram": "Membuka Instagram... Sila tunggu.",
+  "loginInstruction": "Log masuk ke Instagram, kemudian ketik \"Simpan\" untuk menyelesaikannya.",
+  "loginChecking": "Menyemak log masuk...",
+  "loginCannotConfirm": "Tidak dapat mengesahkan log masuk.\nSila log masuk ke Instagram dan cuba simpan sekali lagi.",
+  "loginSaveError": "Ralat berlaku semasa menyimpan maklumat log masuk. Sila cuba lagi.",
+  "loginLoggingOut": "Log keluar...",
+  "loginLoggedOut": "Anda telah log keluar daripada Instagram.\nSila log masuk semula untuk meneruskan.",
+  "loginSuccessPrompt": "Log masuk berjaya.\nKetik \"Simpan\" untuk menyelesaikan.",
+  "loginPromptOnLoginPage": "Log masuk ke Instagram, kemudian ketik \"Simpan\" untuk menyelesaikannya.",
+  "loginPromptSaveBottom": "Jika anda telah selesai log masuk, ketik \"Simpan\" di bawah.",
+  "loginPageTitle": "Log masuk ke Instagram",
+  "loginOpeningInstagramWithHint": "Pembukaan Instagram...\nSelepas log masuk, ketik \"Simpan\".",
+  "loginOpenFailed": "Tidak boleh membuka Instagram.\nSila semak sambungan internet anda dan cuba lagi.",
+  "profileSavedMissingUsername": "Profil yang disimpan tiada nama pengguna.",
+  "openingProfile": "Membuka profil...",
+  "openingUsername": "Membuka @{username}...",
+  "@openingUsername": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryHighlightsAndPosts": "Menemui {storyCount} Story/Highlight item dan {postCount} siaran.",
+  "@foundStoryHighlightsAndPosts": {
+    "placeholders": {
+      "storyCount": {
+        "type": "int"
+      },
+      "postCount": {
+        "type": "int"
+      }
+    }
+  },
+  "privateModeEnabled": "Private mod didayakan.",
+  "publicModeEnabled": "Bertukar kembali ke mod Public.",
+  "cannotConfirmInstagramLogin": "Tidak dapat mengesahkan Instagram log masuk. Sila log masuk semula.",
+  "instagramConnected": "Instagram akaun disambungkan.",
+  "loggingOutInstagram": "Log keluar daripada Instagram...",
+  "instagramLoggedOut": "Anda telah log keluar daripada Instagram.",
+  "instagramLogoutCleanupFailed": "Log keluar daripada Instagram, tetapi terdapat ralat semasa mengosongkan data log masuk.",
+  "emptyInstagramLink": "Sila masukkan pautan Instagram.",
+  "preparingContent": "Menyediakan kandungan...",
+  "loadingContentWithAccount": "Memuatkan kandungan dengan akaun yang disambungkan...",
+  "cannotFetchContent": "Tidak dapat mengambil kandungan.",
+  "noDownloadableContentFound": "Tiada kandungan yang boleh dimuat turun ditemui.",
+  "foundDownloadableContent": "Menemui {count} item yang boleh dimuat turun.",
+  "@foundDownloadableContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "fetchContentFailedPublic": "Tidak dapat mengambil kandungan. Sila semak pautan atau cuba lagi.",
+  "fetchContentFailedPrivate": "Tidak dapat mengambil kandungan. Sila semak kebenaran melihat atau log masuk semula.",
+  "emptyProfileInput": "Sila masukkan profil Instagram.",
+  "loadingStoryHighlights": "Memuatkan Stories dan Highlights...",
+  "noCurrentStoryOrHighlight": "Tiada cerita semasa atau sorotan ditemui.",
+  "foundStoryHighlights": "Menjumpai {count} Story/Highlight item.",
+  "@foundStoryHighlights": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotOpenContent": "Tidak boleh membuka kandungan ini.",
+  "openingStoryGroup": "Membuka \"{title}\"...",
+  "@openingStoryGroup": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryGroupItems": "Menemui {count} item dalam \"{title}\".",
+  "@foundStoryGroupItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "cannotOpenStoryHighlightLogin": "Tidak boleh membuka Story atau Highlight. Sila log masuk dan cuba lagi.",
+  "cannotOpenStoryHighlightPermission": "Tidak boleh membuka Story atau Highlight. Sila semak kebenaran melihat.",
+  "cannotDownloadContent": "Tidak boleh memuat turun kandungan ini.",
+  "downloadingStory": "Memuat turun cerita...",
+  "savedStoryToAlbum": "Item cerita disimpan ke album {albumName}.",
+  "@savedStoryToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadStoryFailed": "Story muat turun gagal. Sila cuba lagi.",
+  "loadingReelsPublic": "Mengambil kekili...",
+  "loadingReelsPrivate": "Memuatkan gulungan...",
+  "noReelsOrPermission": "Tiada Reel ditemui, atau anda tidak mempunyai kebenaran untuk melihatnya.",
+  "foundReels": "Dijumpai {count} Reels.",
+  "@foundReels": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadReelsPublic": "Tidak dapat memuatkan Reels. Sila semak profil atau cuba lagi.",
+  "cannotLoadReelsPrivate": "Tidak dapat memuatkan Reels. Sila semak kebenaran melihat.",
+  "loadingPostsPublic": "Mengambil foto/siaran...",
+  "loadingPostsPrivate": "Memuatkan foto/siaran...",
+  "noPostsOrPermission": "Tiada foto/siaran ditemui, atau anda tiada kebenaran untuk melihatnya.",
+  "foundPosts": "Menemui {count} foto/siaran.",
+  "@foundPosts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadPostsPublic": "Tidak dapat memuatkan siaran. Sila semak profil atau cuba lagi.",
+  "cannotLoadPostsPrivate": "Tidak dapat memuatkan siaran. Sila semak kebenaran melihat.",
+  "cannotLoadMoreContent": "Tidak dapat memuatkan lebih banyak kandungan.",
+  "cannotLoadMoreProfile": "Tidak boleh memuatkan lagi. Sila masukkan profil sekali lagi.",
+  "noMoreNewContent": "Tiada lagi kandungan baharu.",
+  "loadedMoreContent": "Memuatkan {count} lagi item.",
+  "@loadedMoreContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadMoreFailed": "Muatkan lagi gagal. Sila cuba lagi.",
+  "openingReel": "Pembukaan Reel...",
+  "openingPost": "Membuka jawatan...",
+  "cannotOpenContentPermission": "Tidak boleh membuka kandungan ini. Sila semak kebenaran melihat atau cuba lagi.",
+  "downloadingContent": "Memuat turun kandungan...",
+  "savedToAlbum": "Disimpan ke album {albumName}.",
+  "@savedToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "savedContentToAlbum": "Kandungan disimpan ke album {albumName}.",
+  "@savedContentToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadContentErrorRetry": "Muat turun kandungan gagal. Ketik untuk mencuba lagi.",
+  "downloadHistoryCleared": "Sejarah muat turun dikosongkan.",
+  "downloadHistoryItemsRemoved": "Mengalih keluar {count} item daripada sejarah.",
+  "@downloadHistoryItemsRemoved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "downloadConnectionSlow": "Muat turun gagal kerana sambungan perlahan. Ketik untuk mencuba lagi.",
+  "downloadNetworkUnavailable": "Tidak dapat menyambung ke rangkaian/CDN. Semak rangkaian anda dan cuba lagi.",
+  "downloadCancelled": "Muat turun dibatalkan.",
+  "downloadGenericError": "Muat turun gagal. Ketik untuk mencuba lagi.",
+  "downloadProgress": "Memuat turun kandungan: {percent}%",
+  "@downloadProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  }
+}

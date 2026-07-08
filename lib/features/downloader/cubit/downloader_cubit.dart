@@ -1,4 +1,4 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:vibration/vibration.dart';
@@ -21,6 +21,7 @@ import '../repository/download_history_repository.dart';
 import '../repository/frequent_profile_repository.dart';
 import '../repository/profile_feed_repository.dart';
 import '../repository/profile_story_repository.dart';
+import 'downloader_messages.dart';
 import 'downloader_state.dart';
 
 class SavedDownloadFile {
@@ -756,8 +757,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     if (profileUrl.isEmpty && username.isEmpty) {
       emit(
         state.copyWith(
-          profileError: 'Profile đã lưu thiếu username.',
-          status: 'Profile đã lưu thiếu username.',
+          profileError: DownloaderMessages.profileSavedMissingUsername(),
+          status: DownloaderMessages.profileSavedMissingUsername(),
         ),
       );
       return;
@@ -798,8 +799,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         profileAvatarUrl: item.avatarUrl,
         clearProfileError: true,
         status: username.isEmpty
-            ? 'Đang mở trang cá nhân...'
-            : 'Đang mở @$username...',
+            ? DownloaderMessages.openingProfile()
+            : DownloaderMessages.openingUsername(username),
       ),
     );
 
@@ -876,8 +877,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
 
     final nothingLoaded = groups.isEmpty && feedItems.isEmpty;
     final accessMessage = state.hasPrivateCookie
-        ? 'Cần follow người này'
-        : 'Cần đăng nhập';
+        ? DownloaderMessages.followRequired()
+        : DownloaderMessages.loginRequired();
 
     emit(
       state.copyWith(
@@ -898,7 +899,10 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         clearProfileError: !nothingLoaded,
         status: nothingLoaded
             ? accessMessage
-            : 'Đã tìm thấy ${groups.length} Story/Highlight và ${feedItems.length} bài viết.',
+            : DownloaderMessages.foundStoryHighlightsAndPosts(
+                groups.length,
+                feedItems.length,
+              ),
       ),
     );
 
@@ -923,8 +927,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       state.copyWith(
         privateMode: value,
         status: value
-            ? 'Đã bật chế độ Private.'
-            : 'Đã chuyển về chế độ Public.',
+            ? DownloaderMessages.privateModeEnabled()
+            : DownloaderMessages.publicModeEnabled(),
       ),
     );
   }
@@ -935,8 +939,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     if (clean.isEmpty || !clean.contains('sessionid=')) {
       emit(
         state.copyWith(
-          status:
-              'Không thể xác nhận đăng nhập Instagram. Vui lòng đăng nhập lại.',
+          status: DownloaderMessages.cannotConfirmInstagramLogin(),
         ),
       );
       return;
@@ -950,7 +953,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       state.copyWith(
         privateMode: true,
         privateIgCookie: clean,
-        status: 'Đã kết nối tài khoản Instagram.',
+        status: DownloaderMessages.instagramConnected(),
       ),
     );
   }
@@ -959,7 +962,10 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     if (state.sessionBusy) return;
 
     emit(
-      state.copyWith(sessionBusy: true, status: 'Đang đăng xuất Instagram...'),
+      state.copyWith(
+        sessionBusy: true,
+        status: DownloaderMessages.loggingOutInstagram(),
+      ),
     );
 
     try {
@@ -998,7 +1004,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
           profileMediaItems: <ProfileMediaItem>[],
           downloadingProfileMediaUrls: <String>{},
           clearProfileError: true,
-          status: 'Bạn đã đăng xuất khỏi Instagram.',
+          status: DownloaderMessages.instagramLoggedOut(),
         ),
       );
     } catch (e) {
@@ -1030,8 +1036,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
           profileMediaItems: <ProfileMediaItem>[],
           downloadingProfileMediaUrls: <String>{},
           clearProfileError: true,
-          status:
-              'Đã đăng xuất Instagram, nhưng có lỗi khi dọn dữ liệu đăng nhập.',
+          status: DownloaderMessages.instagramLogoutCleanupFailed(),
         ),
       );
     }
@@ -1046,7 +1051,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     }
 
     if (url.isEmpty) {
-      emit(state.copyWith(status: 'Vui lòng nhập liên kết Instagram.'));
+      emit(state.copyWith(status: DownloaderMessages.emptyInstagramLink()));
       return;
     }
 
@@ -1054,8 +1059,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       state.copyWith(
         loading: true,
         status: state.activeIgCookie == null
-            ? 'Đang chuẩn bị nội dung...'
-            : 'Đang tải nội dung với tài khoản đã kết nối...',
+            ? DownloaderMessages.preparingContent()
+            : DownloaderMessages.loadingContentWithAccount(),
         media: <IgMediaItem>[],
         downloadingIds: <int>{},
         downloadErrors: <int, String>{},
@@ -1105,28 +1110,26 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       }
 
       if (res.statusCode != 200 || decoded is! Map) {
-        throw Exception(_serverErrorText(decoded, 'Không thể lấy nội dung.'));
+        throw Exception(_serverErrorText(decoded, 'cannot_fetch_content'));
       }
 
       final decodedMap = Map<String, dynamic>.from(decoded);
 
       if ((decodedMap['status'] ?? '').toString() == 'error') {
-        throw Exception(
-          _serverErrorText(decodedMap, 'Không thể lấy nội dung.'),
-        );
+        throw Exception(_serverErrorText(decodedMap, 'cannot_fetch_content'));
       }
 
       final media = _parseMediaResultToIgItems(decodedMap, sourceUrl: url);
 
       if (media.isEmpty) {
-        throw Exception('Không tìm thấy nội dung có thể tải.');
+        throw Exception('no_downloadable_content_found');
       }
 
       emit(
         state.copyWith(
           loading: false,
           media: media,
-          status: 'Đã tìm thấy ${media.length} nội dung có thể tải.',
+          status: DownloaderMessages.foundDownloadableContent(media.length),
           downloadingIds: <int>{},
           downloadErrors: <int, String>{},
           downloadingAll: false,
@@ -1158,8 +1161,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         state.copyWith(
           loading: false,
           status: state.activeIgCookie == null
-              ? 'Không thể lấy nội dung. Vui lòng kiểm tra liên kết hoặc thử lại.'
-              : 'Không thể lấy nội dung. Vui lòng kiểm tra quyền xem hoặc đăng nhập lại.',
+              ? DownloaderMessages.fetchContentFailedPublic()
+              : DownloaderMessages.fetchContentFailedPrivate(),
           downloadingIds: <int>{},
           downloadingAll: false,
           profileMode: '',
@@ -1212,7 +1215,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       return true;
     }
 
-    const message = 'Cần đăng nhập';
+    final message = DownloaderMessages.loginRequired();
 
     emit(state.copyWith(profileError: message, status: message));
 
@@ -1229,8 +1232,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       emit(
         state.copyWith(
           profileMode: 'stories',
-          profileError: 'Vui lòng nhập trang cá nhân Instagram.',
-          status: 'Vui lòng nhập trang cá nhân Instagram.',
+          profileError: DownloaderMessages.emptyProfileInput(),
+          status: DownloaderMessages.emptyProfileInput(),
         ),
       );
       return;
@@ -1262,7 +1265,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         downloadingProfileMediaUrls: <String>{},
         clearProfileIdentity: true,
         clearProfileError: true,
-        status: 'Đang tải Story và Highlight...',
+        status: DownloaderMessages.loadingStoryHighlights(),
       ),
     );
 
@@ -1284,8 +1287,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
           profileFullName: firstGroup?.fullName ?? '',
           profileAvatarUrl: firstGroup?.avatarUrl ?? '',
           status: groups.isEmpty
-              ? 'Không thấy story hiện tại hoặc tin nổi bật.'
-              : 'Đã tìm thấy ${groups.length} Story/Highlight.',
+              ? DownloaderMessages.noCurrentStoryOrHighlight()
+              : DownloaderMessages.foundStoryHighlights(groups.length),
         ),
       );
 
@@ -1298,8 +1301,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       );
     } catch (_) {
       final message = state.hasPrivateCookie
-          ? 'Cần follow người này'
-          : 'Cần đăng nhập';
+          ? DownloaderMessages.followRequired()
+          : DownloaderMessages.loginRequired();
 
       emit(
         state.copyWith(
@@ -1317,8 +1320,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     if (username.isEmpty) {
       emit(
         state.copyWith(
-          profileError: 'Không thể mở nội dung này.',
-          status: 'Không thể mở nội dung này.',
+          profileError: DownloaderMessages.cannotOpenContent(),
+          status: DownloaderMessages.cannotOpenContent(),
         ),
       );
       return;
@@ -1333,7 +1336,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         profileItems: <ProfileStoryItem>[],
         downloadingProfileKeys: <String>{},
         clearProfileError: true,
-        status: 'Đang mở "${group.title}"...',
+        status: DownloaderMessages.openingStoryGroup(group.title),
       ),
     );
 
@@ -1351,14 +1354,17 @@ class DownloaderCubit extends Cubit<DownloaderState> {
           profileItemsLoading: false,
           profileItems: items,
           status: items.isEmpty
-              ? 'Không có nội dung để hiển thị hoặc bạn chưa có quyền xem mục này.'
-              : 'Đã tìm thấy ${items.length} nội dung trong "${group.title}".',
+              ? DownloaderMessages.noStoryItems()
+              : DownloaderMessages.foundStoryGroupItems(
+                  items.length,
+                  group.title,
+                ),
         ),
       );
     } catch (_) {
       final message = state.activeIgCookie == null
-          ? 'Không thể mở Story hoặc Highlight. Vui lòng đăng nhập rồi thử lại.'
-          : 'Không thể mở Story hoặc Highlight. Vui lòng kiểm tra quyền xem.';
+          ? DownloaderMessages.cannotOpenStoryHighlightLogin()
+          : DownloaderMessages.cannotOpenStoryHighlightPermission();
 
       emit(
         state.copyWith(
@@ -1432,8 +1438,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     if (item.downloadKey.trim().isEmpty) {
       emit(
         state.copyWith(
-          profileError: 'Không thể tải nội dung này.',
-          status: 'Không thể tải nội dung này.',
+          profileError: DownloaderMessages.cannotDownloadContent(),
+          status: DownloaderMessages.cannotDownloadContent(),
         ),
       );
       return;
@@ -1449,7 +1455,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       state.copyWith(
         downloadingProfileKeys: nextDownloading,
         clearProfileError: true,
-        status: 'Đang tải story ...',
+        status: DownloaderMessages.downloadingStory(),
       ),
     );
 
@@ -1497,7 +1503,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       emit(
         state.copyWith(
           downloadingProfileKeys: doneDownloading,
-          status: 'Đã lưu story item vào album ${AppConstants.albumName}.',
+          status: DownloaderMessages.savedStoryToAlbum(AppConstants.albumName),
         ),
       );
     } catch (_) {
@@ -1507,8 +1513,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       emit(
         state.copyWith(
           downloadingProfileKeys: doneDownloading,
-          profileError: 'Tải Story thất bại. Vui lòng thử lại.',
-          status: 'Tải Story thất bại. Vui lòng thử lại.',
+          profileError: DownloaderMessages.downloadStoryFailed(),
+          status: DownloaderMessages.downloadStoryFailed(),
         ),
       );
     }
@@ -1525,8 +1531,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       emit(
         state.copyWith(
           profileMode: 'reels',
-          profileError: 'Vui lòng nhập trang cá nhân Instagram.',
-          status: 'Vui lòng nhập trang cá nhân Instagram.',
+          profileError: DownloaderMessages.emptyProfileInput(),
+          status: DownloaderMessages.emptyProfileInput(),
         ),
       );
       return;
@@ -1560,8 +1566,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         clearProfileIdentity: true,
         clearProfileError: true,
         status: state.activeIgCookie == null
-            ? 'Đang lấy reels...'
-            : 'Đang tải reels ',
+            ? DownloaderMessages.loadingReelsPublic()
+            : DownloaderMessages.loadingReelsPrivate(),
       ),
     );
 
@@ -1603,8 +1609,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
           profileFullName: fullName,
           profileAvatarUrl: avatarUrl,
           status: items.isEmpty
-              ? 'Không tìm thấy Reels hoặc bạn chưa có quyền xem.'
-              : 'Đã tìm thấy ${items.length} Reels.',
+              ? DownloaderMessages.noReelsOrPermission()
+              : DownloaderMessages.foundReels(items.length),
         ),
       );
 
@@ -1617,8 +1623,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       );
     } catch (_) {
       final message = state.activeIgCookie == null
-          ? 'Không thể tải Reels. Vui lòng kiểm tra trang cá nhân hoặc thử lại.'
-          : 'Không thể tải Reels. Vui lòng kiểm tra quyền xem.';
+          ? DownloaderMessages.cannotLoadReelsPublic()
+          : DownloaderMessages.cannotLoadReelsPrivate();
 
       emit(
         state.copyWith(
@@ -1638,8 +1644,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       emit(
         state.copyWith(
           profileMode: 'posts',
-          profileError: 'Vui lòng nhập trang cá nhân Instagram.',
-          status: 'Vui lòng nhập trang cá nhân Instagram.',
+          profileError: DownloaderMessages.emptyProfileInput(),
+          status: DownloaderMessages.emptyProfileInput(),
         ),
       );
       return;
@@ -1673,8 +1679,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         clearProfileIdentity: true,
         clearProfileError: true,
         status: state.activeIgCookie == null
-            ? 'Đang lấy ảnh/bài viết...'
-            : 'Đang tải ảnh/bài viết ...',
+            ? DownloaderMessages.loadingPostsPublic()
+            : DownloaderMessages.loadingPostsPrivate(),
       ),
     );
 
@@ -1716,8 +1722,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
           profileFullName: fullName,
           profileAvatarUrl: avatarUrl,
           status: items.isEmpty
-              ? 'Không tìm thấy ảnh/bài viết hoặc bạn chưa có quyền xem.'
-              : 'Đã tìm thấy ${items.length} ảnh/bài viết.',
+              ? DownloaderMessages.noPostsOrPermission()
+              : DownloaderMessages.foundPosts(items.length),
         ),
       );
 
@@ -1730,8 +1736,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       );
     } catch (_) {
       final message = state.activeIgCookie == null
-          ? 'Không thể tải bài viết. Vui lòng kiểm tra trang cá nhân hoặc thử lại.'
-          : 'Không thể tải bài viết. Vui lòng kiểm tra quyền xem.';
+          ? DownloaderMessages.cannotLoadPostsPublic()
+          : DownloaderMessages.cannotLoadPostsPrivate();
 
       emit(
         state.copyWith(
@@ -1752,7 +1758,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     }
 
     if (!state.profileFeedHasNextPage) {
-      emit(state.copyWith(status: 'Bạn đã xem hết nội dung.'));
+      emit(state.copyWith(status: DownloaderMessages.endOfContent()));
       return;
     }
 
@@ -1763,7 +1769,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         state.copyWith(
           profileFeedHasNextPage: false,
           clearProfileFeedNextCursor: true,
-          status: 'Không thể tải thêm nội dung.',
+          status: DownloaderMessages.cannotLoadMoreContent(),
         ),
       );
       return;
@@ -1774,8 +1780,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     if (profileUrl.isEmpty) {
       emit(
         state.copyWith(
-          profileError: 'Không thể tải thêm. Vui lòng nhập lại trang cá nhân.',
-          status: 'Không thể tải thêm. Vui lòng nhập lại trang cá nhân.',
+          profileError: DownloaderMessages.cannotLoadMoreProfile(),
+          status: DownloaderMessages.cannotLoadMoreProfile(),
         ),
       );
       return;
@@ -1787,7 +1793,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       state.copyWith(
         profileFeedLoadingMore: true,
         clearProfileError: true,
-        status: 'Đang tải thêm...',
+        status: DownloaderMessages.loadingMore(),
       ),
     );
 
@@ -1841,16 +1847,16 @@ class DownloaderCubit extends Cubit<DownloaderState> {
           profileFeedNextCursor: page.nextCursor,
           clearProfileFeedNextCursor: page.nextCursor == null,
           status: addedCount == 0
-              ? 'Không có thêm nội dung mới.'
-              : 'Đã tải thêm $addedCount nội dung.',
+              ? DownloaderMessages.noMoreNewContent()
+              : DownloaderMessages.loadedMoreContent(addedCount),
         ),
       );
     } catch (_) {
       emit(
         state.copyWith(
           profileFeedLoadingMore: false,
-          profileError: 'Tải thêm thất bại. Vui lòng thử lại.',
-          status: 'Tải thêm thất bại. Vui lòng thử lại.',
+          profileError: DownloaderMessages.loadMoreFailed(),
+          status: DownloaderMessages.loadMoreFailed(),
         ),
       );
     }
@@ -1860,8 +1866,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     if (item.shortcode.trim().isEmpty && item.url.trim().isEmpty) {
       emit(
         state.copyWith(
-          profileError: 'Không thể mở nội dung này.',
-          status: 'Không thể mở nội dung này.',
+          profileError: DownloaderMessages.cannotOpenContent(),
+          status: DownloaderMessages.cannotOpenContent(),
         ),
       );
       return;
@@ -1878,7 +1884,9 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         profileMediaItems: <ProfileMediaItem>[],
         downloadingProfileMediaUrls: <String>{},
         clearProfileError: true,
-        status: kind == 'reel' ? 'Đang mở Reel...' : 'Đang mở bài viết...',
+        status: kind == 'reel'
+            ? DownloaderMessages.openingReel()
+            : DownloaderMessages.openingPost(),
       ),
     );
 
@@ -1915,13 +1923,12 @@ class DownloaderCubit extends Cubit<DownloaderState> {
           profileMediaLoading: false,
           profileMediaItems: items,
           status: items.isEmpty
-              ? 'Không thể hiển thị nội dung trong bài viết này.'
-              : 'Đã tìm thấy ${items.length} nội dung có thể tải.',
+              ? DownloaderMessages.cannotShowPostContent()
+              : DownloaderMessages.foundDownloadableContent(items.length),
         ),
       );
     } catch (_) {
-      const message =
-          'Không thể mở nội dung này. Vui lòng kiểm tra quyền xem hoặc thử lại.';
+      final message = DownloaderMessages.cannotOpenContentPermission();
 
       emit(
         state.copyWith(
@@ -1997,8 +2004,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
     if (downloadUrl.isEmpty) {
       emit(
         state.copyWith(
-          profileError: 'Không thể tải nội dung này.',
-          status: 'Không thể tải nội dung này.',
+          profileError: DownloaderMessages.cannotDownloadContent(),
+          status: DownloaderMessages.cannotDownloadContent(),
         ),
       );
       return;
@@ -2014,7 +2021,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       state.copyWith(
         downloadingProfileMediaUrls: nextDownloading,
         clearProfileError: true,
-        status: 'Đang tải nội dung...',
+        status: DownloaderMessages.downloadingContent(),
       ),
     );
 
@@ -2088,7 +2095,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       emit(
         state.copyWith(
           downloadingProfileMediaUrls: doneDownloading,
-          status: 'Đã lưu vào album ${AppConstants.albumName}.',
+          status: DownloaderMessages.savedToAlbum(AppConstants.albumName),
         ),
       );
     } catch (_) {
@@ -2098,8 +2105,8 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       emit(
         state.copyWith(
           downloadingProfileMediaUrls: doneDownloading,
-          profileError: 'Tải nội dung lỗi. Bấm thử lại.',
-          status: 'Tải nội dung lỗi. Bấm thử lại.',
+          profileError: DownloaderMessages.downloadContentErrorRetry(),
+          status: DownloaderMessages.downloadContentErrorRetry(),
         ),
       );
     }
@@ -2112,7 +2119,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
       state.copyWith(
         downloadHistory: <DownloadHistoryItem>[],
         downloadedProfileMediaKeys: <String>{},
-        status: 'Đã xoá lịch sử tải.',
+        status: DownloaderMessages.downloadHistoryCleared(),
       ),
     );
   }
@@ -2138,7 +2145,9 @@ class DownloaderCubit extends Cubit<DownloaderState> {
             .map((x) => x.key.trim())
             .where((x) => x.isNotEmpty)
             .toSet(),
-        status: 'Đã xoá ${cleanKeys.length} mục khỏi lịch sử.',
+        status: DownloaderMessages.downloadHistoryItemsRemoved(
+          cleanKeys.length,
+        ),
       ),
     );
   }
@@ -2161,19 +2170,19 @@ class DownloaderCubit extends Cubit<DownloaderState> {
         case DioExceptionType.connectionTimeout:
         case DioExceptionType.receiveTimeout:
         case DioExceptionType.sendTimeout:
-          return 'Tải lỗi do kết nối chậm. Bấm thử lại.';
+          return DownloaderMessages.downloadConnectionSlow();
         case DioExceptionType.connectionError:
-          return 'Không kết nối được mạng/CDN. Kiểm tra mạng rồi thử lại.';
+          return DownloaderMessages.downloadNetworkUnavailable();
         case DioExceptionType.cancel:
-          return 'Đã hủy tải.';
+          return DownloaderMessages.downloadCancelled();
         case DioExceptionType.badCertificate:
         case DioExceptionType.badResponse:
         case DioExceptionType.unknown:
-          return 'Tải lỗi. Bấm thử lại.';
+          return DownloaderMessages.downloadGenericError();
       }
     }
 
-    return 'Tải lỗi. Bấm thử lại.';
+    return DownloaderMessages.downloadGenericError();
   }
 
   Future<SavedDownloadFile> _downloadMediaOnce(IgMediaItem item) async {
@@ -2212,7 +2221,9 @@ class DownloaderCubit extends Cubit<DownloaderState> {
 
         final percent = ((received / total) * 100).toStringAsFixed(0);
 
-        emit(state.copyWith(status: 'Đang tải nội dung: $percent%'));
+        emit(
+          state.copyWith(status: DownloaderMessages.downloadProgress(percent)),
+        );
       },
     );
 
@@ -2304,7 +2315,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
 
     emit(
       state.copyWith(
-        status: 'Đang tải nội dung...',
+        status: DownloaderMessages.downloadingContent(),
         downloadingIds: nextDownloading,
         downloadErrors: nextErrors,
       ),
@@ -2325,7 +2336,9 @@ class DownloaderCubit extends Cubit<DownloaderState> {
 
       emit(
         state.copyWith(
-          status: 'Đã lưu nội dung vào album ${AppConstants.albumName}.',
+          status: DownloaderMessages.savedContentToAlbum(
+            AppConstants.albumName,
+          ),
           downloadingIds: doneDownloading,
           downloadErrors: doneErrors,
         ),
@@ -2338,7 +2351,7 @@ class DownloaderCubit extends Cubit<DownloaderState> {
 
       emit(
         state.copyWith(
-          status: 'Tải nội dung lỗi. Bấm thử lại.',
+          status: DownloaderMessages.downloadContentErrorRetry(),
           downloadingIds: doneDownloading,
           downloadErrors: doneErrors,
         ),

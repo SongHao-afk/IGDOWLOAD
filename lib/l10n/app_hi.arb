@@ -1,0 +1,339 @@
+{
+  "@@locale": "hi",
+  "appName": "IG Downloader",
+  "cancel": "रद्द करना",
+  "save": "बचाना",
+  "login": "लॉग इन करें",
+  "logout": "लॉग आउट",
+  "understood": "समझ गया",
+  "delete": "मिटाना",
+  "deleteAll": "सभी हटा दो",
+  "share": "शेयर करना",
+  "download": "डाउनलोड करना",
+  "downloadAgain": "पुनः डाउनलोड करें",
+  "saved": "डाउनलोड",
+  "loading": "लोड हो रहा है",
+  "apply": "आवेदन करना",
+  "frequentProfilesTitle": "हाल ही में देखी गई प्रोफ़ाइलें",
+  "frequentProfilesEmptyTitle": "अभी तक कोई प्रोफ़ाइल नहीं",
+  "frequentProfilesEmptyMessage": "आपके द्वारा देखी गई प्रोफ़ाइलें यहां दिखाई देंगी.",
+  "account": "खाता",
+  "downloadHistoryTitle": "इतिहास डाउनलोड करें",
+  "downloadHistoryEmptyTitle": "अभी तक कोई सामग्री नहीं है",
+  "downloadHistoryEmptyMessage": "आपने अभी तक कोई सामग्री डाउनलोड नहीं की है",
+  "selectedCount": "{count}चयनित",
+  "@selectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteAllHistoryTitle": "सारा इतिहास हटा दें?",
+  "deleteAllHistoryMessage": "आपके डाउनलोड इतिहास के सभी आइटम ऐप से हटा दिए जाएंगे।",
+  "deleteSelectedTitle": "{count} आइटम हटाएँ?",
+  "@deleteSelectedTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteSelectedOneMessage": "चयनित आइटम आपके डाउनलोड इतिहास से हटा दिया जाएगा।",
+  "deleteSelectedManyMessage": "{count} चयनित आइटम आपके डाउनलोड इतिहास से हटा दिए जाएंगे।",
+  "@deleteSelectedManyMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteOneTitle": "यह आइटम हटाएं?",
+  "deleteOneMessage": "यह आइटम आपके डाउनलोड इतिहास से हटा दिया जाएगा.",
+  "cannotShareFileMissing": "साझा नहीं कर सकते. फ़ाइल अब इस डिवाइस पर मौजूद नहीं है.",
+  "cannotShareContent": "इस सामग्री को साझा नहीं किया जा सकता.",
+  "cannotSaveAgainFileMissing": "दोबारा सहेजा नहीं जा सकता. फ़ाइल अब इस डिवाइस पर मौजूद नहीं है.",
+  "savedAgainToGallery": "गैलरी में पुनः सहेजा गया.",
+  "cannotSaveAgainContent": "इस सामग्री को दोबारा सहेजा नहीं जा सकता.",
+  "cannotOpenFileMissing": "इस सामग्री को नहीं खोला जा सकता. फ़ाइल अब इस डिवाइस पर मौजूद नहीं है.",
+  "video": "वीडियो",
+  "image": "तस्वीर",
+  "content": "सामग्री",
+  "justDownloaded": "अभी डाउनलोड किया गया",
+  "heroTitle": "Instagram से सामग्री डाउनलोड करें",
+  "heroConnected": "Instagram जुड़ा हुआ है।",
+  "heroDescription": "फ़ोटो, रील और कहानियाँ जल्दी और आसानी से डाउनलोड करें।",
+  "downloadByLink": "लिंक से डाउनलोड करें",
+  "invalidLinkTitle": "अमान्य लिंक",
+  "invalidLinkMessage": "कृपया उस पोस्ट, Reel, Story, या वीडियो के लिए Instagram लिंक दर्ज करें जिसे आप डाउनलोड करना चाहते हैं।",
+  "downloadByLinkInfo1": "इसका उपयोग तब करें जब आपके पास पहले से ही किसी Instagram पोस्ट, Reel, Story, या Highlight का लिंक हो।",
+  "downloadByLinkInfo2": "लिंक पेस्ट करें और ऐप सामग्री की जांच करेगा और आपको इसे डाउनलोड करने देगा।",
+  "example": "उदाहरण:",
+  "enterInstagramLink": "Instagram लिंक दर्ज करें",
+  "instagramLinkHint": "https://www.instagram.com/p/... या /reel/...",
+  "pasteInstagramLinkHint": "अपनी इच्छित सामग्री को जाँचने और डाउनलोड करने के लिए एक Instagram लिंक चिपकाएँ।",
+  "openInstagram": "Instagramखोलें",
+  "getContent": "सामग्री लो",
+  "explainFeature": "विशेषता स्पष्ट करें",
+  "downloadFromProfile": "प्रोफ़ाइल से डाउनलोड करें",
+  "invalidProfileTitle": "अमान्य जानकारी",
+  "invalidProfileMessage": "कृपया एक Instagram उपयोगकर्ता नाम या प्रोफ़ाइल लिंक दर्ज करें।",
+  "profileInfo1": "जब आप किसी Instagram खाते से एकाधिक आइटम देखना और डाउनलोड करना चाहते हैं तो इसका उपयोग करें।",
+  "profileInfo2": "एक उपयोगकर्ता नाम या प्रोफ़ाइल लिंक दर्ज करें, फिर वह Story, Reelया पोस्ट चुनें जिन्हें आप डाउनलोड करना चाहते हैं।",
+  "profileInputLabel": "उपयोगकर्ता नाम या प्रोफ़ाइल लिंक",
+  "profileInputHint": "उदाहरण: @username या instagram.com/username",
+  "profileCardDescription": "डाउनलोड करने योग्य Stories, Reelऔर पोस्ट देखने के लिए एक उपयोगकर्ता नाम या प्रोफ़ाइल लिंक दर्ज करें।",
+  "story": "Story",
+  "storiesHighlights": "Stories / Highlightएस",
+  "reels": "Reelएस",
+  "posts": "पदों",
+  "photosPosts": "तस्वीरें/पोस्ट",
+  "photosVideos": "तस्वीरें/वीडियो",
+  "profileSummary": "प्रोफ़ाइल सारांश",
+  "storyModeHint": "डाउनलोड करने योग्य Stories और Highlight देखने के लिए एक प्रोफ़ाइल दर्ज करें।",
+  "reelsModeHint": "Reelकी सूची देखने के लिए एक प्रोफ़ाइल दर्ज करें।",
+  "postsModeHint": "डाउनलोड करने योग्य पोस्ट देखने के लिए एक प्रोफ़ाइल दर्ज करें।",
+  "storyPopupTitle": "प्रोफ़ाइल से Stories डाउनलोड करें",
+  "reelsPopupTitle": "प्रोफ़ाइल से Reelडाउनलोड करें",
+  "postsPopupTitle": "प्रोफ़ाइल से पोस्ट डाउनलोड करें",
+  "viewStory": "देखें Story",
+  "viewReels": "Reelदेखें",
+  "viewPosts": "पोस्ट देखें",
+  "noStoryOrHighlightAll": "कोई Story या Highlight नहीं मिला। यदि सामग्री को देखने की अनुमति की आवश्यकता है तो लॉग इन करें।",
+  "noStoryOrHighlightInput": "कोई Story या Highlight नहीं मिला। जाँच करने के लिए एक Instagram प्रोफ़ाइल दर्ज करें।",
+  "noStoryItems": "प्रदर्शित करने के लिए कोई सामग्री नहीं है, या आपके पास इस आइटम को देखने की अनुमति नहीं है।",
+  "noFeedAll": "कोई पोस्ट या वीडियो नहीं मिला. यदि सामग्री को देखने की अनुमति की आवश्यकता है तो लॉग इन करें।",
+  "noFeedInput": "अभी तक कोई सामग्री नहीं है. Reelया पोस्ट चुनें, फिर एक प्रोफ़ाइल दर्ज करें।",
+  "endOfContent": "आप सामग्री के अंत तक पहुंच गए हैं.",
+  "loadMore": "और लोड करें",
+  "loadingMore": "और अधिक लोड हो रहा है...",
+  "cannotShowPostContent": "इस पोस्ट में सामग्री प्रदर्शित नहीं की जा सकती.",
+  "chooseItemToDownload": "डाउनलोड करने के लिए कोई आइटम चुनें",
+  "contentCount": "{count}आइटम",
+  "@contentCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chooseThemeColor": "थीम रंग चुनें",
+  "themeDefault": "गलती करना",
+  "themeVivid": "जीवंत",
+  "themePink": "चमकदार गुलाबी",
+  "themeBlue": "हल्का नीला रंग",
+  "themeRed": "लाल",
+  "themeDark": "अँधेरा",
+  "loginRequiredTitle": "लॉगिन आवश्यक है",
+  "followRequiredTitle": "पालन ​​आवश्यक है",
+  "followRequiredMessage": "लॉग-इन किए गए खाते को इस सामग्री को देखने की अनुमति नहीं है।",
+  "downloadSuccessMessage": "सफलतापूर्वक डाउनलोड किया गया.",
+  "viewHistory": "इतिहास देखें",
+  "frequentAccessTooltip": "बार-बार पहुंच",
+  "recentDownloadsTooltip": "हाल के डाउनलोड",
+  "changeThemeTooltip": "विषय को परिवर्तित करें",
+  "settingsTitle": "सेटिंग्स",
+  "themeSettingTitle": "विषय",
+  "languageSettingTitle": "भाषा",
+  "chooseLanguageTitle": "अपनी भाषा चुनें",
+  "languageVietnameseNative": "Ti?ng Vi?t",
+  "languageVietnameseLocal": "Vietnamese",
+  "languageEnglishNative": "English",
+  "languageEnglishLocal": "English",
+  "sessionModeTitle": "डाउनलोड मोड",
+  "sessionPublicMode": "Public",
+  "sessionPrivateMode": "Private",
+  "sessionPrivateConnected": "आपका Instagram खाता कनेक्ट हो गया है.",
+  "sessionPrivatePrompt": "आपके खाते को देखने की अनुमति वाली सामग्री डाउनलोड करने के लिए Instagram में लॉग इन करें।",
+  "sessionPublicPrompt": "आप लॉग इन किए बिना सार्वजनिक सामग्री डाउनलोड कर रहे हैं।",
+  "profileReelsListTitle": "Reel वीडियो सूची",
+  "profilePostsListTitle": "फोटो/पोस्ट सूची",
+  "close": "बंद करना",
+  "instagramHome": "Instagram घर",
+  "selectThisContent": "इस सामग्री का चयन करें",
+  "manualOpeningInstagram": "खुल रहा है...",
+  "manualInstruction": "वह पोस्ट खोलें, Reel, Story, या Highlight जिसे आप डाउनलोड करना चाहते हैं, फिर \"इस सामग्री का चयन करें\" पर टैप करें।",
+  "manualPickedContent": "सामग्री चयनित. जारी रखने के लिए \"इस सामग्री का चयन करें\" पर टैप करें।",
+  "manualNoDownloadableContent": "कोई डाउनलोड करने योग्य सामग्री नहीं मिली. कोई पोस्ट खोलें, Reel, Story, या Highlight।",
+  "manualCloseToExit": "चयनित सामग्री को खोने से बचाने के लिए, यदि आप बाहर निकलना चाहते हैं तो \"बंद करें\" पर टैप करें।",
+  "loginOpeningInstagram": "खुल रहा है Instagram... कृपया प्रतीक्षा करें।",
+  "loginInstruction": "Instagram में लॉग इन करें, फिर समाप्त करने के लिए \"सहेजें\" पर टैप करें।",
+  "loginChecking": "लॉगिन जांचा जा रहा है...",
+  "loginCannotConfirm": "लॉगिन की पुष्टि नहीं की जा सकती.\nकृपया Instagram में लॉग इन करें और पुनः सहेजने का प्रयास करें।",
+  "loginSaveError": "लॉगिन जानकारी सहेजते समय एक त्रुटि उत्पन्न हुई. कृपया पुन: प्रयास करें।",
+  "loginLoggingOut": "लॉग आउट हो रहा है...",
+  "loginLoggedOut": "आपने Instagram से लॉग आउट कर दिया है।\nजारी रखने के लिए कृपया दोबारा लॉग इन करें।",
+  "loginSuccessPrompt": "लॉग इन सफल।\nसमाप्त करने के लिए \"सहेजें\" पर टैप करें।",
+  "loginPromptOnLoginPage": "Instagram में लॉग इन करें, फिर समाप्त करने के लिए \"सहेजें\" पर टैप करें।",
+  "loginPromptSaveBottom": "यदि आपने लॉग इन करना समाप्त कर लिया है, तो नीचे \"सहेजें\" पर टैप करें।",
+  "loginPageTitle": "Instagram में लॉग इन करें",
+  "loginOpeningInstagramWithHint": "खुल रहा है...\nलॉग इन करने के बाद, \"सहेजें\" पर टैप करें।",
+  "loginOpenFailed": "Instagram नहीं खुल सकता।\nअपने इंटरनेट कनेक्शन की जाँच करें और पुन: प्रयास करें।",
+  "profileSavedMissingUsername": "सहेजी गई प्रोफ़ाइल में उपयोगकर्ता नाम गुम है.",
+  "openingProfile": "प्रोफ़ाइल खुल रही है...",
+  "openingUsername": "खुल रहा है @{username}...",
+  "@openingUsername": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryHighlightsAndPosts": "{storyCount} Story/Highlight आइटम और {postCount} पोस्ट मिले।",
+  "@foundStoryHighlightsAndPosts": {
+    "placeholders": {
+      "storyCount": {
+        "type": "int"
+      },
+      "postCount": {
+        "type": "int"
+      }
+    }
+  },
+  "privateModeEnabled": "Privateमोड सक्षम।",
+  "publicModeEnabled": "Public मोड पर वापस स्विच किया गया।",
+  "cannotConfirmInstagramLogin": "Instagram लॉगिन की पुष्टि नहीं कर सकता। कृपया फिर भाग लें।",
+  "instagramConnected": "Instagram खाता जुड़ा हुआ है.",
+  "loggingOutInstagram": "Instagram से लॉग आउट हो रहा है...",
+  "instagramLoggedOut": "आपने Instagram से लॉग आउट कर दिया है।",
+  "instagramLogoutCleanupFailed": "Instagram से लॉग आउट हो गया, लेकिन लॉगिन डेटा साफ़ करने में त्रुटि हुई।",
+  "emptyInstagramLink": "कृपया एक Instagram लिंक दर्ज करें।",
+  "preparingContent": "सामग्री तैयार की जा रही है...",
+  "loadingContentWithAccount": "कनेक्टेड खाते से सामग्री लोड हो रही है...",
+  "cannotFetchContent": "सामग्री नहीं लायी जा सकी.",
+  "noDownloadableContentFound": "कोई डाउनलोड करने योग्य सामग्री नहीं मिली.",
+  "foundDownloadableContent": "{count} डाउनलोड करने योग्य आइटम मिले।",
+  "@foundDownloadableContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "fetchContentFailedPublic": "सामग्री नहीं लायी जा सकी. कृपया लिंक की जाँच करें या पुनः प्रयास करें।",
+  "fetchContentFailedPrivate": "सामग्री नहीं लायी जा सकी. कृपया देखने की अनुमति जांचें या फिर से लॉग इन करें।",
+  "emptyProfileInput": "कृपया एक Instagram प्रोफ़ाइल दर्ज करें।",
+  "loadingStoryHighlights": "लोड हो रहा है Stories और Highlight...",
+  "noCurrentStoryOrHighlight": "कोई वर्तमान कहानी या हाइलाइट नहीं मिला.",
+  "foundStoryHighlights": "{count} Story/Highlight आइटम मिले।",
+  "@foundStoryHighlights": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotOpenContent": "इस सामग्री को नहीं खोला जा सकता.",
+  "openingStoryGroup": "\"{title}\" खुल रहा है...",
+  "@openingStoryGroup": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryGroupItems": "\"{title}\" में {count} आइटम मिले।",
+  "@foundStoryGroupItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "cannotOpenStoryHighlightLogin": "Story या Highlight नहीं खुल सकता। कृपया पुनः लॉगिन करें और पुनः प्रयास करें।",
+  "cannotOpenStoryHighlightPermission": "Story या Highlight नहीं खुल सकता। कृपया देखने की अनुमति जांचें.",
+  "cannotDownloadContent": "इस सामग्री को डाउनलोड नहीं किया जा सकता.",
+  "downloadingStory": "कहानी डाउनलोड हो रही है...",
+  "savedStoryToAlbum": "कहानी आइटम को एल्बम में सहेजा गया {albumName}.",
+  "@savedStoryToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadStoryFailed": "Story डाउनलोड विफल रहा. कृपया पुन: प्रयास करें।",
+  "loadingReelsPublic": "रीलें लायी जा रही हैं...",
+  "loadingReelsPrivate": "रीलें लोड हो रही हैं...",
+  "noReelsOrPermission": "कोई Reelनहीं मिला, या आपके पास उन्हें देखने की अनुमति नहीं है।",
+  "foundReels": "{count} Reelमिले।",
+  "@foundReels": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadReelsPublic": "Reels लोड नहीं कर सकता. कृपया प्रोफ़ाइल जांचें या पुनः प्रयास करें।",
+  "cannotLoadReelsPrivate": "Reels लोड नहीं कर सकता. कृपया देखने की अनुमति जांचें.",
+  "loadingPostsPublic": "फ़ोटो/पोस्ट लाये जा रहे हैं...",
+  "loadingPostsPrivate": "फ़ोटो/पोस्ट लोड हो रहे हैं...",
+  "noPostsOrPermission": "कोई फ़ोटो/पोस्ट नहीं मिला, या आपके पास उन्हें देखने की अनुमति नहीं है।",
+  "foundPosts": "{count} फ़ोटो/पोस्ट मिले।",
+  "@foundPosts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadPostsPublic": "पोस्ट लोड नहीं कर सकते. कृपया प्रोफ़ाइल जांचें या पुनः प्रयास करें।",
+  "cannotLoadPostsPrivate": "पोस्ट लोड नहीं कर सकते. कृपया देखने की अनुमति जांचें.",
+  "cannotLoadMoreContent": "अधिक सामग्री लोड नहीं की जा सकती.",
+  "cannotLoadMoreProfile": "इससे अधिक लोड नहीं किया जा सकता. कृपया प्रोफ़ाइल दोबारा दर्ज करें.",
+  "noMoreNewContent": "कोई और नई सामग्री नहीं.",
+  "loadedMoreContent": "{count} अधिक आइटम लोड किए गए।",
+  "@loadedMoreContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadMoreFailed": "अधिक लोड विफल रहा. कृपया पुन: प्रयास करें।",
+  "openingReel": "खुल रहा है...",
+  "openingPost": "प्रारंभिक पोस्ट...",
+  "cannotOpenContentPermission": "इस सामग्री को नहीं खोला जा सकता. कृपया देखने की अनुमति जांचें या पुनः प्रयास करें।",
+  "downloadingContent": "सामग्री डाउनलोड हो रही है...",
+  "savedToAlbum": "एल्बम में सहेजा गया {albumName}.",
+  "@savedToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "savedContentToAlbum": "सामग्री को एल्बम {albumName} में सहेजा गया।",
+  "@savedContentToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadContentErrorRetry": "सामग्री डाउनलोड विफल रहा. पुनः प्रयास करने के लिए टैप करें.",
+  "downloadHistoryCleared": "डाउनलोड इतिहास साफ़ किया गया.",
+  "downloadHistoryItemsRemoved": "इतिहास से {count} आइटम हटा दिए गए।",
+  "@downloadHistoryItemsRemoved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "downloadConnectionSlow": "धीमे कनेक्शन के कारण डाउनलोड विफल रहा. पुनः प्रयास करने के लिए टैप करें.",
+  "downloadNetworkUnavailable": "नेटवर्क/CDN से कनेक्ट नहीं हो सकता। अपना नेटवर्क जाँचें और पुनः प्रयास करें।",
+  "downloadCancelled": "डाउनलोड रद्द किया गया।",
+  "downloadGenericError": "डाउनलोड विफल रहा। पुनः प्रयास करने के लिए टैप करें।",
+  "downloadProgress": "सामग्री डाउनलोड करना: {percent}%",
+  "@downloadProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  }
+}

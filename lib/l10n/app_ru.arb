@@ -1,0 +1,339 @@
+{
+  "@@locale": "ru",
+  "appName": "IG Downloader",
+  "cancel": "Отмена",
+  "save": "Сохранить",
+  "login": "Войти",
+  "logout": "Выйти",
+  "understood": "Понятно",
+  "delete": "Удалить",
+  "deleteAll": "Удалить все",
+  "share": "Поделиться",
+  "download": "Загрузить",
+  "downloadAgain": "Загрузить снова",
+  "saved": "Скачано",
+  "loading": "Загрузка",
+  "apply": "Применить",
+  "frequentProfilesTitle": "Недавно просмотренные профили",
+  "frequentProfilesEmptyTitle": "Профилей пока нет",
+  "frequentProfilesEmptyMessage": "Просмотренные вами профили появятся здесь.",
+  "account": "Аккаунт",
+  "downloadHistoryTitle": "История загрузок",
+  "downloadHistoryEmptyTitle": "Нет контент еще",
+  "downloadHistoryEmptyMessage": "Вы еще не загрузили какой-либо контент",
+  "selectedCount": "{count} выбрано",
+  "@selectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteAllHistoryTitle": "Удалить всю историю?",
+  "deleteAllHistoryMessage": "Все элементы в вашей истории загрузок будут удалены из приложения.",
+  "deleteSelectedTitle": "Удалить {count} элементы?",
+  "@deleteSelectedTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteSelectedOneMessage": "Выбранный элемент будет удален из вашей истории загрузок.",
+  "deleteSelectedManyMessage": "{count} выбранные элементы будут удалены из вашей истории загрузок.",
+  "@deleteSelectedManyMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteOneTitle": "Удалить этот элемент?",
+  "deleteOneMessage": "Этот элемент будет удален из вашей истории загрузок.",
+  "cannotShareFileMissing": "Невозможно поделиться. Файл больше не существует на этом устройстве.",
+  "cannotShareContent": "Невозможно поделиться этим содержимым.",
+  "cannotSaveAgainFileMissing": "Невозможно сохранить снова. Файл больше не существует на этом устройстве.",
+  "savedAgainToGallery": "Снова сохранен в галерее.",
+  "cannotSaveAgainContent": "Невозможно снова сохранить этот контент.",
+  "cannotOpenFileMissing": "Невозможно открыть этот контент. Файл больше не существует на этом устройстве.",
+  "video": "Видео",
+  "image": "Фото",
+  "content": "Содержимое",
+  "justDownloaded": "Только что скачано",
+  "heroTitle": "Загрузить содержимое из Instagram",
+  "heroConnected": "Instagram подключено.",
+  "heroDescription": "Загружайте фотографии, ролики и истории быстро и легко.",
+  "downloadByLink": "Загрузить по ссылке",
+  "invalidLinkTitle": "Недействительная ссылка",
+  "invalidLinkMessage": "Пожалуйста, введите ссылку Instagram для публикации, Reel, Story или видео, которое вы хотите загрузить.",
+  "downloadByLinkInfo1": "Используйте это, если у вас уже есть ссылка на Instagram опубликовать, Reel, Story или Highlight.",
+  "downloadByLinkInfo2": "Вставьте ссылку, и приложение проверит контент и позволит вам его загрузить.",
+  "example": "Пример:",
+  "enterInstagramLink": "Введите Instagram ссылку",
+  "instagramLinkHint": "https://www.instagram.com/p/... или /reel/…",
+  "pasteInstagramLinkHint": "Вставьте ссылку Instagram, чтобы проверить и загрузить нужный контент.",
+  "openInstagram": "Открыть Instagram",
+  "getContent": "Получить содержание",
+  "explainFeature": "Объясните функцию",
+  "downloadFromProfile": "Загрузить из профиля",
+  "invalidProfileTitle": "Неверная информация",
+  "invalidProfileMessage": "Пожалуйста, введите Instagram имя пользователя или ссылку на профиль.",
+  "profileInfo1": "Используйте это, если вы хотите просмотреть и загрузить несколько элементов из учетной записи Instagram.",
+  "profileInfo2": "Введите имя пользователя или ссылку на профиль, затем выберите Story, Reel или сообщения, которые вы хотите загрузить.",
+  "profileInputLabel": "Имя пользователя или ссылка на профиль",
+  "profileInputHint": "Пример: @username или instagram.com/username.",
+  "profileCardDescription": "Введите имя пользователя или ссылку на профиль, чтобы просмотреть Stories, Reel и публикации, которые можно загрузить.",
+  "story": "Story",
+  "storiesHighlights": "Stories / Highlight с",
+  "reels": "Reelс",
+  "posts": "Сообщения",
+  "photosPosts": "Фотографии/Сообщения",
+  "photosVideos": "Фото/Видео",
+  "profileSummary": "Сводка профиля",
+  "storyModeHint": "Введите профиль, чтобы просмотреть загружаемые Stories и Highlight.",
+  "reelsModeHint": "Войдите в профиль, чтобы просмотреть список Reel.",
+  "postsModeHint": "Войдите в профиль, чтобы просмотреть доступные для скачивания сообщения.",
+  "storyPopupTitle": "Скачать Stories из профиля",
+  "reelsPopupTitle": "Загрузить Reel из профиля",
+  "postsPopupTitle": "Скачать посты из профиля",
+  "viewStory": "Посмотреть Story",
+  "viewReels": "Посмотреть Reel",
+  "viewPosts": "Посмотреть сообщения",
+  "noStoryOrHighlightAll": "Story или Highlight не найдены. Войдите в систему, если контент требует разрешения на просмотр.",
+  "noStoryOrHighlightInput": "Story или Highlight не найдены. Введите профиль Instagram для проверки.",
+  "noStoryItems": "Нет контента для отображения, или у вас нет разрешения на просмотр этого элемента.",
+  "noFeedAll": "Посты и видео не найдены. Войдите в систему, если контент требует разрешения на просмотр.",
+  "noFeedInput": "Пока нет контента. Выберите Reels или «Сообщения», затем войдите в профиль.",
+  "endOfContent": "Вы достигли конца контента.",
+  "loadMore": "Загрузить больше",
+  "loadingMore": "Загружается еще...",
+  "cannotShowPostContent": "Невозможно отобразить содержимое этого сообщения.",
+  "chooseItemToDownload": "Выберите элемент для загрузки",
+  "contentCount": "{count} элементы",
+  "@contentCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chooseThemeColor": "Выберите цвет темы",
+  "themeDefault": "По умолчанию",
+  "themeVivid": "Яркий",
+  "themePink": "Глянцево-розовый",
+  "themeBlue": "Светло-голубой",
+  "themeRed": "Красный",
+  "themeDark": "Темный",
+  "loginRequiredTitle": "Требуется вход в систему",
+  "followRequiredTitle": "Необходимо следовать",
+  "followRequiredMessage": "Учетная запись, вошедшая в систему, не имеет разрешения на просмотр этого контента.",
+  "downloadSuccessMessage": "Загружено успешно.",
+  "viewHistory": "Просмотреть история",
+  "frequentAccessTooltip": "Частый доступ",
+  "recentDownloadsTooltip": "Недавние загрузки",
+  "changeThemeTooltip": "Изменить тему",
+  "settingsTitle": "Настройки",
+  "themeSettingTitle": "Тема",
+  "languageSettingTitle": "Язык",
+  "chooseLanguageTitle": "Выберите язык",
+  "languageVietnameseNative": "Tiếng Việt",
+  "languageVietnameseLocal": "Vietnamese",
+  "languageEnglishNative": "English",
+  "languageEnglishLocal": "English",
+  "sessionModeTitle": "Режим загрузки",
+  "sessionPublicMode": "Public",
+  "sessionPrivateMode": "Private",
+  "sessionPrivateConnected": "Ваша Instagram учетная запись подключена.",
+  "sessionPrivatePrompt": "Войдите в Instagram, чтобы загрузить контент, который ваша учетная запись может просматривать.",
+  "sessionPublicPrompt": "Вы загружаете общедоступный контент без входа в систему in.",
+  "profileReelsListTitle": "Reel Список видео",
+  "profilePostsListTitle": "Список фотографий/сообщений",
+  "close": "Закрыть",
+  "instagramHome": "Instagram главная страница",
+  "selectThisContent": "Выберите этот контент",
+  "manualOpeningInstagram": "Открытие Instagram...",
+  "manualInstruction": "Откройте сообщение, Reel, Story или Highlight, которое вы хотите загрузить, затем нажмите «Выбрать этот контент».",
+  "manualPickedContent": "Содержимое выбрано. Нажмите «Выбрать этот контент», чтобы продолжить.",
+  "manualNoDownloadableContent": "Загружаемый контент не найден. Откройте сообщение, Reel, Story или Highlight.",
+  "manualCloseToExit": "Чтобы не потерять выбранный контент, нажмите «Закрыть», если хотите выйти.",
+  "loginOpeningInstagram": "Открытие Instagram... Пожалуйста, подождите.",
+  "loginInstruction": "Войдите в Instagram, затем нажмите «Сохранить», чтобы завершить.",
+  "loginChecking": "Проверка входа…",
+  "loginCannotConfirm": "Невозможно подтвердить вход.\nПожалуйста, войдите в Instagram и повторите попытку сохранения.",
+  "loginSaveError": "Произошла ошибка при сохранении данных для входа. Пожалуйста, попробуйте еще раз.",
+  "loginLoggingOut": "Выход...",
+  "loginLoggedOut": "Вы вышли из Instagram.\nПожалуйста, войдите еще раз, чтобы продолжить.",
+  "loginSuccessPrompt": "Вход успешен.\nНажмите «Сохранить», чтобы завершить.",
+  "loginPromptOnLoginPage": "Войдите в Instagram, затем нажмите «Сохранить», чтобы завершить.",
+  "loginPromptSaveBottom": "Если вы завершили вход, нажмите «Сохранить» ниже.",
+  "loginPageTitle": "Войдите в систему, чтобы Instagram",
+  "loginOpeningInstagramWithHint": "Открытие Instagram...\nПосле входа нажмите «Сохранить».",
+  "loginOpenFailed": "Невозможно открыть Instagram.\nПожалуйста, проверьте подключение к Интернету и повторите попытку.",
+  "profileSavedMissingUsername": "В сохраненном профиле отсутствует имя пользователя.",
+  "openingProfile": "Открытие профиля...",
+  "openingUsername": "Открытие @{username}...",
+  "@openingUsername": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryHighlightsAndPosts": "Найдены {storyCount} Story/Highlight элементы и {postCount} сообщения.",
+  "@foundStoryHighlightsAndPosts": {
+    "placeholders": {
+      "storyCount": {
+        "type": "int"
+      },
+      "postCount": {
+        "type": "int"
+      }
+    }
+  },
+  "privateModeEnabled": "Private Режим включен.",
+  "publicModeEnabled": "Переключен обратно в режим Public.",
+  "cannotConfirmInstagramLogin": "Невозможно подтвердить вход Instagram. Пожалуйста, войдите снова.",
+  "instagramConnected": "Instagram Аккаунт подключен.",
+  "loggingOutInstagram": "Выход из Instagram...",
+  "instagramLoggedOut": "Вы вышли из Instagram.",
+  "instagramLogoutCleanupFailed": "Вышли из Instagram, но произошла ошибка при очистке данных для входа.",
+  "emptyInstagramLink": "Пожалуйста, введите ссылку Instagram.",
+  "preparingContent": "Подготовка контента...",
+  "loadingContentWithAccount": "Загрузка контента с помощью подключенной учетной записи...",
+  "cannotFetchContent": "Невозможно получить контент.",
+  "noDownloadableContentFound": "Загружаемый контент не найден.",
+  "foundDownloadableContent": "Найдено {count} загружаемые элементы.",
+  "@foundDownloadableContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "fetchContentFailedPublic": "Невозможно получить контент. Пожалуйста, проверьте ссылку или повторите попытку.",
+  "fetchContentFailedPrivate": "Невозможно получить контент. Пожалуйста, проверьте разрешение на просмотр или войдите снова.",
+  "emptyProfileInput": "Пожалуйста, введите профиль Instagram.",
+  "loadingStoryHighlights": "Загрузка Stories и Highlights...",
+  "noCurrentStoryOrHighlight": "Нет текущей истории или основного момента не найдено.",
+  "foundStoryHighlights": "Найдено {count} Story/Highlight элементов.",
+  "@foundStoryHighlights": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotOpenContent": "Невозможно открыть этот контент.",
+  "openingStoryGroup": "Открытие «{title}»…",
+  "@openingStoryGroup": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryGroupItems": "Найдены {count} элементы в «{title}».",
+  "@foundStoryGroupItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "cannotOpenStoryHighlightLogin": "Невозможно открыть Story или Highlight. Пожалуйста, войдите в систему и повторите попытку.",
+  "cannotOpenStoryHighlightPermission": "Невозможно открыть Story или Highlight. Пожалуйста, проверьте разрешение на просмотр.",
+  "cannotDownloadContent": "Невозможно загрузить этот контент.",
+  "downloadingStory": "Загрузка истории...",
+  "savedStoryToAlbum": "Элемент истории сохранен в альбоме {albumName}.",
+  "@savedStoryToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadStoryFailed": "Story Не удалось загрузить. Пожалуйста, повторите попытку.",
+  "loadingReelsPublic": "Загрузка роликов...",
+  "loadingReelsPrivate": "Загрузка роликов...",
+  "noReelsOrPermission": "Файлы Reel не найдены, или у вас нет разрешения на их просмотр.",
+  "foundReels": "Найдено {count} Reels.",
+  "@foundReels": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadReelsPublic": "Невозможно загрузить Reels. Пожалуйста, проверьте профиль или повторите попытку.",
+  "cannotLoadReelsPrivate": "Невозможно загрузить Reel. Пожалуйста, проверьте разрешение на просмотр.",
+  "loadingPostsPublic": "Загрузка фотографий/сообщений...",
+  "loadingPostsPrivate": "Загрузка фотографий/сообщений...",
+  "noPostsOrPermission": "Фотографии/сообщения не найдены, или у вас нет разрешения на их просмотр.",
+  "foundPosts": "Найдено {count} фотографий/сообщений.",
+  "@foundPosts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadPostsPublic": "Невозможно загрузить сообщения. Пожалуйста, проверьте профиль или повторите попытку.",
+  "cannotLoadPostsPrivate": "Невозможно загрузить сообщения. Пожалуйста, проверьте разрешение на просмотр.",
+  "cannotLoadMoreContent": "Невозможно загрузить больше контента.",
+  "cannotLoadMoreProfile": "Невозможно загрузить больше. Пожалуйста, войдите в профиль еще раз.",
+  "noMoreNewContent": "Нового контента больше нет.",
+  "loadedMoreContent": "Загружено {count} еще элементов.",
+  "@loadedMoreContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadMoreFailed": "Не удалось загрузить больше. Пожалуйста, попробуйте еще раз.",
+  "openingReel": "Открытие Reel...",
+  "openingPost": "Открытие сообщения...",
+  "cannotOpenContentPermission": "Невозможно открыть этот контент. Пожалуйста, проверьте разрешение на просмотр или повторите попытку.",
+  "downloadingContent": "Загрузка контента...",
+  "savedToAlbum": "Сохранено в альбом {albumName}.",
+  "@savedToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "savedContentToAlbum": "Сохранено содержимое в альбом {albumName}.",
+  "@savedContentToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadContentErrorRetry": "Не удалось загрузить контент. Нажмите, чтобы повторить попытку.",
+  "downloadHistoryCleared": "История загрузок очищена.",
+  "downloadHistoryItemsRemoved": "Удалены {count} элементов из истории.",
+  "@downloadHistoryItemsRemoved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "downloadConnectionSlow": "Загрузка не удалась из-за медленного соединения. Нажмите, чтобы повторить попытку.",
+  "downloadNetworkUnavailable": "Невозможно подключиться к сети/CDN. Проверьте свою сеть и повторите попытку.",
+  "downloadCancelled": "Загрузка отменена.",
+  "downloadGenericError": "Загрузка не удалась. Нажмите, чтобы повторить попытку.",
+  "downloadProgress": "Загрузка контента: {percent}%",
+  "@downloadProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  }
+}

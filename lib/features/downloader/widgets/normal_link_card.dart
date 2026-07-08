@@ -1,5 +1,6 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../cubit/downloader_cubit.dart';
 import '../cubit/downloader_state.dart';
 
@@ -59,14 +60,12 @@ class NormalLinkCard extends StatelessWidget {
 
         return AlertDialog(
           icon: Icon(Icons.error_outline_rounded, color: color.error, size: 32),
-          title: const Text('Liên kết không hợp lệ'),
-          content: const Text(
-            'Vui lòng nhập liên kết Instagram của bài viết, Reel, Story hoặc video bạn muốn tải.',
-          ),
+          title: Text(AppLocalizations.of(dialogContext)!.invalidLinkTitle),
+          content: Text(AppLocalizations.of(dialogContext)!.invalidLinkMessage),
           actions: [
             FilledButton(
               onPressed: () => Navigator.of(dialogContext).pop(),
-              child: const Text('Đã hiểu'),
+              child: Text(AppLocalizations.of(dialogContext)!.understood),
             ),
           ],
         );
@@ -95,23 +94,19 @@ class NormalLinkCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      'Tải bằng liên kết',
+                      AppLocalizations.of(sheetContext)!.downloadByLink,
                       style: Theme.of(sheetContext).textTheme.titleLarge
                           ?.copyWith(fontWeight: FontWeight.w900),
                     ),
                   ],
                 ),
                 const SizedBox(height: 12),
-                const Text(
-                  'Dùng khi bạn đã có liên kết của một bài viết, Reel, Story hoặc Highlight trên Instagram.',
-                ),
+                Text(AppLocalizations.of(sheetContext)!.downloadByLinkInfo1),
                 const SizedBox(height: 8),
-                const Text(
-                  'Chỉ cần dán liên kết, ứng dụng sẽ kiểm tra nội dung và cho phép bạn tải xuống.',
-                ),
+                Text(AppLocalizations.of(sheetContext)!.downloadByLinkInfo2),
                 const SizedBox(height: 14),
                 Text(
-                  'Ví dụ:',
+                  AppLocalizations.of(sheetContext)!.example,
                   style: Theme.of(
                     sheetContext,
                   ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w900),
@@ -127,7 +122,7 @@ class NormalLinkCard extends StatelessWidget {
                   width: double.infinity,
                   child: FilledButton(
                     onPressed: () => Navigator.of(sheetContext).pop(),
-                    child: const Text('Đã hiểu'),
+                    child: Text(AppLocalizations.of(sheetContext)!.understood),
                   ),
                 ),
               ],
@@ -144,6 +139,7 @@ class NormalLinkCard extends StatelessWidget {
     DownloaderCubit cubit,
   ) {
     final color = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 18, 16, 16),
@@ -193,11 +189,11 @@ class NormalLinkCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 10),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Tải bằng liên kết',
+                  AppLocalizations.of(context)!.downloadByLink,
                   style: TextStyle(
-                    color: Color(0xFF171321),
+                    color: color.onSurface,
                     fontSize: 18,
                     fontWeight: FontWeight.w900,
                   ),
@@ -207,7 +203,7 @@ class NormalLinkCard extends StatelessWidget {
                 onPressed: () => _showLinkInfo(context),
                 icon: const Icon(Icons.info_outline_rounded),
                 color: color.primary,
-                tooltip: 'Giải thích chức năng',
+                tooltip: AppLocalizations.of(context)!.explainFeature,
               ),
             ],
           ),
@@ -218,11 +214,13 @@ class NormalLinkCard extends StatelessWidget {
             keyboardType: TextInputType.url,
             textInputAction: TextInputAction.done,
             decoration: InputDecoration(
-              labelText: 'Nhập liên kết Instagram',
-              hintText: 'https://www.instagram.com/p/... hoặc /reel/...',
+              labelText: AppLocalizations.of(context)!.enterInstagramLink,
+              hintText: AppLocalizations.of(context)!.instagramLinkHint,
               prefixIcon: const Icon(Icons.link_rounded),
               filled: true,
-              fillColor: Colors.white.withOpacity(0.92),
+              fillColor: isDark
+                  ? color.surfaceContainerHighest.withOpacity(0.72)
+                  : Colors.white.withOpacity(0.92),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(18),
                 borderSide: BorderSide(color: color.primary.withOpacity(0.22)),
@@ -235,7 +233,7 @@ class NormalLinkCard extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            'Dán liên kết Instagram để kiểm tra và tải nội dung bạn muốn.',
+            AppLocalizations.of(context)!.pasteInstagramLinkHint,
             style: TextStyle(
               color: Theme.of(
                 context,
@@ -256,14 +254,16 @@ class NormalLinkCard extends StatelessWidget {
                   style: OutlinedButton.styleFrom(
                     minimumSize: const Size.fromHeight(50),
                     foregroundColor: color.primary,
-                    backgroundColor: Colors.white.withOpacity(0.82),
+                    backgroundColor: isDark
+                        ? color.surfaceContainerHighest.withOpacity(0.86)
+                        : Colors.white.withOpacity(0.82),
                     side: BorderSide(color: color.primary, width: 1.2),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
                     textStyle: const TextStyle(fontWeight: FontWeight.w900),
                   ),
-                  label: const Text('Mở Instagram'),
+                  label: Text(AppLocalizations.of(context)!.openInstagram),
                 ),
               ),
               const SizedBox(width: 10),
@@ -312,10 +312,10 @@ class NormalLinkCard extends StatelessWidget {
                             height: 18,
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
-                        : const FittedBox(
+                        : FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              'Lấy nội dung',
+                              AppLocalizations.of(context)!.getContent,
                               maxLines: 1,
                               softWrap: false,
                             ),

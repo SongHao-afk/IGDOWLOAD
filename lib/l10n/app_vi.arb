@@ -1,4 +1,339 @@
 {
   "@@locale": "vi",
-  "appName": "IG Downloader"
+  "appName": "IG Downloader",
+  "cancel": "Hủy",
+  "save": "Lưu",
+  "login": "Đăng nhập",
+  "logout": "Đăng xuất",
+  "understood": "Đã hiểu",
+  "delete": "Xoá",
+  "deleteAll": "Xoá tất cả",
+  "share": "Chia sẻ",
+  "download": "Tải",
+  "downloadAgain": "Tải lại",
+  "saved": "Đã tải",
+  "loading": "Đang tải",
+  "apply": "Áp dụng",
+  "frequentProfilesTitle": "Trang cá nhân đã xem gần đây",
+  "frequentProfilesEmptyTitle": "Chưa có trang cá nhân nào",
+  "frequentProfilesEmptyMessage": "Những trang cá nhân bạn đã xem sẽ xuất hiện tại đây.",
+  "account": "Tài khoản",
+  "downloadHistoryTitle": "Lịch sử tải xuống",
+  "downloadHistoryEmptyTitle": "Chưa có nội dung nào",
+  "downloadHistoryEmptyMessage": "Bạn chưa tải nội dung nào",
+  "selectedCount": "Đã chọn {count}",
+  "@selectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteAllHistoryTitle": "Xoá tất cả lịch sử?",
+  "deleteAllHistoryMessage": "Tất cả mục trong lịch sử tải xuống sẽ bị xoá khỏi ứng dụng.",
+  "deleteSelectedTitle": "Xoá {count} mục?",
+  "@deleteSelectedTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteSelectedOneMessage": "Mục đã chọn sẽ bị xoá khỏi lịch sử tải xuống.",
+  "deleteSelectedManyMessage": "{count} mục đã chọn sẽ bị xoá khỏi lịch sử tải xuống.",
+  "@deleteSelectedManyMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteOneTitle": "Xoá mục này?",
+  "deleteOneMessage": "Mục này sẽ bị xoá khỏi lịch sử tải xuống.",
+  "cannotShareFileMissing": "Không thể chia sẻ. File không còn tồn tại trên máy.",
+  "cannotShareContent": "Không thể chia sẻ nội dung này.",
+  "cannotSaveAgainFileMissing": "Không thể lưu lại. File không còn tồn tại trên máy.",
+  "savedAgainToGallery": "Đã lưu lại vào thư viện.",
+  "cannotSaveAgainContent": "Không thể lưu lại nội dung này.",
+  "cannotOpenFileMissing": "Không thể mở nội dung này. File không còn tồn tại trên máy.",
+  "video": "Video",
+  "image": "Ảnh",
+  "content": "Nội dung",
+  "justDownloaded": "Vừa tải",
+  "heroTitle": "Tải nội dung từ Instagram",
+  "heroConnected": "Instagram đã được kết nối.",
+  "heroDescription": "Tải ảnh, reel, story cực nhanh và đơn giản.",
+  "downloadByLink": "Tải bằng liên kết",
+  "invalidLinkTitle": "Liên kết không hợp lệ",
+  "invalidLinkMessage": "Vui lòng nhập liên kết Instagram của bài viết, Reel, Story hoặc video bạn muốn tải.",
+  "downloadByLinkInfo1": "Dùng khi bạn đã có liên kết của một bài viết, Reel, Story hoặc Highlight trên Instagram.",
+  "downloadByLinkInfo2": "Chỉ cần dán liên kết, ứng dụng sẽ kiểm tra nội dung và cho phép bạn tải xuống.",
+  "example": "Ví dụ:",
+  "enterInstagramLink": "Nhập liên kết Instagram",
+  "instagramLinkHint": "https://www.instagram.com/p/... hoặc /reel/...",
+  "pasteInstagramLinkHint": "Dán liên kết Instagram để kiểm tra và tải nội dung bạn muốn.",
+  "openInstagram": "Mở Instagram",
+  "getContent": "Lấy nội dung",
+  "explainFeature": "Giải thích chức năng",
+  "downloadFromProfile": "Tải từ trang cá nhân",
+  "invalidProfileTitle": "Thông tin không hợp lệ",
+  "invalidProfileMessage": "Vui lòng nhập tên người dùng hoặc liên kết trang cá nhân Instagram.",
+  "profileInfo1": "Dùng khi bạn muốn xem và tải nhiều nội dung từ một tài khoản Instagram.",
+  "profileInfo2": "Nhập tên người dùng hoặc liên kết trang cá nhân, sau đó chọn Story, Reels hoặc bài viết muốn tải.",
+  "profileInputLabel": "Tên người dùng hoặc liên kết trang cá nhân",
+  "profileInputHint": "Ví dụ: @username hoặc instagram.com/username",
+  "profileCardDescription": "Nhập tên người dùng hoặc liên kết trang cá nhân để xem Story, Reels và bài viết có thể tải.",
+  "story": "Story",
+  "storiesHighlights": "Stories / Highlights",
+  "reels": "Reels",
+  "posts": "Bài viết",
+  "photosPosts": "Ảnh / Bài viết",
+  "photosVideos": "Ảnh / Video",
+  "profileSummary": "Tổng hợp profile",
+  "storyModeHint": "Nhập trang cá nhân để xem Story và Highlight có thể tải.",
+  "reelsModeHint": "Nhập trang cá nhân để xem danh sách Reels.",
+  "postsModeHint": "Nhập trang cá nhân để xem các bài viết có thể tải.",
+  "storyPopupTitle": "Tải Story từ trang cá nhân",
+  "reelsPopupTitle": "Tải Reels từ trang cá nhân",
+  "postsPopupTitle": "Tải bài viết từ trang cá nhân",
+  "viewStory": "Xem Story",
+  "viewReels": "Xem Reels",
+  "viewPosts": "Xem bài viết",
+  "noStoryOrHighlightAll": "Không tìm thấy Story hoặc Highlight. Hãy đăng nhập nếu nội dung cần quyền xem.",
+  "noStoryOrHighlightInput": "Không tìm thấy Story hoặc Highlight. Hãy nhập trang cá nhân Instagram để kiểm tra.",
+  "noStoryItems": "Không có nội dung để hiển thị hoặc bạn chưa có quyền xem mục này.",
+  "noFeedAll": "Không tìm thấy bài viết hoặc video. Hãy đăng nhập nếu nội dung cần quyền xem.",
+  "noFeedInput": "Chưa có nội dung. Hãy chọn Reels hoặc Bài viết rồi nhập trang cá nhân.",
+  "endOfContent": "Bạn đã xem hết nội dung.",
+  "loadMore": "Tải thêm",
+  "loadingMore": "Đang tải thêm...",
+  "cannotShowPostContent": "Không thể hiển thị nội dung trong bài viết này.",
+  "chooseItemToDownload": "Chọn item để tải",
+  "contentCount": "{count} nội dung",
+  "@contentCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chooseThemeColor": "Chọn màu giao diện",
+  "themeDefault": "Mặc định",
+  "themeVivid": "Rực rỡ",
+  "themePink": "Hồng bóng",
+  "themeBlue": "Xanh lam nhạt",
+  "themeRed": "Đỏ",
+  "themeDark": "Tối",
+  "loginRequiredTitle": "Cần đăng nhập",
+  "followRequiredTitle": "Cần follow người này",
+  "followRequiredMessage": "Tài khoản đang đăng nhập chưa có quyền xem nội dung này.",
+  "downloadSuccessMessage": "Đã tải xuống thành công.",
+  "viewHistory": "Xem lịch sử",
+  "frequentAccessTooltip": "Truy cập thường xuyên",
+  "recentDownloadsTooltip": "Đã tải gần đây",
+  "changeThemeTooltip": "Đổi giao diện",
+  "settingsTitle": "Cài đặt",
+  "themeSettingTitle": "Giao diện",
+  "languageSettingTitle": "Ngôn ngữ",
+  "chooseLanguageTitle": "Chọn ngôn ngữ của bạn",
+  "languageVietnameseNative": "Tiếng Việt",
+  "languageVietnameseLocal": "Tiếng Việt",
+  "languageEnglishNative": "English",
+  "languageEnglishLocal": "Tiếng Anh",
+  "sessionModeTitle": "Chế độ tải",
+  "sessionPublicMode": "Public",
+  "sessionPrivateMode": "Private",
+  "sessionPrivateConnected": "Bạn đã kết nối tài khoản Instagram.",
+  "sessionPrivatePrompt": "Đăng nhập Instagram để tải nội dung mà tài khoản của bạn có quyền xem.",
+  "sessionPublicPrompt": "Bạn đang tải nội dung công khai mà không cần đăng nhập.",
+  "profileReelsListTitle": "Danh sách Video Reel",
+  "profilePostsListTitle": "Danh sách Ảnh / Bài viết",
+  "close": "Đóng",
+  "instagramHome": "Trang chủ Instagram",
+  "selectThisContent": "Chọn nội dung này",
+  "manualOpeningInstagram": "Đang mở Instagram...",
+  "manualInstruction": "Mở bài viết, Reel, Story hoặc Highlight bạn muốn tải, sau đó nhấn \"Chọn nội dung này\".",
+  "manualPickedContent": "Đã chọn được nội dung. Nhấn \"Chọn nội dung này\" để tiếp tục.",
+  "manualNoDownloadableContent": "Không tìm thấy nội dung có thể tải. Hãy mở một bài viết, Reel, Story hoặc Highlight.",
+  "manualCloseToExit": "Để tránh mất nội dung đang chọn, vui lòng nhấn \"Đóng\" nếu muốn thoát.",
+  "loginOpeningInstagram": "Đang mở Instagram... Vui lòng chờ.",
+  "loginInstruction": "Đăng nhập vào Instagram, sau đó nhấn \"Lưu\" để hoàn tất.",
+  "loginChecking": "Đang xác nhận đăng nhập...",
+  "loginCannotConfirm": "Không thể xác nhận đăng nhập.\nVui lòng đăng nhập Instagram rồi thử lưu lại.",
+  "loginSaveError": "Có lỗi xảy ra khi lưu thông tin đăng nhập. Vui lòng thử lại.",
+  "loginLoggingOut": "Đang đăng xuất...",
+  "loginLoggedOut": "Bạn đã đăng xuất khỏi Instagram.\nVui lòng đăng nhập lại để tiếp tục.",
+  "loginSuccessPrompt": "Đăng nhập thành công.\nNhấn \"Lưu\" để hoàn tất.",
+  "loginPromptOnLoginPage": "Đăng nhập Instagram rồi bấm \"Lưu\" để hoàn tất.",
+  "loginPromptSaveBottom": "Nếu đã đăng nhập xong, hãy nhấn \"Lưu\" bên dưới.",
+  "loginPageTitle": "Đăng nhập Instagram",
+  "loginOpeningInstagramWithHint": "Đang mở Instagram...\nĐăng nhập xong thì bấm \"Lưu\".",
+  "loginOpenFailed": "Không thể mở Instagram.\nVui lòng kiểm tra kết nối Internet và thử lại.",
+  "profileSavedMissingUsername": "Profile đã lưu thiếu username.",
+  "openingProfile": "Đang mở trang cá nhân...",
+  "openingUsername": "Đang mở @{username}...",
+  "@openingUsername": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryHighlightsAndPosts": "Đã tìm thấy {storyCount} Story/Highlight và {postCount} bài viết.",
+  "@foundStoryHighlightsAndPosts": {
+    "placeholders": {
+      "storyCount": {
+        "type": "int"
+      },
+      "postCount": {
+        "type": "int"
+      }
+    }
+  },
+  "privateModeEnabled": "Đã bật chế độ Private.",
+  "publicModeEnabled": "Đã chuyển về chế độ Public.",
+  "cannotConfirmInstagramLogin": "Không thể xác nhận đăng nhập Instagram. Vui lòng đăng nhập lại.",
+  "instagramConnected": "Đã kết nối tài khoản Instagram.",
+  "loggingOutInstagram": "Đang đăng xuất Instagram...",
+  "instagramLoggedOut": "Bạn đã đăng xuất khỏi Instagram.",
+  "instagramLogoutCleanupFailed": "Đã đăng xuất Instagram, nhưng có lỗi khi dọn dữ liệu đăng nhập.",
+  "emptyInstagramLink": "Vui lòng nhập liên kết Instagram.",
+  "preparingContent": "Đang chuẩn bị nội dung...",
+  "loadingContentWithAccount": "Đang tải nội dung với tài khoản đã kết nối...",
+  "cannotFetchContent": "Không thể lấy nội dung.",
+  "noDownloadableContentFound": "Không tìm thấy nội dung có thể tải.",
+  "foundDownloadableContent": "Đã tìm thấy {count} nội dung có thể tải.",
+  "@foundDownloadableContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "fetchContentFailedPublic": "Không thể lấy nội dung. Vui lòng kiểm tra liên kết hoặc thử lại.",
+  "fetchContentFailedPrivate": "Không thể lấy nội dung. Vui lòng kiểm tra quyền xem hoặc đăng nhập lại.",
+  "emptyProfileInput": "Vui lòng nhập trang cá nhân Instagram.",
+  "loadingStoryHighlights": "Đang tải Story và Highlight...",
+  "noCurrentStoryOrHighlight": "Không thấy story hiện tại hoặc tin nổi bật.",
+  "foundStoryHighlights": "Đã tìm thấy {count} Story/Highlight.",
+  "@foundStoryHighlights": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotOpenContent": "Không thể mở nội dung này.",
+  "openingStoryGroup": "Đang mở \"{title}\"...",
+  "@openingStoryGroup": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryGroupItems": "Đã tìm thấy {count} nội dung trong \"{title}\".",
+  "@foundStoryGroupItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "cannotOpenStoryHighlightLogin": "Không thể mở Story hoặc Highlight. Vui lòng đăng nhập rồi thử lại.",
+  "cannotOpenStoryHighlightPermission": "Không thể mở Story hoặc Highlight. Vui lòng kiểm tra quyền xem.",
+  "cannotDownloadContent": "Không thể tải nội dung này.",
+  "downloadingStory": "Đang tải story...",
+  "savedStoryToAlbum": "Đã lưu story item vào album {albumName}.",
+  "@savedStoryToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadStoryFailed": "Tải Story thất bại. Vui lòng thử lại.",
+  "loadingReelsPublic": "Đang lấy reels...",
+  "loadingReelsPrivate": "Đang tải reels...",
+  "noReelsOrPermission": "Không tìm thấy Reels hoặc bạn chưa có quyền xem.",
+  "foundReels": "Đã tìm thấy {count} Reels.",
+  "@foundReels": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadReelsPublic": "Không thể tải Reels. Vui lòng kiểm tra trang cá nhân hoặc thử lại.",
+  "cannotLoadReelsPrivate": "Không thể tải Reels. Vui lòng kiểm tra quyền xem.",
+  "loadingPostsPublic": "Đang lấy ảnh/bài viết...",
+  "loadingPostsPrivate": "Đang tải ảnh/bài viết...",
+  "noPostsOrPermission": "Không tìm thấy ảnh/bài viết hoặc bạn chưa có quyền xem.",
+  "foundPosts": "Đã tìm thấy {count} ảnh/bài viết.",
+  "@foundPosts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadPostsPublic": "Không thể tải bài viết. Vui lòng kiểm tra trang cá nhân hoặc thử lại.",
+  "cannotLoadPostsPrivate": "Không thể tải bài viết. Vui lòng kiểm tra quyền xem.",
+  "cannotLoadMoreContent": "Không thể tải thêm nội dung.",
+  "cannotLoadMoreProfile": "Không thể tải thêm. Vui lòng nhập lại trang cá nhân.",
+  "noMoreNewContent": "Không có thêm nội dung mới.",
+  "loadedMoreContent": "Đã tải thêm {count} nội dung.",
+  "@loadedMoreContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadMoreFailed": "Tải thêm thất bại. Vui lòng thử lại.",
+  "openingReel": "Đang mở Reel...",
+  "openingPost": "Đang mở bài viết...",
+  "cannotOpenContentPermission": "Không thể mở nội dung này. Vui lòng kiểm tra quyền xem hoặc thử lại.",
+  "downloadingContent": "Đang tải nội dung...",
+  "savedToAlbum": "Đã lưu vào album {albumName}.",
+  "@savedToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "savedContentToAlbum": "Đã lưu nội dung vào album {albumName}.",
+  "@savedContentToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadContentErrorRetry": "Tải nội dung lỗi. Bấm thử lại.",
+  "downloadHistoryCleared": "Đã xoá lịch sử tải.",
+  "downloadHistoryItemsRemoved": "Đã xoá {count} mục khỏi lịch sử.",
+  "@downloadHistoryItemsRemoved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "downloadConnectionSlow": "Tải lỗi do kết nối chậm. Bấm thử lại.",
+  "downloadNetworkUnavailable": "Không kết nối được mạng/CDN. Kiểm tra mạng rồi thử lại.",
+  "downloadCancelled": "Đã hủy tải.",
+  "downloadGenericError": "Tải lỗi. Bấm thử lại.",
+  "downloadProgress": "Đang tải nội dung: {percent}%",
+  "@downloadProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  }
 }

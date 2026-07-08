@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../models/ig_media_item.dart';
 
 class MediaCard extends StatelessWidget {
@@ -18,6 +19,7 @@ class MediaCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final hasError = errorText != null && errorText!.trim().isNotEmpty;
 
     final fullName = item.fullName.trim();
@@ -54,9 +56,7 @@ class MediaCard extends StatelessWidget {
           child: Row(
             children: [
               _PreviewBox(item: item),
-
               const SizedBox(width: 14),
-
               Expanded(
                 child: SizedBox(
                   height: 82,
@@ -64,13 +64,10 @@ class MediaCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Hàng 1: avatar + tên
                       Row(
                         children: [
                           _AvatarBox(avatarUrl: avatarUrl),
-
                           const SizedBox(width: 9),
-
                           Expanded(
                             child: SizedBox(
                               height: 24,
@@ -90,10 +87,7 @@ class MediaCard extends StatelessWidget {
                           ),
                         ],
                       ),
-
                       const SizedBox(height: 5),
-
-                      // Hàng 2: username riêng, không thụt theo tên nữa
                       SizedBox(
                         height: 20,
                         child: Align(
@@ -116,9 +110,7 @@ class MediaCard extends StatelessWidget {
                   ),
                 ),
               ),
-
               const SizedBox(width: 10),
-
               SizedBox(
                 width: 76,
                 height: 44,
@@ -136,10 +128,9 @@ class MediaCard extends StatelessWidget {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withOpacity(0.18),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.primary.withOpacity(0.18),
                         blurRadius: 12,
                         offset: const Offset(0, 6),
                       ),
@@ -165,9 +156,9 @@ class MediaCard extends StatelessWidget {
                               color: Theme.of(context).colorScheme.onPrimary,
                             ),
                           )
-                        : const Text(
-                            'Tải',
-                            style: TextStyle(fontWeight: FontWeight.w800),
+                        : Text(
+                            l10n.download,
+                            style: const TextStyle(fontWeight: FontWeight.w800),
                           ),
                   ),
                 ),
@@ -175,7 +166,6 @@ class MediaCard extends StatelessWidget {
             ],
           ),
         ),
-
         if (hasError)
           Padding(
             padding: const EdgeInsets.only(left: 12, right: 12, bottom: 16),
@@ -264,9 +254,7 @@ class _PreviewBox extends StatelessWidget {
                 'Referer': 'https://www.instagram.com/',
               },
               loadingBuilder: (context, child, progress) {
-                if (progress == null) {
-                  return child;
-                }
+                if (progress == null) return child;
 
                 return Center(
                   child: SizedBox(
@@ -293,7 +281,6 @@ class _PreviewBox extends StatelessWidget {
               context,
               isVideo ? Icons.play_arrow_rounded : Icons.broken_image_rounded,
             ),
-
           if (isVideo)
             Center(
               child: Container(
@@ -332,4 +319,3 @@ class _PreviewBox extends StatelessWidget {
     );
   }
 }
-

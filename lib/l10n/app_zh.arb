@@ -1,0 +1,339 @@
+{
+  "@@locale": "zh",
+  "appName": "IG Downloader",
+  "cancel": "取消",
+  "save": "保存",
+  "login": "登录",
+  "logout": "注销",
+  "understood": "知道了",
+  "delete": "删除",
+  "deleteAll": "全部删除",
+  "share": "分享",
+  "download": "下载",
+  "downloadAgain": "重新下载",
+  "saved": "已下载",
+  "loading": "加载",
+  "apply": "应用",
+  "frequentProfilesTitle": "最近浏览过的资料",
+  "frequentProfilesEmptyTitle": "还没有资料",
+  "frequentProfilesEmptyMessage": "你浏览过的资料会出现在这里。",
+  "account": "账户",
+  "downloadHistoryTitle": "下载历史",
+  "downloadHistoryEmptyTitle": "没有内容",
+  "downloadHistoryEmptyMessage": "您尚未下载任何内容",
+  "selectedCount": "{count}已选择",
+  "@selectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteAllHistoryTitle": "删除所有历史记录？",
+  "deleteAllHistoryMessage": "下载历史记录中的所有项目都将从应用程序中删除。",
+  "deleteSelectedTitle": "删除{count}项目？",
+  "@deleteSelectedTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteSelectedOneMessage": "所选项目将从你的下载历史记录中删除。",
+  "deleteSelectedManyMessage": "{count}所选项目将从你的下载历史记录中删除。",
+  "@deleteSelectedManyMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteOneTitle": "删除此项目？",
+  "deleteOneMessage": "此项目将从你的下载历史记录中删除。",
+  "cannotShareFileMissing": "无法共享。该设备上不再存在该文件。",
+  "cannotShareContent": "无法共享该内容。",
+  "cannotSaveAgainFileMissing": "无法再次保存。此设备上不再存在该文件。",
+  "savedAgainToGallery": "已再次保存到图库。",
+  "cannotSaveAgainContent": "无法再次保存该内容。",
+  "cannotOpenFileMissing": "无法打开该内容。此设备上不再存在该文件。",
+  "video": "视频",
+  "image": "照片",
+  "content": "内容",
+  "justDownloaded": "刚刚下载",
+  "heroTitle": "从已连接的Instagram",
+  "heroConnected": "Instagram下载内容。",
+  "heroDescription": "快速轻松地下载照片、卷轴和故事。",
+  "downloadByLink": "通过链接下载",
+  "invalidLinkTitle": "链接无效",
+  "invalidLinkMessage": "请输入你要下载的帖子、Reel、Story或视频的Instagram链接。",
+  "downloadByLinkInfo1": "在以下情况下使用此选项您已有 Instagram 帖子、Reel、Story 或 Highlight 的链接。",
+  "downloadByLinkInfo2": "粘贴链接，应用程序将检查内容并让您下载。",
+  "example": "例子：",
+  "enterInstagramLink": "输入 Instagram 链接",
+  "instagramLinkHint": "https://www.instagram.com/p/... 或 /reel/...",
+  "pasteInstagramLinkHint": "粘贴 Instagram 链接以检查并下载您想要的内容。",
+  "openInstagram": "打开 Instagram",
+  "getContent": "获取内容",
+  "explainFeature": "解释功能",
+  "downloadFromProfile": "从个人资料下载",
+  "invalidProfileTitle": "无效信息",
+  "invalidProfileMessage": "请输入 Instagram 用户名或个人资料链接。",
+  "profileInfo1": "当您想要从 Instagram 帐户查看和下载多个项目时，请使用此选项。",
+  "profileInfo2": "输入用户名或个人资料链接，然后选择您要下载的 Story、Reel 或帖子。",
+  "profileInputLabel": "用户名或个人资料链接",
+  "profileInputHint": "示例：@username 或 instagram.com/username",
+  "profileCardDescription": "输入用户名或个人资料链接以查看可下载的 Stories、Reel 和帖子。",
+  "story": "Story",
+  "storiesHighlights": "Stories / Highlights",
+  "reels": "Reels",
+  "posts": "帖子",
+  "photosPosts": "照片/帖子",
+  "photosVideos": "照片/视频",
+  "profileSummary": "简介概要",
+  "storyModeHint": "输入配置文件以查看可下载的 Stories 和 Highlight。",
+  "reelsModeHint": "输入个人资料以查看列表。",
+  "postsModeHint": "输入个人资料以查看可下载的帖子。",
+  "storyPopupTitle": "从个人资料下载 Stories",
+  "reelsPopupTitle": "从个人资料下载 Reel",
+  "postsPopupTitle": "从个人资料下载帖子",
+  "viewStory": "查看 Story",
+  "viewReels": "查看 Reels",
+  "viewPosts": "查看帖子",
+  "noStoryOrHighlightAll": "未找到 Story 或 Highlight。如果内容需要查看权限，请登录。",
+  "noStoryOrHighlightInput": "未找到 Story 或 Highlight。输入 Instagram 配置文件进行检查。",
+  "noStoryItems": "没有可显示的内容，或者您​​没有查看该项目的权限。",
+  "noFeedAll": "未找到帖子或视频。如果内容需要查看权限，请登录。",
+  "noFeedInput": "还没有内容。选择Reels或帖子，然后输入个人资料。",
+  "endOfContent": "内容已结束。",
+  "loadMore": "加载更多",
+  "loadingMore": "加载更多...",
+  "cannotShowPostContent": "无法显示本帖子内容。",
+  "chooseItemToDownload": "选择要下载的项目",
+  "contentCount": "{count}项目",
+  "@contentCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chooseThemeColor": "选择主题颜色",
+  "themeDefault": "默认",
+  "themeVivid": "鲜艳",
+  "themePink": "亮粉色",
+  "themeBlue": "浅蓝色",
+  "themeRed": "红色",
+  "themeDark": "深色",
+  "loginRequiredTitle": "登录必填",
+  "followRequiredTitle": "关注必填",
+  "followRequiredMessage": "所登录的帐户没有权限查看此内容。",
+  "downloadSuccessMessage": "下载成功。",
+  "viewHistory": "查看历史记录",
+  "frequentAccessTooltip": "经常访问",
+  "recentDownloadsTooltip": "最近下载",
+  "changeThemeTooltip": "更改主题",
+  "settingsTitle": "设置",
+  "themeSettingTitle": "主题",
+  "languageSettingTitle": "语言",
+  "chooseLanguageTitle": "选择语言",
+  "languageVietnameseNative": "Ti?ng Vi?t",
+  "languageVietnameseLocal": "Vietnamese",
+  "languageEnglishNative": "English",
+  "languageEnglishLocal": "English",
+  "sessionModeTitle": "下载模式",
+  "sessionPublicMode": "Public",
+  "sessionPrivateMode": "Private",
+  "sessionPrivateConnected": "你的Instagram帐户是已连接。",
+  "sessionPrivatePrompt": "登录 Instagram 下载允许您的帐户查看的内容。",
+  "sessionPublicPrompt": "您正在下载公共内容，而无需登录。",
+  "profileReelsListTitle": "Reel 视频列表",
+  "profilePostsListTitle": "照片/帖子列表",
+  "close": "关闭",
+  "instagramHome": "Instagram主页",
+  "selectThisContent": "选择此内容",
+  "manualOpeningInstagram": "打开Instagram...",
+  "manualInstruction": "打开要下载的帖子、Reel、Story或Highlight，然后点按“选择此内容”。",
+  "manualPickedContent": "选择的内容。点击“选择此内容”继续。",
+  "manualNoDownloadableContent": "未找到可下载的内容。打开帖子、Reel、Story 或 Highlight。",
+  "manualCloseToExit": "为避免丢失所选内容，如果要退出，请点击“关闭”。",
+  "loginOpeningInstagram": "打开 Instagram...请稍候。",
+  "loginInstruction": "登录 Instagram，然后点击“保存”完成。",
+  "loginChecking": "正在检查登录...",
+  "loginCannotConfirm": "无法确认登录。\n请登录 Instagram 并再次尝试保存。",
+  "loginSaveError": "保存登录信息时出错。请重试。",
+  "loginLoggingOut": "正在注销...",
+  "loginLoggedOut": "您已注销Instagram。\n请重新登录才能继续。",
+  "loginSuccessPrompt": "登录成功。\n轻按“保存”即可完成。",
+  "loginPromptOnLoginPage": "登录 Instagram，然后轻按“保存”即可完成。",
+  "loginPromptSaveBottom": "如果登录完成，请轻按下面的“保存”。",
+  "loginPageTitle": "登录 Instagram",
+  "loginOpeningInstagramWithHint": "打开 Instagram...\n登录后，点击“保存”。",
+  "loginOpenFailed": "无法打开Instagram。\n请检查您的互联网连接，然后重试。",
+  "profileSavedMissingUsername": "保存的个人资料缺少用户名。",
+  "openingProfile": "打开个人资料...",
+  "openingUsername": "打开 @{username}...",
+  "@openingUsername": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryHighlightsAndPosts": "找到 {storyCount} Story/Highlight 项目和 {postCount} 帖子。",
+  "@foundStoryHighlightsAndPosts": {
+    "placeholders": {
+      "storyCount": {
+        "type": "int"
+      },
+      "postCount": {
+        "type": "int"
+      }
+    }
+  },
+  "privateModeEnabled": "Private 模式已启用。",
+  "publicModeEnabled": "切换回 Public 模式。",
+  "cannotConfirmInstagramLogin": "无法确认 Instagram 登录。请重新登录。",
+  "instagramConnected": "Instagram 帐户已连接。",
+  "loggingOutInstagram": "正在注销 Instagram...",
+  "instagramLoggedOut": "您已注销 Instagram。",
+  "instagramLogoutCleanupFailed": "已注销 Instagram，但清除登录数据时出错。",
+  "emptyInstagramLink": "请输入 Instagram 链接。",
+  "preparingContent": "正在准备内容...",
+  "loadingContentWithAccount": "正在使用已连接的帐户加载内容...",
+  "cannotFetchContent": "无法获取内容。",
+  "noDownloadableContentFound": "未找到可下载的内容。",
+  "foundDownloadableContent": "已找到{count} 可下载项目。",
+  "@foundDownloadableContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "fetchContentFailedPublic": " 无法获取内容。请检查链接或重试。",
+  "fetchContentFailedPrivate": "无法获取内容。请检查查看权限或重新登录。",
+  "emptyProfileInput": "请输入 Instagram 个人资料。",
+  "loadingStoryHighlights": "正在加载 Stories 和 Highlight...",
+  "noCurrentStoryOrHighlight": "未找到当前故事或精彩片段。",
+  "foundStoryHighlights": "找到 {count} Story/Highlight 项。",
+  "@foundStoryHighlights": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotOpenContent": "无法打开此内容。",
+  "openingStoryGroup": "打开“{title}”...",
+  "@openingStoryGroup": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryGroupItems": "在“{title}”中找到 {count} 项。",
+  "@foundStoryGroupItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "cannotOpenStoryHighlightLogin": "无法打开 Story 或 Highlight。请登录并重试。",
+  "cannotOpenStoryHighlightPermission": "无法打开 Story 或 Highlight。请检查查看权限。",
+  "cannotDownloadContent": "无法下载此内容。",
+  "downloadingStory": "正在下载故事...",
+  "savedStoryToAlbum": "已将故事项目保存到相册{albumName}。",
+  "@savedStoryToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadStoryFailed": "Story下载失败。请重试。",
+  "loadingReelsPublic": "正在获取卷轴...",
+  "loadingReelsPrivate": "正在加载卷轴...",
+  "noReelsOrPermission": "未找到Reel，或者您无权查看它们。",
+  "foundReels": "找到{count} Reels。",
+  "@foundReels": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadReelsPublic": "无法加载Reels。请检查配置文件或重试。",
+  "cannotLoadReelsPrivate": "无法加载 Reel。请检查查看权限。",
+  "loadingPostsPublic": "正在获取照片/帖子...",
+  "loadingPostsPrivate": "正在加载照片/帖子...",
+  "noPostsOrPermission": "未找到照片/帖子，或者您没有查看权限。",
+  "foundPosts": "找到{count}照片/帖子。",
+  "@foundPosts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadPostsPublic": "无法加载帖子。请检查个人资料或重试。",
+  "cannotLoadPostsPrivate": "无法加载帖子。请检查查看权限。",
+  "cannotLoadMoreContent": "无法加载更多内容。",
+  "cannotLoadMoreProfile": "无法加载更多内容。请重新输入个人资料。",
+  "noMoreNewContent": "没有更多新内容。",
+  "loadedMoreContent": "已加载{count}更多项目。",
+  "@loadedMoreContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadMoreFailed": "加载更多失败。请重试。",
+  "openingReel": "正在打开Reel...",
+  "openingPost": "正在打开帖子...",
+  "cannotOpenContentPermission": "无法打开此内容。请检查查看权限或重试。",
+  "downloadingContent": "正在下载内容...",
+  "savedToAlbum": "已保存到相册{albumName}。",
+  "@savedToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "savedContentToAlbum": "已将内容保存到相册{albumName}。",
+  "@savedContentToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadContentErrorRetry": "内容下载失败。点击重试。",
+  "downloadHistoryCleared": "已清除下载历史记录。",
+  "downloadHistoryItemsRemoved": "已从历史记录中删除 {count} 项目。",
+  "@downloadHistoryItemsRemoved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "downloadConnectionSlow": "由于连接速度慢，下载失败。点击重试。",
+  "downloadNetworkUnavailable": "无法连接到网络/CDN。检查您的网络并重试。",
+  "downloadCancelled": "下载已取消。",
+  "downloadGenericError": "下载失败。点击重试。",
+  "downloadProgress": "下载内容：{percent}%",
+  "@downloadProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  }
+}

@@ -1,0 +1,339 @@
+{
+  "@@locale": "ja",
+  "appName": "IG Downloader",
+  "cancel": "キャンセル",
+  "save": "保存",
+  "login": "ログイン",
+  "logout": "ログアウト",
+  "understood": "了解",
+  "delete": "削除",
+  "deleteAll": "すべて削除",
+  "share": "共有",
+  "download": "ダウンロード",
+  "downloadAgain": "再ダウンロード",
+  "saved": "ダウンロード済み",
+  "loading": "読み込み中",
+  "apply": "適用",
+  "frequentProfilesTitle": "最近閲覧したプロフィール",
+  "frequentProfilesEmptyTitle": "まだプロフィールがありません",
+  "frequentProfilesEmptyMessage": "閲覧したプロフィールがここに表示されます。",
+  "account": "アカウント",
+  "downloadHistoryTitle": "ダウンロード履歴",
+  "downloadHistoryEmptyTitle": "コンテンツはまだありません",
+  "downloadHistoryEmptyMessage": "コンテンツをダウンロードしていませんまだ",
+  "selectedCount": "{count}選択済み",
+  "@selectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteAllHistoryTitle": "すべての履歴を削除しますか？",
+  "deleteAllHistoryMessage": "ダウンロード履歴のすべてのアイテムがアプリから削除されます。",
+  "deleteSelectedTitle": "{count}アイテムを削除しますか？",
+  "@deleteSelectedTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteSelectedOneMessage": "選択したアイテムがダウンロード履歴から削除されます。",
+  "deleteSelectedManyMessage": "{count}選択したアイテムがダウンロード履歴から削除されます。",
+  "@deleteSelectedManyMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteOneTitle": "このアイテムを削除しますか？",
+  "deleteOneMessage": "このアイテムはダウンロード履歴から削除されます。",
+  "cannotShareFileMissing": "共有できません。ファイルはこのデバイスに存在しません。",
+  "cannotShareContent": "このコンテンツを共有できません。",
+  "cannotSaveAgainFileMissing": "再度保存できません。ファイルはこのデバイスに存在しません。",
+  "savedAgainToGallery": "ギャラリーに再保存されました。",
+  "cannotSaveAgainContent": "このコンテンツを再度保存できません。",
+  "cannotOpenFileMissing": "このコンテンツを開けません。ファイルはこのデバイスに存在しません。",
+  "video": "ビデオ",
+  "image": "写真",
+  "content": "コンテンツ",
+  "justDownloaded": "ダウンロードしたばかりです",
+  "heroTitle": "Instagram",
+  "heroConnected": "Instagramからコンテンツをダウンロードします。",
+  "heroDescription": "写真、リール、ストーリーをすばやく簡単にダウンロードします。",
+  "downloadByLink": "リンクでダウンロード",
+  "invalidLinkTitle": "無効なリンク",
+  "invalidLinkMessage": "ダウンロードしたい投稿、、Story、またはビデオのInstagramリンクを入力してください。",
+  "downloadByLinkInfo1": "すでにリンクがある場合はこれを使用してください。 Instagram ポスト、Reel、Story、または Highlight に送信します。",
+  "downloadByLinkInfo2": "リンクを貼り付けると、アプリがコンテンツを確認してダウンロードできるようになります。",
+  "example": "例：",
+  "enterInstagramLink": "Instagram リンクを入力してください",
+  "instagramLinkHint": "https://www.instagram.com/p/... または /reel/...",
+  "pasteInstagramLinkHint": "Instagram リンクを貼り付けて、必要なコンテンツを確認してダウンロードします。",
+  "openInstagram": "Instagramを開く",
+  "getContent": "コンテンツを取得する",
+  "explainFeature": "説明機能",
+  "downloadFromProfile": "プロフィールからダウンロード",
+  "invalidProfileTitle": "無効な情報",
+  "invalidProfileMessage": "Instagram ユーザー名またはプロフィールのリンクを入力してください。",
+  "profileInfo1": "Instagram アカウントから複数のアイテムを表示およびダウンロードする場合にこれを使用します。",
+  "profileInfo2": "ユーザー名またはプロフィールのリンクを入力し、ダウンロードする Story、Reel、または投稿を選択します。",
+  "profileInputLabel": "ユーザー名またはプロフィールのリンク",
+  "profileInputHint": "例: @ユーザー名またはinstagram.com/ユーザー名",
+  "profileCardDescription": "ユーザー名またはプロフィール リンクを入力して、ダウンロード可能な Stories、Reel、および投稿を表示します。",
+  "story": "Story",
+  "storiesHighlights": "Stories / Highlights",
+  "reels": "Reels",
+  "posts": "投稿",
+  "photosPosts": "写真・投稿",
+  "photosVideos": "写真/ビデオ",
+  "profileSummary": "プロフィールの概要",
+  "storyModeHint": "プロファイルを入力して、ダウンロード可能な Stories および Highlight を表示します。",
+  "reelsModeHint": "プロファイルを入力してリストを表示します。",
+  "postsModeHint": "ダウンロード可能な投稿を表示するには、プロフィールを入力してください。",
+  "storyPopupTitle": "プロフィールからStoriesをダウンロード",
+  "reelsPopupTitle": "プロフィールからファイルをダウンロード",
+  "postsPopupTitle": "プロフィールから投稿をダウンロード",
+  "viewStory": "Storyを見る",
+  "viewReels": "Reelを表示する",
+  "viewPosts": "投稿を見る",
+  "noStoryOrHighlightAll": "Story または Highlight が見つかりません。コンテンツの閲覧許可が必要な場合はログインしてください。",
+  "noStoryOrHighlightInput": "Story または Highlight が見つかりません。確認する Instagram プロファイルを入力します。",
+  "noStoryItems": "表示するコンテンツがないか、このアイテムを表示する権限がありません。",
+  "noFeedAll": "投稿やビデオが見つかりませんでした。コンテンツの閲覧許可が必要な場合はログインしてください。",
+  "noFeedInput": "まだコンテンツはありません。 [Reels] または [投稿] を選択し、プロフィールを入力します。",
+  "endOfContent": "コンテンツの最後まで到達しました。",
+  "loadMore": "さらにロードする",
+  "loadingMore": "さらに読み込み中...",
+  "cannotShowPostContent": "この投稿のコンテンツは表示できません。",
+  "chooseItemToDownload": "ダウンロードするアイテムを選択してください",
+  "contentCount": "{count}アイテム",
+  "@contentCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chooseThemeColor": "テーマカラーを選択してください",
+  "themeDefault": "デフォルト",
+  "themeVivid": "鮮やかな",
+  "themePink": "光沢のあるピンク",
+  "themeBlue": "水色",
+  "themeRed": "赤",
+  "themeDark": "暗い",
+  "loginRequiredTitle": "ログインが必要です",
+  "followRequiredTitle": "フォロー必須",
+  "followRequiredMessage": "ログインしたアカウントには、このコンテンツを表示する権限がありません。",
+  "downloadSuccessMessage": "正常にダウンロードされました。",
+  "viewHistory": "履歴を見る",
+  "frequentAccessTooltip": "頻繁なアクセス",
+  "recentDownloadsTooltip": "最近のダウンロード",
+  "changeThemeTooltip": "テーマの変更",
+  "settingsTitle": "設定",
+  "themeSettingTitle": "テーマ",
+  "languageSettingTitle": "言語",
+  "chooseLanguageTitle": "言語を選択してください",
+  "languageVietnameseNative": "Ti?ng Vi?t",
+  "languageVietnameseLocal": "Vietnamese",
+  "languageEnglishNative": "English",
+  "languageEnglishLocal": "English",
+  "sessionModeTitle": "ダウンロードモード",
+  "sessionPublicMode": "Public",
+  "sessionPrivateMode": "Private",
+  "sessionPrivateConnected": "Instagram アカウントが接続されました。",
+  "sessionPrivatePrompt": "Instagram にログインして、アカウントに表示が許可されているコンテンツをダウンロードします。",
+  "sessionPublicPrompt": "ログインせずに公開コンテンツをダウンロードしています。",
+  "profileReelsListTitle": "Reel ビデオリスト",
+  "profilePostsListTitle": "写真・投稿一覧",
+  "close": "近い",
+  "instagramHome": "Instagram ホーム",
+  "selectThisContent": "このコンテンツを選択してください",
+  "manualOpeningInstagram": "開いています...",
+  "manualInstruction": "ダウンロードしたい投稿、Reel、Story、または Highlight を開き、「このコンテンツを選択」をタップします。",
+  "manualPickedContent": "コンテンツが選択されました。 「このコンテンツを選択」をタップして続行します。",
+  "manualNoDownloadableContent": "ダウンロード可能なコンテンツが見つかりませんでした。投稿、Reel、Story、または Highlight を開きます。",
+  "manualCloseToExit": "選択したコンテンツが失われないように、終了する場合は「閉じる」をタップしてください。",
+  "loginOpeningInstagram": "Instagram を開きます...お待ちください。",
+  "loginInstruction": "Instagramにログインし、「保存」をタップして終了します。",
+  "loginChecking": "ログインを確認しています...",
+  "loginCannotConfirm": "ログインが確認できません。\nInstagram にログインし、再度保存してください。",
+  "loginSaveError": "ログイン情報の保存中にエラーが発生しました。もう一度試してください。",
+  "loginLoggingOut": "ログアウト中...",
+  "loginLoggedOut": "Instagram からログアウトしました。\n続行するには再度ログインしてください。",
+  "loginSuccessPrompt": "ログインに成功しました。\n「保存」をタップして終了します。",
+  "loginPromptOnLoginPage": "Instagramにログインし、「保存」をタップして終了します。",
+  "loginPromptSaveBottom": "ログインが完了したら、下の「保存」をタップしてください。",
+  "loginPageTitle": "Instagramにログイン",
+  "loginOpeningInstagramWithHint": "開いています...\nログイン後、「保存」をタップします。",
+  "loginOpenFailed": "Instagramを開けません。\nインターネット接続を確認して、もう一度試してください。",
+  "profileSavedMissingUsername": "保存されたプロファイルにユーザー名がありません。",
+  "openingProfile": "プロフィールを開いています...",
+  "openingUsername": "@{username} を開きます...",
+  "@openingUsername": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryHighlightsAndPosts": "{storyCount} Story/Highlight アイテムと {postCount} 投稿が見つかりました。",
+  "@foundStoryHighlightsAndPosts": {
+    "placeholders": {
+      "storyCount": {
+        "type": "int"
+      },
+      "postCount": {
+        "type": "int"
+      }
+    }
+  },
+  "privateModeEnabled": "Private モードが有効になりました。",
+  "publicModeEnabled": "Public モードに戻りました。",
+  "cannotConfirmInstagramLogin": "Instagram ログインを確認できません。再度ログインしてください。",
+  "instagramConnected": "Instagram アカウントが接続されました。",
+  "loggingOutInstagram": "Instagramからログアウトしています...",
+  "instagramLoggedOut": "Instagram からログアウトしました。",
+  "instagramLogoutCleanupFailed": "Instagram からログアウトしましたが、ログイン データのクリア中にエラーが発生しました。",
+  "emptyInstagramLink": "Instagram リンクを入力してください。",
+  "preparingContent": "コンテンツを準備しています...",
+  "loadingContentWithAccount": "接続されたアカウントでコンテンツをロードしています...",
+  "cannotFetchContent": "コンテンツを取得できません。",
+  "noDownloadableContentFound": "ダウンロード可能なコンテンツが見つかりませんでした。",
+  "foundDownloadableContent": "{count} 件のダウンロード可能なアイテムが見つかりました。",
+  "@foundDownloadableContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "fetchContentFailedPublic": "コンテンツを取得できません。リンクを確認するか、もう一度試してください。",
+  "fetchContentFailedPrivate": "コンテンツを取得できません。閲覧許可を確認するか、再度ログインしてください。",
+  "emptyProfileInput": "Instagram プロフィールを入力してください。",
+  "loadingStoryHighlights": "Stories と Highlight を読み込み中...",
+  "noCurrentStoryOrHighlight": "現在のストーリーやハイライトは見つかりません。",
+  "foundStoryHighlights": "{count} Story/Highlight アイテムが見つかりました。",
+  "@foundStoryHighlights": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotOpenContent": "このコンテンツを開けません。",
+  "openingStoryGroup": "「{title}」を開くと…",
+  "@openingStoryGroup": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryGroupItems": "「{title}」で{count}アイテムが見つかりました。",
+  "@foundStoryGroupItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "cannotOpenStoryHighlightLogin": "Story または Highlight を開けません。ログインしてもう一度お試しください。",
+  "cannotOpenStoryHighlightPermission": "Story または Highlight を開けません。閲覧許可を確認してください。",
+  "cannotDownloadContent": "このコンテンツはダウンロードできません。",
+  "downloadingStory": "ストーリーをダウンロード中...",
+  "savedStoryToAlbum": "ストーリー アイテムをアルバム {albumName} に保存しました。",
+  "@savedStoryToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadStoryFailed": "Story ダウンロードに失敗しました。もう一度試してください。",
+  "loadingReelsPublic": "リールを取得中...",
+  "loadingReelsPrivate": "リールを読み込み中...",
+  "noReelsOrPermission": "Reel が見つからないか、Reel を表示する権限がありません。",
+  "foundReels": "{count} Reelが見つかりました。",
+  "@foundReels": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadReelsPublic": "Reelをロードできません。プロフィールを確認するか、もう一度お試しください。",
+  "cannotLoadReelsPrivate": "Reelをロードできません。閲覧許可を確認してください。",
+  "loadingPostsPublic": "写真/投稿を取得しています...",
+  "loadingPostsPrivate": "写真/投稿を読み込んでいます...",
+  "noPostsOrPermission": "写真/投稿が見つからないか、閲覧する権限がありません。",
+  "foundPosts": "{count} 写真/投稿が見つかりました。",
+  "@foundPosts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadPostsPublic": "投稿を読み込めません。プロフィールを確認するか、もう一度お試しください。",
+  "cannotLoadPostsPrivate": "投稿を読み込めません。閲覧許可を確認してください。",
+  "cannotLoadMoreContent": "これ以上コンテンツをロードできません。",
+  "cannotLoadMoreProfile": "これ以上ロードできません。プロフィールを再度入力してください。",
+  "noMoreNewContent": "新しいコンテンツはもうありません。",
+  "loadedMoreContent": "{count} 件のコンテンツをさらに読み込みました。",
+  "@loadedMoreContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadMoreFailed": "さらにロードできませんでした。もう一度試してください。",
+  "openingReel": "開いています...",
+  "openingPost": "投稿を開いています...",
+  "cannotOpenContentPermission": "このコンテンツを開けません。閲覧権限を確認するか、再度お試しください。",
+  "downloadingContent": "コンテンツをダウンロード中...",
+  "savedToAlbum": "アルバム{albumName}に保存されました。",
+  "@savedToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "savedContentToAlbum": "コンテンツをアルバム {albumName} に保存しました。",
+  "@savedContentToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadContentErrorRetry": "コンテンツのダウンロードに失敗しました。タップしてもう一度試してください。",
+  "downloadHistoryCleared": "ダウンロード履歴が消去されました。",
+  "downloadHistoryItemsRemoved": "{count} アイテムを履歴から削除しました。",
+  "@downloadHistoryItemsRemoved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "downloadConnectionSlow": "接続が遅いためダウンロードに失敗しました。タップしてもう一度試してください。",
+  "downloadNetworkUnavailable": "ネットワーク/CDNに接続できません。ネットワークを確認して再試行してください。",
+  "downloadCancelled": "ダウンロードはキャンセルされました。",
+  "downloadGenericError": "ダウンロードは失敗しました。タップしてもう一度お試しください。",
+  "downloadProgress": "コンテンツをダウンロード中: {percent}%",
+  "@downloadProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  }
+}

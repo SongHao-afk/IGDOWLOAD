@@ -1,0 +1,339 @@
+{
+  "@@locale": "ar",
+  "appName": "IG Downloader",
+  "cancel": "إلغاء",
+  "save": "حفظ",
+  "login": "تسجيل الدخول",
+  "logout": "تسجيل الخروج",
+  "understood": "فهمتها",
+  "delete": "حذف",
+  "deleteAll": "حذف الكل",
+  "share": "مشاركة",
+  "download": "تنزيل",
+  "downloadAgain": "قم بالتنزيل مرة أخرى",
+  "saved": "تم التنزيل",
+  "loading": "جارٍ التحميل",
+  "apply": "تطبيق",
+  "frequentProfilesTitle": "الملفات الشخصية التي تم عرضها مؤخرًا",
+  "frequentProfilesEmptyTitle": "لا توجد ملفات شخصية حتى الآن",
+  "frequentProfilesEmptyMessage": "ستظهر الملفات الشخصية التي شاهدتها هنا.",
+  "account": "حساب",
+  "downloadHistoryTitle": "تنزيل التاريخ",
+  "downloadHistoryEmptyTitle": "لا يوجد محتوى بعد",
+  "downloadHistoryEmptyMessage": "لم تقم بتحميل أي محتوى حتى الآن",
+  "selectedCount": "{count} مختارة",
+  "@selectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteAllHistoryTitle": "هل تريد حذف السجل بأكمله؟",
+  "deleteAllHistoryMessage": "ستتم إزالة كافة العناصر الموجودة في سجل التنزيل الخاص بك من التطبيق.",
+  "deleteSelectedTitle": "حذف {count} العناصر؟",
+  "@deleteSelectedTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteSelectedOneMessage": "ستتم إزالة العنصر المحدد من سجل التنزيل الخاص بك.",
+  "deleteSelectedManyMessage": "{count} ستتم إزالة العناصر المحددة من سجل التنزيل الخاص بك.",
+  "@deleteSelectedManyMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteOneTitle": "هل تريد حذف هذا العنصر؟",
+  "deleteOneMessage": "ستتم إزالة هذا العنصر من سجل التنزيل الخاص بك.",
+  "cannotShareFileMissing": "لا يمكن المشاركة. الملف لم يعد موجودا على هذا الجهاز.",
+  "cannotShareContent": "لا يمكن مشاركة هذا المحتوى.",
+  "cannotSaveAgainFileMissing": "لا يمكن الحفظ مرة أخرى. الملف لم يعد موجودا على هذا الجهاز.",
+  "savedAgainToGallery": "تم الحفظ مرة أخرى في المعرض.",
+  "cannotSaveAgainContent": "لا يمكن حفظ هذا المحتوى مرة أخرى.",
+  "cannotOpenFileMissing": "لا يمكن فتح هذا المحتوى. الملف لم يعد موجودا على هذا الجهاز.",
+  "video": "فيديو",
+  "image": "صورة",
+  "content": "محتوى",
+  "justDownloaded": "تم تنزيله للتو",
+  "heroTitle": "قم بتنزيل المحتوى من Instagram",
+  "heroConnected": "Instagram متصل.",
+  "heroDescription": "قم بتنزيل الصور والبكرات والقصص بسرعة وسهولة.",
+  "downloadByLink": "تحميل عن طريق الرابط",
+  "invalidLinkTitle": "رابط غير صالح",
+  "invalidLinkMessage": "يرجى إدخال الرابط Instagram للمنشور أو Reel أو Story أو الفيديو الذي تريد تنزيله.",
+  "downloadByLinkInfo1": "استخدم هذا عندما يكون لديك بالفعل رابط إلى منشور أو Reel أو Story أو Highlight.",
+  "downloadByLinkInfo2": "الصق الرابط وسيقوم التطبيق بالتحقق من المحتوى ويتيح لك تنزيله.",
+  "example": "مثال:",
+  "enterInstagramLink": "أدخل الرابط",
+  "instagramLinkHint": "https://www.instagram.com/p/... أو /reel/...",
+  "pasteInstagramLinkHint": "الصق رابط Instagram للتحقق من المحتوى الذي تريده وتنزيله.",
+  "openInstagram": "افتح Instagram",
+  "getContent": "احصل على المحتوى",
+  "explainFeature": "شرح الميزة",
+  "downloadFromProfile": "تحميل من الملف الشخصي",
+  "invalidProfileTitle": "معلومات غير صالحة",
+  "invalidProfileMessage": "الرجاء إدخال اسم المستخدم أو رابط الملف الشخصي.",
+  "profileInfo1": "استخدم هذا عندما تريد عرض وتنزيل عناصر متعددة من حساب Instagram.",
+  "profileInfo2": "أدخل اسم المستخدم أو رابط الملف الشخصي، ثم اختر Story أو Reels أو المنشورات التي تريد تنزيلها.",
+  "profileInputLabel": "اسم المستخدم أو رابط الملف الشخصي",
+  "profileInputHint": "مثال: @username أو instagram.com/username",
+  "profileCardDescription": "أدخل اسم مستخدم أو رابط ملف تعريف لعرض Stories، Reels، والمشاركات القابلة للتنزيل.",
+  "story": "Story",
+  "storiesHighlights": "القصص والقصص المميزة",
+  "reels": "مقاطع Reels",
+  "posts": "المنشورات",
+  "photosPosts": "الصور / المشاركات",
+  "photosVideos": "صور / فيديو",
+  "profileSummary": "ملخص الملف الشخصي",
+  "storyModeHint": "أدخل ملف تعريف لعرض Stories وHighlights القابلة للتنزيل.",
+  "reelsModeHint": "أدخل ملف تعريف لعرض القائمة.",
+  "postsModeHint": "أدخل ملفًا شخصيًا لعرض المشاركات القابلة للتنزيل.",
+  "storyPopupTitle": "تحميل Stories من الملف الشخصي",
+  "reelsPopupTitle": "قم بتنزيله من الملف الشخصي",
+  "postsPopupTitle": "تنزيل المشاركات من الملف الشخصي",
+  "viewStory": "عرض Story",
+  "viewReels": "عرض Reels",
+  "viewPosts": "عرض المشاركات",
+  "noStoryOrHighlightAll": "لم يتم العثور على Story أو Highlight. قم بتسجيل الدخول إذا كان المحتوى يتطلب إذن المشاهدة.",
+  "noStoryOrHighlightInput": "لم يتم العثور على Story أو Highlight. أدخل ملف تعريف Instagram للتحقق.",
+  "noStoryItems": "لا يوجد محتوى لعرضه، أو ليس لديك الإذن لعرض هذا العنصر.",
+  "noFeedAll": "لم يتم العثور على أي مشاركات أو مقاطع فيديو. قم بتسجيل الدخول إذا كان المحتوى يتطلب إذن المشاهدة.",
+  "noFeedInput": "لا يوجد محتوى بعد. اختر Reels أو المنشورات، ثم أدخل ملف التعريف.",
+  "endOfContent": "لقد وصلت إلى نهاية المحتوى.",
+  "loadMore": "تحميل المزيد",
+  "loadingMore": "جارٍ تحميل المزيد...",
+  "cannotShowPostContent": "لا يمكن عرض المحتوى في هذه المشاركة.",
+  "chooseItemToDownload": "اختر عنصرًا لتنزيله",
+  "contentCount": "{count} العناصر",
+  "@contentCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chooseThemeColor": "اختر لون الموضوع",
+  "themeDefault": "تقصير",
+  "themeVivid": "واضح",
+  "themePink": "وردي لامع",
+  "themeBlue": "أزرق فاتح",
+  "themeRed": "أحمر",
+  "themeDark": "مظلم",
+  "loginRequiredTitle": "تسجيل الدخول مطلوب",
+  "followRequiredTitle": "متابعة مطلوبة",
+  "followRequiredMessage": "الحساب الذي تم تسجيل الدخول إليه ليس لديه إذن لعرض هذا المحتوى.",
+  "downloadSuccessMessage": "تم التنزيل بنجاح.",
+  "viewHistory": "عرض التاريخ",
+  "frequentAccessTooltip": "الوصول المتكرر",
+  "recentDownloadsTooltip": "التنزيلات الأخيرة",
+  "changeThemeTooltip": "تغيير الموضوع",
+  "settingsTitle": "إعدادات",
+  "themeSettingTitle": "سمة",
+  "languageSettingTitle": "لغة",
+  "chooseLanguageTitle": "اختر لغتك",
+  "languageVietnameseNative": "Tiếng Việt",
+  "languageVietnameseLocal": "Vietnamese",
+  "languageEnglishNative": "English",
+  "languageEnglishLocal": "English",
+  "sessionModeTitle": "وضع التنزيل",
+  "sessionPublicMode": "Public",
+  "sessionPrivateMode": "Private",
+  "sessionPrivateConnected": "حسابك Instagram متصل.",
+  "sessionPrivatePrompt": "قم بتسجيل الدخول إلى Instagram لتنزيل المحتوى المسموح لحسابك بعرضه.",
+  "sessionPublicPrompt": "أنت تقوم بتنزيل محتوى عام دون تسجيل الدخول.",
+  "profileReelsListTitle": "قائمة مقاطع Reels",
+  "profilePostsListTitle": "صور / قائمة المشاركة",
+  "close": "يغلق",
+  "instagramHome": "Instagram المنزل",
+  "selectThisContent": "حدد هذا المحتوى",
+  "manualOpeningInstagram": "الافتتاح Instagram...",
+  "manualInstruction": "افتح المنشور، Reel، Story، أو Highlight الذي تريد تنزيله، ثم انقر فوق \"تحديد هذا المحتوى\".",
+  "manualPickedContent": "تم تحديد المحتوى. اضغط على \"تحديد هذا المحتوى\" للمتابعة.",
+  "manualNoDownloadableContent": "لم يتم العثور على محتوى قابل للتنزيل. افتح منشورًا أو Reel أو Story أو Highlight.",
+  "manualCloseToExit": "لتجنب فقدان المحتوى المحدد، انقر فوق \"إغلاق\" إذا كنت تريد الخروج.",
+  "loginOpeningInstagram": "جارٍ الفتح Instagram... يرجى الانتظار.",
+  "loginInstruction": "قم بتسجيل الدخول إلى Instagram، ثم اضغط على \"حفظ\" للإنهاء.",
+  "loginChecking": "جارٍ التحقق من تسجيل الدخول...",
+  "loginCannotConfirm": "لا يمكن تأكيد تسجيل الدخول.\nيرجى تسجيل الدخول إلى Instagram ثم حاول الحفظ مرة أخرى.",
+  "loginSaveError": "حدث خطأ أثناء حفظ معلومات تسجيل الدخول. يرجى المحاولة مرة أخرى.",
+  "loginLoggingOut": "تسجيل الخروج...",
+  "loginLoggedOut": "لقد قمت بتسجيل الخروج من Instagram.\nالرجاء تسجيل الدخول مرة أخرى للمتابعة.",
+  "loginSuccessPrompt": "تم تسجيل الدخول بنجاح.\nاضغط على \"حفظ\" للإنهاء.",
+  "loginPromptOnLoginPage": "قم بتسجيل الدخول إلى Instagram، ثم اضغط على \"حفظ\" للإنهاء.",
+  "loginPromptSaveBottom": "إذا انتهيت من تسجيل الدخول، اضغط على \"حفظ\" أدناه.",
+  "loginPageTitle": "تسجيل الدخول إلى Instagram",
+  "loginOpeningInstagramWithHint": "الافتتاح Instagram...\nبعد تسجيل الدخول، اضغط على \"حفظ\".",
+  "loginOpenFailed": "لا يمكن فتح Instagram.\nيرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.",
+  "profileSavedMissingUsername": "الملف الشخصي المحفوظ يفتقد اسم المستخدم.",
+  "openingProfile": "جارٍ فتح الملف الشخصي...",
+  "openingUsername": "فتح @{username}...",
+  "@openingUsername": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryHighlightsAndPosts": "تم العثور على {storyCount} Story/Highlight عناصر و {postCount} مشاركات.",
+  "@foundStoryHighlightsAndPosts": {
+    "placeholders": {
+      "storyCount": {
+        "type": "int"
+      },
+      "postCount": {
+        "type": "int"
+      }
+    }
+  },
+  "privateModeEnabled": "تم تمكين الوضع Private.",
+  "publicModeEnabled": "تم التبديل مرة أخرى إلى الوضع Public.",
+  "cannotConfirmInstagramLogin": "لا يمكن تأكيد تسجيل الدخول Instagram. الرجاء تسجيل الدخول مرة أخرى.",
+  "instagramConnected": "Instagram الحساب متصل.",
+  "loggingOutInstagram": "تسجيل الخروج من...",
+  "instagramLoggedOut": "لقد قمت بتسجيل الخروج من Instagram.",
+  "instagramLogoutCleanupFailed": "تم تسجيل الخروج من Instagram، ولكن حدث خطأ أثناء مسح بيانات تسجيل الدخول.",
+  "emptyInstagramLink": "الرجاء إدخال رابط Instagram.",
+  "preparingContent": "جارٍ تحضير المحتوى...",
+  "loadingContentWithAccount": "جارٍ تحميل المحتوى باستخدام الحساب المتصل...",
+  "cannotFetchContent": "لا يمكن جلب المحتوى.",
+  "noDownloadableContentFound": "لم يتم العثور على محتوى قابل للتنزيل.",
+  "foundDownloadableContent": "تم العثور على {count} عناصر قابلة للتنزيل.",
+  "@foundDownloadableContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "fetchContentFailedPublic": "لا يمكن جلب المحتوى. يرجى التحقق من الرابط أو المحاولة مرة أخرى.",
+  "fetchContentFailedPrivate": "لا يمكن جلب المحتوى. يرجى التحقق من إذن المشاهدة أو تسجيل الدخول مرة أخرى.",
+  "emptyProfileInput": "الرجاء إدخال ملف تعريف Instagram.",
+  "loadingStoryHighlights": "جاري التحميل Stories و Highlights...",
+  "noCurrentStoryOrHighlight": "لم يتم العثور على القصة الحالية أو أبرز الأحداث.",
+  "foundStoryHighlights": "تم العثور على {count} Story/Highlight العناصر.",
+  "@foundStoryHighlights": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotOpenContent": "لا يمكن فتح هذا المحتوى.",
+  "openingStoryGroup": "فتح \"{title}\"...",
+  "@openingStoryGroup": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryGroupItems": "تم العثور على {count} عناصر في \"{title}\".",
+  "@foundStoryGroupItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "cannotOpenStoryHighlightLogin": "لا يمكن فتح Story أو Highlight. الرجاء تسجيل الدخول والمحاولة مرة أخرى.",
+  "cannotOpenStoryHighlightPermission": "لا يمكن فتح Story أو Highlight. يرجى التحقق من إذن المشاهدة.",
+  "cannotDownloadContent": "لا يمكن تنزيل هذا المحتوى.",
+  "downloadingStory": "جارٍ تنزيل القصة...",
+  "savedStoryToAlbum": "تم حفظ عنصر القصة في الألبوم {albumName}.",
+  "@savedStoryToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadStoryFailed": "Story فشل التنزيل. يرجى المحاولة مرة أخرى.",
+  "loadingReelsPublic": "جارٍ جلب البكرات...",
+  "loadingReelsPrivate": "تحميل البكرات...",
+  "noReelsOrPermission": "لم يتم العثور على أي منها، أو ليس لديك إذن بمشاهدتها.",
+  "foundReels": "تم العثور على {count} Reels.",
+  "@foundReels": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadReelsPublic": "لا يمكن تحميل Reels. يرجى التحقق من الملف الشخصي أو المحاولة مرة أخرى.",
+  "cannotLoadReelsPrivate": "لا يمكن تحميل Reels. يرجى التحقق من إذن المشاهدة.",
+  "loadingPostsPublic": "جارٍ جلب الصور/المشاركات...",
+  "loadingPostsPrivate": "جارٍ تحميل الصور/المشاركات...",
+  "noPostsOrPermission": "لم يتم العثور على صور/منشورات، أو ليس لديك إذن بمشاهدتها.",
+  "foundPosts": "تم العثور على {count} الصور/المشاركات.",
+  "@foundPosts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadPostsPublic": "لا يمكن تحميل المشاركات. يرجى التحقق من الملف الشخصي أو المحاولة مرة أخرى.",
+  "cannotLoadPostsPrivate": "لا يمكن تحميل المشاركات. يرجى التحقق من إذن المشاهدة.",
+  "cannotLoadMoreContent": "لا يمكن تحميل المزيد من المحتوى.",
+  "cannotLoadMoreProfile": "لا يمكن تحميل المزيد. الرجاء إدخال الملف الشخصي مرة أخرى.",
+  "noMoreNewContent": "لا مزيد من المحتوى الجديد.",
+  "loadedMoreContent": "تم تحميل {count} المزيد من العناصر.",
+  "@loadedMoreContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadMoreFailed": "فشل تحميل المزيد. يرجى المحاولة مرة أخرى.",
+  "openingReel": "الافتتاح Reel...",
+  "openingPost": "جارٍ فتح المشاركة...",
+  "cannotOpenContentPermission": "لا يمكن فتح هذا المحتوى. يرجى التحقق من إذن المشاهدة أو المحاولة مرة أخرى.",
+  "downloadingContent": "جارٍ تنزيل المحتوى...",
+  "savedToAlbum": "تم الحفظ في الألبوم {albumName}.",
+  "@savedToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "savedContentToAlbum": "المحتوى المحفوظ في الألبوم {albumName}.",
+  "@savedContentToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadContentErrorRetry": "فشل تنزيل المحتوى. انقر للمحاولة مرة أخرى.",
+  "downloadHistoryCleared": "تم مسح سجل التنزيل.",
+  "downloadHistoryItemsRemoved": "تمت إزالة {count} العناصر من التاريخ.",
+  "@downloadHistoryItemsRemoved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "downloadConnectionSlow": "فشل التنزيل بسبب بطء الاتصال. انقر للمحاولة مرة أخرى.",
+  "downloadNetworkUnavailable": "لا يمكن الاتصال بالشبكة/CDN. تحقق من شبكتك وحاول مرة أخرى.",
+  "downloadCancelled": "تم إلغاء التنزيل.",
+  "downloadGenericError": "فشل التنزيل. انقر للمحاولة مرة أخرى.",
+  "downloadProgress": "تنزيل المحتوى: {percent}%",
+  "@downloadProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  }
+}

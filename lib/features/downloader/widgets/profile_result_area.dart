@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../cubit/downloader_cubit.dart';
 import '../cubit/downloader_state.dart';
 import '../models/profile_feed_item.dart';
@@ -55,7 +56,7 @@ class ProfileResultArea extends StatelessWidget {
           _sectionTitle(
             context: context,
             icon: Icons.auto_stories_rounded,
-            title: 'Stories / Highlights',
+            title: AppLocalizations.of(context)!.storiesHighlights,
           ),
           const SizedBox(height: 12),
           _profileGroupsList(context, state, cubit),
@@ -71,9 +72,10 @@ class ProfileResultArea extends StatelessWidget {
     DownloaderState state,
     DownloaderCubit cubit,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     final title = state.profileMode == 'reels'
-        ? 'Danh sách Video Reel'
-        : 'Danh sách Ảnh / Bài viết';
+        ? l10n.profileReelsListTitle
+        : l10n.profilePostsListTitle;
 
     final icon = state.profileMode == 'reels'
         ? Icons.movie_creation_rounded
@@ -108,14 +110,14 @@ class ProfileResultArea extends StatelessWidget {
             context: context,
             icon: Icons.person_pin_circle_rounded,
             title: state.profileUsername.trim().isEmpty
-                ? 'Tổng hợp profile'
+                ? AppLocalizations.of(context)!.profileSummary
                 : '@${state.profileUsername}',
           ),
           const SizedBox(height: 14),
           _sectionTitle(
             context: context,
             icon: Icons.auto_stories_rounded,
-            title: 'Stories / Highlights',
+            title: AppLocalizations.of(context)!.storiesHighlights,
           ),
           const SizedBox(height: 12),
           _profileGroupsList(context, state, cubit),
@@ -125,7 +127,7 @@ class ProfileResultArea extends StatelessWidget {
           _sectionTitle(
             context: context,
             icon: Icons.photo_library_rounded,
-            title: 'Ảnh / Video',
+            title: AppLocalizations.of(context)!.photosVideos,
           ),
           const SizedBox(height: 12),
           _profileFeedGrid(context, state, cubit),
@@ -174,8 +176,8 @@ class ProfileResultArea extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Text(
           state.profileMode == 'all'
-              ? 'Không tìm thấy Story hoặc Highlight. Hãy đăng nhập nếu nội dung cần quyền xem.'
-              : 'Không tìm thấy Story hoặc Highlight. Hãy nhập trang cá nhân Instagram để kiểm tra.',
+              ? AppLocalizations.of(context)!.noStoryOrHighlightAll
+              : AppLocalizations.of(context)!.noStoryOrHighlightInput,
           style: const TextStyle(fontWeight: FontWeight.w600),
         ),
       );
@@ -287,11 +289,11 @@ class ProfileResultArea extends StatelessWidget {
     }
 
     if (state.profileItems.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 8),
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: Text(
-          'Không có nội dung để hiển thị hoặc bạn chưa có quyền xem mục này.',
-          style: TextStyle(fontWeight: FontWeight.w600),
+          AppLocalizations.of(context)!.noStoryItems,
+          style: const TextStyle(fontWeight: FontWeight.w600),
         ),
       );
     }
@@ -359,8 +361,8 @@ class ProfileResultArea extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Text(
           state.profileMode == 'all'
-              ? 'Không tìm thấy bài viết hoặc video. Hãy đăng nhập nếu nội dung cần quyền xem.'
-              : 'Chưa có nội dung. Hãy chọn Reels hoặc Bài viết rồi nhập trang cá nhân.',
+              ? AppLocalizations.of(context)!.noFeedAll
+              : AppLocalizations.of(context)!.noFeedInput,
           style: const TextStyle(fontWeight: FontWeight.w600),
         ),
       );
@@ -408,7 +410,7 @@ class ProfileResultArea extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.only(top: 4),
         child: Text(
-          'Bạn đã xem hết nội dung.',
+          AppLocalizations.of(context)!.endOfContent,
           style: TextStyle(
             color: Theme.of(
               context,
@@ -433,7 +435,9 @@ class ProfileResultArea extends StatelessWidget {
               )
             : const Icon(Icons.expand_more_rounded),
         label: Text(
-          state.profileFeedLoadingMore ? 'Đang tải thêm...' : 'Tải thêm',
+          state.profileFeedLoadingMore
+              ? AppLocalizations.of(context)!.loadingMore
+              : AppLocalizations.of(context)!.loadMore,
         ),
       ),
     );
@@ -537,10 +541,12 @@ class ProfileResultArea extends StatelessWidget {
                 bottom: 7,
                 child: Text(
                   item.itemCount > 1
-                      ? '${item.itemCount} nội dung'
+                      ? AppLocalizations.of(
+                          context,
+                        )!.contentCount(item.itemCount)
                       : item.kind == 'reel'
                       ? 'Reel'
-                      : 'Ảnh',
+                      : AppLocalizations.of(context)!.image,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -574,11 +580,11 @@ class ProfileResultArea extends StatelessWidget {
     }
 
     if (state.profileMediaItems.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 8),
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: Text(
-          ' Không thể hiển thị nội dung trong bài viết này.',
-          style: TextStyle(fontWeight: FontWeight.w600),
+          AppLocalizations.of(context)!.cannotShowPostContent,
+          style: const TextStyle(fontWeight: FontWeight.w600),
         ),
       );
     }
@@ -587,7 +593,7 @@ class ProfileResultArea extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Chọn item để tải',
+          AppLocalizations.of(context)!.chooseItemToDownload,
           style: Theme.of(
             context,
           ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w900),
@@ -705,8 +711,8 @@ class ProfileResultArea extends StatelessWidget {
                     color: Colors.green.withOpacity(0.88),
                     borderRadius: BorderRadius.circular(999),
                   ),
-                  child: const Text(
-                    'Đã tải',
+                  child: Text(
+                    AppLocalizations.of(context)!.saved,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 11,
@@ -758,10 +764,10 @@ class ProfileResultArea extends StatelessWidget {
                     : const Icon(Icons.download_rounded),
                 label: Text(
                   downloading
-                      ? 'Đang tải'
+                      ? AppLocalizations.of(context)!.loading
                       : downloaded
-                      ? 'Tải lại'
-                      : 'Tải',
+                      ? AppLocalizations.of(context)!.downloadAgain
+                      : AppLocalizations.of(context)!.download,
                 ),
               ),
             ),

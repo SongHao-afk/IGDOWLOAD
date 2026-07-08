@@ -1,0 +1,339 @@
+{
+  "@@locale": "tr",
+  "appName": "IG Downloader",
+  "cancel": "İptal",
+  "save": "Kaydet",
+  "login": "Oturum aç",
+  "logout": "Oturumu kapat",
+  "understood": "Anladım",
+  "delete": "Sil",
+  "deleteAll": "Tümünü sil",
+  "share": "Paylaş",
+  "download": "İndir",
+  "downloadAgain": "Tekrar indir",
+  "saved": "İndirildi",
+  "loading": "Yükleniyor",
+  "apply": "Uygula",
+  "frequentProfilesTitle": "Son görüntülenen profiller",
+  "frequentProfilesEmptyTitle": "Henüz profil yok",
+  "frequentProfilesEmptyMessage": "Görüntülediğiniz profiller burada görünecektir.",
+  "account": "Hesap",
+  "downloadHistoryTitle": "İndir geçmiş",
+  "downloadHistoryEmptyTitle": "Henüz içerik yok",
+  "downloadHistoryEmptyMessage": "Henüz herhangi bir içerik indirmediniz",
+  "selectedCount": "{count} seçildi",
+  "@selectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteAllHistoryTitle": "Tüm geçmişi sil?",
+  "deleteAllHistoryMessage": "İndirme geçmişinizdeki tüm öğeler uygulamadan kaldırılacak.",
+  "deleteSelectedTitle": "{count} öğe silinsin mi?",
+  "@deleteSelectedTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteSelectedOneMessage": "Seçilen öğe indirme geçmişinizden kaldırılacak.",
+  "deleteSelectedManyMessage": "{count} seçilen öğeler indirme geçmişinizden kaldırılacak.",
+  "@deleteSelectedManyMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteOneTitle": "Bu öğe silinsin mi?",
+  "deleteOneMessage": "Bu öğe indirme geçmişinizden kaldırılacak.",
+  "cannotShareFileMissing": "Yapılamıyor. Paylaş. Dosya artık bu cihazda mevcut değil.",
+  "cannotShareContent": "Bu içerik paylaşılamıyor.",
+  "cannotSaveAgainFileMissing": "Tekrar kaydedilemiyor. Dosya artık bu cihazda mevcut değil.",
+  "savedAgainToGallery": "Yeniden galeriye kaydedildi.",
+  "cannotSaveAgainContent": "Bu içerik yeniden kaydedilemiyor.",
+  "cannotOpenFileMissing": "Bu içerik açılamıyor. Dosya artık bu cihazda mevcut değil.",
+  "video": "Video",
+  "image": "Fotoğraf",
+  "content": "İçerik",
+  "justDownloaded": "Az önce indirildi",
+  "heroTitle": "Instagram'den içerik indirin",
+  "heroConnected": "Instagram bağlandı.",
+  "heroDescription": "Fotoğrafları, makaraları ve hikayeleri hızlı ve kolay bir şekilde indirin.",
+  "downloadByLink": "Bağlantıyla indirin",
+  "invalidLinkTitle": "Geçersiz bağlantı",
+  "invalidLinkMessage": "Lütfen indirmek istediğiniz gönderi, Reel, Story veya video için Instagram bağlantısını girin.",
+  "downloadByLinkInfo1": "Zaten bir Instagram gönderisine, Reel, Story veya Highlight bağlantınız varsa bunu kullanın.",
+  "downloadByLinkInfo2": "Bağlantıyı yapıştırdığınızda uygulama içeriği kontrol edecek ve indirmenize izin verecektir.",
+  "example": "Örnek:",
+  "enterInstagramLink": "Instagram bağlantısını girin",
+  "instagramLinkHint": "https://www.instagram.com/p/... veya /reel/...",
+  "pasteInstagramLinkHint": "İstediğiniz içeriği kontrol edip indirmek için bir Instagram bağlantısını yapıştırın.",
+  "openInstagram": "Instagram'yi açın",
+  "getContent": "İçerik al",
+  "explainFeature": "Özelliği açıkla",
+  "downloadFromProfile": "Profilden indir",
+  "invalidProfileTitle": "Geçersiz bilgi",
+  "invalidProfileMessage": "Lütfen bir Instagram kullanıcı adı veya profil bağlantısı girin.",
+  "profileInfo1": "Bir Instagram hesabındaki birden fazla öğeyi görüntülemek ve indirmek istediğinizde bunu kullanın.",
+  "profileInfo2": "Bir kullanıcı adı veya profil bağlantısı girin ve ardından indirmek istediğiniz Story, Reel'leri veya gönderileri seçin.",
+  "profileInputLabel": "Kullanıcı adı veya profil bağlantısı",
+  "profileInputHint": "Örnek: @kullanıcıadı veya instagram.com/kullanıcıadı",
+  "profileCardDescription": "İndirilebilir Stories, Reel'leri ve gönderileri görüntülemek için bir kullanıcı adı veya profil bağlantısı girin.",
+  "story": "Story",
+  "storiesHighlights": "Stories / Highlights",
+  "reels": "Reel'ler",
+  "posts": "Gönderiler",
+  "photosPosts": "Fotoğraflar / Gönderiler",
+  "photosVideos": "Fotoğraflar / Videolar",
+  "profileSummary": "Profil özeti",
+  "storyModeHint": "İndirilebilir Stories ve Highlight'leri görüntülemek için bir profil girin.",
+  "reelsModeHint": "Reel listesini görüntülemek için bir profil girin.",
+  "postsModeHint": "İndirilebilir gönderileri görüntülemek için bir profil girin.",
+  "storyPopupTitle": "Stories'yi profilden indirin",
+  "reelsPopupTitle": "Profilden Reel'leri indirin",
+  "postsPopupTitle": "Profildeki gönderileri indirin",
+  "viewStory": "Story'yi görüntüle",
+  "viewReels": "Reel'leri görüntüle",
+  "viewPosts": "Gönderileri görüntüle",
+  "noStoryOrHighlightAll": "Story veya Highlight bulunamadı. İçerik görüntüleme izni gerektiriyorsa oturum açın.",
+  "noStoryOrHighlightInput": "Story veya Highlight bulunamadı. Kontrol etmek için bir Instagram profili girin.",
+  "noStoryItems": "Görüntülenecek içerik yok veya bu öğeyi görüntüleme izniniz yok.",
+  "noFeedAll": "Hiçbir gönderi veya video bulunamadı. İçerik görüntüleme izni gerektiriyorsa oturum açın.",
+  "noFeedInput": "Henüz içerik yok. Reel'leri veya Gönderiler'i seçin ve ardından bir profil girin.",
+  "endOfContent": "İçeriğin sonuna ulaştınız.",
+  "loadMore": "Daha fazlasını yükle",
+  "loadingMore": "Daha fazlası yükleniyor...",
+  "cannotShowPostContent": "Bu yazıdaki içerik görüntülenemiyor.",
+  "chooseItemToDownload": "İndirilecek bir öğe seçin",
+  "contentCount": "{count} öğeler",
+  "@contentCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chooseThemeColor": "Tema rengini seçin",
+  "themeDefault": "Varsayılan",
+  "themeVivid": "Canlı",
+  "themePink": "Parlak pembe",
+  "themeBlue": "Açık mavi",
+  "themeRed": "Kırmızı",
+  "themeDark": "Karanlık",
+  "loginRequiredTitle": "Giriş gerekli",
+  "followRequiredTitle": "Takip gerekli",
+  "followRequiredMessage": "Giriş yapılan hesabın bu içeriği görüntüleme izni yok.",
+  "downloadSuccessMessage": "Başarıyla indirildi.",
+  "viewHistory": "Geçmişi görüntüle",
+  "frequentAccessTooltip": "Sık erişim",
+  "recentDownloadsTooltip": "Son indirilenler",
+  "changeThemeTooltip": "Temayı değiştir",
+  "settingsTitle": "Ayarlar",
+  "themeSettingTitle": "Tema",
+  "languageSettingTitle": "Dil",
+  "chooseLanguageTitle": "Dilinizi seçin",
+  "languageVietnameseNative": "Tiếng Việt",
+  "languageVietnameseLocal": "Vietnamese",
+  "languageEnglishNative": "English",
+  "languageEnglishLocal": "English",
+  "sessionModeTitle": "İndirme modu",
+  "sessionPublicMode": "Public",
+  "sessionPrivateMode": "Private",
+  "sessionPrivateConnected": "Instagram hesabınız bağlandı.",
+  "sessionPrivatePrompt": "Hesabınızın görüntülemesine izin verilen içeriği indirmek için Instagram'de oturum açın.",
+  "sessionPublicPrompt": "Herkese açık içeriği giriş yapmadan indiriyorsunuz.",
+  "profileReelsListTitle": "Reel video listesi",
+  "profilePostsListTitle": "Fotoğraf / Gönderi listesi",
+  "close": "Kapalı",
+  "instagramHome": "Instagram ev",
+  "selectThisContent": "Bu içeriği seç",
+  "manualOpeningInstagram": "Instagram açılıyor...",
+  "manualInstruction": "İndirmek istediğiniz gönderiyi, Reel, Story veya Highlight'yi açın ve ardından \"Bu içeriği seç\"e dokunun.",
+  "manualPickedContent": "İçerik seçildi. Devam etmek için \"Bu içeriği seç\"e dokunun.",
+  "manualNoDownloadableContent": "İndirilebilir içerik bulunamadı. Bir gönderiyi açın, Reel, Story veya Highlight.",
+  "manualCloseToExit": "Seçilen içeriği kaybetmemek için çıkmak istiyorsanız \"Kapat\"a dokunun.",
+  "loginOpeningInstagram": "Instagram açılıyor... Lütfen bekleyin.",
+  "loginInstruction": "Instagram'de oturum açın ve işlemi tamamlamak için \"Kaydet\"e dokunun.",
+  "loginChecking": "Giriş kontrol ediliyor...",
+  "loginCannotConfirm": "Oturum açma işlemi onaylanamıyor.\nLütfen Instagram'de oturum açın ve kaydetmeyi tekrar deneyin.",
+  "loginSaveError": "Giriş bilgileri kaydedilirken bir hata oluştu. Lütfen tekrar deneyin.",
+  "loginLoggingOut": "Oturum kapatılıyor...",
+  "loginLoggedOut": "Instagram oturumunu kapattınız.\nDevam etmek için lütfen tekrar giriş yapın.",
+  "loginSuccessPrompt": "Giriş başarılı.\nBitirmek için \"Kaydet\"e dokunun.",
+  "loginPromptOnLoginPage": "Instagram'de oturum açın ve işlemi tamamlamak için \"Kaydet\"e dokunun.",
+  "loginPromptSaveBottom": "Giriş yapmayı tamamladıysanız aşağıdaki \"Kaydet\"e dokunun.",
+  "loginPageTitle": "Instagram'de oturum açın",
+  "loginOpeningInstagramWithHint": "Instagram açılıyor...\nGiriş yaptıktan sonra \"Kaydet\"e dokunun.",
+  "loginOpenFailed": "Instagram açılamıyor.\nLütfen internet bağlantınızı kontrol edip tekrar deneyin.",
+  "profileSavedMissingUsername": "Kaydedilen profilde kullanıcı adı eksik.",
+  "openingProfile": "Profil açılıyor...",
+  "openingUsername": "@{username} açılıyor...",
+  "@openingUsername": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryHighlightsAndPosts": "{storyCount} Story/Highlight öğeleri ve {postCount} gönderileri bulundu.",
+  "@foundStoryHighlightsAndPosts": {
+    "placeholders": {
+      "storyCount": {
+        "type": "int"
+      },
+      "postCount": {
+        "type": "int"
+      }
+    }
+  },
+  "privateModeEnabled": "Private modu etkinleştirildi.",
+  "publicModeEnabled": "Public moduna geri dönüldü.",
+  "cannotConfirmInstagramLogin": "Instagram oturum açma işlemi onaylanamıyor. Lütfen tekrar giriş yapın.",
+  "instagramConnected": "Instagram hesap bağlandı.",
+  "loggingOutInstagram": "Instagram oturumu kapatılıyor...",
+  "instagramLoggedOut": "Instagram.",
+  "instagramLogoutCleanupFailed": "Oturumu kapattınız ancak oturum açma verileri temizlenirken bir hata oluştu.",
+  "emptyInstagramLink": "Lütfen bir Instagram bağlantısı girin.",
+  "preparingContent": "İçerik hazırlanıyor...",
+  "loadingContentWithAccount": "Bağlı hesapla içerik yükleniyor...",
+  "cannotFetchContent": "İçerik getirilemiyor.",
+  "noDownloadableContentFound": "İndirilebilir içerik bulunamadı.",
+  "foundDownloadableContent": "İndirilebilir {count} öğeler bulundu.",
+  "@foundDownloadableContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "fetchContentFailedPublic": "İçerik getirilemiyor. Lütfen bağlantıyı kontrol edin veya tekrar deneyin.",
+  "fetchContentFailedPrivate": "İçerik getirilemiyor. Lütfen görüntüleme iznini kontrol edin veya tekrar giriş yapın.",
+  "emptyProfileInput": "Lütfen bir Instagram profili girin.",
+  "loadingStoryHighlights": "Stories ve Highlight'ler yükleniyor...",
+  "noCurrentStoryOrHighlight": "Güncel hikaye veya öne çıkan bölüm bulunamadı.",
+  "foundStoryHighlights": "{count} Story/Highlight öğeleri bulundu.",
+  "@foundStoryHighlights": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotOpenContent": "Bu içerik açılamıyor.",
+  "openingStoryGroup": "\"{title}\" açılıyor...",
+  "@openingStoryGroup": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryGroupItems": "\"{title}\" bölümünde {count} öğeleri bulundu.",
+  "@foundStoryGroupItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "cannotOpenStoryHighlightLogin": "Açılamıyor Story veya Highlight. Lütfen giriş yapın ve tekrar deneyin.",
+  "cannotOpenStoryHighlightPermission": "Story veya Highlight açılamıyor. Lütfen görüntüleme iznini kontrol edin.",
+  "cannotDownloadContent": "Bu içerik indirilemiyor.",
+  "downloadingStory": "Hikaye indiriliyor...",
+  "savedStoryToAlbum": "Albüme kaydedilen hikaye öğesi {albumName}.",
+  "@savedStoryToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadStoryFailed": "Story indirilemedi. Lütfen tekrar deneyin.",
+  "loadingReelsPublic": "Makaralar alınıyor...",
+  "loadingReelsPrivate": "Makaralar yükleniyor...",
+  "noReelsOrPermission": "Hiçbir Reel bulunamadı veya bunları görüntüleme izniniz yok.",
+  "foundReels": "{count} Reel'ler bulundu.",
+  "@foundReels": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadReelsPublic": "Reel'ler yüklenemiyor. Lütfen profili kontrol edin veya tekrar deneyin.",
+  "cannotLoadReelsPrivate": "Reel'ler yüklenemiyor. Lütfen görüntüleme iznini kontrol edin.",
+  "loadingPostsPublic": "Fotoğraflar/yayınlar getiriliyor...",
+  "loadingPostsPrivate": "Fotoğraflar/yayınlar yükleniyor...",
+  "noPostsOrPermission": "Hiçbir fotoğraf/yayın bulunamadı veya bunları görüntüleme izniniz yok.",
+  "foundPosts": "{count} fotoğraf/yayın bulundu.",
+  "@foundPosts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadPostsPublic": "Gönderiler yüklenemiyor. Lütfen profili kontrol edin veya tekrar deneyin.",
+  "cannotLoadPostsPrivate": "Gönderiler yüklenemiyor. Lütfen görüntüleme iznini kontrol edin.",
+  "cannotLoadMoreContent": "Daha fazla içerik yüklenemiyor.",
+  "cannotLoadMoreProfile": "Daha fazlası yüklenemiyor. Lütfen profile tekrar girin.",
+  "noMoreNewContent": "Artık yeni içerik yok.",
+  "loadedMoreContent": "{count} öğe daha yüklendi.",
+  "@loadedMoreContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadMoreFailed": "Daha fazlası yüklenemedi. Lütfen tekrar deneyin.",
+  "openingReel": "Reel açılıyor...",
+  "openingPost": "Açılış yazısı...",
+  "cannotOpenContentPermission": "Bu içerik açılamıyor. Lütfen görüntüleme iznini kontrol edin veya tekrar deneyin.",
+  "downloadingContent": "İçerik indiriliyor...",
+  "savedToAlbum": "{albumName} albümüne kaydedildi.",
+  "@savedToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "savedContentToAlbum": "İçerik {albumName} albümüne kaydedildi.",
+  "@savedContentToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadContentErrorRetry": "İçerik indirme işlemi başarısız oldu. Tekrar denemek için dokunun.",
+  "downloadHistoryCleared": "İndirme geçmişi temizlendi.",
+  "downloadHistoryItemsRemoved": "{count} öğeleri geçmişten kaldırıldı.",
+  "@downloadHistoryItemsRemoved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "downloadConnectionSlow": "Yavaş bağlantı nedeniyle indirme başarısız oldu. Tekrar denemek için dokunun.",
+  "downloadNetworkUnavailable": "Ağa bağlanılamıyor/CDN. Ağınızı kontrol edin ve tekrar deneyin.",
+  "downloadCancelled": "İndirme iptal edildi.",
+  "downloadGenericError": "İndirme başarısız oldu. Tekrar denemek için dokunun.",
+  "downloadProgress": "İçerik indiriliyor: {percent}%",
+  "@downloadProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  }
+}

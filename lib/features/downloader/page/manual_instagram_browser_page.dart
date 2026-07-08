@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
+import '../../../l10n/app_localizations.dart';
+
 class ManualInstagramBrowserPage extends StatefulWidget {
   final String? startUrl;
   final String privateIgCookie;
@@ -185,7 +187,7 @@ class _ManualInstagramBrowserPageState
 
   String currentUrl = '';
   String lastPickableUrl = '';
-  String status = 'Đang mở Instagram...';
+  String statusKey = 'manualOpeningInstagram';
 
   @override
   void initState() {
@@ -199,6 +201,24 @@ class _ManualInstagramBrowserPageState
     super.dispose();
   }
 
+  String _statusText(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
+    switch (statusKey) {
+      case 'manualInstruction':
+        return l10n.manualInstruction;
+      case 'manualPickedContent':
+        return l10n.manualPickedContent;
+      case 'manualNoDownloadableContent':
+        return l10n.manualNoDownloadableContent;
+      case 'manualCloseToExit':
+        return l10n.manualCloseToExit;
+      case 'manualOpeningInstagram':
+      default:
+        return l10n.manualOpeningInstagram;
+    }
+  }
+
   Future<void> _prepareBrowser() async {
     // Quan trọng cho iOS:
     // Không clear cookie/storage ở đây, để WKWebView giữ session Instagram.
@@ -208,8 +228,7 @@ class _ManualInstagramBrowserPageState
 
     setState(() {
       preparing = false;
-      status =
-          'Mở bài viết, Reel, Story hoặc Highlight bạn muốn tải, sau đó nhấn "Chọn nội dung này".';
+      statusKey = 'manualInstruction';
     });
   }
 
@@ -307,7 +326,7 @@ class _ManualInstagramBrowserPageState
 
       if (pickable) {
         lastPickableUrl = clean;
-        status = 'Đã chọn được nội dung. Nhấn "Chọn nội dung này" để tiếp tục.';
+        statusKey = 'manualPickedContent';
       }
     });
   }
@@ -404,8 +423,7 @@ class _ManualInstagramBrowserPageState
       if (!mounted) return;
 
       setState(() {
-        status =
-            'Không tìm thấy nội dung có thể tải. Hãy mở một bài viết, Reel, Story hoặc Highlight.';
+        statusKey = 'manualNoDownloadableContent';
       });
 
       return;
@@ -431,8 +449,7 @@ class _ManualInstagramBrowserPageState
     if (!mounted) return false;
 
     setState(() {
-      status =
-          'Để tránh mất nội dung đang chọn, vui lòng nhấn "Đóng" nếu muốn thoát.';
+      statusKey = 'manualCloseToExit';
     });
 
     return false;
@@ -456,7 +473,7 @@ class _ManualInstagramBrowserPageState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              status,
+              _statusText(context),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 13),
@@ -617,7 +634,7 @@ class _ManualInstagramBrowserPageState
               Expanded(
                 child: OutlinedButton(
                   onPressed: () => Navigator.of(context).pop(null),
-                  child: const Text('Hủy'),
+                  child: Text(AppLocalizations.of(context)!.cancel),
                 ),
               ),
               const SizedBox(width: 10),
@@ -626,7 +643,7 @@ class _ManualInstagramBrowserPageState
                 child: FilledButton.icon(
                   onPressed: preparing ? null : _pickCurrentUrl,
                   icon: const Icon(Icons.link_rounded),
-                  label: const Text('Chọn nội dung này'),
+                  label: Text(AppLocalizations.of(context)!.selectThisContent),
                 ),
               ),
             ],
@@ -653,18 +670,18 @@ class _ManualInstagramBrowserPageState
           leading: IconButton(
             onPressed: () => Navigator.of(context).pop(null),
             icon: const Icon(Icons.close_rounded),
-            tooltip: 'Đóng',
+            tooltip: AppLocalizations.of(context)!.close,
           ),
           actions: [
             IconButton(
               onPressed: preparing ? null : _goInstagramHome,
               icon: const Icon(Icons.home_rounded),
-              tooltip: 'Trang chủ Instagram',
+              tooltip: AppLocalizations.of(context)!.instagramHome,
             ),
             IconButton(
               onPressed: preparing ? null : _reload,
               icon: const Icon(Icons.refresh_rounded),
-              tooltip: 'Tải lại',
+              tooltip: AppLocalizations.of(context)!.downloadAgain,
             ),
           ],
         ),
@@ -679,4 +696,5 @@ class _ManualInstagramBrowserPageState
     );
   }
 }
+
 //

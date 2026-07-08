@@ -1,0 +1,339 @@
+{
+  "@@locale": "ko",
+  "appName": "IG Downloader",
+  "cancel": "취소",
+  "save": "저장",
+  "login": "로그인",
+  "logout": "로그아웃",
+  "understood": "알겠습니다",
+  "delete": "삭제",
+  "deleteAll": "모두 삭제",
+  "share": "공유",
+  "download": "다운로드",
+  "downloadAgain": "다시 다운로드",
+  "saved": "다운로드",
+  "loading": "로드 중",
+  "apply": "적용",
+  "frequentProfilesTitle": "최근에 본 프로필",
+  "frequentProfilesEmptyTitle": "아직 프로필이 없습니다",
+  "frequentProfilesEmptyMessage": "본 프로필이 여기에 표시됩니다.",
+  "account": "계정",
+  "downloadHistoryTitle": "다운로드 내역",
+  "downloadHistoryEmptyTitle": "콘텐츠 없음 아직",
+  "downloadHistoryEmptyMessage": "아직 콘텐츠를 다운로드하지 않았습니다",
+  "selectedCount": "{count} 선택함",
+  "@selectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteAllHistoryTitle": "모든 기록을 삭제하시겠습니까?",
+  "deleteAllHistoryMessage": "다운로드 기록의 모든 항목이 앱에서 제거됩니다.",
+  "deleteSelectedTitle": "{count} 항목을 삭제하시겠습니까?",
+  "@deleteSelectedTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteSelectedOneMessage": "선택한 항목이 다운로드 기록에서 제거됩니다.",
+  "deleteSelectedManyMessage": "{count}선택한 항목이 다운로드 기록에서 제거됩니다.",
+  "@deleteSelectedManyMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteOneTitle": "이 항목을 삭제하시겠습니까?",
+  "deleteOneMessage": "이 항목은 다운로드 기록에서 제거됩니다.",
+  "cannotShareFileMissing": "공유할 수 없습니다. 파일이 더 이상 이 장치에 존재하지 않습니다.",
+  "cannotShareContent": "이 콘텐츠를 공유할 수 없습니다.",
+  "cannotSaveAgainFileMissing": "다시 저장할 수 없습니다. 파일이 더 이상 이 기기에 존재하지 않습니다.",
+  "savedAgainToGallery": "갤러리에 다시 저장되었습니다.",
+  "cannotSaveAgainContent": "이 콘텐츠를 다시 저장할 수 없습니다.",
+  "cannotOpenFileMissing": "이 콘텐츠를 열 수 없습니다. 파일이 이 장치에 더 이상 존재하지 않습니다.",
+  "video": "동영상",
+  "image": "사진",
+  "content": "콘텐츠",
+  "justDownloaded": "방금 다운로드되었습니다",
+  "heroTitle": "Instagram",
+  "heroConnected": "Instagram에서 콘텐츠 다운로드가 연결되었습니다.",
+  "heroDescription": "사진, 릴, 스토리를 빠르고 쉽게 다운로드하십시오.",
+  "downloadByLink": "링크로 다운로드",
+  "invalidLinkTitle": "잘못된 링크",
+  "invalidLinkMessage": "다운로드하려는 게시물, Reel, Story 또는 비디오에 대한 Instagram 링크를 입력하십시오.",
+  "downloadByLinkInfo1": "이것을 사용하십시오 Instagram 게시물, Reel, Story 또는 Highlight에 대한 링크가 이미 있는 경우.",
+  "downloadByLinkInfo2": "링크를 붙여넣으면 앱에서 콘텐츠를 확인하고 다운로드할 수 있습니다.",
+  "example": "예:",
+  "enterInstagramLink": "Enter Instagram link",
+  "instagramLinkHint": "https://www.instagram.com/p/... 또는 /reel/...",
+  "pasteInstagramLinkHint": " Instagram 링크를 붙여넣어 원하는 콘텐츠를 확인하고 다운로드하세요.",
+  "openInstagram": "열기 Instagram",
+  "getContent": "콘텐츠 가져오기",
+  "explainFeature": "기능 설명",
+  "downloadFromProfile": "프로필에서 다운로드",
+  "invalidProfileTitle": "잘못된 정보",
+  "invalidProfileMessage": "Instagram를 입력하세요. 사용자 이름 또는 프로필 링크.",
+  "profileInfo1": "이 기능은 Instagram 계정에서 여러 항목을 보고 다운로드할 때 사용합니다.",
+  "profileInfo2": "사용자 이름 또는 프로필 링크를 입력한 다음 다운로드할 Story, Reel 또는 게시물을 선택합니다.",
+  "profileInputLabel": "사용자 이름 또는 프로필 링크",
+  "profileInputHint": "예: @username 또는 instagram.com/username",
+  "profileCardDescription": "다운로드 가능한 Stories, Reel 및 게시물.",
+  "story": "Story",
+  "storiesHighlights": "Stories / Highlights",
+  "reels": "Reels",
+  "posts": "Posts",
+  "photosPosts": "Photos / Posts",
+  "photosVideos": "Photos / Videos",
+  "profileSummary": "프로필 요약",
+  "storyModeHint": "다운로드 가능한 Stories 및 Highlights를 보려면 프로필을 입력하세요.",
+  "reelsModeHint": " Reel의 목록을 보려면 프로필을 입력하세요.",
+  "postsModeHint": "다운로드 가능한 게시물을 보려면 프로필을 입력하세요.",
+  "storyPopupTitle": "Download Stories from 프로필",
+  "reelsPopupTitle": "프로필에서 Reel을 다운로드합니다",
+  "postsPopupTitle": "프로필에서 게시물을 다운로드합니다",
+  "viewStory": "보기 Story",
+  "viewReels": "Reels",
+  "viewPosts": "게시물 보기",
+  "noStoryOrHighlightAll": " Story 또는 Highlight을 찾을 수 없습니다. 콘텐츠 보기 권한이 필요한 경우 로그인하세요.",
+  "noStoryOrHighlightInput": " Story 또는 Highlight이 없습니다. 확인하려면 Instagram 프로필을 입력하세요.",
+  "noStoryItems": "표시할 콘텐츠가 없거나 이 항목을 볼 수 있는 권한이 없습니다.",
+  "noFeedAll": "게시물이나 동영상이 없습니다. 콘텐츠 보기 권한이 필요한 경우 로그인하세요.",
+  "noFeedInput": "아직 콘텐츠가 없습니다. Reels 또는 게시물을 선택한 다음 프로필을 입력하세요.",
+  "endOfContent": "콘텐츠의 끝에 도달했습니다.",
+  "loadMore": "더 보기",
+  "loadingMore": "더 보기...",
+  "cannotShowPostContent": "이 게시물의 콘텐츠를 표시할 수 없습니다.",
+  "chooseItemToDownload": "다운로드할 항목을 선택하세요",
+  "contentCount": "{count} 항목",
+  "@contentCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chooseThemeColor": "테마 색상을 선택하세요",
+  "themeDefault": "기본값",
+  "themeVivid": "선명한",
+  "themePink": "광택 핑크",
+  "themeBlue": "연한 파란색",
+  "themeRed": "빨간색",
+  "themeDark": "어두운",
+  "loginRequiredTitle": "로그인 필수",
+  "followRequiredTitle": "팔로우 필수",
+  "followRequiredMessage": "로그인된 계정에는 이 콘텐츠를 볼 수 있는 권한이 없습니다.",
+  "downloadSuccessMessage": "다운로드가 완료되었습니다.",
+  "viewHistory": "기록 보기",
+  "frequentAccessTooltip": "자주 액세스",
+  "recentDownloadsTooltip": "최근 다운로드",
+  "changeThemeTooltip": "테마 변경",
+  "settingsTitle": "설정",
+  "themeSettingTitle": "테마",
+  "languageSettingTitle": "언어",
+  "chooseLanguageTitle": "언어를 선택하세요",
+  "languageVietnameseNative": "Ti?ng Vi?t",
+  "languageVietnameseLocal": "Vietnamese",
+  "languageEnglishNative": "English",
+  "languageEnglishLocal": "English",
+  "sessionModeTitle": "다운로드 모드",
+  "sessionPublicMode": "Public",
+  "sessionPrivateMode": "Private",
+  "sessionPrivateConnected": "귀하의 Instagram 계정은 다음과 같습니다. 연결되었습니다.",
+  "sessionPrivatePrompt": " Instagram에 로그인하여 귀하의 계정에서 볼 수 있는 콘텐츠를 다운로드하십시오.",
+  "sessionPublicPrompt": "로그인하지 않고 공개 콘텐츠를 다운로드하고 있습니다.",
+  "profileReelsListTitle": "Reel 동영상 목록",
+  "profilePostsListTitle": "사진/게시물 목록",
+  "close": "닫기",
+  "instagramHome": "Instagram 홈",
+  "selectThisContent": "이 콘텐츠 선택",
+  "manualOpeningInstagram": "열기 Instagram...",
+  "manualInstruction": "다운로드하려는 게시물, Reel, Story 또는 Highlight를 연 다음 \"이 항목 선택 콘텐츠\".",
+  "manualPickedContent": "콘텐츠가 선택되었습니다. 계속하려면 \"이 콘텐츠 선택\"을 탭하세요.",
+  "manualNoDownloadableContent": "다운로드 가능한 콘텐츠가 없습니다. Reel, Story 또는 Highlight 게시물을 엽니다.",
+  "manualCloseToExit": "선택한 콘텐츠를 잃지 않으려면 종료하려면 \"닫기\"를 탭하세요.",
+  "loginOpeningInstagram": "Instagram 여는 중... 잠시 기다려 주세요.",
+  "loginInstruction": "Instagram에 로그인한 다음 \"저장\"을 탭하여 완료하세요.",
+  "loginChecking": "로그인 확인 중...",
+  "loginCannotConfirm": "로그인을 확인할 수 없습니다.\nInstagram에 로그인한 후 다시 저장해 보세요.",
+  "loginSaveError": "로그인 정보를 저장하는 중 오류가 발생했습니다. 다시 시도해 주세요.",
+  "loginLoggingOut": "로그아웃 중...",
+  "loginLoggedOut": "Instagram에서 로그아웃했습니다.\n계속하려면 다시 로그인하십시오.",
+  "loginSuccessPrompt": "로그인에 성공했습니다.\n완료하려면 \"저장\"을 탭하세요.",
+  "loginPromptOnLoginPage": " Instagram에 로그인한 다음 \"저장\"을 탭하여 완료하세요.",
+  "loginPromptSaveBottom": "로그인이 완료되면 아래의 \"저장\"을 탭하세요.",
+  "loginPageTitle": " Instagram",
+  "loginOpeningInstagramWithHint": "에 로그인 Instagram열기...\n로그인한 후 \"저장\"을 탭하세요.",
+  "loginOpenFailed": "열 수 없습니다 Instagram.\n인터넷 연결을 확인하고 다시 시도하십시오.",
+  "profileSavedMissingUsername": "저장된 프로필에 사용자 이름이 없습니다.",
+  "openingProfile": "프로필을 여는 중...",
+  "openingUsername": "@{username}를 여는 중...",
+  "@openingUsername": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryHighlightsAndPosts": " {storyCount} Story/Highlight 항목 및 {postCount} 게시물을 찾았습니다.",
+  "@foundStoryHighlightsAndPosts": {
+    "placeholders": {
+      "storyCount": {
+        "type": "int"
+      },
+      "postCount": {
+        "type": "int"
+      }
+    }
+  },
+  "privateModeEnabled": "Private 모드가 활성화되었습니다.",
+  "publicModeEnabled": "Public 모드로 다시 전환되었습니다.",
+  "cannotConfirmInstagramLogin": "Instagram 로그인을 확인할 수 없습니다. 다시 로그인해 주세요.",
+  "instagramConnected": "Instagram 계정이 연결되었습니다.",
+  "loggingOutInstagram": " Instagram에서 로그아웃하는 중...",
+  "instagramLoggedOut": " Instagram에서 로그아웃했습니다.",
+  "instagramLogoutCleanupFailed": "Instagram에서 로그아웃했지만 로그인 데이터를 삭제하는 중 오류가 발생했습니다.",
+  "emptyInstagramLink": " Instagram 링크를 입력하세요.",
+  "preparingContent": "콘텐츠 준비 중...",
+  "loadingContentWithAccount": "연결된 계정으로 콘텐츠 로드 중...",
+  "cannotFetchContent": "콘텐츠를 가져올 수 없습니다.",
+  "noDownloadableContentFound": "다운로드 가능한 콘텐츠를 찾을 수 없습니다.",
+  "foundDownloadableContent": "찾았습니다. {count} 다운로드 가능한 항목.",
+  "@foundDownloadableContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "fetchContentFailedPublic": "콘텐츠를 가져올 수 없습니다. 링크를 확인하거나 다시 시도해 주세요.",
+  "fetchContentFailedPrivate": "콘텐츠를 가져올 수 없습니다. 보기 권한을 확인하거나 다시 로그인하세요.",
+  "emptyProfileInput": " Instagram 프로필을 입력하세요.",
+  "loadingStoryHighlights": " Stories 및 Highlight 로드 중...",
+  "noCurrentStoryOrHighlight": "현재 스토리나 하이라이트를 찾을 수 없습니다.",
+  "foundStoryHighlights": " {count} Story/Highlight 항목을 찾았습니다.",
+  "@foundStoryHighlights": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotOpenContent": " 이 콘텐츠를 열 수 없습니다.",
+  "openingStoryGroup": "\"{title}\" 여는 중...",
+  "@openingStoryGroup": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "foundStoryGroupItems": "\"{title}\"에서 {count} 항목을 찾았습니다.",
+  "@foundStoryGroupItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "cannotOpenStoryHighlightLogin": "Story 또는 Highlight을 열 수 없습니다. 로그인한 후 다시 시도해 주세요.",
+  "cannotOpenStoryHighlightPermission": "Story 또는 Highlight을 열 수 없습니다. 시청 권한을 확인해 주세요.",
+  "cannotDownloadContent": "이 콘텐츠를 다운로드할 수 없습니다.",
+  "downloadingStory": "스토리 다운로드 중...",
+  "savedStoryToAlbum": "스토리 항목을 앨범 {albumName}에 저장했습니다.",
+  "@savedStoryToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadStoryFailed": "Story 다운로드에 실패했습니다. 다시 시도해 주세요.",
+  "loadingReelsPublic": "릴을 가져오는 중...",
+  "loadingReelsPrivate": "릴 로드 중...",
+  "noReelsOrPermission": "해당 항목을 찾을 수 없거나 해당 항목을 볼 수 있는 권한이 없습니다.",
+  "foundReels": "{count} Reel을 찾았습니다.",
+  "@foundReels": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadReelsPublic": "Reel을 로드할 수 없습니다. 프로필을 확인하거나 다시 시도해 주세요.",
+  "cannotLoadReelsPrivate": "Reel을 로드할 수 없습니다. 시청 권한을 확인해 주세요.",
+  "loadingPostsPublic": "사진/게시물 가져오는 중...",
+  "loadingPostsPrivate": "사진/게시물 로드 중...",
+  "noPostsOrPermission": "사진/게시물을 찾을 수 없거나 해당 사진/게시물을 볼 수 있는 권한이 없습니다.",
+  "foundPosts": "{count} 사진/게시물을 찾았습니다.",
+  "@foundPosts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotLoadPostsPublic": "게시물을 로드할 수 없습니다. 프로필을 확인하거나 다시 시도해 주세요.",
+  "cannotLoadPostsPrivate": "게시물을 로드할 수 없습니다. 시청 권한을 확인해 주세요.",
+  "cannotLoadMoreContent": "더 많은 콘텐츠를 로드할 수 없습니다.",
+  "cannotLoadMoreProfile": "더 이상 로드할 수 없습니다. 프로필을 다시 입력해주세요.",
+  "noMoreNewContent": "더 이상 새로운 콘텐츠가 없습니다.",
+  "loadedMoreContent": "{count}개 이상의 항목을 로드했습니다.",
+  "@loadedMoreContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadMoreFailed": "추가 로드에 실패했습니다. 다시 시도해 주세요.",
+  "openingReel": "Reel를 여는 중...",
+  "openingPost": "게시물을 여는 중...",
+  "cannotOpenContentPermission": "이 콘텐츠를 열 수 없습니다. 보기 권한을 확인하거나 다시 시도해 주세요.",
+  "downloadingContent": "콘텐츠 다운로드 중...",
+  "savedToAlbum": "앨범 {albumName}에 저장되었습니다.",
+  "@savedToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "savedContentToAlbum": "콘텐츠를 앨범 {albumName}에 저장했습니다.",
+  "@savedContentToAlbum": {
+    "placeholders": {
+      "albumName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadContentErrorRetry": "콘텐츠 다운로드에 실패했습니다. 다시 시도하려면 탭하세요.",
+  "downloadHistoryCleared": "다운로드 기록이 삭제되었습니다.",
+  "downloadHistoryItemsRemoved": "기록에서 {count} 항목을 제거했습니다.",
+  "@downloadHistoryItemsRemoved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "downloadConnectionSlow": "연결 속도가 느려 다운로드에 실패했습니다. 다시 시도하려면 탭하세요.",
+  "downloadNetworkUnavailable": "네트워크에 연결할 수 없습니다/CDN. 네트워크를 확인하고 다시 시도하세요.",
+  "downloadCancelled": "다운로드가 취소되었습니다.",
+  "downloadGenericError": "다운로드에 실패했습니다. 다시 시도하려면 탭하세요.",
+  "downloadProgress": "콘텐츠 다운로드 중: {percent}%",
+  "@downloadProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  }
+}
