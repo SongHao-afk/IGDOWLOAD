@@ -1,11 +1,11 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-import 'app_localizations_en.dart';
+import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
 
-/// The translations for ja (`ja`).
-class AppLocalizationsJa extends AppLocalizationsEn {
+/// The translations for Japanese (`ja`).
+class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
@@ -73,7 +73,7 @@ class AppLocalizationsJa extends AppLocalizationsEn {
 
   @override
   String selectedCount(int count) {
-    return '${count}選択済み';
+    return '$count選択済み';
   }
 
   @override
@@ -84,7 +84,7 @@ class AppLocalizationsJa extends AppLocalizationsEn {
 
   @override
   String deleteSelectedTitle(int count) {
-    return '${count}アイテムを削除しますか？';
+    return '$countアイテムを削除しますか？';
   }
 
   @override
@@ -92,7 +92,7 @@ class AppLocalizationsJa extends AppLocalizationsEn {
 
   @override
   String deleteSelectedManyMessage(int count) {
-    return '${count}選択したアイテムがダウンロード履歴から削除されます。';
+    return '$count選択したアイテムがダウンロード履歴から削除されます。';
   }
 
   @override
@@ -292,7 +292,7 @@ class AppLocalizationsJa extends AppLocalizationsEn {
 
   @override
   String contentCount(int count) {
-    return '${count}アイテム';
+    return '$countアイテム';
   }
 
   @override
@@ -463,12 +463,12 @@ class AppLocalizationsJa extends AppLocalizationsEn {
 
   @override
   String openingUsername(String username) {
-    return '@${username} を開きます...';
+    return '@$username を開きます...';
   }
 
   @override
   String foundStoryHighlightsAndPosts(int storyCount, int postCount) {
-    return '${storyCount} Story/Highlight アイテムと ${postCount} 投稿が見つかりました。';
+    return '$storyCount Story/Highlight アイテムと $postCount 投稿が見つかりました。';
   }
 
   @override
@@ -511,7 +511,7 @@ class AppLocalizationsJa extends AppLocalizationsEn {
 
   @override
   String foundDownloadableContent(int count) {
-    return '${count} 件のダウンロード可能なアイテムが見つかりました。';
+    return '$count 件のダウンロード可能なアイテムが見つかりました。';
   }
 
   @override
@@ -532,7 +532,7 @@ class AppLocalizationsJa extends AppLocalizationsEn {
 
   @override
   String foundStoryHighlights(int count) {
-    return '${count} Story/Highlight アイテムが見つかりました。';
+    return '$count Story/Highlight アイテムが見つかりました。';
   }
 
   @override
@@ -540,12 +540,12 @@ class AppLocalizationsJa extends AppLocalizationsEn {
 
   @override
   String openingStoryGroup(String title) {
-    return '「${title}」を開くと…';
+    return '「$title」を開くと…';
   }
 
   @override
   String foundStoryGroupItems(int count, String title) {
-    return '「${title}」で${count}アイテムが見つかりました。';
+    return '「$title」で$countアイテムが見つかりました。';
   }
 
   @override
@@ -564,7 +564,7 @@ class AppLocalizationsJa extends AppLocalizationsEn {
 
   @override
   String savedStoryToAlbum(String albumName) {
-    return 'ストーリー アイテムをアルバム ${albumName} に保存しました。';
+    return 'ストーリー アイテムをアルバム $albumName に保存しました。';
   }
 
   @override
@@ -581,7 +581,7 @@ class AppLocalizationsJa extends AppLocalizationsEn {
 
   @override
   String foundReels(int count) {
-    return '${count} Reelが見つかりました。';
+    return '$count Reelが見つかりました。';
   }
 
   @override
@@ -601,7 +601,7 @@ class AppLocalizationsJa extends AppLocalizationsEn {
 
   @override
   String foundPosts(int count) {
-    return '${count} 写真/投稿が見つかりました。';
+    return '$count 写真/投稿が見つかりました。';
   }
 
   @override
@@ -621,7 +621,7 @@ class AppLocalizationsJa extends AppLocalizationsEn {
 
   @override
   String loadedMoreContent(int count) {
-    return '${count} 件のコンテンツをさらに読み込みました。';
+    return '$count 件のコンテンツをさらに読み込みました。';
   }
 
   @override
@@ -642,12 +642,12 @@ class AppLocalizationsJa extends AppLocalizationsEn {
 
   @override
   String savedToAlbum(String albumName) {
-    return 'アルバム${albumName}に保存されました。';
+    return 'アルバム$albumNameに保存されました。';
   }
 
   @override
   String savedContentToAlbum(String albumName) {
-    return 'コンテンツをアルバム ${albumName} に保存しました。';
+    return 'コンテンツをアルバム $albumName に保存しました。';
   }
 
   @override
@@ -659,7 +659,7 @@ class AppLocalizationsJa extends AppLocalizationsEn {
 
   @override
   String downloadHistoryItemsRemoved(int count) {
-    return '${count} アイテムを履歴から削除しました。';
+    return '$count アイテムを履歴から削除しました。';
   }
 
   @override
@@ -677,6 +677,6 @@ class AppLocalizationsJa extends AppLocalizationsEn {
 
   @override
   String downloadProgress(String percent) {
-    return 'コンテンツをダウンロード中: ${percent}%';
+    return 'コンテンツをダウンロード中: $percent%';
   }
 }

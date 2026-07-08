@@ -234,7 +234,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get photosVideos => 'Ảnh / Video';
 
   @override
-  String get profileSummary => 'Tổng hợp profile';
+  String get profileSummary => 'Thông tin trang cá nhân';
 
   @override
   String get storyModeHint =>
@@ -299,7 +299,7 @@ class AppLocalizationsVi extends AppLocalizations {
       'Không thể hiển thị nội dung trong bài viết này.';
 
   @override
-  String get chooseItemToDownload => 'Chọn item để tải';
+  String get chooseItemToDownload => 'Chọn mục muốn tải';
 
   @override
   String contentCount(int count) {
@@ -591,7 +591,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String savedStoryToAlbum(String albumName) {
-    return 'Đã lưu story item vào album $albumName.';
+    return 'Đã lưu story vào album $albumName.';
   }
 
   @override

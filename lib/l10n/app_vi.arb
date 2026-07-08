@@ -89,7 +89,7 @@
   "posts": "Bài viết",
   "photosPosts": "Ảnh / Bài viết",
   "photosVideos": "Ảnh / Video",
-  "profileSummary": "Tổng hợp profile",
+  "profileSummary": "Thông tin trang cá nhân",
   "storyModeHint": "Nhập trang cá nhân để xem Story và Highlight có thể tải.",
   "reelsModeHint": "Nhập trang cá nhân để xem danh sách Reels.",
   "postsModeHint": "Nhập trang cá nhân để xem các bài viết có thể tải.",
@@ -108,7 +108,7 @@
   "loadMore": "Tải thêm",
   "loadingMore": "Đang tải thêm...",
   "cannotShowPostContent": "Không thể hiển thị nội dung trong bài viết này.",
-  "chooseItemToDownload": "Chọn item để tải",
+  "chooseItemToDownload": "Chọn mục muốn tải",
   "contentCount": "{count} nội dung",
   "@contentCount": {
     "placeholders": {
@@ -247,7 +247,7 @@
   "cannotOpenStoryHighlightPermission": "Không thể mở Story hoặc Highlight. Vui lòng kiểm tra quyền xem.",
   "cannotDownloadContent": "Không thể tải nội dung này.",
   "downloadingStory": "Đang tải story...",
-  "savedStoryToAlbum": "Đã lưu story item vào album {albumName}.",
+  "savedStoryToAlbum": "Đã lưu story vào album {albumName}.",
   "@savedStoryToAlbum": {
     "placeholders": {
       "albumName": {

@@ -1,11 +1,11 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-import 'app_localizations_en.dart';
+import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
 
-/// The translations for de (`de`).
-class AppLocalizationsDe extends AppLocalizationsEn {
+/// The translations for German (`de`).
+class AppLocalizationsDe extends AppLocalizations {
   AppLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
@@ -75,7 +75,7 @@ class AppLocalizationsDe extends AppLocalizationsEn {
 
   @override
   String selectedCount(int count) {
-    return '${count} ausgewählt';
+    return '$count ausgewählt';
   }
 
   @override
@@ -87,7 +87,7 @@ class AppLocalizationsDe extends AppLocalizationsEn {
 
   @override
   String deleteSelectedTitle(int count) {
-    return '${count} Elemente löschen?';
+    return '$count Elemente löschen?';
   }
 
   @override
@@ -96,7 +96,7 @@ class AppLocalizationsDe extends AppLocalizationsEn {
 
   @override
   String deleteSelectedManyMessage(int count) {
-    return '${count} ausgewählte Elemente werden aus Ihrem Download-Verlauf entfernt.';
+    return '$count ausgewählte Elemente werden aus Ihrem Download-Verlauf entfernt.';
   }
 
   @override
@@ -310,7 +310,7 @@ class AppLocalizationsDe extends AppLocalizationsEn {
 
   @override
   String contentCount(int count) {
-    return '${count} Elemente';
+    return '$count Elemente';
   }
 
   @override
@@ -494,12 +494,12 @@ class AppLocalizationsDe extends AppLocalizationsEn {
 
   @override
   String openingUsername(String username) {
-    return 'Eröffnung @${username}...';
+    return 'Eröffnung @$username...';
   }
 
   @override
   String foundStoryHighlightsAndPosts(int storyCount, int postCount) {
-    return 'Gefunden ${storyCount} Story/Highlight Artikel und ${postCount} Beiträge.';
+    return 'Gefunden $storyCount Story/Highlight Artikel und $postCount Beiträge.';
   }
 
   @override
@@ -544,7 +544,7 @@ class AppLocalizationsDe extends AppLocalizationsEn {
 
   @override
   String foundDownloadableContent(int count) {
-    return '${count} herunterladbare Artikel gefunden.';
+    return '$count herunterladbare Artikel gefunden.';
   }
 
   @override
@@ -567,7 +567,7 @@ class AppLocalizationsDe extends AppLocalizationsEn {
 
   @override
   String foundStoryHighlights(int count) {
-    return '${count} Story/Highlight Artikel gefunden.';
+    return '$count Story/Highlight Artikel gefunden.';
   }
 
   @override
@@ -575,12 +575,12 @@ class AppLocalizationsDe extends AppLocalizationsEn {
 
   @override
   String openingStoryGroup(String title) {
-    return '„${title}“ öffnen...';
+    return '„$title“ öffnen...';
   }
 
   @override
   String foundStoryGroupItems(int count, String title) {
-    return '${count} Artikel in „${title}“ gefunden.';
+    return '$count Artikel in „$title“ gefunden.';
   }
 
   @override
@@ -600,7 +600,7 @@ class AppLocalizationsDe extends AppLocalizationsEn {
 
   @override
   String savedStoryToAlbum(String albumName) {
-    return 'Story-Element im Album ${albumName} gespeichert.';
+    return 'Story-Element im Album $albumName gespeichert.';
   }
 
   @override
@@ -619,7 +619,7 @@ class AppLocalizationsDe extends AppLocalizationsEn {
 
   @override
   String foundReels(int count) {
-    return 'Gefunden ${count} Reels.';
+    return 'Gefunden $count Reels.';
   }
 
   @override
@@ -642,7 +642,7 @@ class AppLocalizationsDe extends AppLocalizationsEn {
 
   @override
   String foundPosts(int count) {
-    return '${count} Fotos/Beiträge gefunden.';
+    return '$count Fotos/Beiträge gefunden.';
   }
 
   @override
@@ -666,7 +666,7 @@ class AppLocalizationsDe extends AppLocalizationsEn {
 
   @override
   String loadedMoreContent(int count) {
-    return '${count} weitere Artikel geladen.';
+    return '$count weitere Artikel geladen.';
   }
 
   @override
@@ -688,12 +688,12 @@ class AppLocalizationsDe extends AppLocalizationsEn {
 
   @override
   String savedToAlbum(String albumName) {
-    return 'Im Album ${albumName} gespeichert.';
+    return 'Im Album $albumName gespeichert.';
   }
 
   @override
   String savedContentToAlbum(String albumName) {
-    return 'Inhalte im Album ${albumName} gespeichert.';
+    return 'Inhalte im Album $albumName gespeichert.';
   }
 
   @override
@@ -705,7 +705,7 @@ class AppLocalizationsDe extends AppLocalizationsEn {
 
   @override
   String downloadHistoryItemsRemoved(int count) {
-    return '${count} Elemente aus dem Verlauf entfernt.';
+    return '$count Elemente aus dem Verlauf entfernt.';
   }
 
   @override
@@ -725,6 +725,6 @@ class AppLocalizationsDe extends AppLocalizationsEn {
 
   @override
   String downloadProgress(String percent) {
-    return 'Inhalte werden heruntergeladen: ${percent} %';
+    return 'Inhalte werden heruntergeladen: $percent %';
   }
 }

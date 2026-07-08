@@ -74,8 +74,8 @@
   "pasteInstagramLinkHint": "Paste an Instagram link to check and download the content you want.",
   "openInstagram": "Open Instagram",
   "getContent": "Get content",
-  "explainFeature": "Explain feature",
-  "downloadFromProfile": "Download from profile",
+  "explainFeature": "About this feature",
+  "downloadFromProfile": "Download from an Instagram profile",
   "invalidProfileTitle": "Invalid information",
   "invalidProfileMessage": "Please enter an Instagram username or profile link.",
   "profileInfo1": "Use this when you want to view and download multiple items from an Instagram account.",
@@ -108,7 +108,7 @@
   "loadMore": "Load more",
   "loadingMore": "Loading more...",
   "cannotShowPostContent": "Cannot display the content in this post.",
-  "chooseItemToDownload": "Choose an item to download",
+  "chooseItemToDownload": "Choose content to download",
   "contentCount": "{count} items",
   "@contentCount": {
     "placeholders": {
@@ -179,7 +179,7 @@
       }
     }
   },
-  "foundStoryHighlightsAndPosts": "Found {storyCount} Story/Highlight items and {postCount} posts.",
+  "foundStoryHighlightsAndPosts": "Found {storyCount} Story/Highlight and {postCount} posts.",
   "@foundStoryHighlightsAndPosts": {
     "placeholders": {
       "storyCount": {

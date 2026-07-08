@@ -188,10 +188,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get getContent => 'Get content';
 
   @override
-  String get explainFeature => 'Explain feature';
+  String get explainFeature => 'About this feature';
 
   @override
-  String get downloadFromProfile => 'Download from profile';
+  String get downloadFromProfile => 'Download from an Instagram profile';
 
   @override
   String get invalidProfileTitle => 'Invalid information';
@@ -301,7 +301,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Cannot display the content in this post.';
 
   @override
-  String get chooseItemToDownload => 'Choose an item to download';
+  String get chooseItemToDownload => 'Choose content to download';
 
   @override
   String contentCount(int count) {
@@ -493,7 +493,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String foundStoryHighlightsAndPosts(int storyCount, int postCount) {
-    return 'Found $storyCount Story/Highlight items and $postCount posts.';
+    return 'Found $storyCount Story/Highlight and $postCount posts.';
   }
 
   @override

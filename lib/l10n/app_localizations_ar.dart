@@ -1,11 +1,11 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-import 'app_localizations_en.dart';
+import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
 
-/// The translations for ar (`ar`).
-class AppLocalizationsAr extends AppLocalizationsEn {
+/// The translations for Arabic (`ar`).
+class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
@@ -74,7 +74,7 @@ class AppLocalizationsAr extends AppLocalizationsEn {
 
   @override
   String selectedCount(int count) {
-    return '${count} مختارة';
+    return '$count مختارة';
   }
 
   @override
@@ -86,7 +86,7 @@ class AppLocalizationsAr extends AppLocalizationsEn {
 
   @override
   String deleteSelectedTitle(int count) {
-    return 'حذف ${count} العناصر؟';
+    return 'حذف $count العناصر؟';
   }
 
   @override
@@ -95,7 +95,7 @@ class AppLocalizationsAr extends AppLocalizationsEn {
 
   @override
   String deleteSelectedManyMessage(int count) {
-    return '${count} ستتم إزالة العناصر المحددة من سجل التنزيل الخاص بك.';
+    return '$count ستتم إزالة العناصر المحددة من سجل التنزيل الخاص بك.';
   }
 
   @override
@@ -220,13 +220,13 @@ class AppLocalizationsAr extends AppLocalizationsEn {
   String get story => 'Story';
 
   @override
-  String get storiesHighlights => 'Stories / Highlightس';
+  String get storiesHighlights => 'القصص والقصص المميزة';
 
   @override
-  String get reels => 'Reelس';
+  String get reels => 'مقاطع Reels';
 
   @override
-  String get posts => 'دعامات';
+  String get posts => 'المنشورات';
 
   @override
   String get photosPosts => 'الصور / المشاركات';
@@ -303,7 +303,7 @@ class AppLocalizationsAr extends AppLocalizationsEn {
 
   @override
   String contentCount(int count) {
-    return '${count} العناصر';
+    return '$count العناصر';
   }
 
   @override
@@ -397,7 +397,7 @@ class AppLocalizationsAr extends AppLocalizationsEn {
       'أنت تقوم بتنزيل محتوى عام دون تسجيل الدخول.';
 
   @override
-  String get profileReelsListTitle => 'Reel قائمة الفيديو';
+  String get profileReelsListTitle => 'قائمة مقاطع Reels';
 
   @override
   String get profilePostsListTitle => 'صور / قائمة المشاركة';
@@ -416,11 +416,11 @@ class AppLocalizationsAr extends AppLocalizationsEn {
 
   @override
   String get manualInstruction =>
-      'افتح المنشور، Reel، Story، أو Highlight الذي تريد تنزيله، ثم انقر فوق "تحديد هذا المحتوى".';
+      'افتح المنشور، Reel، Story، أو Highlight الذي تريد تنزيله، ثم انقر فوق \"تحديد هذا المحتوى\".';
 
   @override
   String get manualPickedContent =>
-      'تم تحديد المحتوى. اضغط على "تحديد هذا المحتوى" للمتابعة.';
+      'تم تحديد المحتوى. اضغط على \"تحديد هذا المحتوى\" للمتابعة.';
 
   @override
   String get manualNoDownloadableContent =>
@@ -428,14 +428,14 @@ class AppLocalizationsAr extends AppLocalizationsEn {
 
   @override
   String get manualCloseToExit =>
-      'لتجنب فقدان المحتوى المحدد، انقر فوق "إغلاق" إذا كنت تريد الخروج.';
+      'لتجنب فقدان المحتوى المحدد، انقر فوق \"إغلاق\" إذا كنت تريد الخروج.';
 
   @override
   String get loginOpeningInstagram => 'جارٍ الفتح Instagram... يرجى الانتظار.';
 
   @override
   String get loginInstruction =>
-      'قم بتسجيل الدخول إلى Instagram، ثم اضغط على "حفظ" للإنهاء.';
+      'قم بتسجيل الدخول إلى Instagram، ثم اضغط على \"حفظ\" للإنهاء.';
 
   @override
   String get loginChecking => 'جارٍ التحقق من تسجيل الدخول...';
@@ -457,22 +457,22 @@ class AppLocalizationsAr extends AppLocalizationsEn {
 
   @override
   String get loginSuccessPrompt =>
-      'تم تسجيل الدخول بنجاح.\nاضغط على "حفظ" للإنهاء.';
+      'تم تسجيل الدخول بنجاح.\nاضغط على \"حفظ\" للإنهاء.';
 
   @override
   String get loginPromptOnLoginPage =>
-      'قم بتسجيل الدخول إلى Instagram، ثم اضغط على "حفظ" للإنهاء.';
+      'قم بتسجيل الدخول إلى Instagram، ثم اضغط على \"حفظ\" للإنهاء.';
 
   @override
   String get loginPromptSaveBottom =>
-      'إذا انتهيت من تسجيل الدخول، اضغط على "حفظ" أدناه.';
+      'إذا انتهيت من تسجيل الدخول، اضغط على \"حفظ\" أدناه.';
 
   @override
   String get loginPageTitle => 'تسجيل الدخول إلى Instagram';
 
   @override
   String get loginOpeningInstagramWithHint =>
-      'الافتتاح Instagram...\nبعد تسجيل الدخول، اضغط على "حفظ".';
+      'الافتتاح Instagram...\nبعد تسجيل الدخول، اضغط على \"حفظ\".';
 
   @override
   String get loginOpenFailed =>
@@ -487,12 +487,12 @@ class AppLocalizationsAr extends AppLocalizationsEn {
 
   @override
   String openingUsername(String username) {
-    return 'فتح @${username}...';
+    return 'فتح @$username...';
   }
 
   @override
   String foundStoryHighlightsAndPosts(int storyCount, int postCount) {
-    return 'تم العثور على ${storyCount} Story/Highlight عناصر و ${postCount} مشاركات.';
+    return 'تم العثور على $storyCount Story/Highlight عناصر و $postCount مشاركات.';
   }
 
   @override
@@ -537,7 +537,7 @@ class AppLocalizationsAr extends AppLocalizationsEn {
 
   @override
   String foundDownloadableContent(int count) {
-    return 'تم العثور على ${count} عناصر قابلة للتنزيل.';
+    return 'تم العثور على $count عناصر قابلة للتنزيل.';
   }
 
   @override
@@ -560,7 +560,7 @@ class AppLocalizationsAr extends AppLocalizationsEn {
 
   @override
   String foundStoryHighlights(int count) {
-    return 'تم العثور على ${count} Story/Highlight العناصر.';
+    return 'تم العثور على $count Story/Highlight العناصر.';
   }
 
   @override
@@ -568,12 +568,12 @@ class AppLocalizationsAr extends AppLocalizationsEn {
 
   @override
   String openingStoryGroup(String title) {
-    return 'فتح "${title}"...';
+    return 'فتح \"$title\"...';
   }
 
   @override
   String foundStoryGroupItems(int count, String title) {
-    return 'تم العثور على ${count} عناصر في "${title}".';
+    return 'تم العثور على $count عناصر في \"$title\".';
   }
 
   @override
@@ -592,7 +592,7 @@ class AppLocalizationsAr extends AppLocalizationsEn {
 
   @override
   String savedStoryToAlbum(String albumName) {
-    return 'تم حفظ عنصر القصة في الألبوم ${albumName}.';
+    return 'تم حفظ عنصر القصة في الألبوم $albumName.';
   }
 
   @override
@@ -611,7 +611,7 @@ class AppLocalizationsAr extends AppLocalizationsEn {
 
   @override
   String foundReels(int count) {
-    return 'تم العثور على ${count} Reels.';
+    return 'تم العثور على $count Reels.';
   }
 
   @override
@@ -634,7 +634,7 @@ class AppLocalizationsAr extends AppLocalizationsEn {
 
   @override
   String foundPosts(int count) {
-    return 'تم العثور على ${count} الصور/المشاركات.';
+    return 'تم العثور على $count الصور/المشاركات.';
   }
 
   @override
@@ -657,7 +657,7 @@ class AppLocalizationsAr extends AppLocalizationsEn {
 
   @override
   String loadedMoreContent(int count) {
-    return 'تم تحميل ${count} المزيد من العناصر.';
+    return 'تم تحميل $count المزيد من العناصر.';
   }
 
   @override
@@ -678,12 +678,12 @@ class AppLocalizationsAr extends AppLocalizationsEn {
 
   @override
   String savedToAlbum(String albumName) {
-    return 'تم الحفظ في الألبوم ${albumName}.';
+    return 'تم الحفظ في الألبوم $albumName.';
   }
 
   @override
   String savedContentToAlbum(String albumName) {
-    return 'المحتوى المحفوظ في الألبوم ${albumName}.';
+    return 'المحتوى المحفوظ في الألبوم $albumName.';
   }
 
   @override
@@ -695,7 +695,7 @@ class AppLocalizationsAr extends AppLocalizationsEn {
 
   @override
   String downloadHistoryItemsRemoved(int count) {
-    return 'تمت إزالة ${count} العناصر من التاريخ.';
+    return 'تمت إزالة $count العناصر من التاريخ.';
   }
 
   @override
@@ -714,6 +714,6 @@ class AppLocalizationsAr extends AppLocalizationsEn {
 
   @override
   String downloadProgress(String percent) {
-    return 'تنزيل المحتوى: ${percent}%';
+    return 'تنزيل المحتوى: $percent%';
   }
 }

@@ -1,11 +1,11 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-import 'app_localizations_en.dart';
+import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
 
-/// The translations for fil (`fil`).
-class AppLocalizationsFil extends AppLocalizationsEn {
+/// The translations for Filipino Pilipino (`fil`).
+class AppLocalizationsFil extends AppLocalizations {
   AppLocalizationsFil([String locale = 'fil']) : super(locale);
 
   @override
@@ -75,7 +75,7 @@ class AppLocalizationsFil extends AppLocalizationsEn {
 
   @override
   String selectedCount(int count) {
-    return '${count} napili';
+    return '$count napili';
   }
 
   @override
@@ -87,7 +87,7 @@ class AppLocalizationsFil extends AppLocalizationsEn {
 
   @override
   String deleteSelectedTitle(int count) {
-    return 'Tanggalin ang ${count} item?';
+    return 'Tanggalin ang $count item?';
   }
 
   @override
@@ -96,7 +96,7 @@ class AppLocalizationsFil extends AppLocalizationsEn {
 
   @override
   String deleteSelectedManyMessage(int count) {
-    return '${count} aalisin ang mga napiling item mula sa iyong kasaysayan ng pag-download.';
+    return '$count aalisin ang mga napiling item mula sa iyong kasaysayan ng pag-download.';
   }
 
   @override
@@ -307,7 +307,7 @@ class AppLocalizationsFil extends AppLocalizationsEn {
 
   @override
   String contentCount(int count) {
-    return '${count} aytem';
+    return '$count aytem';
   }
 
   @override
@@ -421,11 +421,11 @@ class AppLocalizationsFil extends AppLocalizationsEn {
 
   @override
   String get manualInstruction =>
-      'Buksan ang post, Reel, Story, o Highlight gusto mong i-download, pagkatapos ay tapikin ang "Piliin ang nilalamang ito".';
+      'Buksan ang post, Reel, Story, o Highlight gusto mong i-download, pagkatapos ay tapikin ang \"Piliin ang nilalamang ito\".';
 
   @override
   String get manualPickedContent =>
-      'Napili ang nilalaman. I-tap ang "Piliin ang nilalamang ito" para magpatuloy.';
+      'Napili ang nilalaman. I-tap ang \"Piliin ang nilalamang ito\" para magpatuloy.';
 
   @override
   String get manualNoDownloadableContent =>
@@ -433,7 +433,7 @@ class AppLocalizationsFil extends AppLocalizationsEn {
 
   @override
   String get manualCloseToExit =>
-      'Para maiwasang mawala ang napiling content, i-tap ang "Isara" kung gusto mong lumabas.';
+      'Para maiwasang mawala ang napiling content, i-tap ang \"Isara\" kung gusto mong lumabas.';
 
   @override
   String get loginOpeningInstagram =>
@@ -441,7 +441,7 @@ class AppLocalizationsFil extends AppLocalizationsEn {
 
   @override
   String get loginInstruction =>
-      'Mag-log in sa Instagram, pagkatapos ay i-tap ang "I-save" upang matapos.';
+      'Mag-log in sa Instagram, pagkatapos ay i-tap ang \"I-save\" upang matapos.';
 
   @override
   String get loginChecking => 'Sinusuri ang pag-login...';
@@ -463,22 +463,22 @@ class AppLocalizationsFil extends AppLocalizationsEn {
 
   @override
   String get loginSuccessPrompt =>
-      'Matagumpay ang pag-log in.\nI-tap ang "I-save" para matapos.';
+      'Matagumpay ang pag-log in.\nI-tap ang \"I-save\" para matapos.';
 
   @override
   String get loginPromptOnLoginPage =>
-      'Mag-log in sa Instagram, pagkatapos ay i-tap ang "I-save" upang matapos.';
+      'Mag-log in sa Instagram, pagkatapos ay i-tap ang \"I-save\" upang matapos.';
 
   @override
   String get loginPromptSaveBottom =>
-      'Kung tapos ka nang mag-log in, i-tap ang "I-save" sa ibaba.';
+      'Kung tapos ka nang mag-log in, i-tap ang \"I-save\" sa ibaba.';
 
   @override
   String get loginPageTitle => 'Mag-log in sa Instagram';
 
   @override
   String get loginOpeningInstagramWithHint =>
-      'Pagbubukas Instagram...\nPagkatapos mag-log in, i-tap ang "I-save".';
+      'Pagbubukas Instagram...\nPagkatapos mag-log in, i-tap ang \"I-save\".';
 
   @override
   String get loginOpenFailed =>
@@ -493,12 +493,12 @@ class AppLocalizationsFil extends AppLocalizationsEn {
 
   @override
   String openingUsername(String username) {
-    return 'Binubuksan ang @${username}...';
+    return 'Binubuksan ang @$username...';
   }
 
   @override
   String foundStoryHighlightsAndPosts(int storyCount, int postCount) {
-    return 'Nakahanap ng ${storyCount} Story/Highlight item at ${postCount} post.';
+    return 'Nakahanap ng $storyCount Story/Highlight item at $postCount post.';
   }
 
   @override
@@ -543,7 +543,7 @@ class AppLocalizationsFil extends AppLocalizationsEn {
 
   @override
   String foundDownloadableContent(int count) {
-    return 'Nakakita ng ${count} nada-download na mga item.';
+    return 'Nakakita ng $count nada-download na mga item.';
   }
 
   @override
@@ -566,7 +566,7 @@ class AppLocalizationsFil extends AppLocalizationsEn {
 
   @override
   String foundStoryHighlights(int count) {
-    return 'Nakakita ng ${count} Story/Highlight item.';
+    return 'Nakakita ng $count Story/Highlight item.';
   }
 
   @override
@@ -574,12 +574,12 @@ class AppLocalizationsFil extends AppLocalizationsEn {
 
   @override
   String openingStoryGroup(String title) {
-    return 'Binubuksan ang "${title}"...';
+    return 'Binubuksan ang \"$title\"...';
   }
 
   @override
   String foundStoryGroupItems(int count, String title) {
-    return 'Nakakita ng ${count} aytem sa "${title}".';
+    return 'Nakakita ng $count aytem sa \"$title\".';
   }
 
   @override
@@ -598,7 +598,7 @@ class AppLocalizationsFil extends AppLocalizationsEn {
 
   @override
   String savedStoryToAlbum(String albumName) {
-    return 'Nai-save na item ng kuwento sa album ${albumName}.';
+    return 'Nai-save na item ng kuwento sa album $albumName.';
   }
 
   @override
@@ -617,7 +617,7 @@ class AppLocalizationsFil extends AppLocalizationsEn {
 
   @override
   String foundReels(int count) {
-    return 'Nakahanap ng ${count} Reels.';
+    return 'Nakahanap ng $count Reels.';
   }
 
   @override
@@ -640,7 +640,7 @@ class AppLocalizationsFil extends AppLocalizationsEn {
 
   @override
   String foundPosts(int count) {
-    return 'Nakahanap ng ${count} mga larawan/post.';
+    return 'Nakahanap ng $count mga larawan/post.';
   }
 
   @override
@@ -664,7 +664,7 @@ class AppLocalizationsFil extends AppLocalizationsEn {
 
   @override
   String loadedMoreContent(int count) {
-    return 'Nag-load ng ${count} higit pang mga item.';
+    return 'Nag-load ng $count higit pang mga item.';
   }
 
   @override
@@ -685,12 +685,12 @@ class AppLocalizationsFil extends AppLocalizationsEn {
 
   @override
   String savedToAlbum(String albumName) {
-    return 'Naka-save sa album ${albumName}.';
+    return 'Naka-save sa album $albumName.';
   }
 
   @override
   String savedContentToAlbum(String albumName) {
-    return 'Naka-save na nilalaman sa album ${albumName}.';
+    return 'Naka-save na nilalaman sa album $albumName.';
   }
 
   @override
@@ -702,7 +702,7 @@ class AppLocalizationsFil extends AppLocalizationsEn {
 
   @override
   String downloadHistoryItemsRemoved(int count) {
-    return 'Inalis ang ${count} item sa history.';
+    return 'Inalis ang $count item sa history.';
   }
 
   @override
@@ -722,6 +722,6 @@ class AppLocalizationsFil extends AppLocalizationsEn {
 
   @override
   String downloadProgress(String percent) {
-    return 'Nagda-download ng content: ${percent}%';
+    return 'Nagda-download ng content: $percent%';
   }
 }

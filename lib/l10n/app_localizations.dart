@@ -541,7 +541,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileSummary.
   ///
   /// In vi, this message translates to:
-  /// **'Tổng hợp profile'**
+  /// **'Thông tin trang cá nhân'**
   String get profileSummary;
 
   /// No description provided for @storyModeHint.
@@ -655,7 +655,7 @@ abstract class AppLocalizations {
   /// No description provided for @chooseItemToDownload.
   ///
   /// In vi, this message translates to:
-  /// **'Chọn item để tải'**
+  /// **'Chọn mục muốn tải'**
   String get chooseItemToDownload;
 
   /// No description provided for @contentCount.
@@ -1159,7 +1159,7 @@ abstract class AppLocalizations {
   /// No description provided for @savedStoryToAlbum.
   ///
   /// In vi, this message translates to:
-  /// **'Đã lưu story item vào album {albumName}.'**
+  /// **'Đã lưu story vào album {albumName}.'**
   String savedStoryToAlbum(String albumName);
 
   /// No description provided for @downloadStoryFailed.

@@ -1,11 +1,11 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-import 'app_localizations_en.dart';
+import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
 
-/// The translations for pt (`pt`).
-class AppLocalizationsPt extends AppLocalizationsEn {
+/// The translations for Portuguese (`pt`).
+class AppLocalizationsPt extends AppLocalizations {
   AppLocalizationsPt([String locale = 'pt']) : super(locale);
 
   @override
@@ -75,7 +75,7 @@ class AppLocalizationsPt extends AppLocalizationsEn {
 
   @override
   String selectedCount(int count) {
-    return '${count} selecionado';
+    return '$count selecionado';
   }
 
   @override
@@ -87,7 +87,7 @@ class AppLocalizationsPt extends AppLocalizationsEn {
 
   @override
   String deleteSelectedTitle(int count) {
-    return 'Excluir ${count} itens?';
+    return 'Excluir $count itens?';
   }
 
   @override
@@ -96,7 +96,7 @@ class AppLocalizationsPt extends AppLocalizationsEn {
 
   @override
   String deleteSelectedManyMessage(int count) {
-    return '${count} os itens selecionados serão removidos do seu histórico de downloads.';
+    return '$count os itens selecionados serão removidos do seu histórico de downloads.';
   }
 
   @override
@@ -308,7 +308,7 @@ class AppLocalizationsPt extends AppLocalizationsEn {
 
   @override
   String contentCount(int count) {
-    return '${count} itens';
+    return '$count itens';
   }
 
   @override
@@ -421,11 +421,11 @@ class AppLocalizationsPt extends AppLocalizationsEn {
 
   @override
   String get manualInstruction =>
-      'Abra a postagem Reel, Story ou Highlight que deseja baixar e toque em "Selecionar este conteúdo".';
+      'Abra a postagem Reel, Story ou Highlight que deseja baixar e toque em \"Selecionar este conteúdo\".';
 
   @override
   String get manualPickedContent =>
-      'Conteúdo selecionado. Toque em "Selecionar este conteúdo" para continuar.';
+      'Conteúdo selecionado. Toque em \"Selecionar este conteúdo\" para continuar.';
 
   @override
   String get manualNoDownloadableContent =>
@@ -433,14 +433,14 @@ class AppLocalizationsPt extends AppLocalizationsEn {
 
   @override
   String get manualCloseToExit =>
-      'Para evitar perder o conteúdo selecionado, toque em "Fechar" se quiser sair.';
+      'Para evitar perder o conteúdo selecionado, toque em \"Fechar\" se quiser sair.';
 
   @override
   String get loginOpeningInstagram => 'Abrindo Instagram... Aguarde.';
 
   @override
   String get loginInstruction =>
-      'Faça login em Instagram e toque em "Salvar" para finalizar.';
+      'Faça login em Instagram e toque em \"Salvar\" para finalizar.';
 
   @override
   String get loginChecking => 'Verificando login...';
@@ -462,22 +462,22 @@ class AppLocalizationsPt extends AppLocalizationsEn {
 
   @override
   String get loginSuccessPrompt =>
-      'Login bem-sucedido.\nToque em "Salvar" para finalizar.';
+      'Login bem-sucedido.\nToque em \"Salvar\" para finalizar.';
 
   @override
   String get loginPromptOnLoginPage =>
-      'Faça login em Instagram e toque em "Salvar" para finalizar.';
+      'Faça login em Instagram e toque em \"Salvar\" para finalizar.';
 
   @override
   String get loginPromptSaveBottom =>
-      'Se você tiver terminado de fazer login, toque em "Salvar" abaixo.';
+      'Se você tiver terminado de fazer login, toque em \"Salvar\" abaixo.';
 
   @override
   String get loginPageTitle => 'Faça login em Instagram';
 
   @override
   String get loginOpeningInstagramWithHint =>
-      'Abrindo Instagram...\nApós fazer login, toque em "Salvar".';
+      'Abrindo Instagram...\nApós fazer login, toque em \"Salvar\".';
 
   @override
   String get loginOpenFailed =>
@@ -491,12 +491,12 @@ class AppLocalizationsPt extends AppLocalizationsEn {
 
   @override
   String openingUsername(String username) {
-    return 'Abrindo @${username}...';
+    return 'Abrindo @$username...';
   }
 
   @override
   String foundStoryHighlightsAndPosts(int storyCount, int postCount) {
-    return 'Encontrados ${storyCount} Story/Highlight itens e ${postCount} postagens.';
+    return 'Encontrados $storyCount Story/Highlight itens e $postCount postagens.';
   }
 
   @override
@@ -541,7 +541,7 @@ class AppLocalizationsPt extends AppLocalizationsEn {
 
   @override
   String foundDownloadableContent(int count) {
-    return 'Encontrados ${count} itens para download.';
+    return 'Encontrados $count itens para download.';
   }
 
   @override
@@ -564,7 +564,7 @@ class AppLocalizationsPt extends AppLocalizationsEn {
 
   @override
   String foundStoryHighlights(int count) {
-    return 'Encontrados ${count} Story/Highlight itens.';
+    return 'Encontrados $count Story/Highlight itens.';
   }
 
   @override
@@ -572,12 +572,12 @@ class AppLocalizationsPt extends AppLocalizationsEn {
 
   @override
   String openingStoryGroup(String title) {
-    return 'Abrindo "${title}"...';
+    return 'Abrindo \"$title\"...';
   }
 
   @override
   String foundStoryGroupItems(int count, String title) {
-    return 'Encontrados ${count} itens em "${title}".';
+    return 'Encontrados $count itens em \"$title\".';
   }
 
   @override
@@ -596,7 +596,7 @@ class AppLocalizationsPt extends AppLocalizationsEn {
 
   @override
   String savedStoryToAlbum(String albumName) {
-    return 'Item de história salvo no álbum ${albumName}.';
+    return 'Item de história salvo no álbum $albumName.';
   }
 
   @override
@@ -615,7 +615,7 @@ class AppLocalizationsPt extends AppLocalizationsEn {
 
   @override
   String foundReels(int count) {
-    return 'Encontrado ${count} Reels.';
+    return 'Encontrado $count Reels.';
   }
 
   @override
@@ -638,7 +638,7 @@ class AppLocalizationsPt extends AppLocalizationsEn {
 
   @override
   String foundPosts(int count) {
-    return 'Encontrada ${count} fotos/postagens.';
+    return 'Encontrada $count fotos/postagens.';
   }
 
   @override
@@ -661,7 +661,7 @@ class AppLocalizationsPt extends AppLocalizationsEn {
 
   @override
   String loadedMoreContent(int count) {
-    return 'Carregado ${count} mais itens.';
+    return 'Carregado $count mais itens.';
   }
 
   @override
@@ -683,12 +683,12 @@ class AppLocalizationsPt extends AppLocalizationsEn {
 
   @override
   String savedToAlbum(String albumName) {
-    return 'Salvo no álbum ${albumName}.';
+    return 'Salvo no álbum $albumName.';
   }
 
   @override
   String savedContentToAlbum(String albumName) {
-    return 'Conteúdo salvo no álbum ${albumName}.';
+    return 'Conteúdo salvo no álbum $albumName.';
   }
 
   @override
@@ -700,7 +700,7 @@ class AppLocalizationsPt extends AppLocalizationsEn {
 
   @override
   String downloadHistoryItemsRemoved(int count) {
-    return 'Itens ${count} removidos do histórico.';
+    return 'Itens $count removidos do histórico.';
   }
 
   @override
@@ -720,6 +720,6 @@ class AppLocalizationsPt extends AppLocalizationsEn {
 
   @override
   String downloadProgress(String percent) {
-    return 'Baixando conteúdo: ${percent}%';
+    return 'Baixando conteúdo: $percent%';
   }
 }

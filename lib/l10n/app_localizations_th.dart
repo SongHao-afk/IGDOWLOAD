@@ -1,11 +1,11 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-import 'app_localizations_en.dart';
+import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
 
-/// The translations for th (`th`).
-class AppLocalizationsTh extends AppLocalizationsEn {
+/// The translations for Thai (`th`).
+class AppLocalizationsTh extends AppLocalizations {
   AppLocalizationsTh([String locale = 'th']) : super(locale);
 
   @override
@@ -73,7 +73,7 @@ class AppLocalizationsTh extends AppLocalizationsEn {
 
   @override
   String selectedCount(int count) {
-    return '${count} เลือกแล้ว';
+    return '$count เลือกแล้ว';
   }
 
   @override
@@ -85,7 +85,7 @@ class AppLocalizationsTh extends AppLocalizationsEn {
 
   @override
   String deleteSelectedTitle(int count) {
-    return 'ลบ ${count} รายการหรือไม่';
+    return 'ลบ $count รายการหรือไม่';
   }
 
   @override
@@ -94,7 +94,7 @@ class AppLocalizationsTh extends AppLocalizationsEn {
 
   @override
   String deleteSelectedManyMessage(int count) {
-    return '${count} รายการที่เลือกจะถูกลบออกจากประวัติการดาวน์โหลดของคุณ';
+    return '$count รายการที่เลือกจะถูกลบออกจากประวัติการดาวน์โหลดของคุณ';
   }
 
   @override
@@ -303,7 +303,7 @@ class AppLocalizationsTh extends AppLocalizationsEn {
 
   @override
   String contentCount(int count) {
-    return '${count} รายการ';
+    return '$count รายการ';
   }
 
   @override
@@ -416,11 +416,11 @@ class AppLocalizationsTh extends AppLocalizationsEn {
 
   @override
   String get manualInstruction =>
-      'เปิดโพสต์ Reel, Story หรือ Highlight ที่คุณต้องการดาวน์โหลด จากนั้นแตะ "เลือกเนื้อหานี้"';
+      'เปิดโพสต์ Reel, Story หรือ Highlight ที่คุณต้องการดาวน์โหลด จากนั้นแตะ \"เลือกเนื้อหานี้\"';
 
   @override
   String get manualPickedContent =>
-      'เลือกเนื้อหาแล้ว แตะ "เลือกเนื้อหานี้" เพื่อดำเนินการต่อ';
+      'เลือกเนื้อหาแล้ว แตะ \"เลือกเนื้อหานี้\" เพื่อดำเนินการต่อ';
 
   @override
   String get manualNoDownloadableContent =>
@@ -428,14 +428,14 @@ class AppLocalizationsTh extends AppLocalizationsEn {
 
   @override
   String get manualCloseToExit =>
-      'เพื่อหลีกเลี่ยงการสูญเสียเนื้อหาที่เลือก ให้แตะ "ปิด" หากคุณต้องการออก';
+      'เพื่อหลีกเลี่ยงการสูญเสียเนื้อหาที่เลือก ให้แตะ \"ปิด\" หากคุณต้องการออก';
 
   @override
   String get loginOpeningInstagram => 'กำลังเปิด Instagram... กรุณารอสักครู่.';
 
   @override
   String get loginInstruction =>
-      'เข้าสู่ระบบ Instagram จากนั้นแตะ "บันทึก" เพื่อเสร็จสิ้น';
+      'เข้าสู่ระบบ Instagram จากนั้นแตะ \"บันทึก\" เพื่อเสร็จสิ้น';
 
   @override
   String get loginChecking => 'กำลังตรวจสอบการเข้าสู่ระบบ...';
@@ -457,22 +457,22 @@ class AppLocalizationsTh extends AppLocalizationsEn {
 
   @override
   String get loginSuccessPrompt =>
-      'เข้าสู่ระบบสำเร็จ\nแตะ "บันทึก" เพื่อเสร็จสิ้น';
+      'เข้าสู่ระบบสำเร็จ\nแตะ \"บันทึก\" เพื่อเสร็จสิ้น';
 
   @override
   String get loginPromptOnLoginPage =>
-      'เข้าสู่ระบบ Instagram จากนั้นแตะ "บันทึก" เพื่อเสร็จสิ้น';
+      'เข้าสู่ระบบ Instagram จากนั้นแตะ \"บันทึก\" เพื่อเสร็จสิ้น';
 
   @override
   String get loginPromptSaveBottom =>
-      'หากคุณเข้าสู่ระบบเสร็จแล้ว ให้แตะ "บันทึก" ด้านล่าง';
+      'หากคุณเข้าสู่ระบบเสร็จแล้ว ให้แตะ \"บันทึก\" ด้านล่าง';
 
   @override
   String get loginPageTitle => 'เข้าสู่ระบบ Instagram';
 
   @override
   String get loginOpeningInstagramWithHint =>
-      'กำลังเปิด Instagram...\nหลังจากเข้าสู่ระบบแล้ว ให้แตะ "บันทึก"';
+      'กำลังเปิด Instagram...\nหลังจากเข้าสู่ระบบแล้ว ให้แตะ \"บันทึก\"';
 
   @override
   String get loginOpenFailed =>
@@ -487,12 +487,12 @@ class AppLocalizationsTh extends AppLocalizationsEn {
 
   @override
   String openingUsername(String username) {
-    return 'กำลังเปิด @${username}...';
+    return 'กำลังเปิด @$username...';
   }
 
   @override
   String foundStoryHighlightsAndPosts(int storyCount, int postCount) {
-    return 'พบ ${storyCount} Story/Highlight รายการและ ${postCount} โพสต์';
+    return 'พบ $storyCount Story/Highlight รายการและ $postCount โพสต์';
   }
 
   @override
@@ -536,7 +536,7 @@ class AppLocalizationsTh extends AppLocalizationsEn {
 
   @override
   String foundDownloadableContent(int count) {
-    return 'พบ ${count} รายการที่ดาวน์โหลดได้';
+    return 'พบ $count รายการที่ดาวน์โหลดได้';
   }
 
   @override
@@ -558,7 +558,7 @@ class AppLocalizationsTh extends AppLocalizationsEn {
 
   @override
   String foundStoryHighlights(int count) {
-    return 'พบ ${count} Story/Highlight รายการ';
+    return 'พบ $count Story/Highlight รายการ';
   }
 
   @override
@@ -566,12 +566,12 @@ class AppLocalizationsTh extends AppLocalizationsEn {
 
   @override
   String openingStoryGroup(String title) {
-    return 'กำลังเปิด "${title}"...';
+    return 'กำลังเปิด \"$title\"...';
   }
 
   @override
   String foundStoryGroupItems(int count, String title) {
-    return 'พบ ${count} รายการใน "${title}"';
+    return 'พบ $count รายการใน \"$title\"';
   }
 
   @override
@@ -590,7 +590,7 @@ class AppLocalizationsTh extends AppLocalizationsEn {
 
   @override
   String savedStoryToAlbum(String albumName) {
-    return 'บันทึกรายการเรื่องราวลงในอัลบั้ม ${albumName}';
+    return 'บันทึกรายการเรื่องราวลงในอัลบั้ม $albumName';
   }
 
   @override
@@ -607,7 +607,7 @@ class AppLocalizationsTh extends AppLocalizationsEn {
 
   @override
   String foundReels(int count) {
-    return 'พบ ${count} Reels.';
+    return 'พบ $count Reels.';
   }
 
   @override
@@ -630,7 +630,7 @@ class AppLocalizationsTh extends AppLocalizationsEn {
 
   @override
   String foundPosts(int count) {
-    return 'พบ ${count} รูปภาพ/โพสต์';
+    return 'พบ $count รูปภาพ/โพสต์';
   }
 
   @override
@@ -653,7 +653,7 @@ class AppLocalizationsTh extends AppLocalizationsEn {
 
   @override
   String loadedMoreContent(int count) {
-    return 'โหลด ${count} รายการเพิ่มเติมแล้ว';
+    return 'โหลด $count รายการเพิ่มเติมแล้ว';
   }
 
   @override
@@ -674,12 +674,12 @@ class AppLocalizationsTh extends AppLocalizationsEn {
 
   @override
   String savedToAlbum(String albumName) {
-    return 'บันทึกไว้ในอัลบั้ม ${albumName}';
+    return 'บันทึกไว้ในอัลบั้ม $albumName';
   }
 
   @override
   String savedContentToAlbum(String albumName) {
-    return 'เนื้อหาที่บันทึกไว้ในอัลบั้ม ${albumName}';
+    return 'เนื้อหาที่บันทึกไว้ในอัลบั้ม $albumName';
   }
 
   @override
@@ -691,7 +691,7 @@ class AppLocalizationsTh extends AppLocalizationsEn {
 
   @override
   String downloadHistoryItemsRemoved(int count) {
-    return 'ลบ ${count} รายการออกจากประวัติ';
+    return 'ลบ $count รายการออกจากประวัติ';
   }
 
   @override
@@ -710,6 +710,6 @@ class AppLocalizationsTh extends AppLocalizationsEn {
 
   @override
   String downloadProgress(String percent) {
-    return 'กำลังดาวน์โหลดเนื้อหา: ${percent}%';
+    return 'กำลังดาวน์โหลดเนื้อหา: $percent%';
   }
 }

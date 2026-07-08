@@ -1,11 +1,11 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-import 'app_localizations_en.dart';
+import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
 
-/// The translations for ru (`ru`).
-class AppLocalizationsRu extends AppLocalizationsEn {
+/// The translations for Russian (`ru`).
+class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
@@ -75,7 +75,7 @@ class AppLocalizationsRu extends AppLocalizationsEn {
 
   @override
   String selectedCount(int count) {
-    return '${count} выбрано';
+    return '$count выбрано';
   }
 
   @override
@@ -87,7 +87,7 @@ class AppLocalizationsRu extends AppLocalizationsEn {
 
   @override
   String deleteSelectedTitle(int count) {
-    return 'Удалить ${count} элементы?';
+    return 'Удалить $count элементы?';
   }
 
   @override
@@ -96,7 +96,7 @@ class AppLocalizationsRu extends AppLocalizationsEn {
 
   @override
   String deleteSelectedManyMessage(int count) {
-    return '${count} выбранные элементы будут удалены из вашей истории загрузок.';
+    return '$count выбранные элементы будут удалены из вашей истории загрузок.';
   }
 
   @override
@@ -308,7 +308,7 @@ class AppLocalizationsRu extends AppLocalizationsEn {
 
   @override
   String contentCount(int count) {
-    return '${count} элементы';
+    return '$count элементы';
   }
 
   @override
@@ -494,12 +494,12 @@ class AppLocalizationsRu extends AppLocalizationsEn {
 
   @override
   String openingUsername(String username) {
-    return 'Открытие @${username}...';
+    return 'Открытие @$username...';
   }
 
   @override
   String foundStoryHighlightsAndPosts(int storyCount, int postCount) {
-    return 'Найдены ${storyCount} Story/Highlight элементы и ${postCount} сообщения.';
+    return 'Найдены $storyCount Story/Highlight элементы и $postCount сообщения.';
   }
 
   @override
@@ -543,7 +543,7 @@ class AppLocalizationsRu extends AppLocalizationsEn {
 
   @override
   String foundDownloadableContent(int count) {
-    return 'Найдено ${count} загружаемые элементы.';
+    return 'Найдено $count загружаемые элементы.';
   }
 
   @override
@@ -566,7 +566,7 @@ class AppLocalizationsRu extends AppLocalizationsEn {
 
   @override
   String foundStoryHighlights(int count) {
-    return 'Найдено ${count} Story/Highlight элементов.';
+    return 'Найдено $count Story/Highlight элементов.';
   }
 
   @override
@@ -574,12 +574,12 @@ class AppLocalizationsRu extends AppLocalizationsEn {
 
   @override
   String openingStoryGroup(String title) {
-    return 'Открытие «${title}»…';
+    return 'Открытие «$title»…';
   }
 
   @override
   String foundStoryGroupItems(int count, String title) {
-    return 'Найдены ${count} элементы в «${title}».';
+    return 'Найдены $count элементы в «$title».';
   }
 
   @override
@@ -598,7 +598,7 @@ class AppLocalizationsRu extends AppLocalizationsEn {
 
   @override
   String savedStoryToAlbum(String albumName) {
-    return 'Элемент истории сохранен в альбоме ${albumName}.';
+    return 'Элемент истории сохранен в альбоме $albumName.';
   }
 
   @override
@@ -617,7 +617,7 @@ class AppLocalizationsRu extends AppLocalizationsEn {
 
   @override
   String foundReels(int count) {
-    return 'Найдено ${count} Reels.';
+    return 'Найдено $count Reels.';
   }
 
   @override
@@ -640,7 +640,7 @@ class AppLocalizationsRu extends AppLocalizationsEn {
 
   @override
   String foundPosts(int count) {
-    return 'Найдено ${count} фотографий/сообщений.';
+    return 'Найдено $count фотографий/сообщений.';
   }
 
   @override
@@ -663,7 +663,7 @@ class AppLocalizationsRu extends AppLocalizationsEn {
 
   @override
   String loadedMoreContent(int count) {
-    return 'Загружено ${count} еще элементов.';
+    return 'Загружено $count еще элементов.';
   }
 
   @override
@@ -685,12 +685,12 @@ class AppLocalizationsRu extends AppLocalizationsEn {
 
   @override
   String savedToAlbum(String albumName) {
-    return 'Сохранено в альбом ${albumName}.';
+    return 'Сохранено в альбом $albumName.';
   }
 
   @override
   String savedContentToAlbum(String albumName) {
-    return 'Сохранено содержимое в альбом ${albumName}.';
+    return 'Сохранено содержимое в альбом $albumName.';
   }
 
   @override
@@ -702,7 +702,7 @@ class AppLocalizationsRu extends AppLocalizationsEn {
 
   @override
   String downloadHistoryItemsRemoved(int count) {
-    return 'Удалены ${count} элементов из истории.';
+    return 'Удалены $count элементов из истории.';
   }
 
   @override
@@ -722,6 +722,6 @@ class AppLocalizationsRu extends AppLocalizationsEn {
 
   @override
   String downloadProgress(String percent) {
-    return 'Загрузка контента: ${percent}%';
+    return 'Загрузка контента: $percent%';
   }
 }

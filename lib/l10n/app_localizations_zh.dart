@@ -1,11 +1,11 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-import 'app_localizations_en.dart';
+import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
 
-/// The translations for zh (`zh`).
-class AppLocalizationsZh extends AppLocalizationsEn {
+/// The translations for Chinese (`zh`).
+class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
@@ -73,7 +73,7 @@ class AppLocalizationsZh extends AppLocalizationsEn {
 
   @override
   String selectedCount(int count) {
-    return '${count}已选择';
+    return '$count已选择';
   }
 
   @override
@@ -84,7 +84,7 @@ class AppLocalizationsZh extends AppLocalizationsEn {
 
   @override
   String deleteSelectedTitle(int count) {
-    return '删除${count}项目？';
+    return '删除$count项目？';
   }
 
   @override
@@ -92,7 +92,7 @@ class AppLocalizationsZh extends AppLocalizationsEn {
 
   @override
   String deleteSelectedManyMessage(int count) {
-    return '${count}所选项目将从你的下载历史记录中删除。';
+    return '$count所选项目将从你的下载历史记录中删除。';
   }
 
   @override
@@ -282,7 +282,7 @@ class AppLocalizationsZh extends AppLocalizationsEn {
 
   @override
   String contentCount(int count) {
-    return '${count}项目';
+    return '$count项目';
   }
 
   @override
@@ -450,12 +450,12 @@ class AppLocalizationsZh extends AppLocalizationsEn {
 
   @override
   String openingUsername(String username) {
-    return '打开 @${username}...';
+    return '打开 @$username...';
   }
 
   @override
   String foundStoryHighlightsAndPosts(int storyCount, int postCount) {
-    return '找到 ${storyCount} Story/Highlight 项目和 ${postCount} 帖子。';
+    return '找到 $storyCount Story/Highlight 项目和 $postCount 帖子。';
   }
 
   @override
@@ -496,7 +496,7 @@ class AppLocalizationsZh extends AppLocalizationsEn {
 
   @override
   String foundDownloadableContent(int count) {
-    return '已找到${count} 可下载项目。';
+    return '已找到$count 可下载项目。';
   }
 
   @override
@@ -516,7 +516,7 @@ class AppLocalizationsZh extends AppLocalizationsEn {
 
   @override
   String foundStoryHighlights(int count) {
-    return '找到 ${count} Story/Highlight 项。';
+    return '找到 $count Story/Highlight 项。';
   }
 
   @override
@@ -524,12 +524,12 @@ class AppLocalizationsZh extends AppLocalizationsEn {
 
   @override
   String openingStoryGroup(String title) {
-    return '打开“${title}”...';
+    return '打开“$title”...';
   }
 
   @override
   String foundStoryGroupItems(int count, String title) {
-    return '在“${title}”中找到 ${count} 项。';
+    return '在“$title”中找到 $count 项。';
   }
 
   @override
@@ -547,7 +547,7 @@ class AppLocalizationsZh extends AppLocalizationsEn {
 
   @override
   String savedStoryToAlbum(String albumName) {
-    return '已将故事项目保存到相册${albumName}。';
+    return '已将故事项目保存到相册$albumName。';
   }
 
   @override
@@ -564,7 +564,7 @@ class AppLocalizationsZh extends AppLocalizationsEn {
 
   @override
   String foundReels(int count) {
-    return '找到${count} Reels。';
+    return '找到$count Reels。';
   }
 
   @override
@@ -584,7 +584,7 @@ class AppLocalizationsZh extends AppLocalizationsEn {
 
   @override
   String foundPosts(int count) {
-    return '找到${count}照片/帖子。';
+    return '找到$count照片/帖子。';
   }
 
   @override
@@ -604,7 +604,7 @@ class AppLocalizationsZh extends AppLocalizationsEn {
 
   @override
   String loadedMoreContent(int count) {
-    return '已加载${count}更多项目。';
+    return '已加载$count更多项目。';
   }
 
   @override
@@ -624,12 +624,12 @@ class AppLocalizationsZh extends AppLocalizationsEn {
 
   @override
   String savedToAlbum(String albumName) {
-    return '已保存到相册${albumName}。';
+    return '已保存到相册$albumName。';
   }
 
   @override
   String savedContentToAlbum(String albumName) {
-    return '已将内容保存到相册${albumName}。';
+    return '已将内容保存到相册$albumName。';
   }
 
   @override
@@ -640,7 +640,7 @@ class AppLocalizationsZh extends AppLocalizationsEn {
 
   @override
   String downloadHistoryItemsRemoved(int count) {
-    return '已从历史记录中删除 ${count} 项目。';
+    return '已从历史记录中删除 $count 项目。';
   }
 
   @override
@@ -657,6 +657,6 @@ class AppLocalizationsZh extends AppLocalizationsEn {
 
   @override
   String downloadProgress(String percent) {
-    return '下载内容：${percent}%';
+    return '下载内容：$percent%';
   }
 }

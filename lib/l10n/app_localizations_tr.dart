@@ -1,11 +1,11 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-import 'app_localizations_en.dart';
+import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
 
-/// The translations for tr (`tr`).
-class AppLocalizationsTr extends AppLocalizationsEn {
+/// The translations for Turkish (`tr`).
+class AppLocalizationsTr extends AppLocalizations {
   AppLocalizationsTr([String locale = 'tr']) : super(locale);
 
   @override
@@ -75,7 +75,7 @@ class AppLocalizationsTr extends AppLocalizationsEn {
 
   @override
   String selectedCount(int count) {
-    return '${count} seçildi';
+    return '$count seçildi';
   }
 
   @override
@@ -87,7 +87,7 @@ class AppLocalizationsTr extends AppLocalizationsEn {
 
   @override
   String deleteSelectedTitle(int count) {
-    return '${count} öğe silinsin mi?';
+    return '$count öğe silinsin mi?';
   }
 
   @override
@@ -96,7 +96,7 @@ class AppLocalizationsTr extends AppLocalizationsEn {
 
   @override
   String deleteSelectedManyMessage(int count) {
-    return '${count} seçilen öğeler indirme geçmişinizden kaldırılacak.';
+    return '$count seçilen öğeler indirme geçmişinizden kaldırılacak.';
   }
 
   @override
@@ -306,7 +306,7 @@ class AppLocalizationsTr extends AppLocalizationsEn {
 
   @override
   String contentCount(int count) {
-    return '${count} öğeler';
+    return '$count öğeler';
   }
 
   @override
@@ -419,11 +419,11 @@ class AppLocalizationsTr extends AppLocalizationsEn {
 
   @override
   String get manualInstruction =>
-      'İndirmek istediğiniz gönderiyi, Reel, Story veya Highlight\'yi açın ve ardından "Bu içeriği seç"e dokunun.';
+      'İndirmek istediğiniz gönderiyi, Reel, Story veya Highlight\'yi açın ve ardından \"Bu içeriği seç\"e dokunun.';
 
   @override
   String get manualPickedContent =>
-      'İçerik seçildi. Devam etmek için "Bu içeriği seç"e dokunun.';
+      'İçerik seçildi. Devam etmek için \"Bu içeriği seç\"e dokunun.';
 
   @override
   String get manualNoDownloadableContent =>
@@ -431,14 +431,14 @@ class AppLocalizationsTr extends AppLocalizationsEn {
 
   @override
   String get manualCloseToExit =>
-      'Seçilen içeriği kaybetmemek için çıkmak istiyorsanız "Kapat"a dokunun.';
+      'Seçilen içeriği kaybetmemek için çıkmak istiyorsanız \"Kapat\"a dokunun.';
 
   @override
   String get loginOpeningInstagram => 'Instagram açılıyor... Lütfen bekleyin.';
 
   @override
   String get loginInstruction =>
-      'Instagram\'de oturum açın ve işlemi tamamlamak için "Kaydet"e dokunun.';
+      'Instagram\'de oturum açın ve işlemi tamamlamak için \"Kaydet\"e dokunun.';
 
   @override
   String get loginChecking => 'Giriş kontrol ediliyor...';
@@ -460,22 +460,22 @@ class AppLocalizationsTr extends AppLocalizationsEn {
 
   @override
   String get loginSuccessPrompt =>
-      'Giriş başarılı.\nBitirmek için "Kaydet"e dokunun.';
+      'Giriş başarılı.\nBitirmek için \"Kaydet\"e dokunun.';
 
   @override
   String get loginPromptOnLoginPage =>
-      'Instagram\'de oturum açın ve işlemi tamamlamak için "Kaydet"e dokunun.';
+      'Instagram\'de oturum açın ve işlemi tamamlamak için \"Kaydet\"e dokunun.';
 
   @override
   String get loginPromptSaveBottom =>
-      'Giriş yapmayı tamamladıysanız aşağıdaki "Kaydet"e dokunun.';
+      'Giriş yapmayı tamamladıysanız aşağıdaki \"Kaydet\"e dokunun.';
 
   @override
   String get loginPageTitle => 'Instagram\'de oturum açın';
 
   @override
   String get loginOpeningInstagramWithHint =>
-      'Instagram açılıyor...\nGiriş yaptıktan sonra "Kaydet"e dokunun.';
+      'Instagram açılıyor...\nGiriş yaptıktan sonra \"Kaydet\"e dokunun.';
 
   @override
   String get loginOpenFailed =>
@@ -490,12 +490,12 @@ class AppLocalizationsTr extends AppLocalizationsEn {
 
   @override
   String openingUsername(String username) {
-    return '@${username} açılıyor...';
+    return '@$username açılıyor...';
   }
 
   @override
   String foundStoryHighlightsAndPosts(int storyCount, int postCount) {
-    return '${storyCount} Story/Highlight öğeleri ve ${postCount} gönderileri bulundu.';
+    return '$storyCount Story/Highlight öğeleri ve $postCount gönderileri bulundu.';
   }
 
   @override
@@ -538,7 +538,7 @@ class AppLocalizationsTr extends AppLocalizationsEn {
 
   @override
   String foundDownloadableContent(int count) {
-    return 'İndirilebilir ${count} öğeler bulundu.';
+    return 'İndirilebilir $count öğeler bulundu.';
   }
 
   @override
@@ -562,7 +562,7 @@ class AppLocalizationsTr extends AppLocalizationsEn {
 
   @override
   String foundStoryHighlights(int count) {
-    return '${count} Story/Highlight öğeleri bulundu.';
+    return '$count Story/Highlight öğeleri bulundu.';
   }
 
   @override
@@ -570,12 +570,12 @@ class AppLocalizationsTr extends AppLocalizationsEn {
 
   @override
   String openingStoryGroup(String title) {
-    return '"${title}" açılıyor...';
+    return '\"$title\" açılıyor...';
   }
 
   @override
   String foundStoryGroupItems(int count, String title) {
-    return '"${title}" bölümünde ${count} öğeleri bulundu.';
+    return '\"$title\" bölümünde $count öğeleri bulundu.';
   }
 
   @override
@@ -594,7 +594,7 @@ class AppLocalizationsTr extends AppLocalizationsEn {
 
   @override
   String savedStoryToAlbum(String albumName) {
-    return 'Albüme kaydedilen hikaye öğesi ${albumName}.';
+    return 'Albüme kaydedilen hikaye öğesi $albumName.';
   }
 
   @override
@@ -613,7 +613,7 @@ class AppLocalizationsTr extends AppLocalizationsEn {
 
   @override
   String foundReels(int count) {
-    return '${count} Reel\'ler bulundu.';
+    return '$count Reel\'ler bulundu.';
   }
 
   @override
@@ -636,7 +636,7 @@ class AppLocalizationsTr extends AppLocalizationsEn {
 
   @override
   String foundPosts(int count) {
-    return '${count} fotoğraf/yayın bulundu.';
+    return '$count fotoğraf/yayın bulundu.';
   }
 
   @override
@@ -659,7 +659,7 @@ class AppLocalizationsTr extends AppLocalizationsEn {
 
   @override
   String loadedMoreContent(int count) {
-    return '${count} öğe daha yüklendi.';
+    return '$count öğe daha yüklendi.';
   }
 
   @override
@@ -681,12 +681,12 @@ class AppLocalizationsTr extends AppLocalizationsEn {
 
   @override
   String savedToAlbum(String albumName) {
-    return '${albumName} albümüne kaydedildi.';
+    return '$albumName albümüne kaydedildi.';
   }
 
   @override
   String savedContentToAlbum(String albumName) {
-    return 'İçerik ${albumName} albümüne kaydedildi.';
+    return 'İçerik $albumName albümüne kaydedildi.';
   }
 
   @override
@@ -698,7 +698,7 @@ class AppLocalizationsTr extends AppLocalizationsEn {
 
   @override
   String downloadHistoryItemsRemoved(int count) {
-    return '${count} öğeleri geçmişten kaldırıldı.';
+    return '$count öğeleri geçmişten kaldırıldı.';
   }
 
   @override
@@ -718,6 +718,6 @@ class AppLocalizationsTr extends AppLocalizationsEn {
 
   @override
   String downloadProgress(String percent) {
-    return 'İçerik indiriliyor: ${percent}%';
+    return 'İçerik indiriliyor: $percent%';
   }
 }

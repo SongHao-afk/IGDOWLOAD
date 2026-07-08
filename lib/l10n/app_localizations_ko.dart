@@ -1,11 +1,11 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-import 'app_localizations_en.dart';
+import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
 
-/// The translations for ko (`ko`).
-class AppLocalizationsKo extends AppLocalizationsEn {
+/// The translations for Korean (`ko`).
+class AppLocalizationsKo extends AppLocalizations {
   AppLocalizationsKo([String locale = 'ko']) : super(locale);
 
   @override
@@ -73,7 +73,7 @@ class AppLocalizationsKo extends AppLocalizationsEn {
 
   @override
   String selectedCount(int count) {
-    return '${count} 선택함';
+    return '$count 선택함';
   }
 
   @override
@@ -84,7 +84,7 @@ class AppLocalizationsKo extends AppLocalizationsEn {
 
   @override
   String deleteSelectedTitle(int count) {
-    return '${count} 항목을 삭제하시겠습니까?';
+    return '$count 항목을 삭제하시겠습니까?';
   }
 
   @override
@@ -92,7 +92,7 @@ class AppLocalizationsKo extends AppLocalizationsEn {
 
   @override
   String deleteSelectedManyMessage(int count) {
-    return '${count}선택한 항목이 다운로드 기록에서 제거됩니다.';
+    return '$count선택한 항목이 다운로드 기록에서 제거됩니다.';
   }
 
   @override
@@ -289,7 +289,7 @@ class AppLocalizationsKo extends AppLocalizationsEn {
 
   @override
   String contentCount(int count) {
-    return '${count} 항목';
+    return '$count 항목';
   }
 
   @override
@@ -400,23 +400,23 @@ class AppLocalizationsKo extends AppLocalizationsEn {
 
   @override
   String get manualInstruction =>
-      '다운로드하려는 게시물, Reel, Story 또는 Highlight를 연 다음 "이 항목 선택 콘텐츠".';
+      '다운로드하려는 게시물, Reel, Story 또는 Highlight를 연 다음 \"이 항목 선택 콘텐츠\".';
 
   @override
-  String get manualPickedContent => '콘텐츠가 선택되었습니다. 계속하려면 "이 콘텐츠 선택"을 탭하세요.';
+  String get manualPickedContent => '콘텐츠가 선택되었습니다. 계속하려면 \"이 콘텐츠 선택\"을 탭하세요.';
 
   @override
   String get manualNoDownloadableContent =>
       '다운로드 가능한 콘텐츠가 없습니다. Reel, Story 또는 Highlight 게시물을 엽니다.';
 
   @override
-  String get manualCloseToExit => '선택한 콘텐츠를 잃지 않으려면 종료하려면 "닫기"를 탭하세요.';
+  String get manualCloseToExit => '선택한 콘텐츠를 잃지 않으려면 종료하려면 \"닫기\"를 탭하세요.';
 
   @override
   String get loginOpeningInstagram => 'Instagram 여는 중... 잠시 기다려 주세요.';
 
   @override
-  String get loginInstruction => 'Instagram에 로그인한 다음 "저장"을 탭하여 완료하세요.';
+  String get loginInstruction => 'Instagram에 로그인한 다음 \"저장\"을 탭하여 완료하세요.';
 
   @override
   String get loginChecking => '로그인 확인 중...';
@@ -435,20 +435,20 @@ class AppLocalizationsKo extends AppLocalizationsEn {
   String get loginLoggedOut => 'Instagram에서 로그아웃했습니다.\n계속하려면 다시 로그인하십시오.';
 
   @override
-  String get loginSuccessPrompt => '로그인에 성공했습니다.\n완료하려면 "저장"을 탭하세요.';
+  String get loginSuccessPrompt => '로그인에 성공했습니다.\n완료하려면 \"저장\"을 탭하세요.';
 
   @override
-  String get loginPromptOnLoginPage => ' Instagram에 로그인한 다음 "저장"을 탭하여 완료하세요.';
+  String get loginPromptOnLoginPage => ' Instagram에 로그인한 다음 \"저장\"을 탭하여 완료하세요.';
 
   @override
-  String get loginPromptSaveBottom => '로그인이 완료되면 아래의 "저장"을 탭하세요.';
+  String get loginPromptSaveBottom => '로그인이 완료되면 아래의 \"저장\"을 탭하세요.';
 
   @override
   String get loginPageTitle => ' Instagram';
 
   @override
   String get loginOpeningInstagramWithHint =>
-      '에 로그인 Instagram열기...\n로그인한 후 "저장"을 탭하세요.';
+      '에 로그인 Instagram열기...\n로그인한 후 \"저장\"을 탭하세요.';
 
   @override
   String get loginOpenFailed => '열 수 없습니다 Instagram.\n인터넷 연결을 확인하고 다시 시도하십시오.';
@@ -461,12 +461,12 @@ class AppLocalizationsKo extends AppLocalizationsEn {
 
   @override
   String openingUsername(String username) {
-    return '@${username}를 여는 중...';
+    return '@$username를 여는 중...';
   }
 
   @override
   String foundStoryHighlightsAndPosts(int storyCount, int postCount) {
-    return ' ${storyCount} Story/Highlight 항목 및 ${postCount} 게시물을 찾았습니다.';
+    return ' $storyCount Story/Highlight 항목 및 $postCount 게시물을 찾았습니다.';
   }
 
   @override
@@ -509,7 +509,7 @@ class AppLocalizationsKo extends AppLocalizationsEn {
 
   @override
   String foundDownloadableContent(int count) {
-    return '찾았습니다. ${count} 다운로드 가능한 항목.';
+    return '찾았습니다. $count 다운로드 가능한 항목.';
   }
 
   @override
@@ -531,7 +531,7 @@ class AppLocalizationsKo extends AppLocalizationsEn {
 
   @override
   String foundStoryHighlights(int count) {
-    return ' ${count} Story/Highlight 항목을 찾았습니다.';
+    return ' $count Story/Highlight 항목을 찾았습니다.';
   }
 
   @override
@@ -539,12 +539,12 @@ class AppLocalizationsKo extends AppLocalizationsEn {
 
   @override
   String openingStoryGroup(String title) {
-    return '"${title}" 여는 중...';
+    return '\"$title\" 여는 중...';
   }
 
   @override
   String foundStoryGroupItems(int count, String title) {
-    return '"${title}"에서 ${count} 항목을 찾았습니다.';
+    return '\"$title\"에서 $count 항목을 찾았습니다.';
   }
 
   @override
@@ -563,7 +563,7 @@ class AppLocalizationsKo extends AppLocalizationsEn {
 
   @override
   String savedStoryToAlbum(String albumName) {
-    return '스토리 항목을 앨범 ${albumName}에 저장했습니다.';
+    return '스토리 항목을 앨범 $albumName에 저장했습니다.';
   }
 
   @override
@@ -580,7 +580,7 @@ class AppLocalizationsKo extends AppLocalizationsEn {
 
   @override
   String foundReels(int count) {
-    return '${count} Reel을 찾았습니다.';
+    return '$count Reel을 찾았습니다.';
   }
 
   @override
@@ -602,7 +602,7 @@ class AppLocalizationsKo extends AppLocalizationsEn {
 
   @override
   String foundPosts(int count) {
-    return '${count} 사진/게시물을 찾았습니다.';
+    return '$count 사진/게시물을 찾았습니다.';
   }
 
   @override
@@ -622,7 +622,7 @@ class AppLocalizationsKo extends AppLocalizationsEn {
 
   @override
   String loadedMoreContent(int count) {
-    return '${count}개 이상의 항목을 로드했습니다.';
+    return '$count개 이상의 항목을 로드했습니다.';
   }
 
   @override
@@ -643,12 +643,12 @@ class AppLocalizationsKo extends AppLocalizationsEn {
 
   @override
   String savedToAlbum(String albumName) {
-    return '앨범 ${albumName}에 저장되었습니다.';
+    return '앨범 $albumName에 저장되었습니다.';
   }
 
   @override
   String savedContentToAlbum(String albumName) {
-    return '콘텐츠를 앨범 ${albumName}에 저장했습니다.';
+    return '콘텐츠를 앨범 $albumName에 저장했습니다.';
   }
 
   @override
@@ -659,7 +659,7 @@ class AppLocalizationsKo extends AppLocalizationsEn {
 
   @override
   String downloadHistoryItemsRemoved(int count) {
-    return '기록에서 ${count} 항목을 제거했습니다.';
+    return '기록에서 $count 항목을 제거했습니다.';
   }
 
   @override
@@ -677,6 +677,6 @@ class AppLocalizationsKo extends AppLocalizationsEn {
 
   @override
   String downloadProgress(String percent) {
-    return '콘텐츠 다운로드 중: ${percent}%';
+    return '콘텐츠 다운로드 중: $percent%';
   }
 }

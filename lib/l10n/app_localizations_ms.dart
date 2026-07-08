@@ -1,11 +1,11 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-import 'app_localizations_en.dart';
+import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
 
-/// The translations for ms (`ms`).
-class AppLocalizationsMs extends AppLocalizationsEn {
+/// The translations for Malay (`ms`).
+class AppLocalizationsMs extends AppLocalizations {
   AppLocalizationsMs([String locale = 'ms']) : super(locale);
 
   @override
@@ -75,7 +75,7 @@ class AppLocalizationsMs extends AppLocalizationsEn {
 
   @override
   String selectedCount(int count) {
-    return '${count} dipilih';
+    return '$count dipilih';
   }
 
   @override
@@ -87,7 +87,7 @@ class AppLocalizationsMs extends AppLocalizationsEn {
 
   @override
   String deleteSelectedTitle(int count) {
-    return 'Padamkan ${count} item?';
+    return 'Padamkan $count item?';
   }
 
   @override
@@ -96,7 +96,7 @@ class AppLocalizationsMs extends AppLocalizationsEn {
 
   @override
   String deleteSelectedManyMessage(int count) {
-    return '${count} item yang dipilih akan dialih keluar daripada sejarah muat turun anda.';
+    return '$count item yang dipilih akan dialih keluar daripada sejarah muat turun anda.';
   }
 
   @override
@@ -308,7 +308,7 @@ class AppLocalizationsMs extends AppLocalizationsEn {
 
   @override
   String contentCount(int count) {
-    return '${count} item';
+    return '$count item';
   }
 
   @override
@@ -421,11 +421,11 @@ class AppLocalizationsMs extends AppLocalizationsEn {
 
   @override
   String get manualInstruction =>
-      'Buka siaran, Reel, Story atau Highlight yang anda mahu muat turun, kemudian ketik "Pilih kandungan ini".';
+      'Buka siaran, Reel, Story atau Highlight yang anda mahu muat turun, kemudian ketik \"Pilih kandungan ini\".';
 
   @override
   String get manualPickedContent =>
-      'Kandungan dipilih. Ketik "Pilih kandungan ini" untuk meneruskan.';
+      'Kandungan dipilih. Ketik \"Pilih kandungan ini\" untuk meneruskan.';
 
   @override
   String get manualNoDownloadableContent =>
@@ -433,14 +433,14 @@ class AppLocalizationsMs extends AppLocalizationsEn {
 
   @override
   String get manualCloseToExit =>
-      'Untuk mengelakkan kehilangan kandungan yang dipilih, ketik "Tutup" jika anda mahu keluar.';
+      'Untuk mengelakkan kehilangan kandungan yang dipilih, ketik \"Tutup\" jika anda mahu keluar.';
 
   @override
   String get loginOpeningInstagram => 'Membuka Instagram... Sila tunggu.';
 
   @override
   String get loginInstruction =>
-      'Log masuk ke Instagram, kemudian ketik "Simpan" untuk menyelesaikannya.';
+      'Log masuk ke Instagram, kemudian ketik \"Simpan\" untuk menyelesaikannya.';
 
   @override
   String get loginChecking => 'Menyemak log masuk...';
@@ -462,22 +462,22 @@ class AppLocalizationsMs extends AppLocalizationsEn {
 
   @override
   String get loginSuccessPrompt =>
-      'Log masuk berjaya.\nKetik "Simpan" untuk menyelesaikan.';
+      'Log masuk berjaya.\nKetik \"Simpan\" untuk menyelesaikan.';
 
   @override
   String get loginPromptOnLoginPage =>
-      'Log masuk ke Instagram, kemudian ketik "Simpan" untuk menyelesaikannya.';
+      'Log masuk ke Instagram, kemudian ketik \"Simpan\" untuk menyelesaikannya.';
 
   @override
   String get loginPromptSaveBottom =>
-      'Jika anda telah selesai log masuk, ketik "Simpan" di bawah.';
+      'Jika anda telah selesai log masuk, ketik \"Simpan\" di bawah.';
 
   @override
   String get loginPageTitle => 'Log masuk ke Instagram';
 
   @override
   String get loginOpeningInstagramWithHint =>
-      'Pembukaan Instagram...\nSelepas log masuk, ketik "Simpan".';
+      'Pembukaan Instagram...\nSelepas log masuk, ketik \"Simpan\".';
 
   @override
   String get loginOpenFailed =>
@@ -492,12 +492,12 @@ class AppLocalizationsMs extends AppLocalizationsEn {
 
   @override
   String openingUsername(String username) {
-    return 'Membuka @${username}...';
+    return 'Membuka @$username...';
   }
 
   @override
   String foundStoryHighlightsAndPosts(int storyCount, int postCount) {
-    return 'Menemui ${storyCount} Story/Highlight item dan ${postCount} siaran.';
+    return 'Menemui $storyCount Story/Highlight item dan $postCount siaran.';
   }
 
   @override
@@ -542,7 +542,7 @@ class AppLocalizationsMs extends AppLocalizationsEn {
 
   @override
   String foundDownloadableContent(int count) {
-    return 'Menemui ${count} item yang boleh dimuat turun.';
+    return 'Menemui $count item yang boleh dimuat turun.';
   }
 
   @override
@@ -565,7 +565,7 @@ class AppLocalizationsMs extends AppLocalizationsEn {
 
   @override
   String foundStoryHighlights(int count) {
-    return 'Menjumpai ${count} Story/Highlight item.';
+    return 'Menjumpai $count Story/Highlight item.';
   }
 
   @override
@@ -573,12 +573,12 @@ class AppLocalizationsMs extends AppLocalizationsEn {
 
   @override
   String openingStoryGroup(String title) {
-    return 'Membuka "${title}"...';
+    return 'Membuka \"$title\"...';
   }
 
   @override
   String foundStoryGroupItems(int count, String title) {
-    return 'Menemui ${count} item dalam "${title}".';
+    return 'Menemui $count item dalam \"$title\".';
   }
 
   @override
@@ -597,7 +597,7 @@ class AppLocalizationsMs extends AppLocalizationsEn {
 
   @override
   String savedStoryToAlbum(String albumName) {
-    return 'Item cerita disimpan ke album ${albumName}.';
+    return 'Item cerita disimpan ke album $albumName.';
   }
 
   @override
@@ -615,7 +615,7 @@ class AppLocalizationsMs extends AppLocalizationsEn {
 
   @override
   String foundReels(int count) {
-    return 'Dijumpai ${count} Reels.';
+    return 'Dijumpai $count Reels.';
   }
 
   @override
@@ -638,7 +638,7 @@ class AppLocalizationsMs extends AppLocalizationsEn {
 
   @override
   String foundPosts(int count) {
-    return 'Menemui ${count} foto/siaran.';
+    return 'Menemui $count foto/siaran.';
   }
 
   @override
@@ -662,7 +662,7 @@ class AppLocalizationsMs extends AppLocalizationsEn {
 
   @override
   String loadedMoreContent(int count) {
-    return 'Memuatkan ${count} lagi item.';
+    return 'Memuatkan $count lagi item.';
   }
 
   @override
@@ -683,12 +683,12 @@ class AppLocalizationsMs extends AppLocalizationsEn {
 
   @override
   String savedToAlbum(String albumName) {
-    return 'Disimpan ke album ${albumName}.';
+    return 'Disimpan ke album $albumName.';
   }
 
   @override
   String savedContentToAlbum(String albumName) {
-    return 'Kandungan disimpan ke album ${albumName}.';
+    return 'Kandungan disimpan ke album $albumName.';
   }
 
   @override
@@ -700,7 +700,7 @@ class AppLocalizationsMs extends AppLocalizationsEn {
 
   @override
   String downloadHistoryItemsRemoved(int count) {
-    return 'Mengalih keluar ${count} item daripada sejarah.';
+    return 'Mengalih keluar $count item daripada sejarah.';
   }
 
   @override
@@ -720,6 +720,6 @@ class AppLocalizationsMs extends AppLocalizationsEn {
 
   @override
   String downloadProgress(String percent) {
-    return 'Memuat turun kandungan: ${percent}%';
+    return 'Memuat turun kandungan: $percent%';
   }
 }
