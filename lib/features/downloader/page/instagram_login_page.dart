@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/utils/instagram_webview_cleaner.dart';
 import '../../../l10n/app_localizations.dart';
-
-Future<void> openLegalUrl(String url) async {
-  final uri = Uri.parse(url);
-  await launchUrl(uri, mode: LaunchMode.externalApplication);
-}
+import 'privacy_links_page.dart';
 
 class InstagramLoginPage extends StatefulWidget {
   const InstagramLoginPage({super.key, this.onLogout});
@@ -20,11 +15,6 @@ class InstagramLoginPage extends StatefulWidget {
 }
 
 class _InstagramLoginPageState extends State<InstagramLoginPage> {
-  static const String privacyPolicyUrl =
-      'https://ig-downloader-legal.vercel.app/privacy-policy';
-  static const String termsOfUseUrl =
-      'https://ig-downloader-legal.vercel.app/terms-of-use';
-
   static final WebUri loginUri = WebUri(
     'https://www.instagram.com/accounts/login/',
   );
@@ -428,7 +418,11 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
                       runSpacing: 0,
                       children: [
                         TextButton(
-                          onPressed: () => openLegalUrl(privacyPolicyUrl),
+                          onPressed: () => openLegalWebView(
+                            context,
+                            title: AppLocalizations.of(context)!.privacyPolicy,
+                            url: legalPrivacyPolicyUrl,
+                          ),
                           style: TextButton.styleFrom(
                             foregroundColor: color.primary,
                             visualDensity: VisualDensity.compact,
@@ -436,10 +430,16 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
                               fontWeight: FontWeight.w900,
                             ),
                           ),
-                          child: const Text('Privacy Policy'),
+                          child: Text(
+                            AppLocalizations.of(context)!.privacyPolicy,
+                          ),
                         ),
                         TextButton(
-                          onPressed: () => openLegalUrl(termsOfUseUrl),
+                          onPressed: () => openLegalWebView(
+                            context,
+                            title: AppLocalizations.of(context)!.termsOfUse,
+                            url: legalTermsOfUseUrl,
+                          ),
                           style: TextButton.styleFrom(
                             foregroundColor: color.primary,
                             visualDensity: VisualDensity.compact,
@@ -447,7 +447,7 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
                               fontWeight: FontWeight.w900,
                             ),
                           ),
-                          child: const Text('Terms of Use'),
+                          child: Text(AppLocalizations.of(context)!.termsOfUse),
                         ),
                       ],
                     ),
