@@ -246,13 +246,13 @@ class NormalLinkCard extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: OutlinedButton.icon(
+                child: OutlinedButton(
                   onPressed: state.sessionBusy || state.loading
                       ? null
                       : () => onOpenManualInstagramBrowser(),
-                  icon: const Icon(Icons.travel_explore_rounded),
                   style: OutlinedButton.styleFrom(
                     minimumSize: const Size.fromHeight(50),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     foregroundColor: color.primary,
                     backgroundColor: isDark
                         ? color.surfaceContainerHighest.withOpacity(0.86)
@@ -261,9 +261,29 @@ class NormalLinkCard extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    textStyle: const TextStyle(fontWeight: FontWeight.w900),
+                    textStyle: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
-                  label: Text(AppLocalizations.of(context)!.openInstagram),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.travel_explore_rounded, size: 17),
+                      const SizedBox(width: 5),
+                      Flexible(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            AppLocalizations.of(context)!.openInstagram,
+                            maxLines: 1,
+                            softWrap: false,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(width: 10),
@@ -287,6 +307,7 @@ class NormalLinkCard extends StatelessWidget {
                   child: FilledButton(
                     style: FilledButton.styleFrom(
                       minimumSize: const Size.fromHeight(50),
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
                       backgroundColor: Colors.transparent,
                       disabledBackgroundColor: Colors.transparent,
                       shadowColor: Colors.transparent,
@@ -294,7 +315,10 @@ class NormalLinkCard extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      textStyle: const TextStyle(fontWeight: FontWeight.w900),
+                      textStyle: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w900,
+                      ),
                     ),
                     onPressed: state.loading
                         ? null
