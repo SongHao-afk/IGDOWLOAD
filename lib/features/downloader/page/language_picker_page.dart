@@ -56,7 +56,7 @@ class _LanguagePickerPageState extends State<LanguagePickerPage> {
                     crossAxisCount: 2,
                     mainAxisSpacing: 12,
                     crossAxisSpacing: 12,
-                    childAspectRatio: 2.05,
+                    mainAxisExtent: 104,
                   ),
                   itemBuilder: (context, index) {
                     final language = supportedLanguages[index];
@@ -171,7 +171,7 @@ class _LanguageTile extends StatelessWidget {
         onTap: onTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 160),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
@@ -192,11 +192,11 @@ class _LanguageTile extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: colors.onSurface,
-                        fontSize: 18,
+                        fontSize: 17,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    const SizedBox(height: 5),
+                    const SizedBox(height: 4),
                     Text(
                       subtitle,
                       maxLines: 1,
@@ -204,7 +204,7 @@ class _LanguageTile extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: colors.onSurface.withOpacity(0.48),
-                        fontSize: 13,
+                        fontSize: 12,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
