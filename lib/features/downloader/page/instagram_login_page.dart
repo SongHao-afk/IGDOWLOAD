@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/utils/instagram_webview_cleaner.dart';
 import '../../../l10n/app_localizations.dart';
-import 'privacy_links_page.dart';
+
+Future<void> openLegalUrl(String url) async {
+  final uri = Uri.parse(url);
+  await launchUrl(uri, mode: LaunchMode.externalApplication);
+}
 
 class InstagramLoginPage extends StatefulWidget {
   const InstagramLoginPage({super.key, this.onLogout});
@@ -15,6 +20,11 @@ class InstagramLoginPage extends StatefulWidget {
 }
 
 class _InstagramLoginPageState extends State<InstagramLoginPage> {
+  static const String privacyPolicyUrl =
+      'https://ig-downloader-legal.vercel.app/privacy-policy';
+  static const String termsOfUseUrl =
+      'https://ig-downloader-legal.vercel.app/terms-of-use';
+
   static final WebUri loginUri = WebUri(
     'https://www.instagram.com/accounts/login/',
   );
@@ -236,12 +246,6 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
     });
   }
 
-  void _openPrivacyPage() {
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute<void>(builder: (_) => const PrivacyLinksPage()));
-  }
-
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme;
@@ -406,50 +410,46 @@ class _InstagramLoginPageState extends State<InstagramLoginPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: TextButton(
-                          onPressed: _openPrivacyPage,
+                    Text(
+                      'By continuing, you agree to our policies.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Theme.of(
+                          context,
+                        ).textTheme.bodySmall?.color?.withOpacity(0.72),
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 4,
+                      runSpacing: 0,
+                      children: [
+                        TextButton(
+                          onPressed: () => openLegalUrl(privacyPolicyUrl),
                           style: TextButton.styleFrom(
                             foregroundColor: color.primary,
+                            visualDensity: VisualDensity.compact,
                             textStyle: const TextStyle(
                               fontWeight: FontWeight.w900,
                             ),
                           ),
-                          child: LayoutBuilder(
-                            builder: (context, constraints) {
-                              final maxLabelWidth = constraints.maxWidth > 28
-                                  ? constraints.maxWidth - 28
-                                  : constraints.maxWidth;
-
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    Icons.privacy_tip_outlined,
-                                    size: 18,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  ConstrainedBox(
-                                    constraints: BoxConstraints(
-                                      maxWidth: maxLabelWidth,
-                                    ),
-                                    child: Text(
-                                      AppLocalizations.of(
-                                        context,
-                                      )!.legalLinksTitle,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
+                          child: const Text('Privacy Policy'),
                         ),
-                      ),
+                        TextButton(
+                          onPressed: () => openLegalUrl(termsOfUseUrl),
+                          style: TextButton.styleFrom(
+                            foregroundColor: color.primary,
+                            visualDensity: VisualDensity.compact,
+                            textStyle: const TextStyle(
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                          child: const Text('Terms of Use'),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 8),
                     Row(
