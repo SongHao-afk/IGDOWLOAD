@@ -5,7 +5,7 @@ import 'core/locale/locale_cubit.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_cubit.dart';
 import 'features/downloader/cubit/downloader_cubit.dart';
-import 'features/downloader/page/downloader_page.dart';
+import 'features/onboarding/page/splash_page.dart';
 import 'l10n/app_localizations.dart';
 
 void main() {
@@ -35,7 +35,7 @@ class IgDownloaderApp extends StatelessWidget {
                 localizationsDelegates: AppLocalizations.localizationsDelegates,
                 supportedLocales: AppLocalizations.supportedLocales,
                 theme: AppTheme.getTheme(themeMode),
-                home: const DownloaderPage(),
+                home: const SplashPage(),
               );
             },
           );

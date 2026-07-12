@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.matheuscunha"
+    namespace = "com.fau.instagram.post.reel.story.highlight.profile.downloader"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -20,7 +20,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.matheuscunha.v2"
+        applicationId = "com.fau.instagram.post.reel.story.highlight.profile.downloader"
 
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
